@@ -385,12 +385,16 @@ RAG 기반 AI 보안 해설을 사용하려면 정부 기관이 배포하는 공
 * 오브젝트 스토리지는 상용 AIStor(MinIO) Free Tier를 사용하며, 엔터프라이즈 라이선스를 추가하면 Object Lock·KMS 기능으로 확장할 수 있는 구조입니다.
 
 > **[라이선스 고지 및 심사위원 재현성 평가 안내]**
-> 본 프로젝트(Sec_AI)의 파이썬 핵심 애플리케이션은 PyMuPDF(AGPL-3.0)를 직접 의존성으로 포함함에 따라 **GNU AGPL v3.0 라이선스**를 채택하여 배포됩니다.
-> 시스템 운영에 필요한 인프라 중 오브젝트 스토리지(MinIO AIStor)는 상용 EULA 기반의 무료 티어 이미지를 사용하며 재배포가 불가능합니다. 따라서 MinIO 라이선스 파일(`minio.license`)이 발급되지 않은 심사/평가 환경에서는 스크립트 실행이 중단될 수 있습니다. 
+> 본 프로젝트(Sec_AI)는 PyMuPDF(AGPL-3.0)를 포함함에 따라 **GNU AGPL v3.0 라이선스**로 제공됩니다. AGPL 제13조(네트워크 이용자에 대한 소스코드 제공 의무)를 준수하기 위해 본 프로젝트의 모든 소스코드는 `https://github.com/CyberSec0108/Sec_AI` 에 공개되어 있습니다.
 > 
-> **이 경우 당황하지 마시고 아래의 `UpWithoutAIStor` 파라미터를 사용하여 구동해 주시기 바랍니다.**
+> 시스템 인프라 중 오브젝트 스토리지(MinIO AIStor)는 상용 EULA 기반의 무료 티어 이미지를 사용하여 이미지 직접 재배포가 불가능합니다. AIStor 상용 라이선스 파일(`minio.license`)이 없는 심사/평가 환경에서는 아래 명령어를 통해 우회 기동해 주시기 바랍니다.
+> 
+> **[AIStor 라이선스 없는 환경에서의 평가 기동 방법]**
 > ```powershell
-> # AIStor를 제외하고 모든 핵심 서비스(DB, API, AI 등)를 완벽히 구동하는 명령어
+> # 1. AIStor를 제외한 핵심 8개 서비스(DB, API, 스케줄러 등) 기동 (점검·판정·결과 조회 가능)
 > powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\core.ps1 -Action UpWithoutAIStor
+> 
+> # 2. AI 해설 기능까지 평가하기 위해 model-gateway 추가 기동
+> docker-compose up -d model-gateway
 > ```
-> 위 명령어를 사용하시면, 독점 라이선스(MinIO) 없이도 OSI 오픈소스만으로 구성된 완벽한 기능 평가가 가능합니다.
+> *(참고: AI 해설 기능을 확인하시려면 사전에 `.env` 파일에 `llm_api_key`가 설정되어 있어야 합니다. 증적 오브젝트 스토리지 복구 기능만 AIStor 부재로 인해 제한되며 나머지 핵심 기능은 모두 정상 평가가 가능합니다.)*
