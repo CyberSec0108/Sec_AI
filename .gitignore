@@ -53,3 +53,6 @@ downloads/
 # Do not redistribute public guides
 data/**/*.pdf
 *.pdf
+
+# AI Agent System Instructions
+AGENTS.md
