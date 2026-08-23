@@ -56,3 +56,6 @@ data/**/*.pdf
 
 # AI Agent System Instructions
 AGENTS.md
+
+# Internal Documentation
+docs/
