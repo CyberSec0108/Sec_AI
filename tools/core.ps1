@@ -96,7 +96,7 @@ switch ($Action) {
         Invoke-DockerCompose -Arguments (@("build") + $ProjectImages)
     }
     "Up" {
-        Assert-DevelopmentSecrets -RequireAIStorLicense
+        Assert-DevelopmentSecrets
         Invoke-DockerCompose -Arguments @("up", "-d", "--build", "postgres")
         Invoke-DockerCompose -Arguments @("run", "--rm", "--build", "migrate")
         Invoke-DockerCompose -Arguments @(
