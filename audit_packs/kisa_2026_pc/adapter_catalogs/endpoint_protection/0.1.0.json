@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0.0",
+  "catalog_id": "secai-endpoint-protection-adapters-0.1.0",
+  "version": "0.1.0",
+  "as_of": "2026-07-23T00:00:00Z",
+  "content_sha256": "934b1ac7b769321756c1550ef78fdb0dd0df5741e4db663dcf884146187e7758",
+  "approval": {
+    "status": "DRAFT",
+    "usage": "SYNTHETIC_TEST_ONLY",
+    "signature_present": false
+  },
+  "adapters": [
+    {
+      "adapter_id": "secai.microsoft-defender-antivirus",
+      "adapter_version": "0.1.0",
+      "kind": "ANTIVIRUS",
+      "controls": ["PC-13", "PC-14"],
+      "source_contract": "GET_MP_COMPUTER_STATUS",
+      "production_support": "DRAFT_BUILTIN_MAPPING",
+      "synthetic_test_only": false,
+      "required_fields": [
+        "product_id",
+        "product_name",
+        "product_state",
+        "service_enabled",
+        "operating_mode",
+        "engine_version",
+        "signature_version",
+        "signature_updated_at",
+        "automatic_updates_enabled",
+        "real_time_protection_enabled"
+      ]
+    },
+    {
+      "adapter_id": "secai.windows-firewall",
+      "adapter_version": "0.1.0",
+      "kind": "FIREWALL",
+      "controls": ["PC-15"],
+      "source_contract": "GET_NET_FIREWALL_PROFILE_ACTIVE_STORE",
+      "production_support": "DRAFT_BUILTIN_MAPPING",
+      "synthetic_test_only": false,
+      "required_fields": [
+        "policy_store",
+        "profiles"
+      ]
+    },
+    {
+      "adapter_id": "secai.synthetic-third-party-firewall",
+      "adapter_version": "0.1.0",
+      "kind": "FIREWALL",
+      "controls": ["PC-15"],
+      "source_contract": "SYNTHETIC_TEST_VECTOR",
+      "production_support": "NOT_SUPPORTED",
+      "synthetic_test_only": true,
+      "required_fields": [
+        "product_id",
+        "product_state",
+        "service_enabled",
+        "health_state",
+        "covered_profiles"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "title": "Get-MpComputerStatus",
+      "url": "https://learn.microsoft.com/en-us/powershell/module/defender/get-mpcomputerstatus"
+    },
+    {
+      "title": "Microsoft Defender Antivirus passive mode",
+      "url": "https://learn.microsoft.com/en-us/defender-endpoint/microsoft-defender-passive-mode"
+    },
+    {
+      "title": "Get-NetFirewallProfile",
+      "url": "https://learn.microsoft.com/en-us/powershell/module/netsecurity/get-netfirewallprofile"
+    },
+    {
+      "title": "Configure Windows automatic logon",
+      "url": "https://learn.microsoft.com/en-us/troubleshoot/windows-server/user-profiles-and-logon/turn-on-automatic-logon"
+    }
+  ]
+}

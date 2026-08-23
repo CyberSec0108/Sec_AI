@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.0.0",
+  "context": {
+    "os_family": "WINDOWS",
+    "os_version": "11",
+    "product_name": "Microsoft Windows 11 Enterprise",
+    "display_version": "24H2",
+    "build_number": "26100",
+    "ubr": 1000,
+    "architecture": "x86_64",
+    "process_sid": "S-1-5-21-1000000000-2000000000-3000000000-1001",
+    "is_administrator": false,
+    "integrity_level": "MEDIUM",
+    "collected_at_utc": "2026-07-23T07:00:00.000Z"
+  },
+  "subjects": [
+    {
+      "disk": {
+        "volume_id": "vol-001",
+        "disk_id": "disk-0",
+        "volume_class": "EFI_SYSTEM_PARTITION",
+        "bus_type": "NVME",
+        "is_virtual": false,
+        "is_removable": false,
+        "is_online": true,
+        "storage_kind": "BASIC_DISK",
+        "disk_image_state": "NOT_APPLICABLE"
+      },
+      "partition": {
+        "volume_id": "vol-001",
+        "partition_role": "EFI_SYSTEM",
+        "gpt_type": "C12A7328-F81F-11D2-BA4B-00A0C93EC93B",
+        "trusted_role_identity": true,
+        "is_system": true,
+        "is_boot": false,
+        "is_hidden": true
+      },
+      "volume": {
+        "volume_id": "vol-001",
+        "filesystem": "FAT32",
+        "volume_class": "EFI_SYSTEM_PARTITION",
+        "drive_type": "FIXED",
+        "drive_letter": null,
+        "mount_kind": "NO_MOUNT",
+        "health_status": "HEALTHY",
+        "operational_status": "OK",
+        "bitlocker_state": "NONE"
+      }
+    },
+    {
+      "disk": {
+        "volume_id": "vol-002",
+        "disk_id": "disk-0",
+        "volume_class": "WINDOWS_OS_VOLUME",
+        "bus_type": "NVME",
+        "is_virtual": false,
+        "is_removable": false,
+        "is_online": true,
+        "storage_kind": "BASIC_DISK",
+        "disk_image_state": "NOT_APPLICABLE"
+      },
+      "partition": {
+        "volume_id": "vol-002",
+        "partition_role": "DATA",
+        "gpt_type": "EBD0A0A2-B9E5-4433-87C0-68B6B72699C7",
+        "trusted_role_identity": true,
+        "is_system": false,
+        "is_boot": true,
+        "is_hidden": false
+      },
+      "volume": {
+        "volume_id": "vol-002",
+        "filesystem": "NTFS",
+        "volume_class": "WINDOWS_OS_VOLUME",
+        "drive_type": "FIXED",
+        "drive_letter": "C",
+        "mount_kind": "DRIVE_LETTER",
+        "health_status": "HEALTHY",
+        "operational_status": "OK",
+        "bitlocker_state": "UNLOCKED_PROTECTED"
+      }
+    }
+  ]
+}

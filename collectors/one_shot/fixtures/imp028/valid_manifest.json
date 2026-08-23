@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0.0",
+  "id": "28000000-0000-4000-8000-000000000001",
+  "created_at": "2026-07-23T06:00:00Z",
+  "source": "api",
+  "producer_name": "sec-ai-api",
+  "producer_version": "0.1.0",
+  "correlation_id": "28000000-0000-4000-8000-000000000002",
+  "job_id": "28000000-0000-4000-8000-000000000003",
+  "asset_id": "28000000-0000-4000-8000-000000000004",
+  "guide_version": "2026",
+  "nonce": "SU1QLTAyOC1ub25jZS0wMDAx",
+  "issued_at": "2026-07-23T06:00:00Z",
+  "expires_at": "2026-07-23T06:30:00Z",
+  "manifest_content_sha256": "64143417a6bee2d7caa14fa0d62a7eac634a563a0fd71429b50a0f52c90d770b",
+  "target": {
+    "os_family": "WINDOWS",
+    "os_version": "11",
+    "architecture": "x86_64",
+    "asset_binding_version": 1
+  },
+  "collector_constraint": {
+    "name": "sec-ai-one-shot-collector",
+    "min_version": "0.1.0",
+    "max_version_exclusive": "0.2.0",
+    "release_channel": "DEV-UNTRUSTED"
+  },
+  "probes": [
+    {
+      "probe_id": "win.storage.disks",
+      "probe_version": "0.1.0",
+      "control_ids": ["PC-07"],
+      "required_privilege": "STANDARD_USER",
+      "timeout_seconds": 30,
+      "max_output_bytes": 65536,
+      "parameters": {}
+    },
+    {
+      "probe_id": "win.storage.partitions",
+      "probe_version": "0.1.0",
+      "control_ids": ["PC-07"],
+      "required_privilege": "STANDARD_USER",
+      "timeout_seconds": 30,
+      "max_output_bytes": 65536,
+      "parameters": {}
+    },
+    {
+      "probe_id": "win.storage.volumes",
+      "probe_version": "0.1.0",
+      "control_ids": ["PC-07"],
+      "required_privilege": "STANDARD_USER",
+      "timeout_seconds": 30,
+      "max_output_bytes": 65536,
+      "parameters": {
+        "include_fixed": true
+      }
+    }
+  ],
+  "submission": {
+    "allowed_profiles": ["ONLINE-AUTHENTICATED"],
+    "endpoint_id": "imp028-mock-upload",
+    "max_archive_bytes": 10485760,
+    "max_uncompressed_bytes": 52428800,
+    "max_files": 128
+  },
+  "organization_policy_refs": [],
+  "authorization": {
+    "profile": "MANIFEST-SIGNED-V1",
+    "signature": {
+      "canonicalization": "RFC8785-JCS",
+      "algorithm": "Ed25519",
+      "key_id": "imp028-test-key",
+      "signed_sha256": "64143417a6bee2d7caa14fa0d62a7eac634a563a0fd71429b50a0f52c90d770b",
+      "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    }
+  }
+}

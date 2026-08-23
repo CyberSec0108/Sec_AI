@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sec-ai.local/v1/platform_fingerprint.schema.json",
+  "title": "Sec_AI platform discovery fingerprint",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "asset_type",
+    "platform",
+    "vendor",
+    "product_family",
+    "version",
+    "architecture",
+    "role_hints",
+    "capabilities",
+    "discovery_adapter_id",
+    "confidence",
+    "limitations",
+    "fingerprint_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "asset_type": {
+      "enum": ["WINDOWS_PC", "LINUX_SERVER", "NETWORK_SWITCH"]
+    },
+    "platform": {
+      "enum": ["WINDOWS", "LINUX", "CISCO_IOS", "ARUBA_AOS_CX"]
+    },
+    "vendor": {"$ref": "#/$defs/safe_code"},
+    "product_family": {"$ref": "#/$defs/safe_code"},
+    "version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
+    },
+    "architecture": {
+      "enum": ["X86_64", "AARCH64", "X86", "UNKNOWN"]
+    },
+    "role_hints": {
+      "type": "array",
+      "maxItems": 16,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/safe_code"}
+    },
+    "capabilities": {
+      "type": "array",
+      "maxItems": 64,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/safe_code"}
+    },
+    "discovery_adapter_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[a-z0-9][a-z0-9._-]*$"
+    },
+    "confidence": {
+      "enum": ["EXACT", "PARTIAL", "CONFLICT", "UNKNOWN"]
+    },
+    "limitations": {
+      "type": "array",
+      "maxItems": 32,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 160,
+        "pattern": "^[A-Z0-9_.:-]+$"
+      }
+    },
+    "fingerprint_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  },
+  "$defs": {
+    "safe_code": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "pattern": "^[A-Z0-9][A-Z0-9_.:-]*$"
+    }
+  }
+}

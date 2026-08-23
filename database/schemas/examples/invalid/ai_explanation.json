@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0.0",
+  "id": "60000000-0000-4000-8000-000000000001",
+  "created_at": "2026-07-21T06:20:00Z",
+  "source": "ai-service",
+  "producer_name": "sec-ai-ai-worker",
+  "producer_version": "1.0.0",
+  "correlation_id": "10000000-0000-4000-8000-000000000002",
+  "job_id": "10000000-0000-4000-8000-000000000003",
+  "asset_id": "10000000-0000-4000-8000-000000000004",
+  "finding_id": "40000000-0000-4000-8000-000000000001",
+  "finding_sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+  "official_finding_status": "PASS",
+  "generation_status": "GENERATED",
+  "input_evidence_refs": [],
+  "safety": {
+    "official_status_unchanged": false,
+    "executable_content_present": true,
+    "human_review_required": false
+  },
+  "generated_at": "2026-07-21T06:20:00Z"
+}
+

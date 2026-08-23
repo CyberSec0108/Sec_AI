@@ -1,0 +1,76 @@
+{% import "components/audit_ui.html" as ui %}
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <title>내 Linux 서버 점검 | Sec_AI</title>
+  <link rel="stylesheet" href="/static/app/app.css">
+  <script src="/static/app/theme.js" defer></script>
+  <script src="/static/app/linux-self-scan.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">본문으로 건너뛰기</a>
+  {{ ui.app_header("home", "linux") }}
+  <main id="main-content" class="container product-shell linux-shell">
+    <a class="back-link" href="/ui/linux-scan">← Linux 점검 방식 선택</a>
+    <header class="page-heading">
+      <div>
+        <p class="section-code">Linux 원샷 자가 점검 · 개발 기능</p>
+        <h1>내 Linux 서버 점검</h1>
+        <p class="lead">SSH 정보를 등록하지 않고 서버 안에서 점검 프로그램을 한 번 실행합니다.</p>
+      </div>
+    </header>
+
+
+    <section class="panel" aria-labelledby="self-start-title">
+      <div class="panel-heading">
+        <p class="section-label">1단계 · 점검 만들기</p>
+        <h2 id="self-start-title">점검을 준비하세요</h2>
+      </div>
+      <p>서버 종류와 버전은 프로그램이 자동으로 확인합니다. 사용자는 배포판을 직접 선택하지 않습니다.</p>
+      <details>
+        <summary>일반 권한과 추가 권한은 어떻게 다른가요?</summary>
+        <p>먼저 운영체제·시간·패키지 목록처럼 일반 권한으로 볼 수 있는 3개 자료를 확인합니다. 그 뒤 계정 정책·SSH·파일 권한·서비스 등 39개 자료가 더 필요하면 목록을 보여주고 동의를 받습니다. 비밀번호 입력은 Linux의 <code>sudo</code>가 직접 처리하며 Sec_AI는 읽거나 저장하지 않습니다.</p>
+      </details>
+      <button id="self-create" class="button" type="button">새 Linux 자가 점검 만들기</button>
+      <p id="self-create-error" class="error-text" role="alert"></p>
+      <button id="self-cancel-pending" class="button-secondary" type="button" hidden>대기 중인 점검 취소하고 다시 만들기</button>
+    </section>
+
+    <section id="self-connect-panel" class="panel" hidden aria-labelledby="self-connect-title">
+      <div class="panel-heading">
+        <p class="section-label">2단계 · 프로그램 연결</p>
+        <h2 id="self-connect-title">서버에서 프로그램을 실행하고 아래 코드를 입력하세요</h2>
+      </div>
+      <ol class="help-steps">
+        <li><strong>Linux 통합 점검 프로그램을 받습니다.</strong><p id="self-artifact-status">서명 파일을 확인하고 있습니다.</p><a href="/ui/dev-downloads">점검 프로그램 다운로드 화면 열기</a></li>
+        <li><strong>실행 권한을 한 번 부여합니다.</strong><p><code>chmod +x secai-linux-check-x86_64</code></p></li>
+        <li><strong>프로그램을 실행합니다.</strong><p><code>./secai-linux-check-x86_64</code> — 프로그램이 배포판을 자동 확인하며 token이 들어간 명령은 사용하지 않습니다.</p></li>
+        <li><strong>프로그램이 물으면 일회용 코드를 입력합니다.</strong></li>
+      </ol>
+      <div class="linux-device-code" aria-live="polite">
+        <span>일회용 코드</span>
+        <strong id="self-device-code">----</strong>
+        <small id="self-code-expiry">10분 뒤 만료됩니다.</small>
+      </div>
+      <p id="self-waiting" role="status" aria-live="polite">Package 제출을 기다립니다.</p>
+    </section>
+
+    <section id="self-offline-panel" class="panel" hidden aria-labelledby="self-offline-title">
+      <div class="panel-heading">
+        <p class="section-label">자동 제출이 안 될 때</p>
+        <h2 id="self-offline-title">오프라인 결과 수동 업로드</h2>
+      </div>
+      <p>프로그램이 만든 ZIP과 같은 이름의 descriptor JSON을 선택합니다. 자가 제출이므로 장치 신원은 자동 인증되지 않으며 결과 보증 수준은 <strong>LOW</strong>입니다.</p>
+      <form id="self-upload-form">
+        <label>Evidence ZIP <input id="self-package-file" type="file" accept="application/zip,.zip" required></label>
+        <label>Descriptor JSON <input id="self-descriptor-file" type="file" accept="application/json,.json" required></label>
+        <button class="button-secondary" type="submit">검증 후 업로드</button>
+      </form>
+      <p id="self-upload-status" role="status" aria-live="polite"></p>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "schema_version": "2.0.0",
+  "evidence_id": "62000000-0000-4000-8000-000000000001",
+  "probe_id": "linux.os-release",
+  "probe_version": "1.0.0",
+  "control_ids": ["U-01"],
+  "collected_at": "2026-08-06T01:05:00Z",
+  "required_privilege": "STANDARD_USER",
+  "executed_privilege": "NOT_EXECUTED",
+  "collection_status": "ERROR",
+  "error_code": "NONE",
+  "exit_code": null,
+  "raw_output_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+  "normalized_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+  "redaction_applied": false,
+  "normalized_value": "must not be present for an error"
+}

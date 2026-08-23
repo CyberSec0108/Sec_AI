@@ -1,0 +1,16 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "Sec_AI PostgreSQL + pgvector",
+      "Group": "Sec_AI 개발 관리",
+      "Host": "postgres",
+      "Port": 5432,
+      "MaintenanceDB": "secai",
+      "Username": "secai_db_admin",
+      "SSLMode": "prefer",
+      "PassFile": null,
+      "Shared": false,
+      "SavePassword": false
+    }
+  }
+}

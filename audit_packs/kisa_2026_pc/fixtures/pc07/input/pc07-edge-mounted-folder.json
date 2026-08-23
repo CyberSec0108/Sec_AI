@@ -1,0 +1,291 @@
+{
+  "fixture_version": "1.0.0",
+  "case_id": "pc07-edge-mounted-folder",
+  "synthetic": true,
+  "control_id": "PC-07",
+  "pack_ref": {
+    "id": "51000000-0000-4000-8000-000000000007",
+    "version": "0.1.0",
+    "content_sha256": "0849b4b117b1df82c597e5b6737f45664536958a12d996c59879a6a3954618bb"
+  },
+  "evidence": [
+    {
+      "schema_version": "1.0.0",
+      "id": "660d2b37-7ad9-500e-8fd5-2353012de0ff",
+      "created_at": "2026-07-22T08:01:00Z",
+      "source": "normalizer",
+      "producer_name": "sec-ai-normalizer",
+      "producer_version": "0.1.0",
+      "correlation_id": "aa23aa9d-fd3d-55c3-8523-538f627961ec",
+      "job_id": "257656f2-74b6-55c5-b150-4606a5ced973",
+      "asset_id": "42af17bf-9d2d-5ba4-ae3a-20ae8f93cbf0",
+      "package_id": "e6a10518-0c85-5ada-87e5-aacc90163aa9",
+      "source_evidence_id": "1ab86a48-0157-57d7-a1c7-57f5c0db29b8",
+      "control_id": "PC-07",
+      "guide_version": "2026",
+      "collector_version": "0.1.0",
+      "probe_id": "win.storage.disks",
+      "probe_version": "0.1.0",
+      "subject": {
+        "scope": "VOLUME",
+        "subject_key": "vol-mounted"
+      },
+      "collected_at": "2026-07-22T08:00:00Z",
+      "normalized_at": "2026-07-22T08:01:00Z",
+      "source_locator": {
+        "type": "CIM",
+        "provider": "MSFT_Disk",
+        "locator": "synthetic:pc07-edge-mounted-folder:vol-mounted"
+      },
+      "collection_status": "COLLECTED",
+      "error_code": "NONE",
+      "redaction": {
+        "applied": false,
+        "method": "NONE"
+      },
+      "evidence_sha256": "ebcaa6822b468c448da5e61a976df746a5461eab7994dd3fedf476cefb2bea5c",
+      "normalized_value": {
+        "volume_id": "vol-mounted",
+        "disk_id": "disk-vol-mounted",
+        "volume_class": "MOUNTED_FOLDER_VOLUME",
+        "bus_type": "NVME",
+        "is_virtual": false,
+        "is_removable": false,
+        "is_online": true,
+        "storage_kind": "BASIC_DISK",
+        "disk_image_state": "NOT_APPLICABLE"
+      }
+    },
+    {
+      "schema_version": "1.0.0",
+      "id": "8e9fdc85-eb65-529c-9dd4-47feaf720bbf",
+      "created_at": "2026-07-22T08:01:00Z",
+      "source": "normalizer",
+      "producer_name": "sec-ai-normalizer",
+      "producer_version": "0.1.0",
+      "correlation_id": "aa23aa9d-fd3d-55c3-8523-538f627961ec",
+      "job_id": "257656f2-74b6-55c5-b150-4606a5ced973",
+      "asset_id": "42af17bf-9d2d-5ba4-ae3a-20ae8f93cbf0",
+      "package_id": "e6a10518-0c85-5ada-87e5-aacc90163aa9",
+      "source_evidence_id": "fea928c6-33b3-5d4c-8b4e-7cd3a56a1f4e",
+      "control_id": "PC-07",
+      "guide_version": "2026",
+      "collector_version": "0.1.0",
+      "probe_id": "win.storage.partitions",
+      "probe_version": "0.1.0",
+      "subject": {
+        "scope": "VOLUME",
+        "subject_key": "vol-mounted"
+      },
+      "collected_at": "2026-07-22T08:00:00Z",
+      "normalized_at": "2026-07-22T08:01:00Z",
+      "source_locator": {
+        "type": "CIM",
+        "provider": "MSFT_Partition",
+        "locator": "synthetic:pc07-edge-mounted-folder:vol-mounted"
+      },
+      "collection_status": "COLLECTED",
+      "error_code": "NONE",
+      "redaction": {
+        "applied": false,
+        "method": "NONE"
+      },
+      "evidence_sha256": "6a402aa9d0841ef9019e36c577e7d6642dd0920506cff887142d3662a124946b",
+      "normalized_value": {
+        "volume_id": "vol-mounted",
+        "partition_role": "DATA",
+        "gpt_type": "EBD0A0A2-B9E5-4433-87C0-68B6B72699C7",
+        "trusted_role_identity": true,
+        "is_system": false,
+        "is_boot": false,
+        "is_hidden": false
+      }
+    },
+    {
+      "schema_version": "1.0.0",
+      "id": "0a73b8ac-6209-583d-b4d5-d4643e17a18e",
+      "created_at": "2026-07-22T08:01:00Z",
+      "source": "normalizer",
+      "producer_name": "sec-ai-normalizer",
+      "producer_version": "0.1.0",
+      "correlation_id": "aa23aa9d-fd3d-55c3-8523-538f627961ec",
+      "job_id": "257656f2-74b6-55c5-b150-4606a5ced973",
+      "asset_id": "42af17bf-9d2d-5ba4-ae3a-20ae8f93cbf0",
+      "package_id": "e6a10518-0c85-5ada-87e5-aacc90163aa9",
+      "source_evidence_id": "a28e2d34-9daa-546d-bdf8-00208393834e",
+      "control_id": "PC-07",
+      "guide_version": "2026",
+      "collector_version": "0.1.0",
+      "probe_id": "win.storage.volumes",
+      "probe_version": "0.1.0",
+      "subject": {
+        "scope": "VOLUME",
+        "subject_key": "vol-mounted"
+      },
+      "collected_at": "2026-07-22T08:00:00Z",
+      "normalized_at": "2026-07-22T08:01:00Z",
+      "source_locator": {
+        "type": "CIM",
+        "provider": "MSFT_Volume",
+        "locator": "synthetic:pc07-edge-mounted-folder:vol-mounted"
+      },
+      "collection_status": "COLLECTED",
+      "error_code": "NONE",
+      "redaction": {
+        "applied": false,
+        "method": "NONE"
+      },
+      "evidence_sha256": "65a40f198fe522eece65f776b9b4d61c4f32035133b434050d2397da50eac6af",
+      "normalized_value": {
+        "volume_id": "vol-mounted",
+        "filesystem": "NTFS",
+        "volume_class": "MOUNTED_FOLDER_VOLUME",
+        "drive_type": "FIXED",
+        "drive_letter": null,
+        "mount_kind": "FOLDER_MOUNT",
+        "health_status": "HEALTHY",
+        "operational_status": "OK",
+        "bitlocker_state": "NONE"
+      }
+    },
+    {
+      "schema_version": "1.0.0",
+      "id": "16993faf-4d64-5181-8a35-9f8a485b6aae",
+      "created_at": "2026-07-22T08:01:00Z",
+      "source": "normalizer",
+      "producer_name": "sec-ai-normalizer",
+      "producer_version": "0.1.0",
+      "correlation_id": "aa23aa9d-fd3d-55c3-8523-538f627961ec",
+      "job_id": "257656f2-74b6-55c5-b150-4606a5ced973",
+      "asset_id": "42af17bf-9d2d-5ba4-ae3a-20ae8f93cbf0",
+      "package_id": "e6a10518-0c85-5ada-87e5-aacc90163aa9",
+      "source_evidence_id": "b486c33c-046d-5052-bbee-47275dfe9a53",
+      "control_id": "PC-07",
+      "guide_version": "2026",
+      "collector_version": "0.1.0",
+      "probe_id": "win.storage.disks",
+      "probe_version": "0.1.0",
+      "subject": {
+        "scope": "VOLUME",
+        "subject_key": "vol-os"
+      },
+      "collected_at": "2026-07-22T08:00:00Z",
+      "normalized_at": "2026-07-22T08:01:00Z",
+      "source_locator": {
+        "type": "CIM",
+        "provider": "MSFT_Disk",
+        "locator": "synthetic:pc07-edge-mounted-folder:vol-os"
+      },
+      "collection_status": "COLLECTED",
+      "error_code": "NONE",
+      "redaction": {
+        "applied": false,
+        "method": "NONE"
+      },
+      "evidence_sha256": "f1776dabd0f5662814cdb599a41f41840aa449d46825b669c155f4611a416593",
+      "normalized_value": {
+        "volume_id": "vol-os",
+        "disk_id": "disk-vol-os",
+        "volume_class": "WINDOWS_OS_VOLUME",
+        "bus_type": "NVME",
+        "is_virtual": false,
+        "is_removable": false,
+        "is_online": true,
+        "storage_kind": "BASIC_DISK",
+        "disk_image_state": "NOT_APPLICABLE"
+      }
+    },
+    {
+      "schema_version": "1.0.0",
+      "id": "ff5f9baa-b2cc-56ed-a3c3-c84e388dd58f",
+      "created_at": "2026-07-22T08:01:00Z",
+      "source": "normalizer",
+      "producer_name": "sec-ai-normalizer",
+      "producer_version": "0.1.0",
+      "correlation_id": "aa23aa9d-fd3d-55c3-8523-538f627961ec",
+      "job_id": "257656f2-74b6-55c5-b150-4606a5ced973",
+      "asset_id": "42af17bf-9d2d-5ba4-ae3a-20ae8f93cbf0",
+      "package_id": "e6a10518-0c85-5ada-87e5-aacc90163aa9",
+      "source_evidence_id": "06ba3b9d-9c60-5372-9373-97d3d4183167",
+      "control_id": "PC-07",
+      "guide_version": "2026",
+      "collector_version": "0.1.0",
+      "probe_id": "win.storage.partitions",
+      "probe_version": "0.1.0",
+      "subject": {
+        "scope": "VOLUME",
+        "subject_key": "vol-os"
+      },
+      "collected_at": "2026-07-22T08:00:00Z",
+      "normalized_at": "2026-07-22T08:01:00Z",
+      "source_locator": {
+        "type": "CIM",
+        "provider": "MSFT_Partition",
+        "locator": "synthetic:pc07-edge-mounted-folder:vol-os"
+      },
+      "collection_status": "COLLECTED",
+      "error_code": "NONE",
+      "redaction": {
+        "applied": false,
+        "method": "NONE"
+      },
+      "evidence_sha256": "fe6d031771eb65eeca9cf2201a83868effb6d79d40f30f0c227b0c9f860d4a0d",
+      "normalized_value": {
+        "volume_id": "vol-os",
+        "partition_role": "DATA",
+        "gpt_type": "EBD0A0A2-B9E5-4433-87C0-68B6B72699C7",
+        "trusted_role_identity": true,
+        "is_system": true,
+        "is_boot": true,
+        "is_hidden": false
+      }
+    },
+    {
+      "schema_version": "1.0.0",
+      "id": "ee5a25f8-921d-51f8-859d-9fdbd013835e",
+      "created_at": "2026-07-22T08:01:00Z",
+      "source": "normalizer",
+      "producer_name": "sec-ai-normalizer",
+      "producer_version": "0.1.0",
+      "correlation_id": "aa23aa9d-fd3d-55c3-8523-538f627961ec",
+      "job_id": "257656f2-74b6-55c5-b150-4606a5ced973",
+      "asset_id": "42af17bf-9d2d-5ba4-ae3a-20ae8f93cbf0",
+      "package_id": "e6a10518-0c85-5ada-87e5-aacc90163aa9",
+      "source_evidence_id": "01e53247-daf3-59bb-8910-9f3584ad0f28",
+      "control_id": "PC-07",
+      "guide_version": "2026",
+      "collector_version": "0.1.0",
+      "probe_id": "win.storage.volumes",
+      "probe_version": "0.1.0",
+      "subject": {
+        "scope": "VOLUME",
+        "subject_key": "vol-os"
+      },
+      "collected_at": "2026-07-22T08:00:00Z",
+      "normalized_at": "2026-07-22T08:01:00Z",
+      "source_locator": {
+        "type": "CIM",
+        "provider": "MSFT_Volume",
+        "locator": "synthetic:pc07-edge-mounted-folder:vol-os"
+      },
+      "collection_status": "COLLECTED",
+      "error_code": "NONE",
+      "redaction": {
+        "applied": false,
+        "method": "NONE"
+      },
+      "evidence_sha256": "b5e99fe74a65cae5816f05fe7ca163f4e697c0f5338c8b43169a2840333f0346",
+      "normalized_value": {
+        "volume_id": "vol-os",
+        "filesystem": "NTFS",
+        "volume_class": "WINDOWS_OS_VOLUME",
+        "drive_type": "FIXED",
+        "drive_letter": "C",
+        "mount_kind": "DRIVE_LETTER",
+        "health_status": "HEALTHY",
+        "operational_status": "OK",
+        "bitlocker_state": "NONE"
+      }
+    }
+  ]
+}

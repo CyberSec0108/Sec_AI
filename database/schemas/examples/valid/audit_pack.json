@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0.0",
+  "id": "50000000-0000-4000-8000-000000000001",
+  "created_at": "2026-07-21T05:00:00Z",
+  "source": "audit-pack-builder",
+  "producer_name": "sec-ai-audit-pack-builder",
+  "producer_version": "1.0.0",
+  "correlation_id": "50000000-0000-4000-8000-000000000002",
+  "pack_profile": "KISA-2026-PC-MVP",
+  "name": "KISA 2026 PC MVP Draft",
+  "version": "1.0.0",
+  "guide": {
+    "publisher": "KISA",
+    "version": "2026",
+    "section": "07.PC",
+    "document_sha256": "4444444444444444444444444444444444444444444444444444444444444444"
+  },
+  "target": {"os_family": "WINDOWS", "versions": ["11"], "architectures": ["x86_64"]},
+  "effective_from": "2026-07-21T00:00:00Z",
+  "content_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+  "controls": [
+    {
+      "control_id": "PC-07",
+      "title": "파일 시스템이 NTFS 포맷으로 설정",
+      "category": "SERVICE_MANAGEMENT",
+      "severity": "MEDIUM",
+      "automation_type": "AUTO",
+      "required_privileges": ["STANDARD_USER"],
+      "applicability_rule": {"rule_id": "pc07.applicability", "rule_version": "1.0.0", "parameters": {"drive_type": "FIXED"}},
+      "evidence_requirements": [
+        {
+          "requirement_id": "pc07.fixed-volumes",
+          "probe_ids": ["win.fs.volumes"],
+          "required": true,
+          "minimum_records": 1,
+          "accepted_collection_status": ["COLLECTED"],
+          "organization_policy_required": false,
+          "manual_attestation_allowed": false
+        }
+      ],
+      "evaluation_rule": {"rule_id": "pc07.ntfs", "rule_version": "1.0.0", "parameters": {"required_filesystem": "NTFS"}},
+      "citations": [{"document": "KISA-2026-07-PC", "page_start": 571, "page_end": 572}],
+      "fixture_refs": {"pass": "pc07-pass", "fail": "pc07-fail", "error": "pc07-error"}
+    }
+  ],
+  "approval": {"status": "DRAFT"}
+}
+

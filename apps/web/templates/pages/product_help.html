@@ -1,0 +1,183 @@
+{% import "components/audit_ui.html" as ui %}
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>기능별 사용 방법 | Sec_AI</title>
+  <link rel="stylesheet" href="/static/app/app.css">
+  <script src="/static/app/theme.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">본문으로 건너뛰기</a>
+  {{ ui.app_header("help", help_topic) }}
+  <main id="main-content" class="container product-shell help-page" data-ui-standard="product-help-v5">
+    <header class="page-heading">
+      <div>
+        <p class="section-code">도움말</p>
+        <h1>기능별 사용 방법</h1>
+        <p class="lead">사용하려는 기능을 선택하면 시작부터 결과 확인까지 필요한 순서만 안내합니다.</p>
+      </div>
+    </header>
+
+    <nav class="help-tabs" aria-label="기능별 도움말">
+      <a href="/ui/help?topic=windows"{% if help_topic == "windows" %} aria-current="page"{% endif %}>Windows PC</a>
+      <a href="/ui/help?topic=vulnerability"{% if help_topic == "vulnerability" %} aria-current="page"{% endif %}>알려진 취약점</a>
+      <a href="/ui/help?topic=linux"{% if help_topic == "linux" %} aria-current="page"{% endif %}>Linux 서버</a>
+      <a href="/ui/help?topic=network"{% if help_topic == "network" %} aria-current="page"{% endif %}>네트워크 점검</a>
+      <a href="/ui/help?topic=guide"{% if help_topic == "guide" %} aria-current="page"{% endif %}>가이드 질의</a>
+      <a href="/ui/help?topic=account"{% if help_topic == "account" %} aria-current="page"{% endif %}>계정 관리</a>
+    </nav>
+
+    {% if help_topic == "vulnerability" %}
+    <section class="panel help-topic-panel" aria-labelledby="vulnerability-help-title">
+      <div class="help-topic-heading">
+        <div><p class="section-label">알려진 취약점 점검</p><h2 id="vulnerability-help-title">Windows와 설치 구성요소의 알려진 문제를 확인하는 방법</h2></div>
+        <span class="help-topic-state help-topic-state-preview">CVE · NVD · OSV</span>
+      </div>
+      <p class="help-intro">최근 Windows 점검에서 확인한 운영체제·업데이트·설치 프로그램과 선택한 프로젝트 의존성의 이름·버전을 공개 보안 자료와 비교합니다.</p>
+      <section class="help-support-block" aria-labelledby="vulnerability-support-title">
+        <div class="help-support-heading">
+          <h3 id="vulnerability-support-title">현재 비교할 수 있는 구성요소</h3>
+          <p>현재 Windows PC 결과를 기준으로 하며 Linux 서버와 네트워크 스위치는 아직 지원하지 않습니다.</p>
+        </div>
+        <ul class="help-support-list">
+          <li><div><strong>Windows 10·11 x64</strong><span>Windows OS·Build·업데이트 적용 정보 비교</span></div><span class="help-support-badge help-support-supported">현재 지원</span></li>
+          <li><div><strong>설치 프로그램</strong><span>수집된 제품 이름과 버전을 공개 제품 식별 정보와 비교</span></div><span class="help-support-badge help-support-supported">현재 지원</span></li>
+          <li><div><strong>Python</strong><span>수집된 패키지와 requirements.txt·Pipfile.lock·poetry.lock 비교</span></div><span class="help-support-badge help-support-supported">현재 지원</span></li>
+          <li><div><strong>Node.js</strong><span>수집된 패키지와 package-lock.json 비교</span></div><span class="help-support-badge help-support-supported">현재 지원</span></li>
+          <li><div><strong>Java</strong><span>수집된 패키지와 pom.xml·gradle.lockfile 비교</span></div><span class="help-support-badge help-support-supported">현재 지원</span></li>
+        </ul>
+      </section>
+      <ol class="help-steps help-steps-detailed">
+        <li><strong>Windows PC 점검을 먼저 완료합니다.</strong><p>알려진 취약점 점검은 이 브라우저에서 완료한 최근 Windows 점검 결과의 OS·업데이트·프로그램·패키지 목록을 사용합니다. 결과가 없으면 Windows PC 먼저 점검을 선택하세요.</p></li>
+        <li><strong>알려진 취약점 점검을 엽니다.</strong><p>최근 점검 결과를 자동으로 찾으면 Windows 버전과 수집된 구성요소 개수를 확인한 뒤 알려진 문제 확인을 누를 수 있습니다.</p></li>
+        <li><strong>필요할 때만 의존성 파일을 추가합니다.</strong><p>Python·Node.js·Java 프로젝트 파일을 선택하면 브라우저가 패키지 이름·버전만 읽어 비교 요청에 포함합니다. 파일 원문과 로컬 경로는 전송하지 않습니다.</p></li>
+        <li><strong>구성요소 종류별로 후보를 확인합니다.</strong><p>Windows OS·Python·Node.js·Java 필터와 검색을 사용하고, 같은 구성요소에 연결된 여러 CVE는 하나의 구성요소 묶음 안에서 펼쳐 확인합니다.</p></li>
+        <li><strong>공식 한글 설명과 AI 쉬운 설명을 구분해 봅니다.</strong><p>접는 영역의 공식 취약점 설명(한글)은 공개 원문을 번역한 참고 설명입니다. AI로 쉽게 설명은 선택 기능이며 후보나 공식 점검 판정을 만들거나 변경하지 않습니다.</p></li>
+      </ol>
+      <aside class="help-note"><strong>결과의 의미</strong><p>표시 결과는 공개 자료와 일치한 <strong>영향 가능성 후보</strong>이며 공식 취약 판정이 아닙니다. 후보가 없어도 안전하다고 확정하지 않습니다. 오프라인이면 마지막 저장 자료의 기준 시각을 확인하고, 실제 조치 전에는 제조사 보안 권고와 조직 절차를 함께 검토하세요.</p></aside>
+      <a class="help-primary-link" href="/ui/vulnerability-check">알려진 취약점 점검 열기 <span aria-hidden="true">→</span></a>
+    </section>
+    {% elif help_topic == "linux" %}
+    <section class="panel help-topic-panel" aria-labelledby="linux-help-title">
+      <div class="help-topic-heading">
+        <div><p class="section-label">Linux 서버 점검</p><h2 id="linux-help-title">지원 Linux 서버를 점검하는 방법</h2></div>
+        <span class="help-topic-state">U-01~U-67</span>
+      </div>
+      <p class="help-intro">서버 종류를 직접 고르지 않아도 시스템이 배포판·버전·아키텍처를 확인하고 정확히 일치하는 읽기 전용 점검 방법을 선택합니다.</p>
+      <section class="help-support-block" aria-labelledby="linux-support-title">
+        <div class="help-support-heading">
+          <h3 id="linux-support-title">점검 가능한 Linux 버전</h3>
+          <p>x86_64 서버만 지원하며 ARM64와 목록에 없는 버전은 실행 전에 중단합니다.</p>
+        </div>
+        <ul class="help-support-list">
+          <li><div><strong>Ubuntu Server 24.04 LTS x64</strong><span>실제 VM 검증을 통과한 Debian 계열 점검</span></div><span class="help-support-badge help-support-supported">지원됨</span></li>
+          <li><div><strong>Rocky Linux 9.x x64</strong><span>실제 VM 검증을 통과한 RHEL 계열 점검</span></div><span class="help-support-badge help-support-supported">지원됨</span></li>
+          <li><div><strong>Ubuntu Server 22.04 LTS x64</strong><span>실제 VM 반복 인수 완료, Debian 계열 읽기 전용 점검</span></div><span class="help-support-badge help-support-supported">지원됨</span></li>
+          <li><div><strong>Debian 12.x x64</strong><span>실제 VM 반복 인수 완료, U-01~U-67 판정 연결</span></div><span class="help-support-badge help-support-supported">지원됨</span></li>
+          <li><div><strong>Red Hat Enterprise Linux 9.x x64</strong><span>기능 연결 완료, 공식 구독 이미지 인수 전</span></div><span class="help-support-badge help-support-pilot">시험 지원</span></li>
+          <li><div><strong>AlmaLinux 9.x x64</strong><span>실제 VM 반복 인수 완료, 선택 구성요소 부재는 오류로 명시</span></div><span class="help-support-badge help-support-supported">지원됨</span></li>
+        </ul>
+        <p class="help-support-legend"><strong>지원됨</strong>은 실제 VM 검증 완료, <strong>시험 지원</strong>은 기능 연결은 완료했지만 실제 배포판별 인수가 남았다는 뜻입니다.</p>
+      </section>
+      <ol class="help-steps help-steps-detailed">
+        <li><strong>내 상황에 맞는 점검 방식을 선택합니다.</strong><p>관리자가 등록한 서버는 중앙 SSH 점검을 사용합니다. 직접 관리하는 서버라면 Linux 공용 점검 파일을 서버 안에서 실행하는 자가 점검을 사용할 수 있습니다.</p></li>
+        <li><strong>시스템이 서버 종류를 자동으로 확인합니다.</strong><p>중앙 점검과 공용 실행 파일 모두 <code>/etc/os-release</code>와 아키텍처를 확인합니다. 화면에서 선택한 종류를 신뢰하거나 비슷한 버전으로 추측하지 않습니다.</p></li>
+        <li><strong>점검 시작을 누릅니다.</strong><p>KISA UNIX U-01~U-67에 필요한 고정 읽기 전용 명령만 실행합니다. 관리자 권한이 필요한 자가 점검 항목은 설명과 동의를 먼저 받으며 서버 설정은 변경하지 않습니다.</p></li>
+        <li><strong>실시간 진행 상황을 확인합니다.</strong><p>현재 확인 중인 항목과 최근 완료 항목이 차례대로 표시됩니다. 필요하면 점검 중단을 눌러 이후 항목 실행을 멈출 수 있습니다.</p></li>
+        <li><strong>결과와 AI 설명을 함께 확인합니다.</strong><p>양호·취약·확인 필요 통계, 실제 확인값, KISA 기준, 항목별 설명과 종합 설명을 확인하고 사용자용 또는 기술 검증용 PDF를 받을 수 있습니다.</p></li>
+      </ol>
+      <aside class="help-note"><strong>연결되지 않을 때</strong><p>장비가 켜져 있는지, 등록된 주소와 SSH 키가 유효한지 관리자에게 확인하세요. 권한이 부족한 항목은 양호가 아니라 확인 필요로 표시됩니다.</p></aside>
+      <div class="help-actions">
+        <a class="help-primary-link" href="/ui/linux-scan">등록 서버 점검 열기 <span aria-hidden="true">→</span></a>
+        <a class="help-secondary-link" href="/ui/linux-self-scan">내 서버 자가 점검 열기 <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+    {% elif help_topic == "network" %}
+    <section class="panel help-topic-panel" aria-labelledby="network-help-title">
+      <div class="help-topic-heading">
+        <div><p class="section-label">네트워크 점검</p><h2 id="network-help-title">스위치 설정을 확인하는 방법</h2></div>
+        <span class="help-topic-state">N-01~N-38</span>
+      </div>
+      <p class="help-intro">등록된 Aruba 스위치에 인증서가 고정된 HTTPS REST 읽기 전용 요청만 보내며 장비 설정은 변경하지 않습니다.</p>
+      <section class="help-support-block" aria-labelledby="network-support-title">
+        <div class="help-support-heading">
+          <h3 id="network-support-title">점검 가능한 스위치 버전</h3>
+          <p>현재 실제 점검 Adapter가 연결된 제품만 표시합니다.</p>
+        </div>
+        <ul class="help-support-list">
+          <li><div><strong>HPE Aruba Networking AOS-CX 10.13</strong><span>HTTPS REST GET 18개로 KISA N-01~N-38 확인</span></div><span class="help-support-badge help-support-supported">지원됨</span></li>
+          <li><div><strong>Cisco IOS XE·기타 스위치</strong><span>공통 계약만 있으며 실제 장비 Adapter·인수가 완료되지 않음</span></div><span class="help-support-badge help-support-unsupported">지원 안 함</span></li>
+        </ul>
+      </section>
+      <ol class="help-steps help-steps-detailed">
+        <li><strong>관리자가 Aruba 장비 연결 정보를 등록합니다.</strong><p>AOS-CX 10.13 장비 주소, 인증서 지문과 읽기 전용 REST 계정을 등록합니다. 주변 IP나 다른 관리 프로토콜을 자동 검색하지 않습니다.</p></li>
+        <li><strong>점검 기준과 조직 확인값을 검토합니다.</strong><p>26개 안전 기본 기준과 장비 밖 검토가 필요한 N-12 권고 확인·N-17 SNMP 업무 승인 값만 필요에 따라 조정합니다. 조직 입력은 장비에서 수집한 값으로 표시하지 않습니다.</p></li>
+        <li><strong>점검을 시작합니다.</strong><p>고정된 REST GET 18개로 인터페이스·RBAC·ACL·로그·hot patch·SNMP·CoPP 등의 최소 사실을 수집합니다.</p></li>
+        <li><strong>항목별 결과와 PDF를 확인합니다.</strong><p>실제 확인값, 판정 기준, AI 설명을 통합 화면에서 보고 사용자용 또는 권한이 제한된 기술 검증용 PDF를 받을 수 있습니다.</p></li>
+      </ol>
+      <aside class="help-note"><strong>결과의 성격</strong><p>현재 N-01~N-38 결과는 <strong>개발용 DRAFT</strong>입니다. 실제 읽기 결과와 규칙 판정을 보여주지만 승인된 운영 Pack의 공식 Finding은 아닙니다.</p></aside>
+      <a class="help-primary-link" href="/ui/switch-scan">네트워크 스위치 점검 열기 <span aria-hidden="true">→</span></a>
+    </section>
+    {% elif help_topic == "guide" %}
+    <section class="panel help-topic-panel" aria-labelledby="guide-help-title">
+      <div class="help-topic-heading">
+        <div><p class="section-label">가이드 질의</p><h2 id="guide-help-title">보안 가이드에 질문하는 방법</h2></div>
+      </div>
+      <ol class="help-steps help-steps-detailed">
+        <li><strong>새 대화를 만들거나 기존 대화를 선택합니다.</strong><p>같은 주제를 이어서 물을 때는 기존 대화를 사용하고, 다른 주제는 새 대화로 분리하면 답변 문맥이 더 명확해집니다.</p></li>
+        <li><strong>대상과 궁금한 내용을 구체적으로 입력합니다.</strong><p>예: “Windows와 Linux 비밀번호 기준의 차이를 알려줘”처럼 장비 종류와 비교 대상을 함께 적습니다. 일반 질문·복합 질문도 검색된 원문과 AI 일반 지식을 구분해 설명합니다.</p></li>
+        <li><strong>답변과 인라인 출처를 확인합니다.</strong><p>본문의 [1] 같은 번호를 선택하면 오른쪽 출처 패널에서 한글 문서명·쪽수·문단을 확인하고 해당 PDF 페이지를 열 수 있습니다.</p></li>
+        <li><strong>필요하면 답변을 이어서 질문합니다.</strong><p>복사·좋아요·싫어요 기능을 사용할 수 있고, 답변 생성 중에는 중단 버튼으로 생성을 멈출 수 있습니다.</p></li>
+      </ol>
+      <aside class="help-note"><strong>답변의 범위</strong><p>AI 설명은 이해를 돕기 위한 내용이며 규칙 엔진의 공식 점검 판정을 바꾸지 않습니다. 원문 근거와 일반 보안 설명을 구분해 확인하세요.</p></aside>
+      <a class="help-primary-link" href="/ui/guide-chat">가이드 질의 열기 <span aria-hidden="true">→</span></a>
+    </section>
+    {% elif help_topic == "account" %}
+    <section class="panel help-topic-panel" aria-labelledby="account-help-title">
+      <div class="help-topic-heading">
+        <div><p class="section-label">계정 관리</p><h2 id="account-help-title">내 계정과 점검 기준을 관리하는 방법</h2></div>
+      </div>
+      <ol class="help-steps help-steps-detailed">
+        <li><strong>계정정보에서 현재 로그인 상태를 확인합니다.</strong><p>사용자 이름, 역할, 로그인 방법과 접속 시각을 확인하고 현재 기기 또는 모든 기기의 로그인을 종료할 수 있습니다.</p></li>
+        <li><strong>내 계정 정보 변경에서 비밀번호를 관리합니다.</strong><p>표시 이름과 비밀번호를 변경할 수 있습니다. 인증 코드와 비밀번호는 다른 사람에게 전달하지 마세요.</p></li>
+        <li><strong>내 점검 기준을 선택하거나 저장합니다.</strong><p>별도 기준을 선택하지 않아도 KISA 가이드 기본값이 항상 적용됩니다. 저장한 개인 기준이 있으면 점검 전에 추가로 선택할 수 있습니다.</p></li>
+        <li><strong>관리자는 사용자 요청과 운영 기능을 관리합니다.</strong><p>관리자 계정에서는 가입 요청 승인, 계정 사용 중지, 인증 코드 재발급과 Linux 서버 등록·연결 확인을 수행할 수 있습니다. 일반 사용자에게는 관리자 전용 기능이 표시되지 않습니다.</p></li>
+      </ol>
+      <aside class="help-note"><strong>보안 안내</strong><p>관리자도 사용자의 비밀번호 원문을 볼 수 없습니다. 새 인증 코드는 발급 직후 지정된 절차로 사용자에게 안전하게 전달하세요.</p></aside>
+      <a class="help-primary-link" href="/auth/session">계정정보 열기 <span aria-hidden="true">→</span></a>
+    </section>
+    {% else %}
+    <section class="panel help-topic-panel" aria-labelledby="windows-help-title">
+      <div class="help-topic-heading">
+        <div><p class="section-label">Windows PC 점검</p><h2 id="windows-help-title">내 PC를 원클릭으로 점검하는 방법</h2></div>
+        <span class="help-topic-state">PC-01~PC-18</span>
+      </div>
+      <p class="help-intro">실행 파일을 한 번 열면 PowerShell·Docker 명령어 입력 없이 점검 → 결과 → 보안관련 질문 순서로 사용할 수 있습니다. Windows 종류와 Build는 실행 파일이 자동으로 확인합니다.</p>
+      <section class="help-support-block" aria-labelledby="windows-support-title">
+        <div class="help-support-heading">
+          <h3 id="windows-support-title">점검 가능한 Windows 버전</h3>
+          <p>현재 x64 PC용이며 Server 제품에는 PC 기준을 적용하지 않습니다.</p>
+        </div>
+        <ul class="help-support-list">
+          <li><div><strong>Windows 11 x64</strong><span>PC-01~PC-18 전체 개발 점검 흐름</span></div><span class="help-support-badge help-support-supported">지원됨</span></li>
+          <li><div><strong>Windows 10 x64</strong><span>PC-01~PC-18 공통 점검 지원, Windows 11 전용 기준은 확인 필요로 표시</span></div><span class="help-support-badge help-support-supported">지원됨</span></li>
+          <li><div><strong>Windows Server·Domain Controller</strong><span>서버 전용 기준과 Adapter가 없어 실행 전에 차단</span></div><span class="help-support-badge help-support-unsupported">지원 안 함</span></li>
+        </ul>
+        <p class="help-support-legend"><strong>지원됨</strong>이어도 해당 OS에 적용되지 않는 전용 기준이나 수집되지 않은 값은 양호로 처리하지 않고 확인 필요 또는 오류로 표시합니다.</p>
+      </section>
+      <ol class="help-steps help-steps-detailed">
+        <li><strong>원클릭 점검에서 PC 점검의 열기를 누릅니다.</strong><p>처음 사용하는 PC라면 안내에 따라 SecAI Windows 실행 파일을 내려받아 엽니다. 이미 실행 중이면 다시 내려받을 필요가 없습니다.</p></li>
+        <li><strong>적용할 기준과 관리자 항목 안내를 확인합니다.</strong><p>KISA 가이드 기본값은 항상 적용됩니다. 저장한 개인 기준이 있으면 추가로 선택하고, 관리자 권한이 필요한 5개 항목을 포함하려면 동의 항목을 선택합니다.</p></li>
+        <li><strong>동의하고 전체 점검 시작을 누릅니다.</strong><p>결과 화면에서 PC-01~PC-18 진행 상황을 확인합니다. 일반 점검 뒤 Windows 권한 확인창이 나오면 관리자 5개 항목을 점검하려는 경우 ‘예’를 선택합니다.</p></li>
+        <li><strong>통합 결과 화면에서 필요한 결과를 봅니다.</strong><p>전체·양호·취약·확인 필요 통계로 항목을 필터링하고, 카드에서 실제 확인값·KISA 기준·판정 이유와 AI 상세 설명을 함께 확인합니다. PDF 다운로드와 결과 문맥 후속 질문도 이용할 수 있습니다.</p></li>
+      </ol>
+      <aside class="help-note"><strong>실행 파일이 연결되지 않을 때</strong><p>열려 있는 SecAI 실행 파일을 한 번만 종료한 뒤 다시 실행하세요. 브라우저와 실행 파일이 같은 PC에서 실행 중인지 확인하고, 결과 화면의 다시 연결 안내를 따르세요.</p></aside>
+      <a class="help-primary-link" href="/?new_scan=1">Windows PC 점검 열기 <span aria-hidden="true">→</span></a>
+    </section>
+    {% endif %}
+
+  </main>
+</body>
+</html>

@@ -1,0 +1,35 @@
+{
+  "policy_id": "IMP045-STORAGE-RECOVERY",
+  "version": "1.0.0",
+  "classification": "SYNTHETIC_DEV_ONLY",
+  "truth": {
+    "business_state": "PostgreSQL",
+    "original_bytes": "AIStor exact object version",
+    "redis": "REBUILDABLE_TRANSPORT"
+  },
+  "recovery": {
+    "primary_volume_overwrite_allowed": false,
+    "isolated_restore_required": true,
+    "finding_lineage_must_match": true,
+    "object_sha256_must_match": true,
+    "redis_reconciliation_source": "PostgreSQL pending Outbox"
+  },
+  "targets": {
+    "postgres_rpo_seconds": 900,
+    "postgres_rto_seconds": 14400,
+    "evidence_rpo_seconds": 3600,
+    "evidence_rto_seconds": 28800
+  },
+  "development_limitations": {
+    "same_host_is_independent_failure_domain": false,
+    "object_lock_kms_gate_completed": false,
+    "real_evidence_allowed": false,
+    "production_recovery_approved": false
+  },
+  "safety": {
+    "official_finding_created": false,
+    "raw_evidence_used": false,
+    "secret_logged": false,
+    "portable_bundle_created": false
+  }
+}

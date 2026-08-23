@@ -1,0 +1,25 @@
+{
+  "fixture_version": "1.0.0",
+  "case_id": "pc07-error-collection",
+  "control_id": "PC-07",
+  "expected_status": "ERROR",
+  "expected_applicability": {
+    "status": "UNDETERMINED",
+    "reason_code": "VOLUME_EVIDENCE_INCOMPLETE"
+  },
+  "expected_subject": {
+    "scope": "VOLUME",
+    "subject_key": "pc07:evaluated-volume-set"
+  },
+  "expected_result_code": "VOLUME_COLLECTION_FAILED",
+  "candidate_volume_ids": [
+    "vol-os"
+  ],
+  "evaluated_volume_ids": [],
+  "excluded_volumes": [],
+  "violating_volume_ids": [],
+  "error_codes": [
+    "PROBE_TIMEOUT"
+  ],
+  "rationale_code": "VOLUME_COLLECTION_FAILED"
+}

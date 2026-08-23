@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0.0",
+  "ingest_id": "48000000-0000-4000-8000-000000000101",
+  "organization_id": "48000000-0000-4000-8000-000000000001",
+  "guide": {
+    "guide_id": "kisa-major-infrastructure-detailed-guide",
+    "version": "2026"
+  },
+  "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "scope_id": "kisa-2026-pc",
+  "classification": "PUBLIC_GUIDE",
+  "status": "READY",
+  "gates": {
+    "source_hash_verified": true,
+    "page_map_verified": true,
+    "license_approved": false,
+    "derivative_text_storage_allowed": false,
+    "malware_scan_passed": false,
+    "extraction_quality_approved": false,
+    "query_scope_enabled": false,
+    "synthetic_test_only": false
+  },
+  "extraction": {
+    "extractor_name": "PyMuPDF",
+    "extractor_version": "1.28.0",
+    "page_count": 41,
+    "chunk_count": 41
+  },
+  "vector_generation": {
+    "generation_id": "48000000-0000-4000-8000-000000000102",
+    "provider": "POSTGRES_PGVECTOR",
+    "pgvector_version": "0.8.2",
+    "embedding_model_id": "unapproved-model",
+    "dimension": 32,
+    "metric": "COSINE",
+    "index_type": "HNSW",
+    "status": "ACTIVE"
+  }
+}

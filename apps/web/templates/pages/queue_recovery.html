@@ -1,0 +1,80 @@
+{% import "components/audit_ui.html" as ui %}
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>작업 복구 상태 | Sec_AI</title>
+  <link rel="stylesheet" href="/static/app/app.css">
+</head>
+<body>
+  {{ ui.app_header("queue_recovery") }}
+  <main class="container product-shell" data-ui-standard="queue-recovery-v1">
+    <a class="back-link" href="/">← 처음 화면으로</a>
+    <header class="page-heading">
+      <div>
+        <p class="section-code">작업 전달 안전성</p>
+        <h1>중간에 작업이 멈춰도 결과를 잃지 않습니다</h1>
+        <p class="lead">Redis는 전달만 담당하고, 진행 상태와 결과는 PostgreSQL에 기록합니다. 같은 작업이 다시 전달되어도 결과는 하나만 남습니다.</p>
+      </div>
+    </header>
+
+    <aside class="preview-notice">
+      <strong>이 화면은 보안 판정 화면이 아닙니다</strong>
+      작업 복구 상태만 설명하며 PC 설정, 원본 증적 또는 공식 PASS·FAIL을 만들지 않습니다.
+    </aside>
+
+    <section class="summary-panel" aria-labelledby="recovery-summary-title">
+      <div class="summary-heading">
+        <p class="section-label">최근 격리 복구시험</p>
+        <h2 id="recovery-summary-title">{{ recovery.status_label }}</h2>
+      </div>
+      <dl class="summary-list">
+        <div><dt>전체 실행 시도</dt><dd>{{ recovery.attempt_count }}</dd></div>
+        <div class="summary-review"><dt>중단 감지</dt><dd>{{ recovery.worker_lost_count }}</dd></div>
+        <div class="summary-pass"><dt>최종 결과</dt><dd>{{ recovery.result_count }}</dd></div>
+        <div class="summary-error"><dt>중복 결과</dt><dd>{{ recovery.duplicate_result_count }}</dd></div>
+      </dl>
+    </section>
+
+    <section class="panel" aria-labelledby="recovery-flow-title">
+      {{ ui.panel_header(
+        "recovery-flow-title",
+        "복구 흐름",
+        "어떻게 다시 이어지나요?",
+        "Celery 내부 상태가 아니라 PostgreSQL 기록을 기준으로 설명합니다."
+      ) }}
+      <ol class="recovery-flow">
+        <li><strong>1. 작업과 전달표를 함께 저장</strong><span>API가 멈춰도 미전달 작업이 PostgreSQL에 남습니다.</span></li>
+        <li><strong>2. Redis가 Worker에 전달</strong><span>Redis는 짧은 전달 통로이며 결과 정본이 아닙니다.</span></li>
+        <li><strong>3. Worker 중단을 감지</strong><span>완료 확인 전 멈춘 작업은 같은 식별자로 다시 전달됩니다.</span></li>
+        <li><strong>4. 멱등 결과로 수렴</strong><span>고유한 작업 키가 중복 결과 생성을 막습니다.</span></li>
+      </ol>
+    </section>
+
+    <section class="panel" aria-labelledby="recovery-boundary-title">
+      {{ ui.panel_header(
+        "recovery-boundary-title",
+        "안전 경계",
+        "복구하면서 하지 않는 일",
+        "장애 복구가 판정 권한이나 자료 범위를 넓히지 않습니다."
+      ) }}
+      <ul class="safety-points">
+        <li>Celery message에 비밀번호·쿠키·원본 증적을 넣지 않습니다.</li>
+        <li>Worker가 공식 Finding 상태를 새로 결정하거나 변경하지 않습니다.</li>
+        <li>반복 실패를 무한 재시도하지 않고 운영 검토 상태로 분리합니다.</li>
+        <li>PC 설정과 Collector 동작은 변경하지 않습니다.</li>
+      </ul>
+    </section>
+
+    {{ ui.technical_panel([
+      {"label": "화면 계약", "value": "queue-recovery-v1", "code": true},
+      {"label": "업무 상태 정본", "value": "PostgreSQL", "code": true},
+      {"label": "전달 방식", "value": "Celery + Redis at-least-once", "code": true},
+      {"label": "Outbox 상태", "value": recovery.outbox_status|default("PENDING"), "code": true},
+      {"label": "설정 변경", "value": "없음", "code": false},
+      {"label": "공식 Finding 생성", "value": "없음", "code": false}
+    ]) }}
+  </main>
+</body>
+</html>

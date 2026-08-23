@@ -1,0 +1,30 @@
+{
+  "fixture_version": "1.0.0",
+  "case_id": "pc07-edge-vhd-detached",
+  "control_id": "PC-07",
+  "expected_status": "PASS",
+  "expected_applicability": {
+    "status": "APPLICABLE",
+    "reason_code": "WINDOWS_FIXED_VOLUME_SET"
+  },
+  "expected_subject": {
+    "scope": "VOLUME",
+    "subject_key": "pc07:evaluated-volume-set"
+  },
+  "expected_result_code": "ALL_EVALUATED_VOLUMES_NTFS",
+  "candidate_volume_ids": [
+    "vol-os"
+  ],
+  "evaluated_volume_ids": [
+    "vol-os"
+  ],
+  "excluded_volumes": [
+    {
+      "subject_id": "disk-image-01",
+      "reason_code": "EXCLUDED_DETACHED_DISK_IMAGE"
+    }
+  ],
+  "violating_volume_ids": [],
+  "error_codes": [],
+  "rationale_code": "ALL_EVALUATED_VOLUMES_NTFS"
+}

@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0.0",
+  "id": "70000000-0000-4000-8000-000000000001",
+  "created_at": "2026-07-21T06:30:00Z",
+  "source": "admin-ui",
+  "producer_name": "sec-ai-api",
+  "producer_version": "1.0.0",
+  "correlation_id": "10000000-0000-4000-8000-000000000002",
+  "job_id": "10000000-0000-4000-8000-000000000003",
+  "asset_id": "10000000-0000-4000-8000-000000000004",
+  "finding_ids": ["40000000-0000-4000-8000-000000000001"],
+  "execution_mode": "PLAN_ONLY",
+  "mvp_execution_allowed": false,
+  "official_status_change_allowed": false,
+  "status": "DRAFT",
+  "risk_level": "MEDIUM",
+  "actions": [
+    {
+      "sequence": 1,
+      "title": "승인된 파일 시스템 전환 절차 검토",
+      "playbook": {
+        "playbook_id": "review-volume-filesystem",
+        "playbook_version": "1.0.0",
+        "playbook_sha256": "8888888888888888888888888888888888888888888888888888888888888888"
+      },
+      "parameters": {"target_scope": "system-volume"},
+      "preconditions": ["verified-backup", "maintenance-window-approved"],
+      "rollback_playbook": {
+        "playbook_id": "restore-volume-backup",
+        "playbook_version": "1.0.0",
+        "playbook_sha256": "9999999999999999999999999999999999999999999999999999999999999999"
+      },
+      "requires_reboot": true
+    }
+  ],
+  "expires_at": "2026-07-28T06:30:00Z"
+}
+

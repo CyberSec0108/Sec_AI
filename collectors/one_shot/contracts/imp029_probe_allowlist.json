@@ -1,0 +1,39 @@
+{
+  "contract_version": "1.0.0",
+  "collector_name": "sec-ai-one-shot-collector",
+  "collector_version": "0.1.0",
+  "release_channel": "DEV-UNTRUSTED",
+  "execution_mode": "WINDOWS_READ_ONLY",
+  "real_os_access": true,
+  "probes": [
+    {
+      "probe_id": "win.storage.disks",
+      "probe_version": "0.1.0",
+      "control_ids": ["PC-07"],
+      "required_privilege": "STANDARD_USER",
+      "max_timeout_seconds": 30,
+      "max_output_bytes": 65536,
+      "parameters": {}
+    },
+    {
+      "probe_id": "win.storage.partitions",
+      "probe_version": "0.1.0",
+      "control_ids": ["PC-07"],
+      "required_privilege": "STANDARD_USER",
+      "max_timeout_seconds": 30,
+      "max_output_bytes": 65536,
+      "parameters": {}
+    },
+    {
+      "probe_id": "win.storage.volumes",
+      "probe_version": "0.1.0",
+      "control_ids": ["PC-07"],
+      "required_privilege": "STANDARD_USER",
+      "max_timeout_seconds": 30,
+      "max_output_bytes": 65536,
+      "parameters": {
+        "include_fixed": true
+      }
+    }
+  ]
+}

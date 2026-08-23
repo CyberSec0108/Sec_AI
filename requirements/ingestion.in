@@ -1,0 +1,4 @@
+-r base.in
+
+# Guide parsing. Guide vector search uses PostgreSQL+pgvector through psycopg.
+pymupdf>=1.26,<2

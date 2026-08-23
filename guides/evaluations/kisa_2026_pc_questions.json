@@ -1,0 +1,240 @@
+{
+  "schema_version": "1.0.0",
+  "evaluation_id": "kisa-2026-pc-grounding-v1",
+  "guide": {
+    "guide_id": "kisa-major-infrastructure-detailed-guide",
+    "version": "2026",
+    "scope_id": "kisa-2026-pc",
+    "source_sha256": "44fe393981b244147be6af7423d99dc15633c089fad0bcb296cbe2371dde812d"
+  },
+  "thresholds": {
+    "top1_control_accuracy": 1.0,
+    "citation_page_accuracy": 1.0,
+    "paragraph_evidence_accuracy": 1.0,
+    "no_evidence_accuracy": 1.0,
+    "conflict_accuracy": 1.0,
+    "maximum_scope_leaks": 0
+  },
+  "cases": [
+    {
+      "case_id": "KISA-PC-Q01",
+      "question": "비밀번호는 얼마마다 변경하도록 설정해야 하나요?",
+      "expected_status": "FOUND",
+      "expected_control_id": "PC-01",
+      "expected_page_start": 555,
+      "expected_page_end": 556,
+      "expected_section_label": "PC-01 비밀번호의 주기적 변경",
+      "expected_evidence_terms": ["비밀번호", "변경"]
+    },
+    {
+      "case_id": "KISA-PC-Q02",
+      "question": "안전한 비밀번호 관리정책에서 길이와 복잡성은 어떻게 확인하나요?",
+      "expected_status": "FOUND",
+      "expected_control_id": "PC-02",
+      "expected_page_start": 557,
+      "expected_page_end": 558,
+      "expected_section_label": "PC-02 비밀번호 관리정책 설정",
+      "expected_evidence_terms": ["비밀번호", "복잡성"]
+    },
+    {
+      "case_id": "KISA-PC-Q03",
+      "question": "복구 콘솔의 자동 관리자 로그온은 어떻게 설정해야 하나요?",
+      "expected_status": "FOUND",
+      "expected_control_id": "PC-03",
+      "expected_page_start": 559,
+      "expected_page_end": 560,
+      "expected_section_label": "PC-03 복구 콘솔에서 자동 로그온을 금지하도록 설정",
+      "expected_evidence_terms": ["복구 콘솔", "자동"]
+    },
+    {
+      "case_id": "KISA-PC-Q04",
+      "question": "공유 폴더와 공유 권한은 어떻게 점검해야 하나요?",
+      "expected_status": "FOUND",
+      "expected_control_id": "PC-04",
+      "expected_page_start": 561,
+      "expected_page_end": 565,
+      "expected_section_label": "PC-04 공유 폴더 제거",
+      "expected_evidence_terms": ["공유", "권한"]
+    },
+    {
+      "case_id": "KISA-PC-Q05",
+      "question": "PC에서 불필요한 서비스는 어떻게 확인하고 제거하나요?",
+      "expected_status": "FOUND",
+      "expected_control_id": "PC-05",
+      "expected_page_start": 566,
+      "expected_page_end": 569,
+      "expected_section_label": "PC-05 불필요한 서비스 제거",
+      "expected_evidence_terms": ["서비스", "불필요"]
+    },
+    {
+      "case_id": "KISA-PC-Q06",
+      "question": "비인가 상용 메신저는 왜 금지하고 어떻게 점검하나요?",
+      "expected_status": "FOUND",
+      "expected_control_id": "PC-06",
+      "expected_page_start": 570,
+      "expected_page_end": 570,
+      "expected_section_label": "PC-06 비인가 상용 메신저 사용 금지",
+      "expected_evidence_terms": ["메신저"]
+    },
+    {
+      "case_id": "KISA-PC-Q07",
+      "question": "저장 장치의 파일 시스템은 어떤 형식이어야 하나요?",
+      "expected_status": "FOUND",
+      "expected_control_id": "PC-07",
+      "expected_page_start": 571,
+      "expected_page_end": 572,
+      "expected_section_label": "PC-07 파일 시스템이 NTFS 포맷으로 설정",
+      "expected_evidence_terms": ["NTFS"]
+    },
+    {
+      "case_id": "KISA-PC-Q08",
+      "question": "한 PC에 여러 운영체제를 설치해도 되나요?",
+      "expected_status": "FOUND",
+      "expected_control_id": "PC-08",
+      "expected_page_start": 573,
+      "expected_page_end": 574,
+      "expected_section_label": "PC-08 대상 시스템이 Windows 서버를 제외한 다른 OS로 멀티 부팅이 가능하지 않도록 설정",
+      "expected_evidence_terms": ["운영체제"]
+    },
+    {
+      "case_id": "KISA-PC-Q09",
+      "question": "브라우저를 닫을 때 임시 인터넷 파일을 삭제하도록 어떻게 설정하나요?",
+      "expected_status": "FOUND",
+      "expected_control_id": "PC-09",
+      "expected_page_start": 575,
+      "expected_page_end": 576,
+      "expected_section_label": "PC-09 브라우저 종료 시 임시 인터넷 파일 폴더의 내용을 삭제하도록 설정",
+      "expected_evidence_terms": ["임시 인터넷 파일"]
+    },
+    {
+      "case_id": "KISA-PC-Q10",
+      "question": "보안 패치와 제조사 권고사항은 어떻게 적용해야 하나요?",
+      "expected_status": "FOUND",
+      "expected_control_id": "PC-10",
+      "expected_page_start": 577,
+      "expected_page_end": 578,
+      "expected_section_label": "PC-10 주기적 보안 패치 및 벤더 권고사항 적용",
+      "expected_evidence_terms": ["보안 패치"]
+    },
+    {
+      "case_id": "KISA-PC-Q11",
+      "question": "지원이 종료된 Windows 운영체제를 계속 사용해도 되나요?",
+      "expected_status": "FOUND",
+      "expected_control_id": "PC-11",
+      "expected_page_start": 579,
+      "expected_page_end": 579,
+      "expected_section_label": "PC-11 지원이 종료되지 않은 Windows OS Build 적용",
+      "expected_evidence_terms": ["지원", "Windows"]
+    },
+    {
+      "case_id": "KISA-PC-Q12",
+      "question": "Windows 자동 로그인을 사용해도 되나요?",
+      "expected_status": "FOUND",
+      "expected_control_id": "PC-12",
+      "expected_page_start": 580,
+      "expected_page_end": 581,
+      "expected_section_label": "PC-12 Windows 자동 로그인 점검",
+      "expected_evidence_terms": ["자동 로그인"]
+    },
+    {
+      "case_id": "KISA-PC-Q13",
+      "question": "바이러스 백신 프로그램의 설치와 업데이트는 어떻게 점검하나요?",
+      "expected_status": "FOUND",
+      "expected_control_id": "PC-13",
+      "expected_page_start": 582,
+      "expected_page_end": 583,
+      "expected_section_label": "PC-13 바이러스 백신 프로그램 설치 및 주기적 업데이트",
+      "expected_evidence_terms": ["백신", "업데이트"]
+    },
+    {
+      "case_id": "KISA-PC-Q14",
+      "question": "백신의 실시간 감시 기능은 켜야 하나요?",
+      "expected_status": "FOUND",
+      "expected_control_id": "PC-14",
+      "expected_page_start": 584,
+      "expected_page_end": 584,
+      "expected_section_label": "PC-14 바이러스 백신 프로그램에서 제공하는 실시간 감시 기능 활성화",
+      "expected_evidence_terms": ["실시간 감시"]
+    },
+    {
+      "case_id": "KISA-PC-Q15",
+      "question": "Windows 방화벽 같은 침입차단 기능은 어떻게 설정하나요?",
+      "expected_status": "FOUND",
+      "expected_control_id": "PC-15",
+      "expected_page_start": 585,
+      "expected_page_end": 586,
+      "expected_section_label": "PC-15 OS에서 제공하는 침입차단 기능 활성화",
+      "expected_evidence_terms": ["방화벽"]
+    },
+    {
+      "case_id": "KISA-PC-Q16",
+      "question": "화면보호기 대기 시간과 다시 시작할 때 암호 보호는 어떻게 설정하나요?",
+      "expected_status": "FOUND",
+      "expected_control_id": "PC-16",
+      "expected_page_start": 587,
+      "expected_page_end": 588,
+      "expected_section_label": "PC-16 화면보호기 대기 시간 설정 및 재시작 시 암호 보호 설정",
+      "expected_evidence_terms": ["화면보호기", "암호"]
+    },
+    {
+      "case_id": "KISA-PC-Q17",
+      "question": "USB 같은 이동식 미디어의 자동실행은 어떻게 막아야 하나요?",
+      "expected_status": "FOUND",
+      "expected_control_id": "PC-17",
+      "expected_page_start": 589,
+      "expected_page_end": 590,
+      "expected_section_label": "PC-17 이동식 미디어 자동실행 방지 및 보안대책 수립",
+      "expected_evidence_terms": ["자동실행"]
+    },
+    {
+      "case_id": "KISA-PC-Q18",
+      "question": "Windows 원격 지원 기능은 어떻게 제한해야 하나요?",
+      "expected_status": "FOUND",
+      "expected_control_id": "PC-18",
+      "expected_page_start": 591,
+      "expected_page_end": 592,
+      "expected_section_label": "PC-18 원격 지원을 금지하도록 정책을 설정",
+      "expected_evidence_terms": ["원격 지원"]
+    },
+    {
+      "case_id": "KISA-PC-N01",
+      "question": "리눅스 SSH root 로그인을 차단하는 서버 기준은 무엇인가요?",
+      "expected_status": "NO_EVIDENCE",
+      "expected_control_id": null,
+      "expected_page_start": null,
+      "expected_page_end": null,
+      "expected_section_label": null,
+      "expected_evidence_terms": []
+    },
+    {
+      "case_id": "KISA-PC-N02",
+      "question": "클라우드 객체 저장소 버킷 공개 차단 기준은 무엇인가요?",
+      "expected_status": "NO_EVIDENCE",
+      "expected_control_id": null,
+      "expected_page_start": null,
+      "expected_page_end": null,
+      "expected_section_label": null,
+      "expected_evidence_terms": []
+    },
+    {
+      "case_id": "KISA-PC-N03",
+      "question": "스마트폰 생체인증 등록 방법을 알려주세요.",
+      "expected_status": "NO_EVIDENCE",
+      "expected_control_id": null,
+      "expected_page_start": null,
+      "expected_page_end": null,
+      "expected_section_label": null,
+      "expected_evidence_terms": []
+    },
+    {
+      "case_id": "KISA-PC-N04",
+      "question": "데이터베이스 감사 로그의 보존 기간은 얼마인가요?",
+      "expected_status": "NO_EVIDENCE",
+      "expected_control_id": null,
+      "expected_page_start": null,
+      "expected_page_end": null,
+      "expected_section_label": null,
+      "expected_evidence_terms": []
+    }
+  ]
+}

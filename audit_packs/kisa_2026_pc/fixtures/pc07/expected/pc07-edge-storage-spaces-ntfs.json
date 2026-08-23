@@ -1,0 +1,27 @@
+{
+  "fixture_version": "1.0.0",
+  "case_id": "pc07-edge-storage-spaces-ntfs",
+  "control_id": "PC-07",
+  "expected_status": "PASS",
+  "expected_applicability": {
+    "status": "APPLICABLE",
+    "reason_code": "WINDOWS_FIXED_VOLUME_SET"
+  },
+  "expected_subject": {
+    "scope": "VOLUME",
+    "subject_key": "pc07:evaluated-volume-set"
+  },
+  "expected_result_code": "ALL_EVALUATED_VOLUMES_NTFS",
+  "candidate_volume_ids": [
+    "vol-os",
+    "vol-space"
+  ],
+  "evaluated_volume_ids": [
+    "vol-os",
+    "vol-space"
+  ],
+  "excluded_volumes": [],
+  "violating_volume_ids": [],
+  "error_codes": [],
+  "rationale_code": "ALL_EVALUATED_VOLUMES_NTFS"
+}

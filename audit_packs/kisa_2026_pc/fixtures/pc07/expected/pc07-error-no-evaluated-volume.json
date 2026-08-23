@@ -1,0 +1,28 @@
+{
+  "fixture_version": "1.0.0",
+  "case_id": "pc07-error-no-evaluated-volume",
+  "control_id": "PC-07",
+  "expected_status": "ERROR",
+  "expected_applicability": {
+    "status": "UNDETERMINED",
+    "reason_code": "NO_EVALUATED_VOLUME"
+  },
+  "expected_subject": {
+    "scope": "VOLUME",
+    "subject_key": "pc07:evaluated-volume-set"
+  },
+  "expected_result_code": "NO_EVALUATED_VOLUME",
+  "candidate_volume_ids": [],
+  "evaluated_volume_ids": [],
+  "excluded_volumes": [
+    {
+      "subject_id": "vol-efi",
+      "reason_code": "EXCLUDED_EFI_SYSTEM_PARTITION"
+    }
+  ],
+  "violating_volume_ids": [],
+  "error_codes": [
+    "EVIDENCE_INCOMPLETE"
+  ],
+  "rationale_code": "NO_EVALUATED_VOLUME"
+}

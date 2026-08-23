@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "id": "33000000-0000-4000-8000-000000000001",
+  "created_at": "2026-07-23T08:10:00Z",
+  "source": "collector",
+  "producer_name": "sec-ai-one-shot-collector",
+  "producer_version": "0.1.0",
+  "correlation_id": "33000000-0000-4000-8000-000000000002",
+  "profile": "OFFLINE-SIGNED",
+  "payload": {},
+  "signer": {
+    "leaf_certificate_der_base64url": "not-a-certificate",
+    "chain_der_base64url": [],
+    "certificate_sha256": "not-a-hash",
+    "required_eku_oid": "wrong"
+  },
+  "signature": {
+    "canonicalization": "NONE",
+    "algorithm": "NONE",
+    "key_id": "bad",
+    "signed_sha256": "bad",
+    "certificate_sha256": "bad",
+    "value": "bad"
+  }
+}

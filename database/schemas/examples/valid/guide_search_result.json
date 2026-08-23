@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0.0",
+  "request_id": "48000000-0000-4000-8000-000000000201",
+  "organization_id": "48000000-0000-4000-8000-000000000001",
+  "guide": {
+    "guide_id": "synthetic-kisa-pc-guide",
+    "version": "test-1"
+  },
+  "scope_id": "pc-pages",
+  "query_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "provider": "POSTGRES_PGVECTOR",
+  "vector_generation_id": "48000000-0000-4000-8000-000000000102",
+  "status": "FOUND",
+  "reason_code": null,
+  "hits": [
+    {
+      "chunk_id": "48000000-0000-4000-8000-000000000211",
+      "guide_id": "synthetic-kisa-pc-guide",
+      "guide_version": "test-1",
+      "scope_id": "pc-pages",
+      "pdf_page_number": 555,
+      "control_id": "PC-01",
+      "document_code": "KISA-2026-07-PC",
+      "section_label": "PC-01 비밀번호의 주기적 변경",
+      "paragraph_ordinal": 2,
+      "paragraph_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "text_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "dense_score": 0.81,
+      "lexical_score": 1.0,
+      "rerank_score": 0.943
+    }
+  ]
+}

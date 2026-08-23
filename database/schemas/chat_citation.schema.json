@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sec-ai.local/v1/chat_citation.schema.json",
+  "title": "Sec_AI Chat Citation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "citation_id",
+    "message_id",
+    "ordinal",
+    "guide_id",
+    "guide_version",
+    "scope_id",
+    "chunk_id",
+    "pdf_page_number",
+    "section_label",
+    "paragraph_ordinal",
+    "paragraph_sha256",
+    "text_start",
+    "text_end"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "citation_id": {"type": "string", "format": "uuid"},
+    "message_id": {"type": "string", "format": "uuid"},
+    "ordinal": {"type": "integer", "minimum": 1, "maximum": 100},
+    "guide_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]{2,127}$"
+    },
+    "guide_version": {"type": "string", "minLength": 1, "maxLength": 64},
+    "scope_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]{2,127}$"
+    },
+    "chunk_id": {"type": "string", "format": "uuid"},
+    "pdf_page_number": {"type": "integer", "minimum": 1},
+    "section_label": {"type": "string", "minLength": 1, "maxLength": 256},
+    "paragraph_ordinal": {"type": "integer", "minimum": 1},
+    "paragraph_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "text_start": {"type": "integer", "minimum": 0},
+    "text_end": {"type": "integer", "minimum": 1}
+  }
+}

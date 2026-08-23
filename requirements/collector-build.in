@@ -1,0 +1,4 @@
+-r collector.in
+
+# Must run on a trusted Windows 11 x64 builder; PyInstaller is not a cross-compiler.
+pyinstaller==6.21.0

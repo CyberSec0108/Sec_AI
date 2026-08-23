@@ -1,0 +1,11 @@
+-r api.in
+-r worker.in
+-r ingestion.in
+
+# Linux CI/development tools. Collector packaging uses collector-build.lock.
+mypy>=1.17,<2
+pip-audit>=2.9,<3
+pytest>=8.4,<10
+pytest-asyncio>=1.1,<2
+pytest-cov>=6.2,<8
+ruff>=0.12,<1

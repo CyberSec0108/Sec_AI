@@ -1,0 +1,38 @@
+{
+  "imp": "IMP-044",
+  "title": "Worker·Queue·Outbox 복구",
+  "delivery": {
+    "broker": "Redis",
+    "execution": "Celery",
+    "guarantee": "AT_LEAST_ONCE",
+    "result_backend_used": false,
+    "task_payload": "IDENTIFIERS_ONLY",
+    "accepted_content": ["json"],
+    "late_acknowledgement": true,
+    "reject_on_worker_lost": true,
+    "prefetch_multiplier": 1
+  },
+  "truth": {
+    "workflow_state": "PostgreSQL",
+    "outbox_state": "PostgreSQL",
+    "attempt_state": "PostgreSQL",
+    "result_state": "PostgreSQL",
+    "redis_is_rebuildable_transport": true
+  },
+  "recovery": {
+    "publish_before_mark_may_duplicate": true,
+    "worker_loss_redelivery_expected": true,
+    "idempotency_key_unique": true,
+    "maximum_logical_results": 1,
+    "official_finding_count_change": 0,
+    "raw_evidence_in_message": false
+  },
+  "isolation": {
+    "queue": "maintenance",
+    "image": "sec-ai-mvp/audit-maintenance-worker:0.1.0",
+    "public_trigger_endpoint": false,
+    "settings_modified": false,
+    "official_finding_created": false,
+    "portable_bundle_created": false
+  }
+}

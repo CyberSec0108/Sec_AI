@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0.0",
+  "policy_id": "sec-ai-imp031-pc01-pc18-coverage",
+  "pack_binding": {
+    "pack_profile": "KISA-2026-PC-MVP",
+    "pack_version": "0.6.0",
+    "pack_content_sha256": "5dff4604365e2eabcd310a1b74b6bde6e48b3c53177383e541865b5f32c292de"
+  },
+  "coverage": {
+    "control_ids": [
+      "PC-01", "PC-02", "PC-03", "PC-04", "PC-05", "PC-06",
+      "PC-07", "PC-08", "PC-09", "PC-10", "PC-11", "PC-12",
+      "PC-13", "PC-14", "PC-15", "PC-16", "PC-17", "PC-18"
+    ],
+    "native_probe_count": 20,
+    "standard_probe_count": 15,
+    "administrator_probe_count": 5,
+    "server_reference_probe_ids": [
+      "reference.windows-patch-baseline",
+      "reference.windows-lifecycle"
+    ]
+  },
+  "adapter_boundary": {
+    "catalog_id": "secai-endpoint-protection-adapters-0.1.0",
+    "catalog_version": "0.1.0",
+    "catalog_content_sha256": "934b1ac7b769321756c1550ef78fdb0dd0df5741e4db663dcf884146187e7758",
+    "approval_status": "DRAFT",
+    "allowed_host_adapters": [
+      "secai.microsoft-defender-antivirus@0.1.0",
+      "secai.windows-firewall@0.1.0"
+    ],
+    "unsupported_product_outcome": "REVIEW",
+    "synthetic_adapter_host_execution_forbidden": true
+  },
+  "execution_boundary": {
+    "auto_elevation": false,
+    "administrator_process_requires_explicit_consent": true,
+    "organization_policy_is_not_collected_as_host_fact": true,
+    "reference_snapshot_is_not_collected_from_host": true,
+    "official_finding_created": false
+  }
+}

@@ -1,0 +1,5 @@
+-r base.in
+
+# Deterministic background workflow and queue.
+celery[redis]>=5.6,<6
+langgraph>=1.2,<2

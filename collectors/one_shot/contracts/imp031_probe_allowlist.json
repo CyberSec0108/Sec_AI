@@ -1,0 +1,210 @@
+{
+  "contract_version": "1.0.0",
+  "collector_name": "sec-ai-one-shot-collector",
+  "collector_version": "0.1.0",
+  "release_channel": "DEV-UNTRUSTED",
+  "execution_mode": "WINDOWS_READ_ONLY",
+  "real_os_access": true,
+  "probes": [
+    {
+      "probe_id": "win.security.password-age",
+      "probe_version": "0.1.0",
+      "control_ids": ["PC-01"],
+      "required_privilege": "STANDARD_USER",
+      "max_timeout_seconds": 30,
+      "max_output_bytes": 65536,
+      "parameters": {}
+    },
+    {
+      "probe_id": "win.security.password-policy",
+      "probe_version": "0.1.0",
+      "control_ids": ["PC-02"],
+      "required_privilege": "ADMINISTRATOR",
+      "max_timeout_seconds": 30,
+      "max_output_bytes": 65536,
+      "parameters": {}
+    },
+    {
+      "probe_id": "win.security.recovery-console",
+      "probe_version": "0.1.0",
+      "control_ids": ["PC-03"],
+      "required_privilege": "STANDARD_USER",
+      "max_timeout_seconds": 30,
+      "max_output_bytes": 65536,
+      "parameters": {}
+    },
+    {
+      "probe_id": "win.network.smb-shares",
+      "probe_version": "0.1.0",
+      "control_ids": ["PC-04"],
+      "required_privilege": "ADMINISTRATOR",
+      "max_timeout_seconds": 30,
+      "max_output_bytes": 65536,
+      "parameters": {}
+    },
+    {
+      "probe_id": "win.services.inventory",
+      "probe_version": "0.1.0",
+      "control_ids": ["PC-05"],
+      "required_privilege": "STANDARD_USER",
+      "max_timeout_seconds": 30,
+      "max_output_bytes": 65536,
+      "parameters": {}
+    },
+    {
+      "probe_id": "win.software.messengers",
+      "probe_version": "0.1.0",
+      "control_ids": ["PC-06"],
+      "required_privilege": "ADMINISTRATOR",
+      "max_timeout_seconds": 30,
+      "max_output_bytes": 65536,
+      "parameters": {
+        "catalog_required": true
+      }
+    },
+    {
+      "probe_id": "win.storage.disks",
+      "probe_version": "0.1.0",
+      "control_ids": ["PC-07"],
+      "required_privilege": "STANDARD_USER",
+      "max_timeout_seconds": 30,
+      "max_output_bytes": 65536,
+      "parameters": {}
+    },
+    {
+      "probe_id": "win.storage.partitions",
+      "probe_version": "0.1.0",
+      "control_ids": ["PC-07"],
+      "required_privilege": "STANDARD_USER",
+      "max_timeout_seconds": 30,
+      "max_output_bytes": 65536,
+      "parameters": {}
+    },
+    {
+      "probe_id": "win.storage.volumes",
+      "probe_version": "0.1.0",
+      "control_ids": ["PC-07"],
+      "required_privilege": "STANDARD_USER",
+      "max_timeout_seconds": 30,
+      "max_output_bytes": 65536,
+      "parameters": {
+        "include_fixed": true
+      }
+    },
+    {
+      "probe_id": "win.boot.entries",
+      "probe_version": "0.1.0",
+      "control_ids": ["PC-08"],
+      "required_privilege": "ADMINISTRATOR",
+      "max_timeout_seconds": 30,
+      "max_output_bytes": 65536,
+      "parameters": {}
+    },
+    {
+      "probe_id": "win.browser.wininet-cache-policy",
+      "probe_version": "0.1.0",
+      "control_ids": ["PC-09"],
+      "required_privilege": "STANDARD_USER",
+      "max_timeout_seconds": 30,
+      "max_output_bytes": 65536,
+      "parameters": {}
+    },
+    {
+      "probe_id": "win.update.compliance",
+      "probe_version": "0.1.0",
+      "control_ids": ["PC-10"],
+      "required_privilege": "ADMINISTRATOR",
+      "max_timeout_seconds": 30,
+      "max_output_bytes": 65536,
+      "parameters": {
+        "get_hotfix_only_forbidden": true
+      }
+    },
+    {
+      "probe_id": "win.os.lifecycle",
+      "probe_version": "0.1.0",
+      "control_ids": ["PC-11"],
+      "required_privilege": "STANDARD_USER",
+      "max_timeout_seconds": 30,
+      "max_output_bytes": 65536,
+      "parameters": {}
+    },
+    {
+      "probe_id": "win.autologon.config",
+      "probe_version": "0.1.0",
+      "control_ids": ["PC-12"],
+      "required_privilege": "STANDARD_USER",
+      "max_timeout_seconds": 30,
+      "max_output_bytes": 65536,
+      "parameters": {
+        "password_content_forbidden": true
+      }
+    },
+    {
+      "probe_id": "win.antivirus.update-status",
+      "probe_version": "0.1.0",
+      "control_ids": ["PC-13"],
+      "required_privilege": "STANDARD_USER",
+      "max_timeout_seconds": 30,
+      "max_output_bytes": 65536,
+      "parameters": {
+        "adapter_id": "secai.microsoft-defender-antivirus",
+        "adapter_version": "0.1.0"
+      }
+    },
+    {
+      "probe_id": "win.antivirus.realtime-status",
+      "probe_version": "0.1.0",
+      "control_ids": ["PC-14"],
+      "required_privilege": "STANDARD_USER",
+      "max_timeout_seconds": 30,
+      "max_output_bytes": 65536,
+      "parameters": {
+        "adapter_id": "secai.microsoft-defender-antivirus",
+        "adapter_version": "0.1.0"
+      }
+    },
+    {
+      "probe_id": "win.firewall.effective-profiles",
+      "probe_version": "0.1.0",
+      "control_ids": ["PC-15"],
+      "required_privilege": "STANDARD_USER",
+      "max_timeout_seconds": 30,
+      "max_output_bytes": 65536,
+      "parameters": {
+        "adapter_id": "secai.windows-firewall",
+        "adapter_version": "0.1.0",
+        "policy_store": "ACTIVE_STORE"
+      }
+    },
+    {
+      "probe_id": "win.user.screensaver-policy",
+      "probe_version": "0.1.0",
+      "control_ids": ["PC-16"],
+      "required_privilege": "STANDARD_USER",
+      "max_timeout_seconds": 30,
+      "max_output_bytes": 65536,
+      "parameters": {
+        "current_user_only": true
+      }
+    },
+    {
+      "probe_id": "win.media.autoplay-policy",
+      "probe_version": "0.1.0",
+      "control_ids": ["PC-17"],
+      "required_privilege": "STANDARD_USER",
+      "max_timeout_seconds": 30,
+      "max_output_bytes": 65536,
+      "parameters": {}
+    },
+    {
+      "probe_id": "win.remote-assistance.policy",
+      "probe_version": "0.1.0",
+      "control_ids": ["PC-18"],
+      "required_privilege": "STANDARD_USER",
+      "max_timeout_seconds": 30,
+      "max_output_bytes": 65536,
+      "parameters": {}
+    }
+  ]
+}

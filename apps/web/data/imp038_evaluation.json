@@ -1,0 +1,221 @@
+{
+  "acceptance_status": "PASS",
+  "comparison": {
+    "current_host_result_count": 18,
+    "note": "합성 사례 분포와 현재 PC 1회 결과는 직접 합격률로 비교하지 않습니다.",
+    "same_input_type": false,
+    "synthetic_fixture_case_count": 92,
+    "synthetic_fixture_status_counts": {
+      "ERROR": 21,
+      "FAIL": 26,
+      "N/A": 1,
+      "PASS": 28,
+      "REVIEW": 16
+    }
+  },
+  "development_draft_only": true,
+  "environment": {
+    "clean_vm_verified": false,
+    "kind": "CURRENT_WINDOWS_DEVELOPMENT_HOST"
+  },
+  "imp": "IMP-038",
+  "next_imp": "IMP-039",
+  "observed_at_utc": "2026-07-23T12:14:42.533000Z",
+  "official_finding_created": false,
+  "pipeline": {
+    "audit_pack_status": "DRAFT",
+    "audit_pack_version": "0.6.0",
+    "draft_finding_count": 18,
+    "normalized_evidence_count": 20,
+    "package_validated": true,
+    "rule_decision_count": 18
+  },
+  "portable_bundle_created": false,
+  "replay": {
+    "create_count": 18,
+    "duplicate_finding_count": 0,
+    "iterations_per_finding": 100,
+    "return_existing_count": 1782,
+    "unique_output_set_sha256": "1969a1078091385a550bc70dd4b0ef2fc503a805f268f7c91d74276a3f99ae7b"
+  },
+  "results": [
+    {
+      "actual": "42일마다 변경",
+      "control_id": "PC-01",
+      "expected": "1~90일 이내에 변경",
+      "finding_id": "f8510c1e-ef28-5083-a6b1-59fe0663d6b3",
+      "result_code": "PASSWORD_CHANGE_PERIOD_WITHIN_90_DAYS",
+      "status": "PASS",
+      "title": "비밀번호의 주기적 변경"
+    },
+    {
+      "actual": "설정 정보를 가져오지 못함",
+      "control_id": "PC-02",
+      "expected": "조직의 비밀번호 기준 충족",
+      "finding_id": "3cc7e3a9-2e7e-5992-80a6-e6d4c7a0c3d0",
+      "result_code": "PC02_POLICY_COLLECTION_FAILED",
+      "status": "ERROR",
+      "title": "비밀번호 관리정책 설정"
+    },
+    {
+      "actual": "자동 관리자 로그인 별도 설정 없음",
+      "control_id": "PC-03",
+      "expected": "사용 안 함 또는 별도 설정 없음",
+      "finding_id": "1d949a9b-071a-58af-895c-07862a7b2d3f",
+      "result_code": "RECOVERY_CONSOLE_AUTO_LOGON_BLOCKED",
+      "status": "PASS",
+      "title": "복구 콘솔에서 자동 로그온을 금지하도록 설정"
+    },
+    {
+      "actual": "점검 정보를 가져오지 못함",
+      "control_id": "PC-04",
+      "expected": "필수 정보를 오류 없이 수집",
+      "finding_id": "400c503b-a09b-5c8e-a0e5-2eb2bd2dd779",
+      "result_code": "PC04_COLLECTION_FAILED",
+      "status": "ERROR",
+      "title": "공유 폴더 및 공유 권한 설정"
+    },
+    {
+      "actual": "불필요 지정 0개 중 실행 0개, 자동 시작 0개",
+      "control_id": "PC-05",
+      "expected": "조직에서 불필요 서비스 목록 등록",
+      "finding_id": "c2c49a0a-7a73-502b-8538-b1b129b55c48",
+      "result_code": "ORGANIZATION_SERVICE_STANDARD_REQUIRED",
+      "status": "REVIEW",
+      "title": "불필요한 서비스 제거"
+    },
+    {
+      "actual": "점검 정보를 가져오지 못함",
+      "control_id": "PC-06",
+      "expected": "필수 정보를 오류 없이 수집",
+      "finding_id": "0e1b2781-b9a1-570f-bed9-c2d552a9d95b",
+      "result_code": "PC06_COLLECTION_FAILED",
+      "status": "ERROR",
+      "title": "불필요한 소프트웨어 제거"
+    },
+    {
+      "actual": "저장 장치 파일 형식을 완전하게 판정하지 못했습니다",
+      "control_id": "PC-07",
+      "expected": "운영체제와 고정 저장 장치의 파일 시스템은 NTFS",
+      "finding_id": "d4fa1018-39a6-552c-ab40-8b32cafd7471",
+      "result_code": "VOLUME_CLASSIFICATION_INCOMPLETE",
+      "status": "ERROR",
+      "title": "파일 시스템이 NTFS 포맷으로 설정"
+    },
+    {
+      "actual": "점검 정보를 가져오지 못함",
+      "control_id": "PC-08",
+      "expected": "필수 정보를 오류 없이 수집",
+      "finding_id": "ab04b644-b939-5453-8169-8a185845a31a",
+      "result_code": "PC08_COLLECTION_FAILED",
+      "status": "ERROR",
+      "title": "하나의 시스템에 불필요한 여러 운영체제 설치 제한"
+    },
+    {
+      "actual": "현재 사용자 설정은 확인했으나 조직의 전체 사용자 범위를 확인하지 못함",
+      "control_id": "PC-09",
+      "expected": "IE·IE 모드·WinINet을 사용하는 전체 사용자 설정 확인",
+      "finding_id": "7b5c6a4d-5203-5698-895c-0a26aff21f06",
+      "result_code": "WININET_USER_COVERAGE_REVIEW_REQUIRED",
+      "status": "REVIEW",
+      "title": "불필요한 IE 보안 영역 설정"
+    },
+    {
+      "actual": "점검 정보를 가져오지 못함",
+      "control_id": "PC-10",
+      "expected": "필수 정보를 오류 없이 수집",
+      "finding_id": "d8668917-ce17-54ba-87c9-9ade5927251d",
+      "result_code": "PC10_COLLECTION_FAILED",
+      "status": "ERROR",
+      "title": "주기적 보안 패치 및 벤더 권고사항 적용"
+    },
+    {
+      "actual": "Windows 11 25H2 Core, Build 26200.8894 (x86_64)",
+      "control_id": "PC-11",
+      "expected": "Edition과 Version이 일치하는 Microsoft 수명주기 기준",
+      "finding_id": "a9ddde0e-752b-58df-bc9f-7834843146ff",
+      "result_code": "LIFECYCLE_RECORD_NOT_FOUND",
+      "status": "REVIEW",
+      "title": "지원이 종료되지 않은 Windows OS Build 적용"
+    },
+    {
+      "actual": "AutoAdminLogon=MISSING, 관련 구성 없음, 암호 값 존재 여부 없음",
+      "control_id": "PC-12",
+      "expected": "AutoAdminLogon 값이 없거나 0",
+      "finding_id": "bca53fb2-40de-5dfa-8fee-a1a5244f11f9",
+      "result_code": "WINDOWS_AUTOMATIC_LOGON_DISABLED",
+      "status": "PASS",
+      "title": "Windows 자동 로그인 점검"
+    },
+    {
+      "actual": "점검 정보를 가져오지 못함",
+      "control_id": "PC-13",
+      "expected": "필수 정보를 오류 없이 수집",
+      "finding_id": "ca1f555a-c954-5efe-b1d3-440223a58f7c",
+      "result_code": "PC13_COLLECTION_FAILED",
+      "status": "ERROR",
+      "title": "바이러스 백신 프로그램 설치 및 주기적 업데이트"
+    },
+    {
+      "actual": "점검 정보를 가져오지 못함",
+      "control_id": "PC-14",
+      "expected": "필수 정보를 오류 없이 수집",
+      "finding_id": "cad98d6c-17ac-54c4-b74b-bd5606295859",
+      "result_code": "PC14_COLLECTION_FAILED",
+      "status": "ERROR",
+      "title": "바이러스 백신 프로그램에서 제공하는 실시간 감시 기능 활성화"
+    },
+    {
+      "actual": "점검 정보를 가져오지 못함",
+      "control_id": "PC-15",
+      "expected": "필수 정보를 오류 없이 수집",
+      "finding_id": "9a8dc458-94ea-5e7a-b83f-11d2fa3f530a",
+      "result_code": "PC15_COLLECTION_FAILED",
+      "status": "ERROR",
+      "title": "OS에서 제공하는 침입차단 기능 활성화"
+    },
+    {
+      "actual": "화면보호기 대기 시간을 확인하지 못함",
+      "control_id": "PC-16",
+      "expected": "평가 사용자별 화면보호기 사용, 대기 1~600초, 재개 시 암호 보호",
+      "finding_id": "cf023e6b-8dab-56f2-b369-07231f896e19",
+      "result_code": "SCREEN_SAVER_POLICY_INCOMPLETE",
+      "status": "ERROR",
+      "title": "화면보호기 대기 시간 설정 및 재시작 시 암호 보호 설정"
+    },
+    {
+      "actual": "자동실행 차단 사용 안 함, 범위 PARTIAL_OR_UNDEFINED, 기본 동작 UNDEFINED_OR_EXECUTE, 비볼륨 장치 허용",
+      "control_id": "PC-17",
+      "expected": "모든 드라이브 자동실행 차단과 승인된 이동식 미디어 관리 절차",
+      "finding_id": "42fe7724-33f5-53c1-8138-44bb7d436707",
+      "result_code": "REMOVABLE_MEDIA_AUTORUN_CONTROL_VIOLATION",
+      "status": "FAIL",
+      "title": "이동식 미디어 자동실행 방지 및 보안대책 수립"
+    },
+    {
+      "actual": "요청형 원격지원 MISSING, 제공형 원격지원 MISSING",
+      "control_id": "PC-18",
+      "expected": "요청형·제공형 Windows Remote Assistance 모두 명시적 사용 안 함(0)",
+      "finding_id": "2973ae31-4b56-5889-98bf-6e11af1cb3b9",
+      "result_code": "REMOTE_ASSISTANCE_POLICY_NOT_EXPLICIT",
+      "status": "REVIEW",
+      "title": "원격 지원을 금지하도록 정책을 설정"
+    }
+  ],
+  "safety": {
+    "raw_values_persisted": false,
+    "read_only": true,
+    "settings_diff_count": 0,
+    "sid_disclosed": false,
+    "volume_identifiers_disclosed": false
+  },
+  "summary": {
+    "error": 10,
+    "fail": 1,
+    "false_pass_count": 0,
+    "not_applicable": 0,
+    "pass": 3,
+    "review": 4,
+    "total": 18
+  }
+}

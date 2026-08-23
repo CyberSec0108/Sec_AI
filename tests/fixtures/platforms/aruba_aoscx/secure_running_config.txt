@@ -1,0 +1,6 @@
+user admin group administrators password ciphertext REDACTED
+ssh server vrf default
+snmpv3 user sec auth sha auth-pass ciphertext REDACTED
+logging 192.0.2.10
+ntp server 192.0.2.20
+session-timeout 10

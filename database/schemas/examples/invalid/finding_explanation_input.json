@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0.0",
+  "control_id": "PC-02",
+  "title": "비밀번호 관리정책 설정",
+  "importance": "HIGH",
+  "what_was_checked": "비밀번호 관리정책을 확인했습니다.",
+  "observed_summary": "설정을 확인하지 못했습니다.",
+  "normalized_facts": {"actual_summary": "설정을 확인하지 못했습니다."},
+  "collection_methods": [],
+  "execution_tools": [],
+  "source_locations": [],
+  "rule_status": "ERROR",
+  "status_authority": "AI_MODEL",
+  "result_code": "PASSWORD_COMPLEXITY_NOT_OBSERVED",
+  "result_code_visibility": "USER_VISIBLE",
+  "expected_summary": "조직의 비밀번호 관리 기준 충족",
+  "judgement_explanation": "확인 자료가 없어 안전 여부를 확정하지 않았습니다.",
+  "collection_limitations": ["관리자 추가 확인이 필요합니다."],
+  "importance_source": "상",
+  "kisa_citations": [],
+  "allowed_actions": ["관리자에게 확인을 요청하세요."],
+  "assessment_kind": "DEVELOPMENT_DRAFT",
+  "source_rule_result_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+  "official_finding_write_allowed": true,
+  "safety": {
+    "raw_evidence_included": true,
+    "sensitive_identifiers_included": true,
+    "rule_status_unchanged": false,
+    "internal_reason_code_user_visible": true
+  },
+  "explanation_input_sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+}

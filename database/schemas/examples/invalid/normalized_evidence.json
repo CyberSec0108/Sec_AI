@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0.0",
+  "id": "30000000-0000-4000-8000-000000000001",
+  "created_at": "2026-07-21T06:12:00Z",
+  "source": "normalizer",
+  "producer_name": "sec-ai-normalizer",
+  "producer_version": "1.0.0",
+  "correlation_id": "10000000-0000-4000-8000-000000000002",
+  "job_id": "10000000-0000-4000-8000-000000000003",
+  "asset_id": "10000000-0000-4000-8000-000000000004",
+  "package_id": "20000000-0000-4000-8000-000000000001",
+  "source_evidence_id": "20000000-0000-4000-8000-000000000003",
+  "control_id": "PC-07",
+  "guide_version": "2026",
+  "collector_version": "1.0.0",
+  "probe_id": "win.fs.volumes",
+  "probe_version": "1.0.0",
+  "subject": {"scope": "VOLUME", "subject_key": "system-volume"},
+  "collected_at": "2026-07-21T06:09:00Z",
+  "normalized_at": "2026-07-21T06:12:00Z",
+  "source_locator": {"type": "WINDOWS_API", "provider": "GetVolumeInformationW"},
+  "collection_status": "COLLECTED",
+  "error_code": "PERMISSION_DENIED",
+  "redaction": {"applied": false},
+  "evidence_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+}
+

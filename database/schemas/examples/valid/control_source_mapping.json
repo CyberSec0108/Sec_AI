@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0.0",
+  "mapping_id": "example-guide-pc",
+  "version": "0.1.0",
+  "status": "DRAFT",
+  "guide": {
+    "guide_id": "example-security-guide",
+    "version": "1",
+    "source_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+    "required_catalog_status": "APPROVED"
+  },
+  "audit_pack": {
+    "pack_profile": "EXAMPLE-PC",
+    "version": "0.1.0",
+    "content_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+    "current_status": "DRAFT"
+  },
+  "runtime_activation_allowed": false,
+  "mappings": [
+    {
+      "control_id": "PC-01",
+      "control_title": "Example control",
+      "source_document_code": "EXAMPLE-GUIDE-1",
+      "page_start": 3,
+      "page_end": 3,
+      "section_label": "PC-01 Example control",
+      "mapping_status": "DRAFT"
+    }
+  ]
+}

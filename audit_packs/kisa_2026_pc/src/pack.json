@@ -1,0 +1,127 @@
+{
+  "schema_version": "1.0.0",
+  "id": "51000000-0000-4000-8000-000000000007",
+  "created_at": "2026-07-22T07:00:00Z",
+  "source": "audit-pack-builder",
+  "producer_name": "sec-ai-audit-pack-builder",
+  "producer_version": "0.1.0",
+  "correlation_id": "51000000-0000-4000-8000-000000000010",
+  "pack_profile": "KISA-2026-PC-MVP",
+  "name": "KISA 2026 PC-07 Development Pack",
+  "version": "0.1.0",
+  "guide": {
+    "publisher": "KISA",
+    "version": "2026",
+    "section": "07.PC",
+    "document_sha256": "44fe393981b244147be6af7423d99dc15633c089fad0bcb296cbe2371dde812d"
+  },
+  "target": {
+    "os_family": "WINDOWS",
+    "versions": ["11"],
+    "architectures": ["x86_64"]
+  },
+  "effective_from": "2026-07-22T00:00:00Z",
+  "content_sha256": "0849b4b117b1df82c597e5b6737f45664536958a12d996c59879a6a3954618bb",
+  "controls": [
+    {
+      "control_id": "PC-07",
+      "title": "파일 시스템이 NTFS 포맷으로 설정",
+      "category": "SERVICE_MANAGEMENT",
+      "severity": "MEDIUM",
+      "automation_type": "AUTO",
+      "required_privileges": ["STANDARD_USER"],
+      "applicability_rule": {
+        "rule_id": "pc07.applicability",
+        "rule_version": "0.1.0",
+        "parameters": {
+          "include_volume_classes": [
+            "WINDOWS_OS_VOLUME",
+            "LOCAL_FIXED_DATA_VOLUME",
+            "MOUNTED_FOLDER_VOLUME",
+            "ATTACHED_VHD_VOLUME",
+            "STORAGE_SPACES_LOGICAL_VOLUME",
+            "BITLOCKER_VOLUME"
+          ],
+          "exclude_volume_classes": [
+            "EFI_SYSTEM_PARTITION",
+            "MICROSOFT_RESERVED_PARTITION",
+            "WINDOWS_RECOVERY_PARTITION",
+            "APPROVED_OEM_UTILITY_PARTITION",
+            "OPTICAL_VOLUME",
+            "REMOVABLE_VOLUME",
+            "NETWORK_VOLUME",
+            "DETACHED_DISK_IMAGE",
+            "VOLATILE_RAM_DISK"
+          ],
+          "require_trusted_exclusion_identity": true,
+          "drive_letter_absence_is_exclusion": false,
+          "usb_bus_alone_is_exclusion": false,
+          "empty_evaluated_set_status": "ERROR",
+          "classification_unknown_status": "ERROR"
+        }
+      },
+      "evidence_requirements": [
+        {
+          "requirement_id": "pc07.volume_inventory",
+          "probe_ids": ["win.storage.volumes"],
+          "required": true,
+          "minimum_records": 1,
+          "accepted_collection_status": ["COLLECTED"],
+          "organization_policy_required": false,
+          "manual_attestation_allowed": false
+        },
+        {
+          "requirement_id": "pc07.partition_identity",
+          "probe_ids": ["win.storage.partitions"],
+          "required": true,
+          "minimum_records": 1,
+          "accepted_collection_status": ["COLLECTED"],
+          "organization_policy_required": false,
+          "manual_attestation_allowed": false
+        },
+        {
+          "requirement_id": "pc07.disk_identity",
+          "probe_ids": ["win.storage.disks"],
+          "required": true,
+          "minimum_records": 1,
+          "accepted_collection_status": ["COLLECTED"],
+          "organization_policy_required": false,
+          "manual_attestation_allowed": false
+        }
+      ],
+      "evaluation_rule": {
+        "rule_id": "pc07.ntfs",
+        "rule_version": "0.1.0",
+        "parameters": {
+          "required_filesystem": "NTFS",
+          "comparison_profile": "TRIM_CASE_INSENSITIVE_EXACT",
+          "non_ntfs_status": "FAIL",
+          "refs_status": "FAIL",
+          "raw_status": "FAIL",
+          "filesystem_unknown_status": "ERROR",
+          "bitlocker_unknown_status": "ERROR",
+          "aggregate_subject_scope": "VOLUME",
+          "aggregate_subject_key": "pc07:evaluated-volume-set",
+          "all_match_result_code": "ALL_EVALUATED_VOLUMES_NTFS",
+          "non_match_result_code": "NON_NTFS_VOLUME_FOUND"
+        }
+      },
+      "citations": [
+        {
+          "document": "KISA-2026-07-PC",
+          "page_start": 571,
+          "page_end": 572,
+          "section_label": "PC-07 파일 시스템이 NTFS 포맷으로 설정"
+        }
+      ],
+      "fixture_refs": {
+        "pass": "pc07-pass",
+        "fail": "pc07-fail-fat32",
+        "error": "pc07-error-collection"
+      }
+    }
+  ],
+  "approval": {
+    "status": "DRAFT"
+  }
+}

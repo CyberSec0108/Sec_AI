@@ -1,0 +1,199 @@
+schema_version: 2
+project: Sec_AI
+status: approved-baseline-technical-gates-pending
+as_of: "2026-07-26"
+target_platform: linux/amd64
+policy:
+  deployment_digest: platform_digest
+  index_digest_use: provenance-only
+  floating_tags_allowed: false
+  mutable_tag_only_allowed: false
+
+images:
+  - id: python-base
+    services: [audit-api, audit-worker, audit-scheduler, dependency-builder]
+    status: LOCKED
+    registry: docker.io
+    repository: library/python
+    tag: 3.14.6-slim-bookworm
+    index_digest: sha256:86f975aca15cf04a40b399eebede9aea7c82eae084d1f1a0a6ef6bcaae871a30
+    platform_digest: sha256:f70215e5dbe2a47dee6d23f9c6d358bf3c148f59cce2fd165b61118e9d80f2bb
+    immutable_ref: docker.io/library/python:3.14.6-slim-bookworm@sha256:f70215e5dbe2a47dee6d23f9c6d358bf3c148f59cce2fd165b61118e9d80f2bb
+    upstream_revision: 7914d06b7ddb34b99975318016ab5b9c18264015
+    source: https://github.com/docker-library/python
+
+  - id: python-model-gateway-base
+    services: [model-gateway]
+    status: LOCKED-SECURITY-PATCHED
+    registry: docker.io
+    repository: library/python
+    tag: 3.14.6-alpine3.23
+    index_digest: sha256:b165067c5afc37fa5608a3c05609cc3d51aafd808a30fbfd822ee594fef55ad4
+    platform_digest: sha256:e10f6e0f219a81c65c518e339e7e9bf2f8c63b6ba1bf112e1bb2d1e395ed0c17
+    immutable_ref: docker.io/library/python:3.14.6-alpine3.23@sha256:e10f6e0f219a81c65c518e339e7e9bf2f8c63b6ba1bf112e1bb2d1e395ed0c17
+    upstream_revision: 7914d06b7ddb34b99975318016ab5b9c18264015
+    source: https://github.com/docker-library/python
+    openssl_version: 3.5.7
+    cpython_security_backport: 07efb08123ba9367a7107325adb9d5626dca1ca9
+    cpython_html_parser_sha256: 5c5ed245889135564e75dfed9a47aeb6b4d3e5a2e9614d918a986767e3747539
+
+  - id: vllm-gpu-base
+    services: [vllm]
+    status: LOCKED-PREPARED-NOT-ACTIVE
+    registry: docker.io
+    repository: vllm/vllm-openai
+    tag: v0.23.0
+    index_digest: sha256:6d8429e38e3747723ca07ee1b17972e09bb9c51c4032b266f24fb1cc3b22ed8f
+    platform_digest: sha256:3a1e7f5904e1a1192a02aa0086ceaffc33985d7044c7bb25b3a43d61bdbe3ac0
+    immutable_ref: docker.io/vllm/vllm-openai:v0.23.0@sha256:3a1e7f5904e1a1192a02aa0086ceaffc33985d7044c7bb25b3a43d61bdbe3ac0
+    source: https://github.com/vllm-project/vllm
+    license: Apache-2.0
+    accelerator: NVIDIA-GPU
+    usage: image-and-stopped-container-preparation-only
+    restrictions: [local-vllm-profile-only, no-host-port, no-model-weights, no-start-without-runtime-gate]
+
+  - id: gateway
+    services: [gateway]
+    status: LOCKED
+    registry: docker.io
+    repository: library/nginx
+    tag: 1.30.4-alpine
+    index_digest: sha256:97d490c12ba55b4946b01546d1c3ed324e8d41ab1c9fcb2a616aa470620e5b46
+    platform_digest: sha256:8a4f4b94275ff59d809477799cbbaf1a7ab65ed1871403d05e31fd66bdb8db82
+    immutable_ref: docker.io/library/nginx:1.30.4-alpine@sha256:8a4f4b94275ff59d809477799cbbaf1a7ab65ed1871403d05e31fd66bdb8db82
+    upstream_revision: ccdab6c99ae2e2fc53a144dc68d6b8f44163adf2
+    source: https://github.com/nginx/docker-nginx
+
+  - id: postgres
+    services: [postgres]
+    status: LOCKED
+    registry: docker.io
+    repository: pgvector/pgvector
+    tag: 0.8.2-pg18-bookworm
+    index_digest: sha256:42e7f6b4e1eceb02ff14e3e6bc6108bbe259abbe83879dc1845d0da1ddeb555d
+    platform_digest: sha256:2ac2c62ac8f030b414b19ea633a6d1d4d37c03abe52ce91887a4e5b4fbb5c73c
+    immutable_ref: docker.io/pgvector/pgvector:0.8.2-pg18-bookworm@sha256:2ac2c62ac8f030b414b19ea633a6d1d4d37c03abe52ce91887a4e5b4fbb5c73c
+    postgres_version: 18.4
+    pgvector_version: 0.8.2
+    source: https://github.com/pgvector/pgvector
+    license: PostgreSQL License
+    usage: PostgreSQL business truth plus isolated vector_store projection
+    restrictions: [no-raw-vector-api, no-vector-log, no-unapproved-guide-ingest]
+
+  - id: pgadmin
+    services: [pgadmin]
+    status: LOCKED-DEV-ADMIN-ONLY-SECURITY-PATCHED
+    registry: docker.io
+    repository: dpage/pgadmin4
+    tag: "9.16"
+    index_digest: sha256:40fa840c5bb7c8463957f1255b01283732c2d8c9396a956d180f8e6c296753b3
+    platform_digest: sha256:66a300a7ecdcc1f325af0c430315329bca46cd4a7067227d6899802238167c6e
+    immutable_ref: docker.io/dpage/pgadmin4:9.16@sha256:66a300a7ecdcc1f325af0c430315329bca46cd4a7067227d6899802238167c6e
+    source: https://github.com/pgadmin-org/pgadmin4
+    usage: local-loopback development database administration
+    restrictions: [admin-profile-only, loopback-only, no-postgres-host-port, no-superuser, cpython-cve-2026-15308-backport]
+
+  - id: redis
+    services: [redis]
+    status: LOCKED-RSALV2-INTERNAL
+    registry: docker.io
+    repository: library/redis
+    tag: 8.8.0
+    index_digest: sha256:234c902a2db49461a129e2d4aeff85b28cf20187ed274a67f6e50995fa713c7b
+    platform_digest: sha256:5d2c689b4b55fc3fab4b0cc8aaa950f85b508c76c1e0f35a90d8f411d55a8b2b
+    immutable_ref: docker.io/library/redis:8.8.0@sha256:5d2c689b4b55fc3fab4b0cc8aaa950f85b508c76c1e0f35a90d8f411d55a8b2b
+    upstream_revision: 40511fc518c300f3b48059daf43c7ac2ef97550b
+    source: https://github.com/redis/docker-library-redis
+    license: RSALv2
+    usage: internal-only-celery-broker
+    restrictions: [no-sale, no-delivery, no-redis-managed-service, no-redis-source-modification, preserve-notices]
+    gate: Pass SBOM, vulnerability, ACL, network isolation, persistence and Outbox recovery tests before Pilot use. Reapprove the license if the usage or distribution model changes.
+
+  - id: clamav
+    services: [clamav]
+    status: LOCKED
+    registry: docker.io
+    repository: clamav/clamav
+    tag: 1.4.5
+    index_digest: sha256:e7ead98e7e07231b151bce988e0cfb0a3b46e6e7046d9dd44fd838c0df724a03
+    platform_digest: sha256:48eaad9644475c2d466ce6d4ba2da892dbd4dcd47713201d31b665364655cc3c
+    immutable_ref: docker.io/clamav/clamav:1.4.5@sha256:48eaad9644475c2d466ce6d4ba2da892dbd4dcd47713201d31b665364655cc3c
+    source: https://github.com/Cisco-Talos/clamav-docker
+
+  - id: evidence-object-store
+    services: [evidence-minio]
+    status: LOCKED-MVP-FREE
+    product: MinIO AIStor Free
+    deployment_mode: standalone-single-node
+    registry: quay.io
+    repository: minio/aistor/minio
+    tag: RELEASE.2026-06-06T02-44-06Z
+    index_digest: sha256:a14849f4e9f540c00254d371ec3503e996cc74c41ac9c6397dc588a9d868f7af
+    platform_digest: sha256:5dbb753c0dbe6a987dd30ce564f66c0042e291e464d10e792443451d4fec2120
+    immutable_ref: quay.io/minio/aistor/minio:RELEASE.2026-06-06T02-44-06Z@sha256:5dbb753c0dbe6a987dd30ce564f66c0042e291e464d10e792443451d4fec2120
+    verified_latest_stable_as_of: "2026-07-21"
+    minimum_security_release: RELEASE.2026-04-11T03-20-12Z
+    license: MinIO AIStor Free Tier License Agreement
+    usage: internal-only-direct-use
+    restrictions: [standalone-single-node, no-sale, no-delivery, no-redistribution, no-rental, no-software-modification]
+    support: no-SLA-no-SLO-no-vendor-support
+    prohibited_refs:
+      - minio/minio:latest
+      - quay.io/minio/minio:latest
+      - quay.io/minio/aistor/minio:latest
+    source: https://dl.min.io/api/releases/aistor/latest
+    gate: License and internal single-node risk accepted. Before real evidence, pass SBOM, vulnerability, provenance, startup, Object Lock, one-hour backup and eight-hour restore checks. Reapprove Enterprise or organizational S3 for HA, replication or stricter recovery objectives.
+
+project_built_images:
+  - id: audit-core
+    services: [audit-api, audit-worker, audit-scheduler]
+    status: BUILT-DEV-TECHNICAL-GATES-PENDING
+    image: sec-ai-mvp/audit-api:0.1.0
+    image_digest: sha256:e43801689f9b21de5e4b3dad84494ffea476bb68bafe9f78e8c7d0f06c524c5b
+    base_image_id: python-base
+    gate: PRODUCT-AI-09 tests, schema, lint, type, rebuild and health passed. Generate the final audit-core SBOM, vulnerability report, signature and provenance before Pilot locking.
+  - id: model-gateway
+    services: [model-gateway]
+    status: LOCKED-DEV-CONNECTOR
+    image: sec-ai-mvp/model-gateway:0.1.0
+    image_digest: sha256:b19e4a468ce18e050796dc793498b54ad69d69be1d4f01a2f6127427d379abbc
+    base_image_id: python-model-gateway-base
+    protocol: OPENAI_CHAT_COMPLETIONS
+    current_provider: OPENROUTER
+    current_model: openai/gpt-oss-120b
+    host_port: none
+    restrictions: [runtime-secret-only, no-user-selected-model, no-official-finding-write, no-audit-pack-write, no-automatic-model-fallback]
+    sbom_sha256: e35f622d1e17d2d01856680468bd775ced34388e56de4435fbd54ae2a1e3e7c4
+    vulnerability_report_sha256: 82cb2bc5a1410d2203ebb3308582ebfbee342a22535ca073688af40c3f66402c
+    vulnerability_gate: PASS-AFTER-TRIAGE
+    gate: Rebuild and re-scan when source, dependency lock, base image, CPython security backport, provider contract or runtime configuration changes.
+  - id: vllm-generation
+    services: [vllm]
+    status: PREPARED-NOT-ACTIVE
+    image: sec-ai-mvp/vllm-openai-gpu:0.23.0
+    image_digest: sha256:48f9f370497eee3748a693c01030c82dbcee87a0db52f5e7901c9744787f4a00
+    base_image_id: vllm-gpu-base
+    upstream_revision: 91df0fad4dc98a67c7659d9dbd915245d5c43d96
+    sbom_sha256: 0b6048abfbdc8c053437ab34d2864995a9c88d482c625211dbf53c52828bf247
+    vulnerability_report_sha256: d78c3126769d2f3a9d9594899b8339dcfbd22ac8f5f282400c5ee95e31e63b06
+    vulnerability_summary: {critical: 13, high: 181, medium: 317, low: 81, negligible: 2}
+    vulnerability_gate: FAIL-RUNTIME-USE-BLOCKED
+    runtime_profile: local-vllm
+    current_runtime: OPENROUTER
+    host_port: none
+    model_weights: NOT_PRESENT
+    restrictions: [prepared-not-active, gpu-runtime-required, fail-closed-without-approved-model, no-automatic-openrouter-fallback]
+    gate: Image and stopped container are prepared, but runtime use is blocked by the vulnerability gate and absent GPU/model approval. Re-pin a patched vLLM image and repeat SBOM, vulnerability, model weight, malware, egress and performance gates in the approved GPU runtime environment.
+
+deferred_images:
+  - {id: embedding-service, status: DEFERRED, reason: model and hardware not approved}
+  - {id: reranker-service, status: DEFERRED, reason: model and hardware not approved}
+  - {id: neo4j, status: DEFERRED, reason: Graph profile is outside first MVP}
+  - {id: wazuh, status: DEFERRED, reason: Managed profile is outside first MVP}
+  - {id: remediation-runner, status: DEFERRED, reason: remediation is outside first MVP}
+  - {id: ops, status: DEFERRED, reason: observability product set not approved}
+
+retired_components:
+  - {id: milvus-standalone, status: NOT_SELECTED, replacement: postgres-pgvector, reason: PostgreSQL is the control plane and pgvector is the rebuildable guide-search projection}
+  - {id: milvus-etcd, status: NOT_SELECTED, replacement: postgres-pgvector, reason: no separate vector metadata control plane}
+  - {id: milvus-object-store, status: NOT_SELECTED, replacement: postgres-pgvector, reason: vector projection no longer requires a dedicated object store}

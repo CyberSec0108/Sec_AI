@@ -1,0 +1,89 @@
+{% import "components/audit_ui.html" as ui %}
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI 연결 상태 | Sec_AI</title>
+  <link rel="stylesheet" href="/static/app/app.css">
+</head>
+<body>
+  {{ ui.app_header("model_runtime") }}
+  <main class="container product-shell" data-ui-standard="model-runtime-v1">
+    <a class="back-link" href="/">← 처음 화면으로</a>
+    <header class="page-heading">
+      <div>
+        <p class="section-code">AI 답변 준비 상태</p>
+        <h1>AI 연결 상태</h1>
+        <p class="lead">현재 사용할 모델과 로컬 AI 전환 준비 상태를 확인합니다.</p>
+      </div>
+      {% if runtime.connection_status == "AVAILABLE" %}
+      <span class="feature-state feature-state-live">연결됨</span>
+      {% else %}
+      <span class="feature-state feature-state-blocked">연결 확인 필요</span>
+      {% endif %}
+    </header>
+
+    <aside class="draft-notice">
+      <strong>현재 시험 환경의 AI 설명은 OpenRouter를 사용합니다.</strong>
+      승인된 시험 결과와 필요한 KISA 근거만 전송합니다. 실제 사용자 PC 원본 증적과 비밀정보는 보내지 않으며, AI는 공식 점검 결과나 점검 기준을 만들거나 변경할 권한이 없습니다.
+    </aside>
+
+    <section class="panel" aria-labelledby="runtime-title">
+      {{ ui.panel_header(
+        "runtime-title",
+        "현재 무엇에 연결했나요?",
+        "모델 연결 정보",
+        "API 키와 내부 주소는 표시하지 않습니다."
+      ) }}
+      <div class="preview-example-list">
+        <article>
+          <strong>현재 연결 방식</strong>
+          <p>
+          {% if runtime.provider_kind == "OPENROUTER" %}
+            OpenRouter 원격 API를 사용합니다. 질문과 제공된 근거는 외부 모델 서비스로 전송될 수 있습니다.
+          {% elif runtime.provider_kind == "VLLM" %}
+            이 PC 또는 내부망의 로컬 vLLM을 사용합니다.
+          {% else %}
+            OpenAI 호환 모델 연결 상태를 확인해야 합니다.
+          {% endif %}
+          </p>
+        </article>
+        <article>
+          <strong>사용 모델</strong>
+          <p>{{ runtime.model_id }} · 라이선스 {{ runtime.model_license }}</p>
+        </article>
+        <article>
+          <strong>로컬 vLLM 상태</strong>
+          <p>
+          {% if runtime.local_vllm_preparation.status == "ACTIVE_VALIDATED" %}
+            로컬 모델 연결과 추론 검증을 완료했습니다.
+          {% elif runtime.local_vllm_preparation.status == "PREPARED_NOT_ACTIVE" %}
+            현재 로컬 모델 엔진은 실행하지 않습니다. NVIDIA GPU용 실행 이미지와 중지 컨테이너만 준비했으며, 모델 파일은 넣지 않았습니다. 향후 GPU 실행 환경에서 주소와 모델 이름만 변경해 전환합니다.
+          {% else %}
+            현재 로컬 모델 엔진을 준비하지 않았습니다.
+          {% endif %}
+          </p>
+        </article>
+        <article>
+          <strong>장애가 나면</strong>
+          <p>AI 설명만 이용할 수 없게 표시하며, PC 점검과 공식 결과는 그대로 유지합니다.</p>
+        </article>
+      </div>
+    </section>
+
+    <details class="technical-details">
+      <summary>기술 정보 보기</summary>
+      <div class="technical-details-body">
+        <p>연결 규격: {{ runtime.protocol }}</p>
+        <p>실행 형태: {{ runtime.deployment_mode }}</p>
+        <p>연결 상태: {{ runtime.connection_status }}</p>
+        <p>로컬 준비 상태: {{ runtime.local_vllm_preparation.status }}</p>
+        <p>로컬 실행 승인: {{ runtime.local_vllm_preparation.runtime_gate }}</p>
+        <p>준비 이미지: {{ runtime.local_vllm_preparation.image }}</p>
+        <p>현재 OpenRouter와 향후 로컬 vLLM은 같은 OpenAI 호환 계약을 사용하며, 전환 시 주소와 승인 모델 이름을 변경합니다.</p>
+      </div>
+    </details>
+  </main>
+</body>
+</html>

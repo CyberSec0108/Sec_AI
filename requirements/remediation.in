@@ -1,0 +1,3 @@
+# DEFERRED: the remediation runner is outside the first MVP.
+# Do not add dependencies or generate remediation.lock until its execution ADR,
+# approval boundary and Ansible/PowerShell model are approved.

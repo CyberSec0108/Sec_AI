@@ -1,0 +1,44 @@
+{% import "components/audit_ui.html" as ui %}
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>로그인 보안 | Sec_AI</title>
+  <link rel="stylesheet" href="/static/app/app.css">
+</head>
+<body>
+  {{ ui.app_header("home", "account") }}
+  <main class="container product-shell" data-ui-standard="auth-session-v1">
+    <header class="page-heading"><div><p class="section-code">로그인 보안</p><h1>{{ identity.display_name }}님의 로그인</h1></div></header>
+    <section class="panel">
+      <h2>현재 상태</h2>
+      <dl class="metadata-grid">
+        <div><dt>사용자 이름</dt><dd>{{ identity.username }}</dd></div>
+        <div><dt>역할</dt><dd>{{ identity.roles|join(", ") }}</dd></div>
+        <div><dt>로그인 방법</dt><dd>비밀번호 + 두 번째 인증</dd></div>
+        <div><dt>접속 시각</dt><dd>{{ expires_at }}</dd></div>
+      </dl>
+      <div class="auth-actions">
+        <a class="button-link" href="/auth/settings">내 계정 정보 변경</a>
+        <a class="button-link button-secondary" href="/ui/criteria">내 점검 기준 선택·관리</a>
+        <form method="post" action="/auth/logout"><input type="hidden" name="csrf_token" value="{{ csrf_token }}"><button type="submit">현재 로그인 종료</button></form>
+        <form method="post" action="/auth/sessions/revoke-all"><input type="hidden" name="csrf_token" value="{{ csrf_token }}"><button type="submit" class="button-secondary">모든 기기에서 로그아웃</button></form>
+      </div>
+    </section>
+    {% if administrator_features %}
+    <details id="administrator-tools" class="panel administrator-tools-panel">
+      <summary><span class="administrator-tools-summary-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10.6 13.4a2 2 0 0 0 2.8 0l3-3a2 2 0 1 0-2.8-2.8l-1.1 1.1M13.4 10.6a2 2 0 0 0-2.8 0l-3 3a2 2 0 1 0 2.8 2.8l1.1-1.1"/></svg></span><span><strong>관리자 운영 기능</strong></span></summary>
+      <div class="administrator-tools-content">
+        <div class="admin-feature-grid">
+          <a class="admin-feature-card" href="/admin/accounts"><strong>사용자 계정 관리</strong><span>가입 승인, 계정 상태와 인증 코드를 관리합니다.</span><small>확인·관리 <span aria-hidden="true">→</span></small></a>
+          {% for feature in administrator_features %}
+          <a class="admin-feature-card" href="{{ feature.href }}"><strong>{{ feature.title }}</strong><span>{{ feature.description }}</span><small>확인·관리 <span aria-hidden="true">→</span></small></a>
+          {% endfor %}
+        </div>
+      </div>
+    </details>
+    {% endif %}
+  </main>
+</body>
+</html>

@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0.0",
+  "runtime_id": "secai-model-gateway",
+  "protocol": "OPENAI_CHAT_COMPLETIONS",
+  "provider_kind": "OPENROUTER",
+  "deployment_mode": "REMOTE_API",
+  "model_id": "openai/gpt-oss-120b",
+  "model_license": "Apache-2.0",
+  "provider_terms_review": "OPENROUTER_TERMS_APPLY",
+  "external_data_transfer": true,
+  "local_model_loaded": false,
+  "supports_streaming": false,
+  "profiles": {
+    "FAST": {
+      "reasoning_effort": "low",
+      "max_output_tokens": 1200
+    },
+    "PRECISE": {
+      "reasoning_effort": "high",
+      "max_output_tokens": 4000
+    }
+  },
+  "official_finding_write_allowed": false,
+  "audit_pack_write_allowed": false,
+  "automatic_model_fallback_allowed": false,
+  "failure_behavior": "AI_UNAVAILABLE_CORE_CONTINUES",
+  "connection_status": "AVAILABLE",
+  "configured_model_found": true,
+  "resolved_model_id": "openai/gpt-oss-120b",
+  "retryable": false
+}

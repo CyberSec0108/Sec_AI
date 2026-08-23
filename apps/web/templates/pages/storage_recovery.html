@@ -1,0 +1,123 @@
+{% import "components/audit_ui.html" as ui %}
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>저장소 복구 상태 | Sec_AI</title>
+  <link rel="stylesheet" href="/static/app/app.css">
+</head>
+<body>
+  {{ ui.app_header("storage_recovery") }}
+  <main class="container product-shell" data-ui-standard="storage-recovery-v1">
+    <a class="back-link" href="/">← 처음 화면으로</a>
+    <header class="page-heading">
+      <div>
+        <p class="section-code">자료 보관 안전성</p>
+        <h1>저장소가 멈춰도 원본과 결과 관계를 다시 확인합니다</h1>
+        <p class="lead">AIStor는 합성 원본, PostgreSQL은 결과 계보, Redis는 다시 만들 수 있는 전달표를 담당합니다. 복구 뒤에는 저장 전과 같은 hash인지 확인합니다.</p>
+      </div>
+    </header>
+
+    <aside class="preview-notice">
+      <strong>운영 재해복구 승인을 뜻하지 않습니다</strong>
+      현재 PC 안의 분리된 복구 컨테이너와 비식별 자료로 복구 절차를 확인했습니다. 실제 운영 자료의 KMS·Object Lock과 다른 장소의 독립 백업은 별도 운영 환경에서 구성해야 합니다.
+    </aside>
+
+    <section class="summary-panel" aria-labelledby="storage-summary-title">
+      <div class="summary-heading">
+        <p class="section-label">최근 저장소 복구훈련</p>
+        <h2 id="storage-summary-title">{{ recovery.status_label }}</h2>
+        {% if not recovery.dependency_available %}
+        <p>PostgreSQL에 연결할 수 없어 세부 상태 대신 안전한 일반 안내만 표시합니다. 잠시 뒤 다시 확인하세요.</p>
+        {% endif %}
+      </div>
+      <dl class="summary-list">
+        <div><dt>PostgreSQL</dt><dd>{{ recovery.postgres_status }}</dd></div>
+        <div><dt>Redis</dt><dd>{{ recovery.redis_status }}</dd></div>
+        <div><dt>AIStor</dt><dd>{{ recovery.aistor_status }}</dd></div>
+        <div><dt>운영 승인</dt><dd>{% if recovery.production_gate_complete %}완료{% else %}아직 아님{% endif %}</dd></div>
+      </dl>
+    </section>
+
+    <section class="panel" aria-labelledby="storage-results-title">
+      {{ ui.panel_header(
+        "storage-results-title",
+        "복원 확인",
+        "무엇이 원래대로 돌아왔나요?",
+        "자료 내용은 표시하지 않고 일치 여부만 보여줍니다."
+      ) }}
+      <div class="storage-check-grid">
+        <article class="{% if recovery.object_hash_reproduced %}storage-check-pass{% endif %}">
+          <span>합성 원본</span>
+          <strong>{% if recovery.object_hash_reproduced %}hash 일치{% else %}확인 대기{% endif %}</strong>
+          <p>AIStor의 exact version을 복구본에서 다시 읽어 SHA-256을 비교합니다.</p>
+        </article>
+        <article class="{% if recovery.finding_lineage_reproduced %}storage-check-pass{% endif %}">
+          <span>결과 계보</span>
+          <strong>{% if recovery.finding_lineage_reproduced %}관계 일치{% else %}확인 대기{% endif %}</strong>
+          <p>Finding 본문 대신 ID·입출력 hash·이전 결과 관계의 묶음 hash를 비교합니다.</p>
+        </article>
+        <article class="{% if recovery.pending_outbox_reconciled %}storage-check-pass{% endif %}">
+          <span>전달 대기 작업</span>
+          <strong>{% if recovery.pending_outbox_reconciled %}다시 전달됨{% else %}확인 대기{% endif %}</strong>
+          <p>빈 Redis에서도 PostgreSQL의 대기 Outbox를 읽어 작업을 다시 전달합니다.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel" aria-labelledby="storage-time-title">
+      {{ ui.panel_header(
+        "storage-time-title",
+        "복구 목표",
+        "얼마나 최근 자료까지, 얼마나 빨리 복구하나요?",
+        "RPO는 잃을 수 있는 시간 범위, RTO는 서비스를 되살리는 목표 시간입니다."
+      ) }}
+      <div class="storage-targets">
+        <article>
+          <h3>PostgreSQL</h3>
+          <dl>
+            <div><dt>RPO 목표</dt><dd>15분</dd></div>
+            <div><dt>이번 측정</dt><dd>{{ recovery.postgres_rpo_seconds|default("-", true) }}초</dd></div>
+            <div><dt>RTO 목표</dt><dd>4시간</dd></div>
+            <div><dt>이번 측정</dt><dd>{{ recovery.postgres_rto_seconds|default("-", true) }}초</dd></div>
+          </dl>
+        </article>
+        <article>
+          <h3>합성 원본 증적</h3>
+          <dl>
+            <div><dt>RPO 목표</dt><dd>1시간</dd></div>
+            <div><dt>이번 측정</dt><dd>{{ recovery.evidence_rpo_seconds|default("-", true) }}초</dd></div>
+            <div><dt>RTO 목표</dt><dd>8시간</dd></div>
+            <div><dt>이번 측정</dt><dd>{{ recovery.evidence_rto_seconds|default("-", true) }}초</dd></div>
+          </dl>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel" aria-labelledby="storage-boundary-title">
+      {{ ui.panel_header(
+        "storage-boundary-title",
+        "남은 운영 조건",
+        "왜 아직 운영 승인 완료가 아닌가요?",
+        "현재 시험에서 확인한 것과 실제 운영에 필요한 것을 구분합니다."
+      ) }}
+      <ul class="safety-points">
+        <li>현재 복구본은 같은 PC에 있으므로 독립 재해복구 장소가 아닙니다.</li>
+        <li>KMS·OpenBao·SSE-KMS와 1,095일 Object Lock은 아직 운영 Gate가 남았습니다.</li>
+        <li>실제 증적이 아닌 비식별 합성 object만 사용했습니다.</li>
+        <li>복구시험은 기존 Finding을 바꾸거나 새 공식 Finding을 만들지 않습니다.</li>
+      </ul>
+    </section>
+
+    {{ ui.technical_panel([
+      {"label": "화면 계약", "value": "storage-recovery-v1", "code": true},
+      {"label": "DB migration", "value": "0004_imp045", "code": true},
+      {"label": "Manifest", "value": "storage_recovery_manifest@1.0", "code": true},
+      {"label": "복원 위치", "value": "같은 PC의 격리된 전용 volume", "code": false},
+      {"label": "원본·비밀값 노출", "value": "없음", "code": false},
+      {"label": "공식 Finding 생성", "value": "없음", "code": false}
+    ]) }}
+  </main>
+</body>
+</html>

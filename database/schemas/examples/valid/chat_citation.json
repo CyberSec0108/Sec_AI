@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0.0",
+  "citation_id": "51000000-0000-4000-8000-000000000005",
+  "message_id": "51000000-0000-4000-8000-000000000004",
+  "ordinal": 1,
+  "guide_id": "kisa-major-infrastructure-detailed-guide",
+  "guide_version": "2026",
+  "scope_id": "kisa-2026-pc",
+  "chunk_id": "48000000-0000-4000-8000-000000000001",
+  "pdf_page_number": 555,
+  "section_label": "PC-01 비밀번호의 주기적 변경",
+  "paragraph_ordinal": 1,
+  "paragraph_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "text_start": 0,
+  "text_end": 12
+}

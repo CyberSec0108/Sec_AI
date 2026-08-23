@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0.0",
+  "policy_id": "sec-ai-collector-safety-imp030",
+  "auto_elevation": false,
+  "separate_process_required": true,
+  "explicit_user_consent_required": true,
+  "standard_process_rejects_elevated_token": true,
+  "allowed_privileges": [
+    "STANDARD_USER",
+    "ADMINISTRATOR"
+  ],
+  "process_limits": {
+    "max_timeout_seconds": 30,
+    "max_output_bytes": 65536,
+    "terminate_process_tree": true
+  },
+  "settings_snapshot": {
+    "required_before_and_after": true,
+    "max_timeout_seconds": 15,
+    "max_output_bytes": 8192,
+    "surfaces": [
+      "POWERSHELL_EXECUTION_POLICY",
+      "DISK_FLAGS",
+      "PARTITION_LAYOUT",
+      "VOLUME_FILESYSTEM",
+      "BITLOCKER_STATE"
+    ]
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sec-ai.local/v1/remediation_plan.schema.json",
+  "title": "Sec_AI remediation plan-only contract",
+  "allOf": [
+    {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/commonFields"},
+    {
+      "type": "object",
+      "required": [
+        "job_id", "asset_id", "finding_ids", "execution_mode", "mvp_execution_allowed",
+        "official_status_change_allowed", "status", "risk_level", "actions", "expires_at"
+      ],
+      "properties": {
+        "source": {"enum": ["admin-ui", "rule-engine"]},
+        "job_id": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/uuid"},
+        "asset_id": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/uuid"},
+        "finding_ids": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 128,
+          "uniqueItems": true,
+          "items": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/uuid"}
+        },
+        "execution_mode": {"const": "PLAN_ONLY"},
+        "mvp_execution_allowed": {"const": false},
+        "official_status_change_allowed": {"const": false},
+        "status": {"enum": ["DRAFT", "PENDING_APPROVAL", "APPROVED", "REJECTED", "EXPIRED"]},
+        "risk_level": {"enum": ["LOW", "MEDIUM", "HIGH", "CRITICAL"]},
+        "actions": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 64,
+          "items": {"$ref": "#/$defs/action"}
+        },
+        "approvals": {
+          "type": "array",
+          "maxItems": 16,
+          "items": {"$ref": "#/$defs/approval"}
+        },
+        "expires_at": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/timestamp"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"status": {"const": "APPROVED"}}, "required": ["status"]},
+          "then": {"required": ["approvals"], "properties": {"approvals": {"minItems": 1, "contains": {"type": "object", "properties": {"decision": {"const": "APPROVE"}}, "required": ["decision"]}}}}
+        }
+      ]
+    }
+  ],
+  "$defs": {
+    "playbookRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["playbook_id", "playbook_version", "playbook_sha256"],
+      "properties": {
+        "playbook_id": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/identifier"},
+        "playbook_version": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/semver"},
+        "playbook_sha256": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/sha256"}
+      }
+    },
+    "action": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sequence", "title", "playbook", "parameters", "preconditions", "rollback_playbook", "requires_reboot"],
+      "properties": {
+        "sequence": {"type": "integer", "minimum": 1, "maximum": 64},
+        "title": {"type": "string", "minLength": 1, "maxLength": 256},
+        "playbook": {"$ref": "#/$defs/playbookRef"},
+        "parameters": {
+          "type": "object",
+          "maxProperties": 32,
+          "propertyNames": {"pattern": "^[A-Za-z][A-Za-z0-9_]{0,63}$"},
+          "additionalProperties": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/boundedScalar"}
+        },
+        "preconditions": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 32,
+          "items": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/identifier"}
+        },
+        "rollback_playbook": {"$ref": "#/$defs/playbookRef"},
+        "requires_reboot": {"type": "boolean"}
+      }
+    },
+    "approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["approval_id", "approver_id", "decision", "decided_at"],
+      "properties": {
+        "approval_id": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/uuid"},
+        "approver_id": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/uuid"},
+        "decision": {"enum": ["APPROVE", "REJECT"]},
+        "decided_at": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/timestamp"},
+        "comment": {"type": "string", "maxLength": 1000}
+      }
+    }
+  },
+  "unevaluatedProperties": false
+}

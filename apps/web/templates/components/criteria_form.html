@@ -1,0 +1,68 @@
+{% macro criteria_fields(effective, official_values) -%}
+  <div class="criteria-form-grid">
+    <label>
+      <span>PC-01 비밀번호 최대 사용 기간</span>
+      <span class="criteria-input-row"><input type="number" name="password_maximum_age_days" min="1" max="365" value="{{ effective['password_maximum_age_days'].value if effective else official_values['password_maximum_age_days'] }}" required><small>일</small></span>
+      <small>KISA 기본값 {{ official_values['password_maximum_age_days'] }}일. 더 짧게 정하면 강화된 기준입니다.</small>
+    </label>
+    <label>
+      <span>PC-02 비밀번호 최소 길이</span>
+      <span class="criteria-input-row"><input type="number" name="password_minimum_length" min="8" max="64" value="{{ effective['password_minimum_length'].value if effective else official_values['password_minimum_length'] }}" required><small>자</small></span>
+      <small>KISA 기본값 {{ official_values['password_minimum_length'] }}자. 더 길게 정하면 강화된 기준입니다.</small>
+    </label>
+    <label class="criteria-checkbox">
+      <input type="checkbox" name="password_complexity_required" value="true"{% if not effective or effective['password_complexity_required'].value %} checked{% endif %}>
+      <span><strong>PC-02 비밀번호 복잡성 필수</strong><small>영문·숫자·특수문자 조합 정책을 확인합니다.</small></span>
+    </label>
+    <label class="criteria-checkbox">
+      <input type="checkbox" name="password_required" value="true"{% if not effective or effective['password_required'].value %} checked{% endif %}>
+      <span><strong>PC-02 비밀번호 사용 필수</strong><small>비밀번호가 없는 계정을 허용하지 않습니다.</small></span>
+    </label>
+    <label>
+      <span>PC-04 승인된 공유 폴더</span>
+      <textarea name="approved_share_ids" rows="4" maxlength="4096" placeholder="한 줄에 공유 이름 하나">{% if effective %}{{ effective['approved_share_ids'].value|join('\n') }}{% endif %}</textarea>
+      <small>입력하지 않으면 승인된 업무 공유가 없는 것으로 봅니다.</small>
+    </label>
+    <label>
+      <span>PC-05 불필요 서비스 최소 점검 범위</span>
+      <textarea name="unnecessary_service_ids" rows="7" maxlength="4096" placeholder="한 줄에 Windows 서비스 이름 하나" required>{{ effective['unnecessary_service_ids'].value|join('\n') if effective else official_values['unnecessary_service_ids']|join('\n') }}</textarea>
+      <small>SecAI가 제공하는 Windows 10·11 최소 기본 범위이며, KISA가 특정 서비스 이름을 직접 열거한 목록이 아닙니다. 조직에서 필요한 서비스는 목록에서 조정할 수 있습니다.</small>
+    </label>
+    <label>
+      <span>PC-06 승인된 메신저 제품</span>
+      <textarea name="approved_messenger_products" rows="4" maxlength="4096" placeholder="한 줄에 제품 이름 하나">{% if effective %}{{ effective['approved_messenger_products'].value|join('\n') }}{% endif %}</textarea>
+      <small>제품 이름만 입력하며 명령어나 경로는 실행하지 않습니다.</small>
+    </label>
+    <label>
+      <span>PC-10 보안 업데이트 확인 주기</span>
+      <span class="criteria-input-row"><input type="number" name="security_update_maximum_age_days" min="1" max="180" value="{{ effective['security_update_maximum_age_days'].value if effective else official_values['security_update_maximum_age_days'] }}" required><small>일</small></span>
+      <small>최근 업데이트 이후 허용할 최대 기간입니다.</small>
+    </label>
+    <label>
+      <span>PC-16 화면보호기 최대 대기 시간</span>
+      <span class="criteria-input-row"><input type="number" name="screensaver_timeout_maximum_minutes" min="1" max="60" value="{{ effective['screensaver_timeout_maximum_minutes'].value if effective else official_values['screensaver_timeout_maximum_minutes'] }}" required><small>분</small></span>
+      <small>더 짧게 정하면 강화된 기준입니다.</small>
+    </label>
+    <label>
+      <span>PC-13 백신 서명 최대 경과 시간</span>
+      <span class="criteria-input-row"><input type="number" name="antivirus_signature_maximum_age_hours" min="1" max="168" value="{{ effective['antivirus_signature_maximum_age_hours'].value if effective else official_values['antivirus_signature_maximum_age_hours'] }}" required><small>시간</small></span>
+      <small>SecAI Windows 10·11 제품 기본값은 24시간이며 KISA가 직접 정한 시간값은 아닙니다.</small>
+    </label>
+    <label class="criteria-checkbox">
+      <input type="checkbox" name="wininet_current_user_scope_accepted" value="true"{% if not effective or effective['wininet_current_user_scope_accepted'].value %} checked{% endif %}>
+      <span><strong>PC-09 현재 로그인 사용자 설정 판정</strong><small>조직 기준이 없으면 이번 점검의 로그인 사용자 WinINet 설정을 제품 기본 범위로 판정합니다.</small></span>
+    </label>
+    <label class="criteria-checkbox">
+      <input type="checkbox" name="screensaver_current_user_scope_accepted" value="true"{% if not effective or effective['screensaver_current_user_scope_accepted'].value %} checked{% endif %}>
+      <span><strong>PC-16 현재 로그인 사용자 설정 판정</strong><small>조직 기준이 없으면 이번 점검의 로그인 사용자 화면 잠금 설정을 제품 기본 범위로 판정합니다.</small></span>
+    </label>
+    <label class="criteria-checkbox">
+      <input type="checkbox" name="autoplay_disabled_required" value="true"{% if not effective or effective['autoplay_disabled_required'].value %} checked{% endif %}>
+      <span><strong>PC-17 모든 미디어 자동 실행 차단</strong><small>모든 드라이브와 비볼륨 장치의 자동 실행 차단을 제품 기본값으로 적용합니다.</small></span>
+    </label>
+    <label class="criteria-checkbox">
+      <input type="checkbox" name="remote_assistance_disabled_required" value="true"{% if not effective or effective['remote_assistance_disabled_required'].value %} checked{% endif %}>
+      <span><strong>PC-18 원격 지원 명시적 차단</strong><small>요청·제공 원격 지원 정책을 명시적으로 차단해야 양호로 판정합니다.</small></span>
+    </label>
+  </div>
+{%- endmacro %}

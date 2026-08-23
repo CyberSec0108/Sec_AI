@@ -1,0 +1,1087 @@
+{
+  "schema_version": "1.0.0",
+  "id": "51000000-0000-4000-8000-000000000060",
+  "created_at": "2026-07-23T05:00:00Z",
+  "source": "audit-pack-builder",
+  "producer_name": "sec-ai-audit-pack-builder",
+  "producer_version": "0.1.0",
+  "correlation_id": "51000000-0000-4000-8000-000000000061",
+  "pack_profile": "KISA-2026-PC-MVP",
+  "name": "KISA 2026 PC-01~18 Development Pack",
+  "version": "0.6.0",
+  "guide": {
+    "publisher": "KISA",
+    "version": "2026",
+    "section": "07.PC",
+    "document_sha256": "44fe393981b244147be6af7423d99dc15633c089fad0bcb296cbe2371dde812d"
+  },
+  "target": {
+    "os_family": "WINDOWS",
+    "versions": ["11"],
+    "architectures": ["x86_64"]
+  },
+  "effective_from": "2026-07-23T00:00:00Z",
+  "content_sha256": "5dff4604365e2eabcd310a1b74b6bde6e48b3c53177383e541865b5f32c292de",
+  "controls": [
+    {
+      "control_id": "PC-01",
+      "title": "비밀번호의 주기적 변경",
+      "category": "ACCOUNT_MANAGEMENT",
+      "severity": "HIGH",
+      "automation_type": "AUTO",
+      "required_privileges": ["STANDARD_USER", "ELEVATED_ADMIN"],
+      "applicability_rule": {
+        "rule_id": "pc01.account-policy-applicability",
+        "rule_version": "0.1.0",
+        "parameters": {
+          "subject_scope": "POLICY",
+          "supported_policy_sources": ["LOCAL", "DOMAIN", "MDM", "WINDOWS_DEFAULT"],
+          "unresolved_source_status": "ERROR"
+        }
+      },
+      "evidence_requirements": [
+        {
+          "requirement_id": "pc01.effective-password-age",
+          "probe_ids": ["win.security.password-age"],
+          "required": true,
+          "minimum_records": 1,
+          "accepted_collection_status": ["COLLECTED"],
+          "organization_policy_required": false,
+          "manual_attestation_allowed": false
+        }
+      ],
+      "evaluation_rule": {
+        "rule_id": "pc01.password-age",
+        "rule_version": "0.1.0",
+        "parameters": {
+          "minimum_password_age_days": 1,
+          "maximum_password_age_days": 90,
+          "unlimited_value": 0,
+          "within_range_status": "PASS",
+          "outside_range_status": "FAIL",
+          "collection_failure_status": "ERROR"
+        }
+      },
+      "citations": [
+        {
+          "document": "KISA-2026-07-PC",
+          "page_start": 555,
+          "page_end": 556,
+          "section_label": "PC-01 비밀번호의 주기적 변경"
+        }
+      ],
+      "fixture_refs": {
+        "pass": "pc01-pass-90-days",
+        "fail": "pc01-fail-unlimited",
+        "error": "pc01-error-collection"
+      }
+    },
+    {
+      "control_id": "PC-02",
+      "title": "비밀번호 관리정책 설정",
+      "category": "ACCOUNT_MANAGEMENT",
+      "severity": "HIGH",
+      "automation_type": "AUTO-CONDITIONAL",
+      "required_privileges": ["STANDARD_USER", "ELEVATED_ADMIN", "ORGANIZATION_POLICY"],
+      "applicability_rule": {
+        "rule_id": "pc02.account-policy-applicability",
+        "rule_version": "0.1.0",
+        "parameters": {
+          "subject_scope": "POLICY",
+          "supported_policy_sources": ["LOCAL", "DOMAIN", "MDM", "WINDOWS_DEFAULT"],
+          "unresolved_source_status": "ERROR"
+        }
+      },
+      "evidence_requirements": [
+        {
+          "requirement_id": "pc02.effective-password-policy",
+          "probe_ids": ["win.security.password-policy"],
+          "required": true,
+          "minimum_records": 1,
+          "accepted_collection_status": ["COLLECTED"],
+          "organization_policy_required": true,
+          "manual_attestation_allowed": false
+        }
+      ],
+      "evaluation_rule": {
+        "rule_id": "pc02.password-policy",
+        "rule_version": "0.1.0",
+        "parameters": {
+          "organization_policy_required": true,
+          "missing_organization_policy_status": "REVIEW",
+          "required_policy_fields": ["minimum_password_length", "complexity_required", "password_required"],
+          "comparison_profile": "EFFECTIVE_POLICY_MEETS_ORGANIZATION_STANDARD",
+          "collection_failure_status": "ERROR"
+        }
+      },
+      "citations": [
+        {
+          "document": "KISA-2026-07-PC",
+          "page_start": 557,
+          "page_end": 558,
+          "section_label": "PC-02 비밀번호 관리정책 설정"
+        }
+      ],
+      "fixture_refs": {
+        "pass": "pc02-pass-organization-standard",
+        "fail": "pc02-fail-below-standard",
+        "error": "pc02-error-collection",
+        "review": "pc02-review-no-standard"
+      }
+    },
+    {
+      "control_id": "PC-03",
+      "title": "복구 콘솔에서 자동 로그온을 금지하도록 설정",
+      "category": "ACCOUNT_MANAGEMENT",
+      "severity": "MEDIUM",
+      "automation_type": "AUTO",
+      "required_privileges": ["STANDARD_USER", "ELEVATED_ADMIN"],
+      "applicability_rule": {
+        "rule_id": "pc03.account-policy-applicability",
+        "rule_version": "0.1.0",
+        "parameters": {
+          "subject_scope": "POLICY",
+          "supported_policy_sources": ["LOCAL", "DOMAIN", "MDM", "WINDOWS_DEFAULT"],
+          "unresolved_source_status": "ERROR"
+        }
+      },
+      "evidence_requirements": [
+        {
+          "requirement_id": "pc03.effective-recovery-console-policy",
+          "probe_ids": ["win.security.recovery-console"],
+          "required": true,
+          "minimum_records": 1,
+          "accepted_collection_status": ["COLLECTED"],
+          "organization_policy_required": false,
+          "manual_attestation_allowed": false
+        }
+      ],
+      "evaluation_rule": {
+        "rule_id": "pc03.recovery-console-logon",
+        "rule_version": "0.1.0",
+        "parameters": {
+          "compliant_states": ["DISABLED", "NOT_DEFINED"],
+          "noncompliant_state": "ENABLED",
+          "unknown_state_status": "ERROR",
+          "collection_failure_status": "ERROR"
+        }
+      },
+      "citations": [
+        {
+          "document": "KISA-2026-07-PC",
+          "page_start": 559,
+          "page_end": 560,
+          "section_label": "PC-03 복구 콘솔에서 자동 로그온을 금지하도록 설정"
+        }
+      ],
+      "fixture_refs": {
+        "pass": "pc03-pass-disabled",
+        "fail": "pc03-fail-enabled",
+        "error": "pc03-error-collection"
+      }
+    },
+    {
+      "control_id": "PC-04",
+      "title": "공유 폴더 및 공유 권한 설정",
+      "category": "SERVICE_MANAGEMENT",
+      "severity": "HIGH",
+      "automation_type": "AUTO-CONDITIONAL",
+      "required_privileges": ["ELEVATED_ADMIN", "ORGANIZATION_POLICY"],
+      "applicability_rule": {
+        "rule_id": "pc04.share-applicability",
+        "rule_version": "0.1.0",
+        "parameters": {
+          "subject_scope": "ASSET",
+          "supported_windows_versions": ["11"],
+          "unresolved_scope_status": "ERROR"
+        }
+      },
+      "evidence_requirements": [
+        {
+          "requirement_id": "pc04.smb-share-inventory",
+          "probe_ids": ["win.network.smb-shares"],
+          "required": true,
+          "minimum_records": 1,
+          "accepted_collection_status": ["COLLECTED"],
+          "organization_policy_required": true,
+          "manual_attestation_allowed": false
+        }
+      ],
+      "evaluation_rule": {
+        "rule_id": "pc04.share-access",
+        "rule_version": "0.1.0",
+        "parameters": {
+          "organization_policy_required": true,
+          "default_admin_share_count_maximum": 0,
+          "unrestricted_everyone_share_count_maximum": 0,
+          "least_privilege_violation_count_maximum": 0,
+          "authentication_gap_count_maximum": 0,
+          "auto_share_wks_disabled_required": true,
+          "missing_organization_policy_status": "REVIEW",
+          "collection_failure_status": "ERROR"
+        }
+      },
+      "citations": [
+        {
+          "document": "KISA-2026-07-PC",
+          "page_start": 561,
+          "page_end": 565,
+          "section_label": "PC-04 공유 폴더 및 공유 권한 설정"
+        }
+      ],
+      "fixture_refs": {
+        "pass": "pc04-pass-approved-least-privilege",
+        "fail": "pc04-fail-unrestricted-share",
+        "error": "pc04-error-collection",
+        "review": "pc04-review-no-standard"
+      }
+    },
+    {
+      "control_id": "PC-05",
+      "title": "불필요한 서비스 제거",
+      "category": "SERVICE_MANAGEMENT",
+      "severity": "HIGH",
+      "automation_type": "AUTO-CONDITIONAL",
+      "required_privileges": ["STANDARD_USER", "ELEVATED_ADMIN", "ORGANIZATION_POLICY"],
+      "applicability_rule": {
+        "rule_id": "pc05.service-applicability",
+        "rule_version": "0.1.0",
+        "parameters": {
+          "subject_scope": "ASSET",
+          "supported_windows_versions": ["11"],
+          "unresolved_scope_status": "ERROR"
+        }
+      },
+      "evidence_requirements": [
+        {
+          "requirement_id": "pc05.service-inventory",
+          "probe_ids": ["win.services.inventory"],
+          "required": true,
+          "minimum_records": 1,
+          "accepted_collection_status": ["COLLECTED"],
+          "organization_policy_required": true,
+          "manual_attestation_allowed": false
+        }
+      ],
+      "evaluation_rule": {
+        "rule_id": "pc05.unnecessary-services",
+        "rule_version": "0.1.0",
+        "parameters": {
+          "organization_policy_required": true,
+          "running_unnecessary_service_count_maximum": 0,
+          "automatic_unnecessary_service_count_maximum": 0,
+          "missing_organization_policy_status": "REVIEW",
+          "collection_failure_status": "ERROR"
+        }
+      },
+      "citations": [
+        {
+          "document": "KISA-2026-07-PC",
+          "page_start": 566,
+          "page_end": 569,
+          "section_label": "PC-05 불필요한 서비스 제거"
+        }
+      ],
+      "fixture_refs": {
+        "pass": "pc05-pass-stopped",
+        "fail": "pc05-fail-running",
+        "error": "pc05-error-collection",
+        "review": "pc05-review-no-standard"
+      }
+    },
+    {
+      "control_id": "PC-06",
+      "title": "불필요한 소프트웨어 제거",
+      "category": "SERVICE_MANAGEMENT",
+      "severity": "HIGH",
+      "automation_type": "AUTO-CONDITIONAL",
+      "required_privileges": ["ELEVATED_ADMIN", "ORGANIZATION_POLICY"],
+      "applicability_rule": {
+        "rule_id": "pc06.messenger-applicability",
+        "rule_version": "0.1.0",
+        "parameters": {
+          "subject_scope": "ASSET",
+          "supported_windows_versions": ["11"],
+          "unresolved_scope_status": "ERROR"
+        }
+      },
+      "evidence_requirements": [
+        {
+          "requirement_id": "pc06.messenger-inventory",
+          "probe_ids": ["win.software.messengers"],
+          "required": true,
+          "minimum_records": 1,
+          "accepted_collection_status": ["COLLECTED"],
+          "organization_policy_required": true,
+          "manual_attestation_allowed": false
+        }
+      ],
+      "evaluation_rule": {
+        "rule_id": "pc06.unapproved-messengers",
+        "rule_version": "0.1.0",
+        "parameters": {
+          "organization_policy_required": true,
+          "installed_denied_product_count_maximum": 0,
+          "running_denied_product_count_maximum": 0,
+          "low_confidence_match_status": "REVIEW",
+          "missing_organization_policy_status": "REVIEW",
+          "collection_failure_status": "ERROR"
+        }
+      },
+      "citations": [
+        {
+          "document": "KISA-2026-07-PC",
+          "page_start": 570,
+          "page_end": 570,
+          "section_label": "PC-06 불필요한 소프트웨어 제거"
+        }
+      ],
+      "fixture_refs": {
+        "pass": "pc06-pass-denied-absent",
+        "fail": "pc06-fail-denied-installed",
+        "error": "pc06-error-collection",
+        "review": "pc06-review-no-standard"
+      }
+    },
+    {
+      "control_id": "PC-07",
+      "title": "파일 시스템이 NTFS 포맷으로 설정",
+      "category": "SERVICE_MANAGEMENT",
+      "severity": "MEDIUM",
+      "automation_type": "AUTO",
+      "required_privileges": ["STANDARD_USER"],
+      "applicability_rule": {
+        "rule_id": "pc07.applicability",
+        "rule_version": "0.1.0",
+        "parameters": {
+          "include_volume_classes": ["WINDOWS_OS_VOLUME", "LOCAL_FIXED_DATA_VOLUME", "MOUNTED_FOLDER_VOLUME", "ATTACHED_VHD_VOLUME", "STORAGE_SPACES_LOGICAL_VOLUME", "BITLOCKER_VOLUME"],
+          "exclude_volume_classes": ["EFI_SYSTEM_PARTITION", "MICROSOFT_RESERVED_PARTITION", "WINDOWS_RECOVERY_PARTITION", "APPROVED_OEM_UTILITY_PARTITION", "OPTICAL_VOLUME", "REMOVABLE_VOLUME", "NETWORK_VOLUME", "DETACHED_DISK_IMAGE", "VOLATILE_RAM_DISK"],
+          "require_trusted_exclusion_identity": true,
+          "drive_letter_absence_is_exclusion": false,
+          "usb_bus_alone_is_exclusion": false,
+          "empty_evaluated_set_status": "ERROR",
+          "classification_unknown_status": "ERROR"
+        }
+      },
+      "evidence_requirements": [
+        {
+          "requirement_id": "pc07.volume_inventory",
+          "probe_ids": ["win.storage.volumes"],
+          "required": true,
+          "minimum_records": 1,
+          "accepted_collection_status": ["COLLECTED"],
+          "organization_policy_required": false,
+          "manual_attestation_allowed": false
+        },
+        {
+          "requirement_id": "pc07.partition_identity",
+          "probe_ids": ["win.storage.partitions"],
+          "required": true,
+          "minimum_records": 1,
+          "accepted_collection_status": ["COLLECTED"],
+          "organization_policy_required": false,
+          "manual_attestation_allowed": false
+        },
+        {
+          "requirement_id": "pc07.disk_identity",
+          "probe_ids": ["win.storage.disks"],
+          "required": true,
+          "minimum_records": 1,
+          "accepted_collection_status": ["COLLECTED"],
+          "organization_policy_required": false,
+          "manual_attestation_allowed": false
+        }
+      ],
+      "evaluation_rule": {
+        "rule_id": "pc07.ntfs",
+        "rule_version": "0.1.0",
+        "parameters": {
+          "required_filesystem": "NTFS",
+          "comparison_profile": "TRIM_CASE_INSENSITIVE_EXACT",
+          "non_ntfs_status": "FAIL",
+          "refs_status": "FAIL",
+          "raw_status": "FAIL",
+          "filesystem_unknown_status": "ERROR",
+          "bitlocker_unknown_status": "ERROR",
+          "aggregate_subject_scope": "VOLUME",
+          "aggregate_subject_key": "pc07:evaluated-volume-set",
+          "all_match_result_code": "ALL_EVALUATED_VOLUMES_NTFS",
+          "non_match_result_code": "NON_NTFS_VOLUME_FOUND"
+        }
+      },
+      "citations": [
+        {
+          "document": "KISA-2026-07-PC",
+          "page_start": 571,
+          "page_end": 572,
+          "section_label": "PC-07 파일 시스템이 NTFS 포맷으로 설정"
+        }
+      ],
+      "fixture_refs": {
+        "pass": "pc07-pass",
+        "fail": "pc07-fail-fat32",
+        "error": "pc07-error-collection"
+      }
+    },
+    {
+      "control_id": "PC-08",
+      "title": "하나의 시스템에 불필요한 여러 운영체제 설치 제한",
+      "category": "SERVICE_MANAGEMENT",
+      "severity": "MEDIUM",
+      "automation_type": "AUTO",
+      "required_privileges": ["ELEVATED_ADMIN"],
+      "applicability_rule": {
+        "rule_id": "pc08.multiboot-applicability",
+        "rule_version": "0.1.0",
+        "parameters": {
+          "subject_scope": "ASSET",
+          "excluded_entry_types": ["RECOVERY", "DIAGNOSTIC", "VIRTUALIZATION"],
+          "wsl_is_multiboot": false,
+          "hyper_v_guest_is_multiboot": false
+        }
+      },
+      "evidence_requirements": [
+        {
+          "requirement_id": "pc08.boot-entry-inventory",
+          "probe_ids": ["win.boot.entries"],
+          "required": true,
+          "minimum_records": 1,
+          "accepted_collection_status": ["COLLECTED"],
+          "organization_policy_required": false,
+          "manual_attestation_allowed": false
+        }
+      ],
+      "evaluation_rule": {
+        "rule_id": "pc08.bootable-os-count",
+        "rule_version": "0.1.0",
+        "parameters": {
+          "maximum_bootable_os_count": 1,
+          "zero_bootable_os_status": "ERROR",
+          "multiple_bootable_os_status": "FAIL",
+          "collection_failure_status": "ERROR"
+        }
+      },
+      "citations": [
+        {
+          "document": "KISA-2026-07-PC",
+          "page_start": 573,
+          "page_end": 574,
+          "section_label": "PC-08 하나의 시스템에 불필요한 여러 운영체제 설치 제한"
+        }
+      ],
+      "fixture_refs": {
+        "pass": "pc08-pass-single-os-with-recovery",
+        "fail": "pc08-fail-multiple-os",
+        "error": "pc08-error-collection"
+      }
+    },
+    {
+      "control_id": "PC-09",
+      "title": "불필요한 IE 보안 영역 설정",
+      "category": "SERVICE_MANAGEMENT",
+      "severity": "LOW",
+      "automation_type": "AUTO-APPLICABILITY",
+      "required_privileges": ["STANDARD_USER", "ELEVATED_ADMIN", "ORGANIZATION_POLICY"],
+      "applicability_rule": {
+        "rule_id": "pc09.wininet-applicability",
+        "rule_version": "0.1.0",
+        "parameters": {
+          "applicable_uses": ["IE_DESKTOP", "IE_MODE", "WININET"],
+          "not_applicable_requires_scope_confirmation": true,
+          "unknown_applicability_status": "REVIEW"
+        }
+      },
+      "evidence_requirements": [
+        {
+          "requirement_id": "pc09.wininet-cache-policy",
+          "probe_ids": ["win.browser.wininet-cache-policy"],
+          "required": true,
+          "minimum_records": 1,
+          "accepted_collection_status": ["COLLECTED"],
+          "organization_policy_required": true,
+          "manual_attestation_allowed": false
+        }
+      ],
+      "evaluation_rule": {
+        "rule_id": "pc09.empty-cache-on-exit",
+        "rule_version": "0.1.0",
+        "parameters": {
+          "required_value": true,
+          "enabled_status": "PASS",
+          "disabled_status": "FAIL",
+          "not_applicable_status": "N/A",
+          "collection_failure_status": "ERROR"
+        }
+      },
+      "citations": [
+        {
+          "document": "KISA-2026-07-PC",
+          "page_start": 575,
+          "page_end": 576,
+          "section_label": "PC-09 불필요한 IE 보안 영역 설정"
+        }
+      ],
+      "fixture_refs": {
+        "pass": "pc09-pass-cache-on-exit",
+        "fail": "pc09-fail-cache-retained",
+        "error": "pc09-error-collection",
+        "review": "pc09-review-applicability-unknown",
+        "not_applicable": "pc09-na-wininet-unused"
+      }
+    },
+    {
+      "control_id": "PC-10",
+      "title": "주기적 보안 패치 및 벤더 권고사항 적용",
+      "category": "PATCH_MANAGEMENT",
+      "severity": "HIGH",
+      "automation_type": "AUTO-CONDITIONAL",
+      "required_privileges": ["ELEVATED_ADMIN", "ORGANIZATION_POLICY"],
+      "applicability_rule": {
+        "rule_id": "pc10.patch-applicability",
+        "rule_version": "0.1.0",
+        "parameters": {
+          "subject_scope": "ASSET",
+          "target_product": "WINDOWS_11",
+          "supported_architectures": ["x86_64"],
+          "unknown_product_status": "ERROR"
+        }
+      },
+      "evidence_requirements": [
+        {
+          "requirement_id": "pc10.update-compliance",
+          "probe_ids": ["win.update.compliance"],
+          "required": true,
+          "minimum_records": 1,
+          "accepted_collection_status": ["COLLECTED"],
+          "organization_policy_required": true,
+          "manual_attestation_allowed": true
+        },
+        {
+          "requirement_id": "pc10.reference-snapshot",
+          "probe_ids": ["reference.windows-patch-baseline"],
+          "required": true,
+          "minimum_records": 1,
+          "accepted_collection_status": ["COLLECTED"],
+          "organization_policy_required": true,
+          "manual_attestation_allowed": false
+        }
+      ],
+      "evaluation_rule": {
+        "rule_id": "pc10.patch-baseline",
+        "rule_version": "0.1.0",
+        "parameters": {
+          "reference_snapshot_required": true,
+          "reference_snapshot_id": "microsoft-windows-11-2026-07-23",
+          "reference_snapshot_version": "1.0.0",
+          "reference_snapshot_sha256": "9bb9fcc8fb8461e053ba22d33d5fbf15d4a9113651f32a834faaffc199911054",
+          "allowed_snapshot_approval_statuses": ["DRAFT"],
+          "missing_reference_status": "REVIEW",
+          "expired_reference_status": "REVIEW",
+          "organization_procedure_required": true,
+          "missing_procedure_status": "REVIEW",
+          "accepted_inventory_sources": ["WINDOWS_UPDATE_AGENT", "WINDOWS_UPDATE_HISTORY_AND_BUILD", "WSUS_OR_INTUNE_COMPLIANCE"],
+          "forbidden_solo_source": "GET_HOTFIX",
+          "automatic_updates_required": true,
+          "missing_required_update_status": "FAIL",
+          "below_minimum_build_status": "FAIL",
+          "restart_pending_status": "REVIEW",
+          "stale_scan_status": "ERROR",
+          "collection_failure_status": "ERROR"
+        }
+      },
+      "citations": [
+        {
+          "document": "KISA-2026-07-PC",
+          "page_start": 577,
+          "page_end": 578,
+          "section_label": "PC-10 주기적 보안 패치 및 벤더 권고사항 적용"
+        }
+      ],
+      "fixture_refs": {
+        "pass": "pc10-pass-current-baseline",
+        "fail": "pc10-fail-required-update-missing",
+        "error": "pc10-error-collection",
+        "review": "pc10-review-no-procedure"
+      }
+    },
+    {
+      "control_id": "PC-11",
+      "title": "지원이 종료되지 않은 Windows OS Build 적용",
+      "category": "PATCH_MANAGEMENT",
+      "severity": "HIGH",
+      "automation_type": "AUTO-CONDITIONAL",
+      "required_privileges": ["STANDARD_USER", "ORGANIZATION_POLICY"],
+      "applicability_rule": {
+        "rule_id": "pc11.lifecycle-applicability",
+        "rule_version": "0.1.0",
+        "parameters": {
+          "subject_scope": "ASSET",
+          "target_product": "WINDOWS_11",
+          "supported_architectures": ["x86_64"],
+          "unknown_product_status": "ERROR"
+        }
+      },
+      "evidence_requirements": [
+        {
+          "requirement_id": "pc11.os-lifecycle-identity",
+          "probe_ids": ["win.os.lifecycle"],
+          "required": true,
+          "minimum_records": 1,
+          "accepted_collection_status": ["COLLECTED"],
+          "organization_policy_required": true,
+          "manual_attestation_allowed": true
+        },
+        {
+          "requirement_id": "pc11.lifecycle-snapshot",
+          "probe_ids": ["reference.windows-lifecycle"],
+          "required": true,
+          "minimum_records": 1,
+          "accepted_collection_status": ["COLLECTED"],
+          "organization_policy_required": true,
+          "manual_attestation_allowed": false
+        }
+      ],
+      "evaluation_rule": {
+        "rule_id": "pc11.support-lifecycle",
+        "rule_version": "0.1.0",
+        "parameters": {
+          "reference_snapshot_required": true,
+          "reference_snapshot_id": "microsoft-windows-11-2026-07-23",
+          "reference_snapshot_version": "1.0.0",
+          "reference_snapshot_sha256": "9bb9fcc8fb8461e053ba22d33d5fbf15d4a9113651f32a834faaffc199911054",
+          "allowed_snapshot_approval_statuses": ["DRAFT"],
+          "missing_reference_status": "REVIEW",
+          "expired_reference_status": "REVIEW",
+          "organization_procedure_required": true,
+          "missing_procedure_status": "REVIEW",
+          "support_state_rule": "COLLECTED_AT_ON_OR_BEFORE_SUPPORT_END",
+          "eol_status": "FAIL",
+          "unknown_edition_or_version_status": "REVIEW",
+          "collection_failure_status": "ERROR"
+        }
+      },
+      "citations": [
+        {
+          "document": "KISA-2026-07-PC",
+          "page_start": 579,
+          "page_end": 579,
+          "section_label": "PC-11 지원이 종료되지 않은 Windows OS Build 적용"
+        }
+      ],
+      "fixture_refs": {
+        "pass": "pc11-pass-supported-home-pro",
+        "fail": "pc11-fail-home-pro-eol",
+        "error": "pc11-error-collection",
+        "review": "pc11-review-unknown-edition"
+      }
+    },
+    {
+      "control_id": "PC-12",
+      "title": "Windows 자동 로그인 점검",
+      "category": "SECURITY_MANAGEMENT",
+      "severity": "MEDIUM",
+      "automation_type": "AUTO",
+      "required_privileges": ["STANDARD_USER"],
+      "applicability_rule": {
+        "rule_id": "pc12.autologon-applicability",
+        "rule_version": "0.1.0",
+        "parameters": {
+          "subject_scope": "ASSET",
+          "registry_source": "HKLM_WINLOGON",
+          "collection_failure_status": "ERROR"
+        }
+      },
+      "evidence_requirements": [
+        {
+          "requirement_id": "pc12.autologon-config",
+          "probe_ids": ["win.autologon.config"],
+          "required": true,
+          "minimum_records": 1,
+          "accepted_collection_status": ["COLLECTED"],
+          "organization_policy_required": false,
+          "manual_attestation_allowed": false
+        }
+      ],
+      "evaluation_rule": {
+        "rule_id": "pc12.autologon-disabled",
+        "rule_version": "0.1.0",
+        "parameters": {
+          "enabled_value": "1",
+          "disabled_values": ["0", "MISSING"],
+          "enabled_status": "FAIL",
+          "disabled_status": "PASS",
+          "unknown_value_status": "ERROR",
+          "password_content_collection_forbidden": true
+        }
+      },
+      "citations": [
+        {
+          "document": "KISA-2026-07-PC",
+          "page_start": 580,
+          "page_end": 581,
+          "section_label": "PC-12 Windows 자동 로그인 점검"
+        }
+      ],
+      "fixture_refs": {
+        "pass": "pc12-pass-value-missing",
+        "fail": "pc12-fail-enabled",
+        "error": "pc12-error-collection"
+      }
+    },
+    {
+      "control_id": "PC-13",
+      "title": "바이러스 백신 프로그램 설치 및 주기적 업데이트",
+      "category": "SECURITY_MANAGEMENT",
+      "severity": "HIGH",
+      "automation_type": "AUTO-CONDITIONAL",
+      "required_privileges": ["STANDARD_USER", "ELEVATED_ADMIN", "ORGANIZATION_POLICY"],
+      "applicability_rule": {
+        "rule_id": "pc13.antivirus-applicability",
+        "rule_version": "0.1.0",
+        "parameters": {
+          "subject_scope": "ASSET",
+          "target_product_kind": "ANTIVIRUS",
+          "not_installed_status": "FAIL",
+          "collection_failure_status": "ERROR"
+        }
+      },
+      "evidence_requirements": [
+        {
+          "requirement_id": "pc13.antivirus-update-status",
+          "probe_ids": ["win.antivirus.update-status"],
+          "required": true,
+          "minimum_records": 1,
+          "accepted_collection_status": ["COLLECTED"],
+          "organization_policy_required": true,
+          "manual_attestation_allowed": false
+        }
+      ],
+      "evaluation_rule": {
+        "rule_id": "pc13.antivirus-freshness",
+        "rule_version": "0.1.0",
+        "parameters": {
+          "adapter_catalog_required": true,
+          "adapter_catalog_id": "secai-endpoint-protection-adapters-0.1.0",
+          "adapter_catalog_version": "0.1.0",
+          "adapter_catalog_sha256": "934b1ac7b769321756c1550ef78fdb0dd0df5741e4db663dcf884146187e7758",
+          "allowed_catalog_approval_statuses": ["DRAFT"],
+          "unsupported_adapter_status": "REVIEW",
+          "organization_freshness_policy_required": true,
+          "missing_policy_status": "REVIEW",
+          "active_product_required": true,
+          "automatic_updates_required": true,
+          "healthy_state": "HEALTHY",
+          "stale_signature_status": "FAIL",
+          "inactive_product_status": "FAIL"
+        }
+      },
+      "citations": [
+        {
+          "document": "KISA-2026-07-PC",
+          "page_start": 582,
+          "page_end": 583,
+          "section_label": "PC-13 바이러스 백신 프로그램 설치 및 주기적 업데이트"
+        }
+      ],
+      "fixture_refs": {
+        "pass": "pc13-pass-defender-current",
+        "fail": "pc13-fail-signature-stale",
+        "error": "pc13-error-collection",
+        "review": "pc13-review-no-freshness-policy"
+      }
+    },
+    {
+      "control_id": "PC-14",
+      "title": "바이러스 백신 프로그램에서 제공하는 실시간 감시 기능 활성화",
+      "category": "SECURITY_MANAGEMENT",
+      "severity": "HIGH",
+      "automation_type": "AUTO-CONDITIONAL",
+      "required_privileges": ["STANDARD_USER", "ELEVATED_ADMIN"],
+      "applicability_rule": {
+        "rule_id": "pc14.antivirus-applicability",
+        "rule_version": "0.1.0",
+        "parameters": {
+          "subject_scope": "ASSET",
+          "target_product_kind": "ANTIVIRUS",
+          "not_installed_status": "FAIL",
+          "collection_failure_status": "ERROR"
+        }
+      },
+      "evidence_requirements": [
+        {
+          "requirement_id": "pc14.antivirus-realtime-status",
+          "probe_ids": ["win.antivirus.realtime-status"],
+          "required": true,
+          "minimum_records": 1,
+          "accepted_collection_status": ["COLLECTED"],
+          "organization_policy_required": false,
+          "manual_attestation_allowed": false
+        }
+      ],
+      "evaluation_rule": {
+        "rule_id": "pc14.realtime-protection",
+        "rule_version": "0.1.0",
+        "parameters": {
+          "adapter_catalog_required": true,
+          "adapter_catalog_id": "secai-endpoint-protection-adapters-0.1.0",
+          "adapter_catalog_version": "0.1.0",
+          "adapter_catalog_sha256": "934b1ac7b769321756c1550ef78fdb0dd0df5741e4db663dcf884146187e7758",
+          "allowed_catalog_approval_statuses": ["DRAFT"],
+          "unsupported_adapter_status": "REVIEW",
+          "active_product_required": true,
+          "service_enabled_required": true,
+          "real_time_protection_required": true,
+          "passive_or_unknown_mode_status": "REVIEW",
+          "disabled_realtime_status": "FAIL"
+        }
+      },
+      "citations": [
+        {
+          "document": "KISA-2026-07-PC",
+          "page_start": 584,
+          "page_end": 584,
+          "section_label": "PC-14 바이러스 백신 프로그램에서 제공하는 실시간 감시 기능 활성화"
+        }
+      ],
+      "fixture_refs": {
+        "pass": "pc14-pass-defender-realtime",
+        "fail": "pc14-fail-realtime-disabled",
+        "error": "pc14-error-collection",
+        "review": "pc14-review-defender-passive"
+      }
+    },
+    {
+      "control_id": "PC-15",
+      "title": "OS에서 제공하는 침입차단 기능 활성화",
+      "category": "SECURITY_MANAGEMENT",
+      "severity": "HIGH",
+      "automation_type": "AUTO-CONDITIONAL",
+      "required_privileges": ["STANDARD_USER", "ELEVATED_ADMIN"],
+      "applicability_rule": {
+        "rule_id": "pc15.firewall-applicability",
+        "rule_version": "0.1.0",
+        "parameters": {
+          "subject_scope": "ASSET",
+          "required_profile_names": ["DOMAIN", "PRIVATE", "PUBLIC"],
+          "collection_failure_status": "ERROR"
+        }
+      },
+      "evidence_requirements": [
+        {
+          "requirement_id": "pc15.firewall-effective-profiles",
+          "probe_ids": ["win.firewall.effective-profiles"],
+          "required": true,
+          "minimum_records": 1,
+          "accepted_collection_status": ["COLLECTED"],
+          "organization_policy_required": false,
+          "manual_attestation_allowed": false
+        }
+      ],
+      "evaluation_rule": {
+        "rule_id": "pc15.firewall-effective-state",
+        "rule_version": "0.1.0",
+        "parameters": {
+          "adapter_catalog_required": true,
+          "adapter_catalog_id": "secai-endpoint-protection-adapters-0.1.0",
+          "adapter_catalog_version": "0.1.0",
+          "adapter_catalog_sha256": "934b1ac7b769321756c1550ef78fdb0dd0df5741e4db663dcf884146187e7758",
+          "allowed_catalog_approval_statuses": ["DRAFT"],
+          "unsupported_adapter_status": "REVIEW",
+          "required_policy_store": "ACTIVE_STORE",
+          "all_applicable_profiles_enabled": true,
+          "approved_third_party_equivalent_allowed": true,
+          "unknown_third_party_status": "REVIEW",
+          "no_effective_firewall_status": "FAIL"
+        }
+      },
+      "citations": [
+        {
+          "document": "KISA-2026-07-PC",
+          "page_start": 585,
+          "page_end": 586,
+          "section_label": "PC-15 OS에서 제공하는 침입차단 기능 활성화"
+        }
+      ],
+      "fixture_refs": {
+        "pass": "pc15-pass-windows-firewall",
+        "fail": "pc15-fail-public-profile-disabled",
+        "error": "pc15-error-collection",
+        "review": "pc15-review-unapproved-third-party"
+      }
+    },
+    {
+      "control_id": "PC-16",
+      "title": "화면보호기 대기 시간 설정 및 재시작 시 암호 보호 설정",
+      "category": "SECURITY_MANAGEMENT",
+      "severity": "HIGH",
+      "automation_type": "AUTO",
+      "required_privileges": ["STANDARD_USER", "ELEVATED_ADMIN"],
+      "applicability_rule": {
+        "rule_id": "pc16.user-screensaver-applicability",
+        "rule_version": "0.1.0",
+        "parameters": {
+          "subject_scope": "USER",
+          "current_user_evaluation": true,
+          "asset_coverage_field": "user_coverage_complete",
+          "incomplete_coverage_status": "REVIEW",
+          "collection_failure_status": "ERROR"
+        }
+      },
+      "evidence_requirements": [
+        {
+          "requirement_id": "pc16.user-screensaver-policy",
+          "probe_ids": ["win.user.screensaver-policy"],
+          "required": true,
+          "minimum_records": 1,
+          "accepted_collection_status": ["COLLECTED"],
+          "organization_policy_required": false,
+          "manual_attestation_allowed": false
+        }
+      ],
+      "evaluation_rule": {
+        "rule_id": "pc16.screensaver-lock",
+        "rule_version": "0.1.0",
+        "parameters": {
+          "required_active_value": "1",
+          "minimum_timeout_seconds": 1,
+          "maximum_timeout_seconds": 600,
+          "required_secure_value": "1",
+          "screen_saver_executable_decisive": false,
+          "violation_status": "FAIL",
+          "collection_failure_status": "ERROR"
+        }
+      },
+      "citations": [
+        {
+          "document": "KISA-2026-07-PC",
+          "page_start": 587,
+          "page_end": 588,
+          "section_label": "PC-16 화면보호기 대기 시간 설정 및 재시작 시 암호 보호 설정"
+        }
+      ],
+      "fixture_refs": {
+        "pass": "pc16-pass-policy-lock",
+        "fail": "pc16-fail-timeout-over-600",
+        "error": "pc16-error-collection",
+        "review": "pc16-review-user-coverage-incomplete"
+      }
+    },
+    {
+      "control_id": "PC-17",
+      "title": "이동식 미디어 자동실행 방지 및 보안대책 수립",
+      "category": "SECURITY_MANAGEMENT",
+      "severity": "HIGH",
+      "automation_type": "AUTO-CONDITIONAL",
+      "required_privileges": ["STANDARD_USER", "ELEVATED_ADMIN", "ORGANIZATION_POLICY"],
+      "applicability_rule": {
+        "rule_id": "pc17.removable-media-applicability",
+        "rule_version": "0.1.0",
+        "parameters": {
+          "subject_scope": "POLICY",
+          "supported_policy_sources": ["LOCAL", "DOMAIN", "MDM", "WINDOWS_EFFECTIVE"],
+          "collection_failure_status": "ERROR"
+        }
+      },
+      "evidence_requirements": [
+        {
+          "requirement_id": "pc17.effective-autoplay-policy",
+          "probe_ids": ["win.media.autoplay-policy"],
+          "required": true,
+          "minimum_records": 1,
+          "accepted_collection_status": ["COLLECTED"],
+          "organization_policy_required": true,
+          "manual_attestation_allowed": true
+        }
+      ],
+      "evaluation_rule": {
+        "rule_id": "pc17.removable-media-controls",
+        "rule_version": "0.1.0",
+        "parameters": {
+          "organization_policy_required": true,
+          "turn_off_autoplay_required": true,
+          "required_autoplay_scope": "ALL_DRIVES",
+          "required_autorun_default_behavior": "DO_NOT_EXECUTE",
+          "disallow_non_volume_autoplay_required": true,
+          "approved_procedure_status": "APPROVED",
+          "missing_organization_policy_status": "REVIEW",
+          "missing_procedure_attestation_status": "REVIEW",
+          "technical_violation_status": "FAIL",
+          "collection_failure_status": "ERROR"
+        }
+      },
+      "citations": [
+        {
+          "document": "KISA-2026-07-PC",
+          "page_start": 589,
+          "page_end": 590,
+          "section_label": "PC-17 이동식 미디어 자동실행 방지 및 보안대책 수립"
+        }
+      ],
+      "fixture_refs": {
+        "pass": "pc17-pass-autoplay-and-procedure",
+        "fail": "pc17-fail-autoplay-enabled",
+        "error": "pc17-error-collection",
+        "review": "pc17-review-procedure-missing"
+      }
+    },
+    {
+      "control_id": "PC-18",
+      "title": "원격 지원을 금지하도록 정책을 설정",
+      "category": "SECURITY_MANAGEMENT",
+      "severity": "MEDIUM",
+      "automation_type": "AUTO",
+      "required_privileges": ["STANDARD_USER", "ELEVATED_ADMIN"],
+      "applicability_rule": {
+        "rule_id": "pc18.remote-assistance-applicability",
+        "rule_version": "0.1.0",
+        "parameters": {
+          "subject_scope": "POLICY",
+          "required_policy_values": ["fAllowToGetHelp", "fAllowUnsolicited"],
+          "collection_failure_status": "ERROR"
+        }
+      },
+      "evidence_requirements": [
+        {
+          "requirement_id": "pc18.remote-assistance-policy",
+          "probe_ids": ["win.remote-assistance.policy"],
+          "required": true,
+          "minimum_records": 1,
+          "accepted_collection_status": ["COLLECTED"],
+          "organization_policy_required": false,
+          "manual_attestation_allowed": false
+        }
+      ],
+      "evaluation_rule": {
+        "rule_id": "pc18.remote-assistance-disabled",
+        "rule_version": "0.1.0",
+        "parameters": {
+          "solicited_disabled_values": ["0"],
+          "offer_disabled_values": ["0"],
+          "not_configured_value": "MISSING",
+          "not_configured_status": "REVIEW",
+          "enabled_status": "FAIL",
+          "quick_assist_in_scope": false,
+          "remote_desktop_in_scope": false,
+          "collection_failure_status": "ERROR"
+        }
+      },
+      "citations": [
+        {
+          "document": "KISA-2026-07-PC",
+          "page_start": 591,
+          "page_end": 592,
+          "section_label": "PC-18 원격 지원을 금지하도록 정책을 설정"
+        }
+      ],
+      "fixture_refs": {
+        "pass": "pc18-pass-both-disabled",
+        "fail": "pc18-fail-solicited-enabled",
+        "error": "pc18-error-collection",
+        "review": "pc18-review-not-configured"
+      }
+    }
+  ],
+  "approval": {
+    "status": "DRAFT"
+  }
+}

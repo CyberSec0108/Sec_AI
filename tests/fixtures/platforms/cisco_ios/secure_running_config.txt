@@ -1,0 +1,7 @@
+enable secret 9 REDACTED
+service password-encryption
+line vty 0 4
+ transport input ssh
+snmp-server group SEC v3 priv
+logging host 192.0.2.10
+ntp server 192.0.2.20

@@ -1,0 +1,19 @@
+{
+  "lock": "api.lock",
+  "runtime": "CPython 3.14.6",
+  "platform": "linux/amd64",
+  "hash_install": "PASS",
+  "imports": [
+    "fastapi",
+    "uvicorn",
+    "jinja2",
+    "psycopg",
+    "redis",
+    "minio",
+    "jsonschema",
+    "sqlalchemy",
+    "pydantic",
+    "argon2"
+  ],
+  "status": "PASS"
+}

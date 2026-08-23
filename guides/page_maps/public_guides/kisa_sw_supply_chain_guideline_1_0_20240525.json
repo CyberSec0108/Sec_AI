@@ -1,0 +1,275 @@
+{
+  "schema_version": "1.0.0",
+  "guide_id": "kisa-sw-supply-chain-guideline",
+  "guide_version": "1.0-20240525",
+  "source_sha256": "babf9f81649fbf03d60928e9ff55f187f642798f90aa54d1f8885c35f89df308",
+  "source_page_count": 22,
+  "scope_id": "kisa-sw-supply-chain-1.0-all",
+  "pdf_page_start": 1,
+  "pdf_page_end": 22,
+  "chunker_version": "public-page-text-v1",
+  "pages": [
+    {
+      "pdf_page_index": 0,
+      "pdf_page_number": 1,
+      "printed_page_number": 1,
+      "text_sha256": "fd8a0764fac7e65fd776041fe18df8f281bc1d009dec72e15ecb230bffafaac7",
+      "normalized_text_chars": 6,
+      "indexable": true,
+      "skip_reason": null,
+      "control_ids": [
+        "GUIDE-PAGE"
+      ]
+    },
+    {
+      "pdf_page_index": 1,
+      "pdf_page_number": 2,
+      "printed_page_number": 2,
+      "text_sha256": "59cb84ac557b798187b6d7f6c6d7d8e0888d4920e64dc8c2faa6891560f285ad",
+      "normalized_text_chars": 12,
+      "indexable": true,
+      "skip_reason": null,
+      "control_ids": [
+        "GUIDE-PAGE"
+      ]
+    },
+    {
+      "pdf_page_index": 2,
+      "pdf_page_number": 3,
+      "printed_page_number": 3,
+      "text_sha256": "c5ee280940326075e487b5856783e9fe4021f7012b7e2f43694f2f39e80a2156",
+      "normalized_text_chars": 561,
+      "indexable": true,
+      "skip_reason": null,
+      "control_ids": [
+        "GUIDE-PAGE"
+      ]
+    },
+    {
+      "pdf_page_index": 3,
+      "pdf_page_number": 4,
+      "printed_page_number": 4,
+      "text_sha256": "80014ed59d4d51810981f01390c4b3bcb92d9f871c582a61805865b53ad85dbd",
+      "normalized_text_chars": 480,
+      "indexable": true,
+      "skip_reason": null,
+      "control_ids": [
+        "GUIDE-PAGE"
+      ]
+    },
+    {
+      "pdf_page_index": 4,
+      "pdf_page_number": 5,
+      "printed_page_number": 5,
+      "text_sha256": "804c507f79cf12042b40ee1763f2e2edb0b3a48812984f74bcfe72220ebee33d",
+      "normalized_text_chars": 1110,
+      "indexable": true,
+      "skip_reason": null,
+      "control_ids": [
+        "GUIDE-PAGE"
+      ]
+    },
+    {
+      "pdf_page_index": 5,
+      "pdf_page_number": 6,
+      "printed_page_number": 6,
+      "text_sha256": "0f53ba9786ec972913c2e4f7549285adc2a562bf80c6efef795d176ea307fa8f",
+      "normalized_text_chars": 1361,
+      "indexable": true,
+      "skip_reason": null,
+      "control_ids": [
+        "GUIDE-PAGE"
+      ]
+    },
+    {
+      "pdf_page_index": 6,
+      "pdf_page_number": 7,
+      "printed_page_number": 7,
+      "text_sha256": "1538de010aa69472cea253e8d1ce1e33dc37da6831ae70044b120dafb14077df",
+      "normalized_text_chars": 1138,
+      "indexable": true,
+      "skip_reason": null,
+      "control_ids": [
+        "GUIDE-PAGE"
+      ]
+    },
+    {
+      "pdf_page_index": 7,
+      "pdf_page_number": 8,
+      "printed_page_number": 8,
+      "text_sha256": "129616fcd8081c3d67d2d30689c4d6ab5703aff5eb75d5ba1751bb496fcf58bc",
+      "normalized_text_chars": 799,
+      "indexable": true,
+      "skip_reason": null,
+      "control_ids": [
+        "GUIDE-PAGE"
+      ]
+    },
+    {
+      "pdf_page_index": 8,
+      "pdf_page_number": 9,
+      "printed_page_number": 9,
+      "text_sha256": "ddac6f01208d4b1eb18bd83f8f70bef530c2db134b9f25b6ebd6d5fb5b3e20a3",
+      "normalized_text_chars": 1228,
+      "indexable": true,
+      "skip_reason": null,
+      "control_ids": [
+        "GUIDE-PAGE"
+      ]
+    },
+    {
+      "pdf_page_index": 9,
+      "pdf_page_number": 10,
+      "printed_page_number": 10,
+      "text_sha256": "6102550521e686ba1dcb0ce2722a3bfb87a570978a961b86c9b357f27aa9131c",
+      "normalized_text_chars": 1634,
+      "indexable": true,
+      "skip_reason": null,
+      "control_ids": [
+        "GUIDE-PAGE"
+      ]
+    },
+    {
+      "pdf_page_index": 10,
+      "pdf_page_number": 11,
+      "printed_page_number": 11,
+      "text_sha256": "1c71ec35e45708e76e98aed25198320b2232d9516b9e1a3f1cebfa2cac149b24",
+      "normalized_text_chars": 395,
+      "indexable": true,
+      "skip_reason": null,
+      "control_ids": [
+        "GUIDE-PAGE"
+      ]
+    },
+    {
+      "pdf_page_index": 11,
+      "pdf_page_number": 12,
+      "printed_page_number": 12,
+      "text_sha256": "ddf2f27bfa535b39cbebfce8529336f2697aa1cf44b2ecc748abbbd62a90ed0d",
+      "normalized_text_chars": 497,
+      "indexable": true,
+      "skip_reason": null,
+      "control_ids": [
+        "GUIDE-PAGE"
+      ]
+    },
+    {
+      "pdf_page_index": 12,
+      "pdf_page_number": 13,
+      "printed_page_number": 13,
+      "text_sha256": "7d8eb8171eda323bf01ee0096a72bf966e82847a0c1dd5a555c88781a2615602",
+      "normalized_text_chars": 1249,
+      "indexable": true,
+      "skip_reason": null,
+      "control_ids": [
+        "GUIDE-PAGE"
+      ]
+    },
+    {
+      "pdf_page_index": 13,
+      "pdf_page_number": 14,
+      "printed_page_number": 14,
+      "text_sha256": "ec0dd09c7047bf57f7d4f4762a1f5232daf55ad6f7b72cbd412db1ba56b02882",
+      "normalized_text_chars": 738,
+      "indexable": true,
+      "skip_reason": null,
+      "control_ids": [
+        "GUIDE-PAGE"
+      ]
+    },
+    {
+      "pdf_page_index": 14,
+      "pdf_page_number": 15,
+      "printed_page_number": 15,
+      "text_sha256": "5af604135c9b7501562840e3260a166a7534ede58606aa96361d4ae9bc7ab244",
+      "normalized_text_chars": 440,
+      "indexable": true,
+      "skip_reason": null,
+      "control_ids": [
+        "GUIDE-PAGE"
+      ]
+    },
+    {
+      "pdf_page_index": 15,
+      "pdf_page_number": 16,
+      "printed_page_number": 16,
+      "text_sha256": "f409b5a417facbdee28a9952a5d4ed2fc51eea1db5ff5d818edebe23a753fd68",
+      "normalized_text_chars": 1109,
+      "indexable": true,
+      "skip_reason": null,
+      "control_ids": [
+        "GUIDE-PAGE"
+      ]
+    },
+    {
+      "pdf_page_index": 16,
+      "pdf_page_number": 17,
+      "printed_page_number": 17,
+      "text_sha256": "f5891823ed4ae558ea5a3774bf16d39ea6f1768b3a4a8502470265b7efcf1738",
+      "normalized_text_chars": 1115,
+      "indexable": true,
+      "skip_reason": null,
+      "control_ids": [
+        "GUIDE-PAGE"
+      ]
+    },
+    {
+      "pdf_page_index": 17,
+      "pdf_page_number": 18,
+      "printed_page_number": 18,
+      "text_sha256": "673f3ba1a08166bc172d545b6cf8126009c4221c9a2ed69b1f280b61dc20c613",
+      "normalized_text_chars": 1563,
+      "indexable": true,
+      "skip_reason": null,
+      "control_ids": [
+        "GUIDE-PAGE"
+      ]
+    },
+    {
+      "pdf_page_index": 18,
+      "pdf_page_number": 19,
+      "printed_page_number": 19,
+      "text_sha256": "d5ac9076399ecc79134f7b5d5a071791ec36ee431cb147389f4603d0b5eb34c7",
+      "normalized_text_chars": 1298,
+      "indexable": true,
+      "skip_reason": null,
+      "control_ids": [
+        "GUIDE-PAGE"
+      ]
+    },
+    {
+      "pdf_page_index": 19,
+      "pdf_page_number": 20,
+      "printed_page_number": 20,
+      "text_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "normalized_text_chars": 0,
+      "indexable": false,
+      "skip_reason": "EMPTY_TEXT_LAYER",
+      "control_ids": []
+    },
+    {
+      "pdf_page_index": 20,
+      "pdf_page_number": 21,
+      "printed_page_number": 21,
+      "text_sha256": "41af613a16197fb2461d91c12e66e549f584b85ee14b32c09910602dc65c4b36",
+      "normalized_text_chars": 174,
+      "indexable": true,
+      "skip_reason": null,
+      "control_ids": [
+        "GUIDE-PAGE"
+      ]
+    },
+    {
+      "pdf_page_index": 21,
+      "pdf_page_number": 22,
+      "printed_page_number": 22,
+      "text_sha256": "29b5da319e68632a8cada0862a69312925d57583a5e18945dee99c8df7e38a56",
+      "normalized_text_chars": 3,
+      "indexable": true,
+      "skip_reason": null,
+      "control_ids": [
+        "GUIDE-PAGE"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,189 @@
+name: sec-ai-mvp-dev
+
+services:
+  api:
+    environment:
+      SECAI_DEV_DEMO_ENABLED: "true"
+      SECAI_CHAT_LIVE_ENABLED: "true"
+      SECAI_DEMO_CSRF_TOKEN_FILE: /run/secrets/demo_csrf_token
+      SECAI_AUTH_ENABLED: "true"
+      SECAI_AUTH_PROFILE: DEV-LOCAL
+      SECAI_AUTH_CANONICAL_ORIGIN: http://localhost:18480
+      SECAI_AUTH_SESSION_INDEX_KEY_FILE: /run/secrets/auth_session_index_key
+      SECAI_AUTH_DEV_PASSWORD_FILE: /run/secrets/auth_dev_password
+      SECAI_AUTH_DEV_MFA_CODE_FILE: /run/secrets/auth_dev_mfa_code
+      SECAI_AUTH_DEV_USERNAME: local-owner
+      SECAI_AUTH_DEV_DISPLAY_NAME: 로컬 개발 사용자
+      SECAI_DEV_SIGNED_DOWNLOAD_ENABLED: "true"
+      SECAI_DEV_SIGNED_DOWNLOAD_ROOT: /run/secai-dev-downloads
+      SECAI_MODEL_GATEWAY_URL: http://model-gateway:8010
+      SECAI_MODEL_GATEWAY_TOKEN_FILE: /run/secrets/model_gateway_token
+      SECAI_RESULT_AI_REMOTE_TEST_APPROVED: "true"
+      SECAI_GUIDE_AI_REMOTE_TEST_APPROVED: "true"
+      SECAI_PUBLIC_GUIDE_SOURCE_ROOT: /run/secai-public-guides
+      WATCHFILES_FORCE_POLLING: "true"
+    command:
+      - -m
+      - uvicorn
+      - apps.api.main:app
+      - --host
+      - "0.0.0.0"
+      - --port
+      - "8000"
+      - --no-access-log
+      - --reload
+      - --reload-delay
+      - "0.5"
+      - --reload-dir
+      - /app/src
+      - --reload-dir
+      - /app/apps/api
+    volumes:
+      - type: bind
+        source: src
+        target: /app/src
+        read_only: true
+      - type: bind
+        source: apps/api
+        target: /app/apps/api
+        read_only: true
+      - type: bind
+        source: apps/web
+        target: /app/apps/web
+        read_only: true
+      - type: bind
+        source: runtime/dev-signed-downloads
+        target: /run/secai-dev-downloads
+        read_only: true
+      - type: bind
+        source: data/public_guides
+        target: /run/secai-public-guides
+        read_only: true
+
+  dev-tools:
+    profiles: ["tools"]
+    image: sec-ai-mvp/dev-tools:0.1.0
+    build:
+      context: .
+      dockerfile: deploy/docker/dev.Dockerfile
+      args:
+        PYTHON_BASE: docker.io/library/python:3.14.6-slim-bookworm@sha256:f70215e5dbe2a47dee6d23f9c6d358bf3c148f59cce2fd165b61118e9d80f2bb
+    platform: linux/amd64
+    labels:
+      io.sec-ai-mvp.project: "Sec_AI"
+      io.sec-ai-mvp.component: "development-tools"
+      io.sec-ai-mvp.managed-by: "docker-compose"
+    working_dir: /workspace
+    environment:
+      HOME: /tmp/secai-home
+      PYTHONPATH: /workspace/src:/workspace
+      RUFF_CACHE_DIR: /tmp/secai-ruff-cache
+    volumes:
+      - type: bind
+        source: .
+        target: /workspace
+        read_only: true
+    tmpfs:
+      - /tmp:size=512m,mode=1777
+    read_only: true
+    network_mode: none
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+
+  guide-ingest:
+    profiles: ["tools"]
+    image: sec-ai-mvp/dev-tools:0.1.0
+    build:
+      context: .
+      dockerfile: deploy/docker/dev.Dockerfile
+      args:
+        PYTHON_BASE: docker.io/library/python:3.14.6-slim-bookworm@sha256:f70215e5dbe2a47dee6d23f9c6d358bf3c148f59cce2fd165b61118e9d80f2bb
+    platform: linux/amd64
+    labels:
+      io.sec-ai-mvp.project: "Sec_AI"
+      io.sec-ai-mvp.component: "approved-guide-ingest"
+      io.sec-ai-mvp.managed-by: "docker-compose"
+    working_dir: /workspace
+    environment:
+      PYTHONPATH: /workspace/src:/workspace
+      SECAI_POSTGRES_HOST: postgres
+      SECAI_POSTGRES_PORT: "5432"
+      SECAI_POSTGRES_DB: ${SECAI_POSTGRES_DB:-secai}
+      SECAI_POSTGRES_USER: ${SECAI_POSTGRES_MIGRATOR_USER:-secai_app}
+      SECAI_POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+      SECAI_CLAMAV_HOST: clamav
+      SECAI_CLAMAV_PORT: "3310"
+    secrets:
+      - postgres_password
+    depends_on:
+      postgres:
+        condition: service_healthy
+      clamav:
+        condition: service_healthy
+    volumes:
+      - type: bind
+        source: .
+        target: /workspace
+        read_only: true
+    tmpfs:
+      - /tmp:size=256m,mode=1777
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    networks:
+      - app_net
+    entrypoint: ["python"]
+    command: ["tools/ingest-approved-guide.py"]
+
+  pgadmin:
+    profiles: ["admin-tools"]
+    image: sec-ai-mvp/pgadmin:0.1.0
+    build:
+      context: .
+      dockerfile: deploy/docker/pgadmin.Dockerfile
+      args:
+        PGADMIN_BASE: docker.io/dpage/pgadmin4:9.16@sha256:66a300a7ecdcc1f325af0c430315329bca46cd4a7067227d6899802238167c6e
+    platform: linux/amd64
+    labels:
+      io.sec-ai-mvp.project: "Sec_AI"
+      io.sec-ai-mvp.component: "pgadmin"
+      io.sec-ai-mvp.managed-by: "docker-compose"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@secai.dev
+      PGADMIN_DEFAULT_PASSWORD_FILE: /run/secrets/pgadmin_default_password
+      PGADMIN_DISABLE_POSTFIX: "1"
+      PGADMIN_LISTEN_ADDRESS: 0.0.0.0
+      PGADMIN_LISTEN_PORT: "5050"
+      PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION: "True"
+      PGADMIN_CONFIG_SESSION_EXPIRATION_TIME: "30"
+    secrets:
+      - pgadmin_default_password
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "${SECAI_PGADMIN_BIND:-127.0.0.1}:${SECAI_PGADMIN_PORT:-18490}:5050"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    tmpfs:
+      - /tmp:size=64m,mode=1777
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    networks:
+      - frontend_net
+      - app_net
+    restart: unless-stopped
+
+volumes:
+  pgadmin_data:
+    name: sec-ai-mvp-pgadmin-data
+
+secrets:
+  pgadmin_default_password:
+    file: ./runtime/dev-secrets/pgadmin_default_password

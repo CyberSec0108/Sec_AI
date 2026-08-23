@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "id": "50000000-0000-4000-8000-000000000001",
+  "created_at": "2026-07-21T05:00:00Z",
+  "source": "audit-pack-builder",
+  "producer_name": "sec-ai-audit-pack-builder",
+  "producer_version": "1.0.0",
+  "correlation_id": "50000000-0000-4000-8000-000000000002",
+  "pack_profile": "KISA-2026-PC-MVP",
+  "name": "Invalid approved pack",
+  "version": "1.0.0",
+  "guide": {"publisher": "KISA", "version": "2026", "section": "07.PC", "document_sha256": "4444444444444444444444444444444444444444444444444444444444444444"},
+  "target": {"os_family": "WINDOWS", "versions": ["11"], "architectures": ["x86_64"]},
+  "effective_from": "2026-07-21T00:00:00Z",
+  "content_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+  "controls": [],
+  "approval": {
+    "status": "APPROVED",
+    "approved_at": "2026-07-21T05:00:00Z",
+    "approver_ids": ["50000000-0000-4000-8000-000000000003"]
+  }
+}

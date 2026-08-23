@@ -1,0 +1,150 @@
+{
+  "schema_version": "1.0.0",
+  "context": {
+    "os_family": "WINDOWS",
+    "os_version": "11",
+    "product_name": "Microsoft Windows 11 Enterprise",
+    "display_version": "24H2",
+    "build_number": "26100",
+    "ubr": 1000,
+    "architecture": "x86_64",
+    "process_sid": "S-1-5-21-1000000000-2000000000-3000000000-1001",
+    "is_administrator": false,
+    "integrity_level": "MEDIUM",
+    "collected_at_utc": "2026-07-23T08:00:00.000Z"
+  },
+  "results": [
+    {
+      "probe_id": "win.security.password-age",
+      "probe_version": "0.1.0",
+      "control_ids": ["PC-01"],
+      "collection_status": "COLLECTED",
+      "error_code": "NONE",
+      "adapter_id": "secai.windows-native",
+      "adapter_version": "0.1.0",
+      "coverage": "EFFECTIVE_LOCAL_OR_DOMAIN_POLICY",
+      "records": [{"maximum_password_age_days": 90}]
+    },
+    {
+      "probe_id": "win.security.recovery-console",
+      "probe_version": "0.1.0",
+      "control_ids": ["PC-03"],
+      "collection_status": "COLLECTED",
+      "error_code": "NONE",
+      "adapter_id": "secai.windows-registry",
+      "adapter_version": "0.1.0",
+      "coverage": "EFFECTIVE_MACHINE_POLICY",
+      "records": [{"automatic_admin_logon": "NOT_DEFINED"}]
+    },
+    {
+      "probe_id": "win.services.inventory",
+      "probe_version": "0.1.0",
+      "control_ids": ["PC-05"],
+      "collection_status": "COLLECTED",
+      "error_code": "NONE",
+      "adapter_id": "secai.windows-service-control-manager",
+      "adapter_version": "0.1.0",
+      "coverage": "RAW_SERVICE_INVENTORY_REQUIRES_ORGANIZATION_POLICY",
+      "records": [{"service_key": "SyntheticService", "state": "RUNNING"}]
+    },
+    {
+      "probe_id": "win.browser.wininet-cache-policy",
+      "probe_version": "0.1.0",
+      "control_ids": ["PC-09"],
+      "collection_status": "COLLECTED",
+      "error_code": "NONE",
+      "adapter_id": "secai.windows-registry",
+      "adapter_version": "0.1.0",
+      "coverage": "CURRENT_USER_WININET_POLICY",
+      "records": [{"empty_cache_on_exit": true}]
+    },
+    {
+      "probe_id": "win.os.lifecycle",
+      "probe_version": "0.1.0",
+      "control_ids": ["PC-11"],
+      "collection_status": "COLLECTED",
+      "error_code": "NONE",
+      "adapter_id": "secai.windows-native",
+      "adapter_version": "0.1.0",
+      "coverage": "WINDOWS_PRODUCT_IDENTITY",
+      "records": [{"display_version": "24H2", "os_build": "26100"}]
+    },
+    {
+      "probe_id": "win.autologon.config",
+      "probe_version": "0.1.0",
+      "control_ids": ["PC-12"],
+      "collection_status": "COLLECTED",
+      "error_code": "NONE",
+      "adapter_id": "secai.winlogon-native",
+      "adapter_version": "0.1.0",
+      "coverage": "AUTO_LOGON_STATE_WITHOUT_SECRET_CONTENT",
+      "records": [{"auto_admin_logon_value": "MISSING", "default_password_present": false}]
+    },
+    {
+      "probe_id": "win.antivirus.update-status",
+      "probe_version": "0.1.0",
+      "control_ids": ["PC-13"],
+      "collection_status": "COLLECTED",
+      "error_code": "NONE",
+      "adapter_id": "secai.microsoft-defender-antivirus",
+      "adapter_version": "0.1.0",
+      "coverage": "DEFENDER_BUILTIN_DRAFT_ADAPTER",
+      "records": [{"product_id": "MICROSOFT_DEFENDER_ANTIVIRUS", "product_state": "ACTIVE"}]
+    },
+    {
+      "probe_id": "win.antivirus.realtime-status",
+      "probe_version": "0.1.0",
+      "control_ids": ["PC-14"],
+      "collection_status": "COLLECTED",
+      "error_code": "NONE",
+      "adapter_id": "secai.microsoft-defender-antivirus",
+      "adapter_version": "0.1.0",
+      "coverage": "DEFENDER_BUILTIN_DRAFT_ADAPTER",
+      "records": [{"real_time_protection_enabled": true}]
+    },
+    {
+      "probe_id": "win.firewall.effective-profiles",
+      "probe_version": "0.1.0",
+      "control_ids": ["PC-15"],
+      "collection_status": "COLLECTED",
+      "error_code": "NONE",
+      "adapter_id": "secai.windows-firewall",
+      "adapter_version": "0.1.0",
+      "coverage": "ACTIVE_STORE_DRAFT_ADAPTER",
+      "records": [{"profile": "PUBLIC", "enabled": true, "policy_store": "ACTIVE_STORE"}]
+    },
+    {
+      "probe_id": "win.user.screensaver-policy",
+      "probe_version": "0.1.0",
+      "control_ids": ["PC-16"],
+      "collection_status": "COLLECTED",
+      "error_code": "NONE",
+      "adapter_id": "secai.windows-registry",
+      "adapter_version": "0.1.0",
+      "coverage": "CURRENT_USER_ONLY_REQUIRES_ASSET_USER_COVERAGE",
+      "records": [{"subject_id": "CURRENT_USER", "user_coverage_complete": false}]
+    },
+    {
+      "probe_id": "win.media.autoplay-policy",
+      "probe_version": "0.1.0",
+      "control_ids": ["PC-17"],
+      "collection_status": "COLLECTED",
+      "error_code": "NONE",
+      "adapter_id": "secai.windows-registry",
+      "adapter_version": "0.1.0",
+      "coverage": "MACHINE_AND_CURRENT_USER_POLICY_NO_ORG_ATTESTATION",
+      "records": [{"turn_off_autoplay_enabled": true}]
+    },
+    {
+      "probe_id": "win.remote-assistance.policy",
+      "probe_version": "0.1.0",
+      "control_ids": ["PC-18"],
+      "collection_status": "COLLECTED",
+      "error_code": "NONE",
+      "adapter_id": "secai.windows-registry",
+      "adapter_version": "0.1.0",
+      "coverage": "MACHINE_POLICY",
+      "records": [{"f_allow_to_get_help": "0", "f_allow_unsolicited": "0"}]
+    }
+  ]
+}

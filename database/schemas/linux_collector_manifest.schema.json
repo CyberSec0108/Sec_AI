@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sec-ai.local/v2/linux_collector_manifest.schema.json",
+  "title": "Sec_AI Linux one-shot collector manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "profile", "id", "created_at", "source", "producer_name",
+    "producer_version", "correlation_id", "organization_id", "subject_user_id",
+    "job_id", "asset_id", "execution_attempt_id", "guide_version", "nonce",
+    "issued_at", "expires_at", "manifest_content_sha256", "target",
+    "collector_constraint", "criteria_snapshot", "probes", "submission", "authorization"
+  ],
+  "properties": {
+    "schema_version": {"const": "2.0.0"},
+    "profile": {"const": "LINUX-ONESHOT-MANIFEST-V2"},
+    "id": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/uuid"},
+    "created_at": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/timestamp"},
+    "source": {"const": "api"},
+    "producer_name": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/identifier"},
+    "producer_version": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/semver"},
+    "correlation_id": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/uuid"},
+    "organization_id": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/uuid"},
+    "subject_user_id": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/uuid"},
+    "job_id": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/uuid"},
+    "asset_id": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/uuid"},
+    "execution_attempt_id": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/uuid"},
+    "guide_version": {"const": "2026"},
+    "nonce": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/nonce"},
+    "issued_at": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/timestamp"},
+    "expires_at": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/timestamp"},
+    "manifest_content_sha256": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/sha256"},
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["os_family", "distribution", "architecture"],
+      "properties": {
+        "os_family": {"const": "LINUX"},
+        "distribution": {
+          "enum": [
+            "UBUNTU_22_04", "UBUNTU_24_04", "DEBIAN_12",
+            "ROCKY_9", "RHEL_9", "ALMALINUX_9"
+          ]
+        },
+        "architecture": {"const": "x86_64"}
+      }
+    },
+    "collector_constraint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "min_version", "max_version_exclusive", "release_channel", "probe_bundle_sha256"],
+      "properties": {
+        "name": {"const": "sec-ai-linux-one-shot"},
+        "min_version": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/semver"},
+        "max_version_exclusive": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/semver"},
+        "release_channel": {"enum": ["DEV-UNTRUSTED", "SIGNED-PILOT", "SIGNED-PRODUCTION"]},
+        "probe_bundle_sha256": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/sha256"}
+      }
+    },
+    "criteria_snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["benchmark_id", "benchmark_version", "values", "sha256"],
+      "properties": {
+        "benchmark_id": {"const": "KISA-2026-UNIX-U01-U67"},
+        "benchmark_version": {"const": "2026-DRAFT"},
+        "values": {"type": "object", "maxProperties": 32, "additionalProperties": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/boundedValue"}},
+        "sha256": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/sha256"}
+      }
+    },
+    "probes": {
+      "type": "array", "minItems": 1, "maxItems": 64,
+      "items": {"$ref": "#/$defs/probeRequest"}
+    },
+    "submission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allowed_profiles", "endpoint_id", "max_archive_bytes", "max_uncompressed_bytes", "max_files"],
+      "properties": {
+        "allowed_profiles": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"enum": ["ONLINE-AUTHENTICATED", "OFFLINE-USER-SUBMITTED"]}},
+        "endpoint_id": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/identifier"},
+        "max_archive_bytes": {"type": "integer", "minimum": 1024, "maximum": 104857600},
+        "max_uncompressed_bytes": {"type": "integer", "minimum": 1024, "maximum": 524288000},
+        "max_files": {"type": "integer", "minimum": 2, "maximum": 1024}
+      }
+    },
+    "authorization": {
+      "type": "object", "additionalProperties": false,
+      "required": ["profile", "signature"],
+      "properties": {
+        "profile": {"const": "MANIFEST-SIGNED-V1"},
+        "signature": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/signature"}
+      }
+    }
+  },
+  "$defs": {
+    "probeRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["probe_id", "probe_version", "control_ids", "required_privilege", "exact_argv", "timeout_seconds", "max_output_bytes", "accepted_exit_codes"],
+      "properties": {
+        "probe_id": {"type": "string", "pattern": "^linux\\.[a-z0-9-]{1,96}$"},
+        "probe_version": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/semver"},
+        "control_ids": {"type": "array", "maxItems": 67, "uniqueItems": true, "items": {"type": "string", "pattern": "^U-(0[1-9]|[1-5][0-9]|6[0-7])$"}},
+        "required_privilege": {"enum": ["STANDARD_USER", "ELEVATED_ADMIN"]},
+        "exact_argv": {"type": "array", "minItems": 1, "maxItems": 32, "items": {"type": "string", "minLength": 1, "maxLength": 1024, "pattern": "^[^\\u0000\\r\\n]*$"}},
+        "timeout_seconds": {"type": "integer", "minimum": 1, "maximum": 180},
+        "max_output_bytes": {"type": "integer", "minimum": 1, "maximum": 1048576},
+        "accepted_exit_codes": {"type": "array", "minItems": 1, "maxItems": 8, "uniqueItems": true, "items": {"type": "integer", "minimum": 0, "maximum": 255}}
+      }
+    }
+  }
+}

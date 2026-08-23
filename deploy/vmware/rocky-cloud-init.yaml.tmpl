@@ -1,0 +1,36 @@
+#cloud-config
+hostname: __HOSTNAME__
+manage_etc_hosts: true
+users:
+  - default
+  - name: secai-lab
+    gecos: SecAI isolated lab user
+    groups: [__ADMIN_GROUP__]
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    lock_passwd: true
+    ssh_authorized_keys:
+      - __SSH_PUBLIC_KEY__
+ssh_pwauth: false
+disable_root: true
+write_files:
+  - path: /etc/secai-lab-profile
+    owner: root:root
+    permissions: "0644"
+    content: |
+      profile=isolated-vulnerable-baseline
+      purpose=read-only-security-control-validation
+      platform=__PLATFORM__
+  - path: /etc/ssh/sshd_config.d/90-secai-lab.conf
+    owner: root:root
+    permissions: "0600"
+    content: |
+      PasswordAuthentication no
+      PermitRootLogin no
+      MaxAuthTries 6
+runcmd:
+  - [sh, -c, "sed -ri 's/^PASS_MAX_DAYS[[:space:]]+.*/PASS_MAX_DAYS 99999/' /etc/login.defs"]
+  - [sh, -c, "restorecon -RFv /etc/ssh/sshd_config.d /etc/secai-lab-profile || true"]
+  - [sh, -c, "systemctl reload ssh.service || systemctl reload sshd.service || true"]
+  - [sh, -c, "install -d -m 0755 /var/lib/secai-lab && touch /var/lib/secai-lab/initial-vulnerable-ready"]
+final_message: "SecAI __DISTRIBUTION_LABEL__ isolated vulnerable baseline is ready."

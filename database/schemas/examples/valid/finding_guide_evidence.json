@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0.0",
+  "status": "FOUND",
+  "reason_code": null,
+  "control_id": "PC-07",
+  "rule_status": "FAIL",
+  "status_authority": "RULE_ENGINE",
+  "explanation_input_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "search_query_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "citations": [
+    {
+      "chunk_id": "49000000-0000-4000-8000-000000000001",
+      "guide_id": "kisa-major-infrastructure-detailed-guide",
+      "guide_version": "2026",
+      "document_code": "KISA-2026-07-PC",
+      "source_sha256": "44fe393981b244147be6af7423d99dc15633c089fad0bcb296cbe2371dde812d",
+      "scope_id": "kisa-2026-pc",
+      "pdf_page_number": 571,
+      "control_id": "PC-07",
+      "section_label": "PC-07 파일 시스템이 NTFS 포맷으로 설정",
+      "paragraph_ordinal": 2,
+      "paragraph_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "text_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "dense_score": 0.95,
+      "lexical_score": 0.95,
+      "rerank_score": 0.95
+    }
+  ],
+  "evidence_segments": [
+    {
+      "chunk_id": "49000000-0000-4000-8000-000000000001",
+      "paragraph_ordinal": 2,
+      "paragraph_text": "점검 대상 저장 장치의 파일 시스템이 모두 NTFS인지 확인합니다.",
+      "paragraph_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    }
+  ],
+  "official_finding_write_allowed": false,
+  "output_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+}

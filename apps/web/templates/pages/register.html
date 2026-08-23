@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>계정 생성 요청 | Sec_AI</title>
+  <link rel="stylesheet" href="/static/app/app.css">
+</head>
+<body class="auth-page">
+  <main class="auth-shell">
+    <section class="auth-card" aria-labelledby="register-title">
+      <div class="auth-brand">
+        <span class="brand-mark" data-brand-icon="one-click-security" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false"><path d="M12 2.8 19 5.7v5.5c0 4.7-2.9 8.1-7 10-4.1-1.9-7-5.3-7-10V5.7L12 2.8Z"/><path d="m8.4 12 2.2 2.2 4.8-5.1"/></svg>
+        </span>
+        <strong>Sec_AI</strong>
+      </div>
+      <p class="section-label">원클릭 보안 점검</p>
+      <h1 id="register-title">계정 생성 요청</h1>
+      <p class="auth-description">신청 후 관리자가 승인하면 로그인할 수 있습니다.</p>
+      {% if error_message %}<div class="auth-error" role="alert">{{ error_message }}</div>{% endif %}
+      {% if success_message %}<div class="auth-success" role="status">{{ success_message }}</div>{% endif %}
+      <form method="post" action="/auth/register" class="auth-form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <label>사용자 이름<input name="username" autocomplete="username" required minlength="3" maxlength="64" pattern="[a-z0-9][a-z0-9._-]{2,63}"></label>
+        <small>영문 소문자·숫자로 시작하고, 점·밑줄·하이픈을 사용할 수 있습니다.</small>
+        <label>표시 이름<input name="display_name" autocomplete="name" required maxlength="128"></label>
+        <label>비밀번호<input type="password" name="password" autocomplete="new-password" required maxlength="512"></label>
+        <small>9자 이상이며 문자·숫자·특수문자를 각각 한 개 이상 포함해 주세요.</small>
+        <label>비밀번호 확인<input type="password" name="password_confirmation" autocomplete="new-password" required maxlength="512"></label>
+        <button type="submit">승인 요청 보내기</button>
+      </form>
+      <p class="auth-support-link"><a href="/auth/login">로그인으로 돌아가기</a></p>
+    </section>
+  </main>
+</body>
+</html>

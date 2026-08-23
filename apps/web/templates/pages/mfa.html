@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>두 번째 인증 | Sec_AI</title>
+  <link rel="stylesheet" href="/static/app/app.css">
+</head>
+<body class="auth-page">
+  <main class="auth-shell" data-ui-standard="auth-mfa-v1">
+    <section class="auth-card" aria-labelledby="mfa-title">
+      <div class="auth-brand">
+        <span class="brand-mark" data-brand-icon="one-click-security" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false">
+            <path d="M12 2.8 19 5.7v5.5c0 4.7-2.9 8.1-7 10-4.1-1.9-7-5.3-7-10V5.7L12 2.8Z"/>
+            <path d="m8.4 12 2.2 2.2 4.8-5.1"/>
+          </svg>
+        </span>
+        <strong>Sec_AI</strong>
+      </div>
+      <p class="section-label" id="mfa-title">원클릭 보안 점검</p>
+      {% if error_message %}<div class="auth-error" role="alert">{{ error_message }}</div>{% endif %}
+      <form method="post" action="/auth/mfa" class="auth-form" target="_self">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <input type="hidden" name="next" value="{{ return_path }}">
+        <label>인증 코드<input type="password" name="code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" required aria-describedby="mfa-code-help"></label>
+        <small id="mfa-code-help">관리자가 발급한 6자리 코드를 입력해 주세요.</small>
+        <button type="submit" formtarget="_self">계속</button>
+      </form>
+      <p class="auth-support-link"><a href="/auth/login">로그인 화면으로 돌아가기</a></p>
+    </section>
+  </main>
+</body>
+</html>

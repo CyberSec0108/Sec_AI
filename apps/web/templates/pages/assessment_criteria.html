@@ -1,0 +1,65 @@
+{% import "components/audit_ui.html" as ui %}
+{% import "components/criteria_form.html" as criteria %}
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>내 점검 기준 | Sec_AI</title>
+  <link rel="stylesheet" href="/static/app/app.css">
+  <script src="/static/app/theme.js" defer></script>
+  <script src="/static/app/criteria-reset.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">본문으로 건너뛰기</a>
+  {{ ui.app_header("criteria", "account") }}
+  <main id="main-content" class="container product-shell criteria-page"
+    data-selected-criteria-kind="{{ options.selected_kind if options else 'KISA_DEFAULT' }}"
+    data-selected-personal-profile-id="{{ options.selected_personal_profile.id if options and options.selected_personal_profile else '' }}">
+    <a class="back-link" href="/">← 처음 화면으로</a>
+    <header class="page-heading">
+      <div><p class="section-code">개인 점검 기준</p><h1>내 점검 기준을 정합니다</h1><p class="lead">공식 KISA 판정은 그대로 두고, 내 PC에서 추가로 확인할 강화 기준을 저장합니다.</p></div>
+    </header>
+    {% if success_message %}<p class="criteria-message criteria-message-success" role="status">{{ success_message }}</p>{% endif %}
+    {% if error_message %}<p class="criteria-message criteria-message-error" role="alert">{{ error_message }}</p>{% endif %}
+
+    <aside class="criteria-boundary">
+      <strong>모든 점검에는 KISA 기준과 안전한 SecAI 보조 기본 범위가 자동 적용됩니다.</strong>
+      조직·개인 기준을 선택하지 않아도 판정에 필요한 기본 범위가 비어 있지 않습니다. PC-05 서비스 목록처럼 KISA가 제품 식별자를 직접 열거하지 않은 값은 SecAI 보조 범위로 명확히 구분합니다. 자료를 읽지 못한 경우는 기준 부족과 섞지 않고 수집 오류로 표시합니다.
+    </aside>
+
+    <div class="criteria-layout">
+      <section class="panel criteria-profile-list" aria-labelledby="personal-profile-title">
+        <div class="panel-heading"><p class="section-label">저장된 기준</p><h2 id="personal-profile-title">내 기준 목록</h2></div>
+        {% set profiles = options.personal_profiles if options else [] %}
+        <div class="criteria-selection-actions">
+          <form method="post" action="/ui/criteria/select"><input type="hidden" name="csrf_token" value="{{ csrf_token }}"><input type="hidden" name="selection_kind" value="KISA_DEFAULT"><button type="submit" class="button-secondary">KISA 공식 기준{% if options and options.selected_kind == 'KISA_DEFAULT' %} · 선택됨{% endif %}</button></form>
+          {% if options and options.organization_default %}<form method="post" action="/ui/criteria/select"><input type="hidden" name="csrf_token" value="{{ csrf_token }}"><input type="hidden" name="selection_kind" value="ORGANIZATION"><button type="submit" class="button-secondary">조직 기본 기준{% if options.selected_kind == 'ORGANIZATION' %} · 선택됨{% endif %}</button></form>{% endif %}
+        </div>
+        {% if profiles %}
+        <ul>
+          {% for profile in profiles %}
+          <li><form method="post" action="/ui/criteria/select"><input type="hidden" name="csrf_token" value="{{ csrf_token }}"><input type="hidden" name="selection_kind" value="PERSONAL"><input type="hidden" name="personal_profile_id" value="{{ profile.id }}"><button type="submit" class="criteria-profile-select"><strong>{{ profile.name }}</strong><span>{{ profile.version }}판{% if options and options.selected_personal_profile and options.selected_personal_profile.id == profile.id %} · 선택됨{% endif %}</span></button></form></li>
+          {% endfor %}
+        </ul>
+        {% else %}<p>아직 저장한 개인 기준이 없습니다. 아래 기본값을 확인한 뒤 저장할 수 있습니다.</p>{% endif %}
+        <dl class="criteria-source-summary">
+          <div><dt>기본 판정 기준</dt><dd>KISA PC 보안 가이드 2026 + SecAI 보조 기본 범위</dd></div>
+          <div><dt>조직 추가 기준</dt><dd>{% if options and options.organization_default %}{{ options.organization_default.version }}판{% else %}선택 없음 · 기본 점검값 적용{% endif %}</dd></div>
+        </dl>
+      </section>
+
+      <section class="panel criteria-editor" aria-labelledby="personal-editor-title">
+        <div class="panel-heading"><p class="section-label">내 기준 작성</p><h2 id="personal-editor-title">자동 적용되는 기본 점검값을 확인하고 필요한 값만 조정하세요</h2><p>PowerShell 명령, 레지스트리 경로, 실행 코드는 입력할 수 없습니다.</p></div>
+        <form method="post" action="/ui/criteria/personal" data-criteria-form>
+          <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+          <label class="criteria-profile-name"><span>기준 이름</span><input name="name" maxlength="80" value="{{ options.selected_personal_profile.name if options and options.selected_personal_profile else '내 PC 강화 기준' }}" required></label>
+          {{ criteria.criteria_fields(effective, official_values) }}
+          <label class="criteria-change-reason"><span>저장 이유</span><input name="change_reason" maxlength="256" placeholder="예: 재택근무 PC 보안을 더 엄격하게 확인" required></label>
+          <div class="criteria-form-actions"><button type="submit" class="button-secondary" formaction="/ui/criteria/personal/reset" formmethod="post" formnovalidate data-reset-kisa>기본 점검값 선택</button><button type="submit">새 버전으로 저장하고 선택</button><span data-reset-status>기준 버전과 실제 선택 이력은 삭제하지 않고 따로 기록합니다.</span></div>
+        </form>
+      </section>
+    </div>
+  </main>
+</body>
+</html>

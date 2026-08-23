@@ -1,0 +1,283 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sec-ai.local/v1/result_ai_explanation.schema.json",
+  "title": "Sec_AI immutable rule result and structured AI explanation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "reason_code",
+    "runtime_profile",
+    "external_data_transfer",
+    "model_id",
+    "prompt",
+    "explanation_input_sha256s",
+    "guide_evidence_sha256s",
+    "input_sha256",
+    "model_output_sha256",
+    "official_results",
+    "summary",
+    "items",
+    "citations",
+    "retryable",
+    "safety",
+    "output_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "status": {
+      "enum": [
+        "GENERATED",
+        "NO_EVIDENCE",
+        "DOCUMENT_CONFLICT",
+        "MODEL_UNAVAILABLE",
+        "GENERATION_FAILED",
+        "SECURITY_BLOCKED"
+      ]
+    },
+    "reason_code": {"type": ["string", "null"], "maxLength": 128},
+    "runtime_profile": {
+      "enum": [
+        "VLLM_COMPATIBILITY_TEST_DOUBLE",
+        "LOCAL_VLLM_FULL_CONTEXT"
+      ]
+    },
+    "external_data_transfer": {"type": "boolean"},
+    "model_id": {"type": ["string", "null"], "minLength": 1, "maxLength": 200},
+    "prompt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["template_id", "template_version", "template_sha256"],
+      "properties": {
+        "template_id": {"const": "secai-result-analysis"},
+        "template_version": {"enum": ["1.0.0", "1.1.0"]},
+        "template_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "explanation_input_sha256s": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 18,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/sha256"}
+    },
+    "guide_evidence_sha256s": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 18,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/sha256"}
+    },
+    "input_sha256": {
+      "anyOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]
+    },
+    "model_output_sha256": {
+      "anyOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]
+    },
+    "official_results": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 18,
+      "items": {"$ref": "#/$defs/officialResult"}
+    },
+    "summary": {
+      "anyOf": [{"$ref": "#/$defs/summary"}, {"type": "null"}]
+    },
+    "items": {
+      "type": "array",
+      "maxItems": 18,
+      "items": {"$ref": "#/$defs/item"}
+    },
+    "citations": {
+      "type": "array",
+      "maxItems": 18,
+      "items": {"$ref": "#/$defs/citation"}
+    },
+    "retryable": {"type": "boolean"},
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "official_finding_write_allowed",
+        "audit_pack_write_allowed",
+        "rule_status_unchanged",
+        "test_data_only"
+      ],
+      "properties": {
+        "official_finding_write_allowed": {"const": false},
+        "audit_pack_write_allowed": {"const": false},
+        "rule_status_unchanged": {"const": true},
+        "test_data_only": {"type": "boolean"}
+      }
+    },
+    "output_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"status": {"const": "GENERATED"}},
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "reason_code": {"const": null},
+          "model_id": {"type": "string"},
+          "input_sha256": {"$ref": "#/$defs/sha256"},
+          "model_output_sha256": {"$ref": "#/$defs/sha256"},
+          "summary": {"$ref": "#/$defs/summary"},
+          "items": {"minItems": 1},
+          "citations": {"minItems": 1},
+          "retryable": {"const": false}
+        }
+      },
+      "else": {
+        "properties": {
+          "reason_code": {"type": "string"},
+          "summary": {"const": null},
+          "items": {"maxItems": 0}
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "runtime_profile": {"const": "VLLM_COMPATIBILITY_TEST_DOUBLE"}
+        },
+        "required": ["runtime_profile"]
+      },
+      "then": {
+        "properties": {
+          "external_data_transfer": {"const": true},
+          "safety": {
+            "properties": {"test_data_only": {"const": true}}
+          }
+        }
+      },
+      "else": {
+        "properties": {"external_data_transfer": {"const": false}}
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "controlId": {
+      "type": "string",
+      "pattern": "^PC-(0[1-9]|1[0-8])$"
+    },
+    "ruleStatus": {
+      "enum": ["PASS", "FAIL", "ERROR", "REVIEW", "N/A"]
+    },
+    "stringList": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {"type": "string", "minLength": 1, "maxLength": 2000}
+    },
+    "officialResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["control_id", "rule_status", "status_authority"],
+      "properties": {
+        "control_id": {"$ref": "#/$defs/controlId"},
+        "rule_status": {"$ref": "#/$defs/ruleStatus"},
+        "status_authority": {"const": "RULE_ENGINE"}
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "overall_state",
+        "related_risks",
+        "user_actions",
+        "administrator_actions",
+        "limitations"
+      ],
+      "properties": {
+        "overall_state": {"type": "string", "minLength": 1, "maxLength": 2000},
+        "related_risks": {"$ref": "#/$defs/stringList"},
+        "user_actions": {"$ref": "#/$defs/stringList"},
+        "administrator_actions": {"$ref": "#/$defs/stringList"},
+        "limitations": {"$ref": "#/$defs/stringList"}
+      }
+    },
+    "item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "control_id",
+        "rule_status",
+        "status_authority",
+        "what_was_checked",
+        "observed_summary",
+        "expected_summary",
+        "judgement_explanation",
+        "kisa_basis_summary",
+        "risk_explanation",
+        "ai_priority",
+        "priority_reason",
+        "user_actions",
+        "administrator_actions",
+        "limitations",
+        "related_controls"
+      ],
+      "properties": {
+        "control_id": {"$ref": "#/$defs/controlId"},
+        "rule_status": {"$ref": "#/$defs/ruleStatus"},
+        "status_authority": {"const": "RULE_ENGINE"},
+        "what_was_checked": {"type": "string", "minLength": 1, "maxLength": 4000},
+        "observed_summary": {"type": "string", "minLength": 1, "maxLength": 4000},
+        "expected_summary": {"type": "string", "minLength": 1, "maxLength": 4000},
+        "judgement_explanation": {"type": "string", "minLength": 1, "maxLength": 4000},
+        "kisa_basis_summary": {"type": "string", "minLength": 1, "maxLength": 12000},
+        "risk_explanation": {"type": "string", "minLength": 1, "maxLength": 2000},
+        "ai_priority": {"enum": ["URGENT", "HIGH", "NORMAL", "OBSERVE"]},
+        "priority_reason": {"type": "string", "minLength": 1, "maxLength": 2000},
+        "user_actions": {"$ref": "#/$defs/stringList"},
+        "administrator_actions": {"$ref": "#/$defs/stringList"},
+        "limitations": {"$ref": "#/$defs/stringList"},
+        "related_controls": {
+          "type": "array",
+          "maxItems": 5,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/controlId"}
+        }
+      }
+    },
+    "citation": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "chunk_id",
+        "guide_id",
+        "guide_version",
+        "document_code",
+        "source_sha256",
+        "scope_id",
+        "pdf_page_number",
+        "control_id",
+        "section_label",
+        "paragraph_ordinal",
+        "paragraph_sha256",
+        "text_sha256"
+      ],
+      "properties": {
+        "chunk_id": {"type": "string", "format": "uuid"},
+        "guide_id": {"type": "string", "minLength": 1, "maxLength": 128},
+        "guide_version": {"type": "string", "minLength": 1, "maxLength": 64},
+        "document_code": {"type": "string", "minLength": 1, "maxLength": 128},
+        "source_sha256": {"$ref": "#/$defs/sha256"},
+        "scope_id": {"type": "string", "minLength": 1, "maxLength": 128},
+        "pdf_page_number": {"type": "integer", "minimum": 1},
+        "control_id": {"$ref": "#/$defs/controlId"},
+        "section_label": {"type": "string", "minLength": 1, "maxLength": 256},
+        "paragraph_ordinal": {"type": "integer", "minimum": 1},
+        "paragraph_sha256": {"$ref": "#/$defs/sha256"},
+        "text_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "imp": "IMP-043",
+  "title": "관리자 추가 점검·명시적 동의",
+  "consent_version": "imp043-v1",
+  "administrator_bridge": {
+    "host": "127.0.0.1",
+    "port": 18482,
+    "exact_origin_required": true,
+    "ephemeral_token_bits": 256,
+    "token_in_url_fragment_only": true,
+    "lifetime_seconds": 600
+  },
+  "selection": {
+    "minimum_probe_count": 1,
+    "maximum_probe_count": 5,
+    "allowlist_order_required": true,
+    "duplicate_probe_rejected": true,
+    "probes": [
+      {"probe_id": "win.security.password-policy", "control_id": "PC-02"},
+      {"probe_id": "win.network.smb-shares", "control_id": "PC-04"},
+      {"probe_id": "win.software.messengers", "control_id": "PC-06"},
+      {"probe_id": "win.boot.entries", "control_id": "PC-08"},
+      {"probe_id": "win.update.compliance", "control_id": "PC-10"}
+    ]
+  },
+  "consent": {
+    "items_and_reason_disclosed_before_request": true,
+    "separate_consent_checkbox_required": true,
+    "windows_uac_confirmation_required": true,
+    "automatic_elevation": false,
+    "unselected_probe_collection": false
+  },
+  "cancellation": {
+    "uac_cancel_is_not_failure_finding": true,
+    "standard_result_preserved": true,
+    "retry_after_cancel_allowed": true
+  },
+  "partial_result": {
+    "collected_and_review_required_separated": true,
+    "permission_denied_is_fail": false,
+    "standard_result_preserved": true
+  },
+  "safety": {
+    "settings_modified": false,
+    "automatic_remediation": false,
+    "raw_values_persisted": false,
+    "official_finding_created": false,
+    "portable_bundle_created": false
+  }
+}

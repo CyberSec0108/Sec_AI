@@ -1,0 +1,29 @@
+{
+  "fixture_version": "1.0.0",
+  "case_id": "pc07-fail-exfat",
+  "control_id": "PC-07",
+  "expected_status": "FAIL",
+  "expected_applicability": {
+    "status": "APPLICABLE",
+    "reason_code": "WINDOWS_FIXED_VOLUME_SET"
+  },
+  "expected_subject": {
+    "scope": "VOLUME",
+    "subject_key": "pc07:evaluated-volume-set"
+  },
+  "expected_result_code": "NON_NTFS_VOLUME_FOUND",
+  "candidate_volume_ids": [
+    "vol-data",
+    "vol-os"
+  ],
+  "evaluated_volume_ids": [
+    "vol-data",
+    "vol-os"
+  ],
+  "excluded_volumes": [],
+  "violating_volume_ids": [
+    "vol-data"
+  ],
+  "error_codes": [],
+  "rationale_code": "NON_NTFS_VOLUME_FOUND"
+}

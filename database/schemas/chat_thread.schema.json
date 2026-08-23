@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sec-ai.local/v1/chat_thread.schema.json",
+  "title": "Sec_AI Chat Thread",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "thread_id",
+    "organization_id",
+    "owner_user_id",
+    "title",
+    "guide",
+    "profile",
+    "status",
+    "retention_status",
+    "audit_trace_id",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "thread_id": {"type": "string", "format": "uuid"},
+    "organization_id": {"type": "string", "format": "uuid"},
+    "owner_user_id": {"type": "string", "format": "uuid"},
+    "title": {"type": "string", "minLength": 1, "maxLength": 160},
+    "guide": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["guide_id", "version", "scope_id"],
+      "properties": {
+        "guide_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9._-]{2,127}$"
+        },
+        "version": {"type": "string", "minLength": 1, "maxLength": 64},
+        "scope_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9._-]{2,127}$"
+        }
+      }
+    },
+    "profile": {"enum": ["FAST", "PRECISE"]},
+    "status": {"enum": ["ACTIVE", "ARCHIVED", "TOMBSTONED"]},
+    "retention_status": {"const": "REVIEW_REQUIRED"},
+    "branch_from_thread_id": {
+      "type": ["string", "null"],
+      "format": "uuid"
+    },
+    "branch_from_message_id": {
+      "type": ["string", "null"],
+      "format": "uuid"
+    },
+    "audit_trace_id": {"type": "string", "format": "uuid"},
+    "created_at": {"type": "string", "format": "date-time"}
+  }
+}

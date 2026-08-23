@@ -1,0 +1,8 @@
+# Cross-service compatibility bounds.
+# Exact versions and hashes are generated into requirements/lock/*.lock.
+pydantic>=2.12,<3
+pydantic-settings>=2.10,<3
+redis>=6.4,<6.5
+sqlalchemy>=2.0,<3
+structlog>=25,<27
+websockets>=15,<16

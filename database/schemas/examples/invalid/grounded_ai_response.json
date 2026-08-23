@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "mode": "FINDING_EXPLAIN",
+  "status": "GENERATED",
+  "reason_code": null,
+  "answer": "공식 판정을 변경했습니다.",
+  "citations": [],
+  "model_id": "unsafe-model",
+  "prompt": {
+    "template_id": "secai-grounded-korean-answer",
+    "template_version": "1.0.0",
+    "template_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+  },
+  "input_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+  "output_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+  "official_finding_status": "PASS",
+  "safety": {
+    "official_finding_write_allowed": true,
+    "audit_pack_write_allowed": true,
+    "executable_content_present": true
+  }
+}

@@ -1,0 +1,656 @@
+{
+  "fixture_set_version": "1.0.0",
+  "synthetic": true,
+  "pack_version": "0.2.0",
+  "description": "PC-01~03 계정 정책 테스트 데이터",
+  "case_count": 10,
+  "cases": [
+    {
+      "case_id": "pc01-pass-90-days",
+      "synthetic": true,
+      "control_id": "PC-01",
+      "control_label": "비밀번호 변경 주기",
+      "kisa_pages": [
+        555,
+        556
+      ],
+      "evidence": {
+        "schema_version": "1.0.0",
+        "id": "62000000-0000-4000-8000-000000000001",
+        "created_at": "2026-07-22T10:01:00Z",
+        "source": "normalizer",
+        "producer_name": "sec-ai-normalizer",
+        "producer_version": "0.1.0",
+        "correlation_id": "62000000-0000-4000-8001-000000000001",
+        "job_id": "62000000-0000-4000-8002-000000000001",
+        "asset_id": "62000000-0000-4000-8003-000000000001",
+        "package_id": "62000000-0000-4000-8004-000000000001",
+        "source_evidence_id": "62000000-0000-4000-8005-000000000001",
+        "control_id": "PC-01",
+        "guide_version": "2026",
+        "collector_version": "0.1.0",
+        "probe_id": "win.security.password-age",
+        "probe_version": "0.1.0",
+        "subject": {
+          "scope": "POLICY",
+          "subject_key": "pc-01:effective-policy"
+        },
+        "collected_at": "2026-07-22T10:00:00Z",
+        "normalized_at": "2026-07-22T10:01:00Z",
+        "source_locator": {
+          "type": "REGISTRY",
+          "provider": "Windows effective policy",
+          "locator": "synthetic:pc01-pass-90-days"
+        },
+        "collection_status": "COLLECTED",
+        "error_code": "NONE",
+        "redaction": {
+          "applied": false,
+          "method": "NONE"
+        },
+        "evidence_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+        "policy_scope": "MACHINE",
+        "policy_source": "LOCAL",
+        "normalized_value": {
+          "maximum_password_age_days": 90,
+          "policy_source": "LOCAL",
+          "policy_defined": true
+        }
+      },
+      "expected": {
+        "control_id": "PC-01",
+        "status": "PASS",
+        "result_code": "PASSWORD_CHANGE_PERIOD_WITHIN_90_DAYS",
+        "actual": "90일마다 변경",
+        "expected": "1~90일 이내에 변경",
+        "policy_source": "LOCAL",
+        "policy_source_label": "이 PC에서 설정",
+        "rationale_code": "PASSWORD_CHANGE_PERIOD_WITHIN_90_DAYS",
+        "error_codes": []
+      }
+    },
+    {
+      "case_id": "pc01-fail-unlimited",
+      "synthetic": true,
+      "control_id": "PC-01",
+      "control_label": "비밀번호 변경 주기",
+      "kisa_pages": [
+        555,
+        556
+      ],
+      "evidence": {
+        "schema_version": "1.0.0",
+        "id": "62000000-0000-4000-8000-000000000002",
+        "created_at": "2026-07-22T10:01:00Z",
+        "source": "normalizer",
+        "producer_name": "sec-ai-normalizer",
+        "producer_version": "0.1.0",
+        "correlation_id": "62000000-0000-4000-8001-000000000002",
+        "job_id": "62000000-0000-4000-8002-000000000002",
+        "asset_id": "62000000-0000-4000-8003-000000000002",
+        "package_id": "62000000-0000-4000-8004-000000000002",
+        "source_evidence_id": "62000000-0000-4000-8005-000000000002",
+        "control_id": "PC-01",
+        "guide_version": "2026",
+        "collector_version": "0.1.0",
+        "probe_id": "win.security.password-age",
+        "probe_version": "0.1.0",
+        "subject": {
+          "scope": "POLICY",
+          "subject_key": "pc-01:effective-policy"
+        },
+        "collected_at": "2026-07-22T10:00:00Z",
+        "normalized_at": "2026-07-22T10:01:00Z",
+        "source_locator": {
+          "type": "REGISTRY",
+          "provider": "Windows effective policy",
+          "locator": "synthetic:pc01-fail-unlimited"
+        },
+        "collection_status": "COLLECTED",
+        "error_code": "NONE",
+        "redaction": {
+          "applied": false,
+          "method": "NONE"
+        },
+        "evidence_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+        "policy_scope": "DOMAIN",
+        "policy_source": "DOMAIN",
+        "normalized_value": {
+          "maximum_password_age_days": 0,
+          "policy_source": "DOMAIN",
+          "policy_defined": true
+        }
+      },
+      "expected": {
+        "control_id": "PC-01",
+        "status": "FAIL",
+        "result_code": "PASSWORD_CHANGE_PERIOD_NOT_COMPLIANT",
+        "actual": "변경 기한 없음",
+        "expected": "1~90일 이내에 변경",
+        "policy_source": "DOMAIN",
+        "policy_source_label": "조직에서 일괄 설정",
+        "rationale_code": "PASSWORD_CHANGE_PERIOD_NOT_COMPLIANT",
+        "error_codes": []
+      }
+    },
+    {
+      "case_id": "pc01-error-collection",
+      "synthetic": true,
+      "control_id": "PC-01",
+      "control_label": "비밀번호 변경 주기",
+      "kisa_pages": [
+        555,
+        556
+      ],
+      "evidence": {
+        "schema_version": "1.0.0",
+        "id": "62000000-0000-4000-8000-000000000003",
+        "created_at": "2026-07-22T10:01:00Z",
+        "source": "normalizer",
+        "producer_name": "sec-ai-normalizer",
+        "producer_version": "0.1.0",
+        "correlation_id": "62000000-0000-4000-8001-000000000003",
+        "job_id": "62000000-0000-4000-8002-000000000003",
+        "asset_id": "62000000-0000-4000-8003-000000000003",
+        "package_id": "62000000-0000-4000-8004-000000000003",
+        "source_evidence_id": "62000000-0000-4000-8005-000000000003",
+        "control_id": "PC-01",
+        "guide_version": "2026",
+        "collector_version": "0.1.0",
+        "probe_id": "win.security.password-age",
+        "probe_version": "0.1.0",
+        "subject": {
+          "scope": "POLICY",
+          "subject_key": "pc-01:effective-policy"
+        },
+        "collected_at": "2026-07-22T10:00:00Z",
+        "normalized_at": "2026-07-22T10:01:00Z",
+        "source_locator": {
+          "type": "REGISTRY",
+          "provider": "Windows effective policy",
+          "locator": "synthetic:pc01-error-collection"
+        },
+        "collection_status": "ERROR",
+        "error_code": "PERMISSION_DENIED",
+        "redaction": {
+          "applied": false,
+          "method": "NONE"
+        },
+        "evidence_sha256": "3333333333333333333333333333333333333333333333333333333333333333"
+      },
+      "expected": {
+        "control_id": "PC-01",
+        "status": "ERROR",
+        "result_code": "PC01_POLICY_COLLECTION_FAILED",
+        "actual": "설정 정보를 가져오지 못함",
+        "expected": "1~90일 이내에 변경",
+        "policy_source": "UNKNOWN",
+        "policy_source_label": "설정 출처를 확인하지 못함",
+        "error_codes": [
+          "PERMISSION_DENIED"
+        ],
+        "rationale_code": "PC01_POLICY_COLLECTION_FAILED"
+      }
+    },
+    {
+      "case_id": "pc02-pass-organization-standard",
+      "synthetic": true,
+      "control_id": "PC-02",
+      "control_label": "안전한 비밀번호 사용 기준",
+      "kisa_pages": [
+        557,
+        558
+      ],
+      "evidence": {
+        "schema_version": "1.0.0",
+        "id": "62000000-0000-4000-8000-000000000004",
+        "created_at": "2026-07-22T10:01:00Z",
+        "source": "normalizer",
+        "producer_name": "sec-ai-normalizer",
+        "producer_version": "0.1.0",
+        "correlation_id": "62000000-0000-4000-8001-000000000004",
+        "job_id": "62000000-0000-4000-8002-000000000004",
+        "asset_id": "62000000-0000-4000-8003-000000000004",
+        "package_id": "62000000-0000-4000-8004-000000000004",
+        "source_evidence_id": "62000000-0000-4000-8005-000000000004",
+        "control_id": "PC-02",
+        "guide_version": "2026",
+        "collector_version": "0.1.0",
+        "probe_id": "win.security.password-policy",
+        "probe_version": "0.1.0",
+        "subject": {
+          "scope": "POLICY",
+          "subject_key": "pc-02:effective-policy"
+        },
+        "collected_at": "2026-07-22T10:00:00Z",
+        "normalized_at": "2026-07-22T10:01:00Z",
+        "source_locator": {
+          "type": "REGISTRY",
+          "provider": "Windows effective policy",
+          "locator": "synthetic:pc02-pass-organization-standard"
+        },
+        "collection_status": "COLLECTED",
+        "error_code": "NONE",
+        "redaction": {
+          "applied": false,
+          "method": "NONE"
+        },
+        "evidence_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+        "policy_scope": "DOMAIN",
+        "policy_source": "DOMAIN",
+        "normalized_value": {
+          "minimum_password_length": 12,
+          "complexity_enabled": true,
+          "password_required": true,
+          "policy_source": "DOMAIN"
+        }
+      },
+      "expected": {
+        "control_id": "PC-02",
+        "status": "PASS",
+        "result_code": "PASSWORD_POLICY_MEETS_ORGANIZATION_STANDARD",
+        "actual": "최소 12자, 복잡성 사용, 비밀번호 사용",
+        "expected": "조직 기준: 최소 10자, 복잡성 사용, 비밀번호 사용",
+        "policy_source": "DOMAIN",
+        "policy_source_label": "조직에서 일괄 설정",
+        "rationale_code": "PASSWORD_POLICY_MEETS_ORGANIZATION_STANDARD",
+        "error_codes": []
+      },
+      "organization_policy": {
+        "standard_id": "ORG-PASSWORD-2026",
+        "version": "1.0.0",
+        "minimum_password_length": 10,
+        "complexity_required": true,
+        "password_required": true
+      }
+    },
+    {
+      "case_id": "pc02-fail-below-standard",
+      "synthetic": true,
+      "control_id": "PC-02",
+      "control_label": "안전한 비밀번호 사용 기준",
+      "kisa_pages": [
+        557,
+        558
+      ],
+      "evidence": {
+        "schema_version": "1.0.0",
+        "id": "62000000-0000-4000-8000-000000000005",
+        "created_at": "2026-07-22T10:01:00Z",
+        "source": "normalizer",
+        "producer_name": "sec-ai-normalizer",
+        "producer_version": "0.1.0",
+        "correlation_id": "62000000-0000-4000-8001-000000000005",
+        "job_id": "62000000-0000-4000-8002-000000000005",
+        "asset_id": "62000000-0000-4000-8003-000000000005",
+        "package_id": "62000000-0000-4000-8004-000000000005",
+        "source_evidence_id": "62000000-0000-4000-8005-000000000005",
+        "control_id": "PC-02",
+        "guide_version": "2026",
+        "collector_version": "0.1.0",
+        "probe_id": "win.security.password-policy",
+        "probe_version": "0.1.0",
+        "subject": {
+          "scope": "POLICY",
+          "subject_key": "pc-02:effective-policy"
+        },
+        "collected_at": "2026-07-22T10:00:00Z",
+        "normalized_at": "2026-07-22T10:01:00Z",
+        "source_locator": {
+          "type": "REGISTRY",
+          "provider": "Windows effective policy",
+          "locator": "synthetic:pc02-fail-below-standard"
+        },
+        "collection_status": "COLLECTED",
+        "error_code": "NONE",
+        "redaction": {
+          "applied": false,
+          "method": "NONE"
+        },
+        "evidence_sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+        "policy_scope": "MDM",
+        "policy_source": "MDM",
+        "normalized_value": {
+          "minimum_password_length": 8,
+          "complexity_enabled": false,
+          "password_required": true,
+          "policy_source": "MDM"
+        }
+      },
+      "expected": {
+        "control_id": "PC-02",
+        "status": "FAIL",
+        "result_code": "PASSWORD_POLICY_BELOW_ORGANIZATION_STANDARD",
+        "actual": "최소 8자, 복잡성 사용 안 함, 비밀번호 사용",
+        "expected": "조직 기준: 최소 10자, 복잡성 사용, 비밀번호 사용",
+        "policy_source": "MDM",
+        "policy_source_label": "기기 관리 시스템에서 설정",
+        "rationale_code": "PASSWORD_POLICY_BELOW_ORGANIZATION_STANDARD",
+        "error_codes": []
+      },
+      "organization_policy": {
+        "standard_id": "ORG-PASSWORD-2026",
+        "version": "1.0.0",
+        "minimum_password_length": 10,
+        "complexity_required": true,
+        "password_required": true
+      }
+    },
+    {
+      "case_id": "pc02-error-collection",
+      "synthetic": true,
+      "control_id": "PC-02",
+      "control_label": "안전한 비밀번호 사용 기준",
+      "kisa_pages": [
+        557,
+        558
+      ],
+      "evidence": {
+        "schema_version": "1.0.0",
+        "id": "62000000-0000-4000-8000-000000000006",
+        "created_at": "2026-07-22T10:01:00Z",
+        "source": "normalizer",
+        "producer_name": "sec-ai-normalizer",
+        "producer_version": "0.1.0",
+        "correlation_id": "62000000-0000-4000-8001-000000000006",
+        "job_id": "62000000-0000-4000-8002-000000000006",
+        "asset_id": "62000000-0000-4000-8003-000000000006",
+        "package_id": "62000000-0000-4000-8004-000000000006",
+        "source_evidence_id": "62000000-0000-4000-8005-000000000006",
+        "control_id": "PC-02",
+        "guide_version": "2026",
+        "collector_version": "0.1.0",
+        "probe_id": "win.security.password-policy",
+        "probe_version": "0.1.0",
+        "subject": {
+          "scope": "POLICY",
+          "subject_key": "pc-02:effective-policy"
+        },
+        "collected_at": "2026-07-22T10:00:00Z",
+        "normalized_at": "2026-07-22T10:01:00Z",
+        "source_locator": {
+          "type": "REGISTRY",
+          "provider": "Windows effective policy",
+          "locator": "synthetic:pc02-error-collection"
+        },
+        "collection_status": "ERROR",
+        "error_code": "PERMISSION_DENIED",
+        "redaction": {
+          "applied": false,
+          "method": "NONE"
+        },
+        "evidence_sha256": "6666666666666666666666666666666666666666666666666666666666666666"
+      },
+      "expected": {
+        "control_id": "PC-02",
+        "status": "ERROR",
+        "result_code": "PC02_POLICY_COLLECTION_FAILED",
+        "actual": "설정 정보를 가져오지 못함",
+        "expected": "조직의 비밀번호 기준 충족",
+        "policy_source": "UNKNOWN",
+        "policy_source_label": "설정 출처를 확인하지 못함",
+        "error_codes": [
+          "PERMISSION_DENIED"
+        ],
+        "rationale_code": "PC02_POLICY_COLLECTION_FAILED"
+      }
+    },
+    {
+      "case_id": "pc02-review-no-standard",
+      "synthetic": true,
+      "control_id": "PC-02",
+      "control_label": "안전한 비밀번호 사용 기준",
+      "kisa_pages": [
+        557,
+        558
+      ],
+      "evidence": {
+        "schema_version": "1.0.0",
+        "id": "62000000-0000-4000-8000-000000000007",
+        "created_at": "2026-07-22T10:01:00Z",
+        "source": "normalizer",
+        "producer_name": "sec-ai-normalizer",
+        "producer_version": "0.1.0",
+        "correlation_id": "62000000-0000-4000-8001-000000000007",
+        "job_id": "62000000-0000-4000-8002-000000000007",
+        "asset_id": "62000000-0000-4000-8003-000000000007",
+        "package_id": "62000000-0000-4000-8004-000000000007",
+        "source_evidence_id": "62000000-0000-4000-8005-000000000007",
+        "control_id": "PC-02",
+        "guide_version": "2026",
+        "collector_version": "0.1.0",
+        "probe_id": "win.security.password-policy",
+        "probe_version": "0.1.0",
+        "subject": {
+          "scope": "POLICY",
+          "subject_key": "pc-02:effective-policy"
+        },
+        "collected_at": "2026-07-22T10:00:00Z",
+        "normalized_at": "2026-07-22T10:01:00Z",
+        "source_locator": {
+          "type": "REGISTRY",
+          "provider": "Windows effective policy",
+          "locator": "synthetic:pc02-review-no-standard"
+        },
+        "collection_status": "COLLECTED",
+        "error_code": "NONE",
+        "redaction": {
+          "applied": false,
+          "method": "NONE"
+        },
+        "evidence_sha256": "7777777777777777777777777777777777777777777777777777777777777777",
+        "policy_scope": "MACHINE",
+        "policy_source": "LOCAL",
+        "normalized_value": {
+          "minimum_password_length": 8,
+          "complexity_enabled": true,
+          "password_required": true,
+          "policy_source": "LOCAL"
+        }
+      },
+      "expected": {
+        "control_id": "PC-02",
+        "status": "REVIEW",
+        "result_code": "ORGANIZATION_PASSWORD_STANDARD_REQUIRED",
+        "actual": "최소 8자, 복잡성 사용, 비밀번호 사용",
+        "expected": "조직의 비밀번호 기준을 먼저 등록해야 함",
+        "policy_source": "LOCAL",
+        "policy_source_label": "이 PC에서 설정",
+        "rationale_code": "ORGANIZATION_PASSWORD_STANDARD_REQUIRED",
+        "error_codes": []
+      }
+    },
+    {
+      "case_id": "pc03-pass-disabled",
+      "synthetic": true,
+      "control_id": "PC-03",
+      "control_label": "복구 기능의 자동 관리자 로그인 차단",
+      "kisa_pages": [
+        559,
+        560
+      ],
+      "evidence": {
+        "schema_version": "1.0.0",
+        "id": "62000000-0000-4000-8000-000000000008",
+        "created_at": "2026-07-22T10:01:00Z",
+        "source": "normalizer",
+        "producer_name": "sec-ai-normalizer",
+        "producer_version": "0.1.0",
+        "correlation_id": "62000000-0000-4000-8001-000000000008",
+        "job_id": "62000000-0000-4000-8002-000000000008",
+        "asset_id": "62000000-0000-4000-8003-000000000008",
+        "package_id": "62000000-0000-4000-8004-000000000008",
+        "source_evidence_id": "62000000-0000-4000-8005-000000000008",
+        "control_id": "PC-03",
+        "guide_version": "2026",
+        "collector_version": "0.1.0",
+        "probe_id": "win.security.recovery-console",
+        "probe_version": "0.1.0",
+        "subject": {
+          "scope": "POLICY",
+          "subject_key": "pc-03:effective-policy"
+        },
+        "collected_at": "2026-07-22T10:00:00Z",
+        "normalized_at": "2026-07-22T10:01:00Z",
+        "source_locator": {
+          "type": "REGISTRY",
+          "provider": "Windows effective policy",
+          "locator": "synthetic:pc03-pass-disabled"
+        },
+        "collection_status": "COLLECTED",
+        "error_code": "NONE",
+        "redaction": {
+          "applied": false,
+          "method": "NONE"
+        },
+        "evidence_sha256": "8888888888888888888888888888888888888888888888888888888888888888",
+        "policy_scope": "MDM",
+        "policy_source": "MDM",
+        "normalized_value": {
+          "automatic_admin_logon": "DISABLED",
+          "policy_defined": true,
+          "policy_source": "MDM",
+          "os_edition": "PRO",
+          "os_build": "26100"
+        }
+      },
+      "expected": {
+        "control_id": "PC-03",
+        "status": "PASS",
+        "result_code": "RECOVERY_CONSOLE_AUTO_LOGON_BLOCKED",
+        "actual": "자동 관리자 로그인 사용 안 함",
+        "expected": "사용 안 함 또는 별도 설정 없음",
+        "policy_source": "MDM",
+        "policy_source_label": "기기 관리 시스템에서 설정",
+        "rationale_code": "RECOVERY_CONSOLE_AUTO_LOGON_BLOCKED",
+        "error_codes": []
+      }
+    },
+    {
+      "case_id": "pc03-fail-enabled",
+      "synthetic": true,
+      "control_id": "PC-03",
+      "control_label": "복구 기능의 자동 관리자 로그인 차단",
+      "kisa_pages": [
+        559,
+        560
+      ],
+      "evidence": {
+        "schema_version": "1.0.0",
+        "id": "62000000-0000-4000-8000-000000000009",
+        "created_at": "2026-07-22T10:01:00Z",
+        "source": "normalizer",
+        "producer_name": "sec-ai-normalizer",
+        "producer_version": "0.1.0",
+        "correlation_id": "62000000-0000-4000-8001-000000000009",
+        "job_id": "62000000-0000-4000-8002-000000000009",
+        "asset_id": "62000000-0000-4000-8003-000000000009",
+        "package_id": "62000000-0000-4000-8004-000000000009",
+        "source_evidence_id": "62000000-0000-4000-8005-000000000009",
+        "control_id": "PC-03",
+        "guide_version": "2026",
+        "collector_version": "0.1.0",
+        "probe_id": "win.security.recovery-console",
+        "probe_version": "0.1.0",
+        "subject": {
+          "scope": "POLICY",
+          "subject_key": "pc-03:effective-policy"
+        },
+        "collected_at": "2026-07-22T10:00:00Z",
+        "normalized_at": "2026-07-22T10:01:00Z",
+        "source_locator": {
+          "type": "REGISTRY",
+          "provider": "Windows effective policy",
+          "locator": "synthetic:pc03-fail-enabled"
+        },
+        "collection_status": "COLLECTED",
+        "error_code": "NONE",
+        "redaction": {
+          "applied": false,
+          "method": "NONE"
+        },
+        "evidence_sha256": "9999999999999999999999999999999999999999999999999999999999999999",
+        "policy_scope": "DOMAIN",
+        "policy_source": "DOMAIN",
+        "normalized_value": {
+          "automatic_admin_logon": "ENABLED",
+          "policy_defined": true,
+          "policy_source": "DOMAIN",
+          "os_edition": "PRO",
+          "os_build": "26100"
+        }
+      },
+      "expected": {
+        "control_id": "PC-03",
+        "status": "FAIL",
+        "result_code": "RECOVERY_CONSOLE_AUTO_LOGON_ENABLED",
+        "actual": "자동 관리자 로그인 사용",
+        "expected": "사용 안 함 또는 별도 설정 없음",
+        "policy_source": "DOMAIN",
+        "policy_source_label": "조직에서 일괄 설정",
+        "rationale_code": "RECOVERY_CONSOLE_AUTO_LOGON_ENABLED",
+        "error_codes": []
+      }
+    },
+    {
+      "case_id": "pc03-error-collection",
+      "synthetic": true,
+      "control_id": "PC-03",
+      "control_label": "복구 기능의 자동 관리자 로그인 차단",
+      "kisa_pages": [
+        559,
+        560
+      ],
+      "evidence": {
+        "schema_version": "1.0.0",
+        "id": "62000000-0000-4000-8000-000000000010",
+        "created_at": "2026-07-22T10:01:00Z",
+        "source": "normalizer",
+        "producer_name": "sec-ai-normalizer",
+        "producer_version": "0.1.0",
+        "correlation_id": "62000000-0000-4000-8001-000000000010",
+        "job_id": "62000000-0000-4000-8002-000000000010",
+        "asset_id": "62000000-0000-4000-8003-000000000010",
+        "package_id": "62000000-0000-4000-8004-000000000010",
+        "source_evidence_id": "62000000-0000-4000-8005-000000000010",
+        "control_id": "PC-03",
+        "guide_version": "2026",
+        "collector_version": "0.1.0",
+        "probe_id": "win.security.recovery-console",
+        "probe_version": "0.1.0",
+        "subject": {
+          "scope": "POLICY",
+          "subject_key": "pc-03:effective-policy"
+        },
+        "collected_at": "2026-07-22T10:00:00Z",
+        "normalized_at": "2026-07-22T10:01:00Z",
+        "source_locator": {
+          "type": "REGISTRY",
+          "provider": "Windows effective policy",
+          "locator": "synthetic:pc03-error-collection"
+        },
+        "collection_status": "ERROR",
+        "error_code": "PERMISSION_DENIED",
+        "redaction": {
+          "applied": false,
+          "method": "NONE"
+        },
+        "evidence_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": {
+        "control_id": "PC-03",
+        "status": "ERROR",
+        "result_code": "PC03_POLICY_COLLECTION_FAILED",
+        "actual": "설정 정보를 가져오지 못함",
+        "expected": "사용 안 함 또는 별도 설정 없음",
+        "policy_source": "UNKNOWN",
+        "policy_source_label": "설정 출처를 확인하지 못함",
+        "error_codes": [
+          "PERMISSION_DENIED"
+        ],
+        "rationale_code": "PC03_POLICY_COLLECTION_FAILED"
+      }
+    }
+  ]
+}
+

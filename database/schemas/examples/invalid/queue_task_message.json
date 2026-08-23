@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0",
+  "task_name": "user.supplied.task",
+  "job_id": "44000000-0000-4000-8000-000000000001",
+  "asset_id": "44000000-0000-4000-8000-000000000002",
+  "workflow_step": "IMP044_RECOVERY_PROBE",
+  "expected_input_version": 1,
+  "idempotency_key": "job:44000000-0000-4000-8000-000000000001:IMP044_RECOVERY_PROBE:v1",
+  "correlation_id": "44000000-0000-4000-8000-000000000003",
+  "created_at": "2026-07-24T02:00:00Z",
+  "secret": "forbidden"
+}

@@ -1,0 +1,29 @@
+{
+  "coverage_profile": "IMP-026-PC01-PC18",
+  "pack_version": "0.6.0",
+  "synthetic": true,
+  "expected_control_ids": [
+    "PC-01", "PC-02", "PC-03", "PC-04", "PC-05", "PC-06",
+    "PC-07", "PC-08", "PC-09", "PC-10", "PC-11", "PC-12",
+    "PC-13", "PC-14", "PC-15", "PC-16", "PC-17", "PC-18"
+  ],
+  "fixture_sources": [
+    {"kind": "CASE_SET", "path": "account_policy/cases.json"},
+    {"kind": "CASE_SET", "path": "service_management/cases.json"},
+    {"kind": "PC07_PAIR_DIRECTORIES", "input_path": "pc07/input", "expected_path": "pc07/expected"},
+    {"kind": "CASE_SET", "path": "patch_lifecycle/cases.json"},
+    {"kind": "CASE_SET", "path": "endpoint_protection/cases.json"},
+    {"kind": "CASE_SET", "path": "user_media_remote/cases.json"}
+  ],
+  "expected_fixture_count": 92,
+  "expected_status_counts": {
+    "PASS": 28,
+    "FAIL": 26,
+    "ERROR": 21,
+    "REVIEW": 16,
+    "N/A": 1
+  },
+  "required_reference_states": ["pass", "fail", "error"],
+  "optional_reference_states": ["review", "not_applicable"],
+  "determinism_iterations": 100
+}

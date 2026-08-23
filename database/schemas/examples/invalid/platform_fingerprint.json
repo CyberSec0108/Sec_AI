@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0.0",
+  "asset_type": "LINUX_SERVER",
+  "platform": "LINUX",
+  "vendor": "UNKNOWN_VENDOR",
+  "product_family": "UNKNOWN_PRODUCT",
+  "version": "latest",
+  "architecture": "X86_64",
+  "role_hints": ["SERVER"],
+  "capabilities": [],
+  "discovery_adapter_id": "../../untrusted-script",
+  "confidence": "EXACT",
+  "limitations": [],
+  "fingerprint_sha256": "not-a-sha256"
+}

@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sec-ai.local/v1/storage_recovery_manifest.schema.json",
+  "title": "Sec_AI synthetic storage recovery manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "backup_id",
+    "created_at",
+    "classification",
+    "source_checkpoint",
+    "database_inventory",
+    "object_inventory",
+    "recovery_targets"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "backup_id": {"type": "string", "format": "uuid"},
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "classification": {"const": "SYNTHETIC_DEV_ONLY"},
+    "source_checkpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alembic_version",
+        "postgres_checkpoint_at",
+        "aistor_image_ref",
+        "redis_is_business_truth"
+      ],
+      "properties": {
+        "alembic_version": {
+          "type": "string",
+          "pattern": "^[0-9]{4}_imp[0-9]{3}$"
+        },
+        "postgres_checkpoint_at": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "Z$"
+        },
+        "aistor_image_ref": {
+          "const": "RELEASE.2026-06-06T02-44-06Z"
+        },
+        "redis_is_business_truth": {"const": false}
+      }
+    },
+    "database_inventory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "organization_count",
+        "asset_count",
+        "audit_job_count",
+        "finding_count",
+        "finding_lineage_sha256",
+        "artifact_count",
+        "artifact_inventory_sha256"
+      ],
+      "properties": {
+        "organization_count": {"type": "integer", "minimum": 0},
+        "asset_count": {"type": "integer", "minimum": 0},
+        "audit_job_count": {"type": "integer", "minimum": 0},
+        "finding_count": {"type": "integer", "minimum": 0},
+        "finding_lineage_sha256": {"$ref": "#/$defs/sha256"},
+        "artifact_count": {"type": "integer", "minimum": 1},
+        "artifact_inventory_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "object_inventory": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "artifact_id",
+          "bucket",
+          "object_key",
+          "source_version_id",
+          "sha256",
+          "size_bytes",
+          "backup_file"
+        ],
+        "properties": {
+          "artifact_id": {"type": "string", "format": "uuid"},
+          "bucket": {"const": "secai-imp045-synthetic"},
+          "object_key": {
+            "type": "string",
+            "pattern": "^synthetic/[0-9a-f-]{36}/artifact\\.bin$",
+            "maxLength": 128
+          },
+          "source_version_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "sha256": {"$ref": "#/$defs/sha256"},
+          "size_bytes": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1048576
+          },
+          "backup_file": {
+            "type": "string",
+            "pattern": "^objects/[0-9a-f-]{36}\\.bin$"
+          }
+        }
+      }
+    },
+    "recovery_targets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "postgres_rpo_seconds",
+        "postgres_rto_seconds",
+        "evidence_rpo_seconds",
+        "evidence_rto_seconds",
+        "independent_failure_domain_required"
+      ],
+      "properties": {
+        "postgres_rpo_seconds": {"const": 900},
+        "postgres_rto_seconds": {"const": 14400},
+        "evidence_rpo_seconds": {"const": 3600},
+        "evidence_rto_seconds": {"const": 28800},
+        "independent_failure_domain_required": {"const": true}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  }
+}

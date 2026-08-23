@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0.0",
+  "thread_id": "51000000-0000-4000-8000-000000000001",
+  "organization_id": "46000000-0000-4000-8000-000000000001",
+  "owner_user_id": "46000000-0000-4000-8000-000000000003",
+  "title": "",
+  "guide": {
+    "guide_id": "kisa-major-infrastructure-detailed-guide",
+    "version": "2026",
+    "scope_id": "kisa-2026-pc"
+  },
+  "profile": "FAST",
+  "status": "ACTIVE",
+  "retention_status": "THREE_YEARS",
+  "audit_trace_id": "51000000-0000-4000-8000-000000000002",
+  "created_at": "2026-07-25T00:00:00Z"
+}

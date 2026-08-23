@@ -1,0 +1,235 @@
+name: sec-ai-mvp-imp045-recovery
+
+x-project-labels: &project-labels
+  io.sec-ai-mvp.project: "Sec_AI"
+  io.sec-ai-mvp.managed-by: "imp045-recovery-compose"
+
+x-service-security: &service-security
+  read_only: true
+  security_opt:
+    - no-new-privileges:true
+  cap_drop:
+    - ALL
+
+services:
+  recovery-tools:
+    <<: *service-security
+    image: sec-ai-mvp/audit-api:0.1.0
+    labels:
+      <<: *project-labels
+      io.sec-ai-mvp.component: storage-recovery-tools
+    environment:
+      SECAI_POSTGRES_HOST: postgres
+      SECAI_POSTGRES_PORT: "5432"
+      SECAI_POSTGRES_DB: secai
+      SECAI_POSTGRES_USER: secai_runtime
+      SECAI_POSTGRES_PASSWORD_FILE: /run/secrets/postgres_runtime_password
+      SECAI_REDIS_HOST: redis-restore
+      SECAI_REDIS_PORT: "6379"
+      SECAI_REDIS_USER: secai_celery
+      SECAI_REDIS_PASSWORD_FILE: /run/secrets/redis_password
+      SECAI_AISTOR_ENDPOINT: http://aistor:9000
+      SECAI_RECOVERY_AISTOR_ENDPOINT: http://aistor:9000
+      SECAI_AISTOR_ACCESS_KEY_FILE: /run/secrets/aistor_root_user
+      SECAI_AISTOR_SECRET_KEY_FILE: /run/secrets/aistor_root_password
+      SECAI_CLAMAV_HOST: clamav
+      SECAI_CLAMAV_PORT: "3310"
+      SECAI_DEPENDENCY_TIMEOUT_SECONDS: "2.0"
+      SECAI_RECOVERY_ROOT: /recovery
+    secrets:
+      - postgres_password
+      - postgres_runtime_password
+      - redis_password
+      - aistor_root_user
+      - aistor_root_password
+    volumes:
+      - type: bind
+        source: ./runtime/imp045-recovery
+        target: /recovery
+    tmpfs:
+      - /tmp:size=64m,mode=1777
+    networks:
+      - app_net
+    entrypoint: ["python"]
+    command: ["-m", "apps.worker.storage_recovery_cli", "--help"]
+
+  postgres-restore:
+    image: sec-ai-mvp/postgres:0.1.0
+    labels:
+      <<: *project-labels
+      io.sec-ai-mvp.component: postgres-restore
+    environment:
+      POSTGRES_DB: secai
+      POSTGRES_USER: secai_app
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+      POSTGRES_INITDB_ARGS: --auth-host=scram-sha-256
+    secrets:
+      - postgres_password
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready -U "$${POSTGRES_USER}" -d "$${POSTGRES_DB}" -h 127.0.0.1
+      interval: 2s
+      timeout: 2s
+      retries: 30
+      start_period: 10s
+    volumes:
+      - postgres_restore_data:/var/lib/postgresql
+      - type: bind
+        source: ./runtime/imp045-recovery
+        target: /recovery
+        read_only: true
+    tmpfs:
+      - /tmp:size=64m,mode=1777
+      - /var/run/postgresql:size=16m,mode=3775
+    networks:
+      - app_net
+
+  redis-restore:
+    image: sec-ai-mvp/redis:0.1.0
+    labels:
+      <<: *project-labels
+      io.sec-ai-mvp.component: redis-restore
+    command:
+      - redis-server
+      - --aclfile
+      - /run/secrets/redis_users_acl
+      - --appendonly
+      - "yes"
+      - --appendfsync
+      - everysec
+      - --maxmemory-policy
+      - noeviction
+      - --protected-mode
+      - "yes"
+    environment:
+      SECAI_REDIS_USER: secai_celery
+    secrets:
+      - redis_password
+      - redis_users_acl
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - REDISCLI_AUTH="$$(cat /run/secrets/redis_password)" redis-cli --user "$${SECAI_REDIS_USER}" ping | grep -q PONG
+      interval: 2s
+      timeout: 2s
+      retries: 30
+      start_period: 5s
+    volumes:
+      - redis_restore_data:/data
+    networks:
+      - app_net
+
+  maintenance-worker-restore:
+    <<: *service-security
+    image: sec-ai-mvp/audit-maintenance-worker:0.1.0
+    labels:
+      <<: *project-labels
+      io.sec-ai-mvp.component: maintenance-worker-restore
+    environment:
+      SECAI_POSTGRES_HOST: postgres
+      SECAI_POSTGRES_PORT: "5432"
+      SECAI_POSTGRES_DB: secai
+      SECAI_POSTGRES_USER: secai_runtime
+      SECAI_POSTGRES_PASSWORD_FILE: /run/secrets/postgres_runtime_password
+      SECAI_REDIS_HOST: redis-restore
+      SECAI_REDIS_PORT: "6379"
+      SECAI_REDIS_USER: secai_celery
+      SECAI_REDIS_PASSWORD_FILE: /run/secrets/redis_password
+      SECAI_AISTOR_ENDPOINT: http://aistor:9000
+      SECAI_CLAMAV_HOST: clamav
+      SECAI_CLAMAV_PORT: "3310"
+      SECAI_DEPENDENCY_TIMEOUT_SECONDS: "2.0"
+    secrets:
+      - postgres_runtime_password
+      - redis_password
+    command:
+      - -m
+      - celery
+      - -A
+      - apps.worker.celery_app:celery_app
+      - worker
+      - --loglevel=INFO
+      - --concurrency=1
+      - --queues=maintenance
+      - --without-gossip
+      - --without-mingle
+      - --without-heartbeat
+    tmpfs:
+      - /tmp:size=128m,mode=1777
+    stop_grace_period: 45s
+    networks:
+      - app_net
+
+  aistor-restore:
+    image: sec-ai-mvp/aistor:0.1.0
+    labels:
+      <<: *project-labels
+      io.sec-ai-mvp.component: aistor-restore
+    command:
+      - server
+      - --license
+      - /run/secrets/minio.license
+      - --address
+      - :9000
+      - --console-address
+      - :9001
+      - /data
+    environment:
+      MINIO_ROOT_USER_FILE: /run/secrets/aistor_root_user
+      MINIO_ROOT_PASSWORD_FILE: /run/secrets/aistor_root_password
+    secrets:
+      - source: aistor_license
+        target: minio.license
+      - aistor_root_user
+      - aistor_root_password
+    healthcheck:
+      test:
+        - CMD
+        - curl
+        - -fsS
+        - http://127.0.0.1:9000/minio/health/live
+      interval: 2s
+      timeout: 2s
+      retries: 45
+      start_period: 15s
+    volumes:
+      - aistor_restore_data:/data
+    tmpfs:
+      - /tmp:size=64m,mode=1777
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    networks:
+      - app_net
+
+networks:
+  app_net:
+    name: sec-ai-mvp-app
+    external: true
+
+volumes:
+  postgres_restore_data:
+    name: sec-ai-mvp-imp045-postgres-restore
+  redis_restore_data:
+    name: sec-ai-mvp-imp045-redis-restore
+  aistor_restore_data:
+    name: sec-ai-mvp-imp045-aistor-restore
+
+secrets:
+  postgres_password:
+    file: ./runtime/dev-secrets/postgres_password
+  postgres_runtime_password:
+    file: ./runtime/dev-secrets/postgres_runtime_password
+  redis_password:
+    file: ./runtime/dev-secrets/redis_password
+  redis_users_acl:
+    file: ./runtime/dev-secrets/redis_users.acl
+  aistor_license:
+    file: ./runtime/dev-secrets/minio.license
+  aistor_root_user:
+    file: ./runtime/dev-secrets/aistor_root_user
+  aistor_root_password:
+    file: ./runtime/dev-secrets/aistor_root_password

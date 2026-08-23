@@ -1,0 +1,17 @@
+{
+  "schema_version": "2.0.0",
+  "evidence_id": "62000000-0000-4000-8000-000000000001",
+  "probe_id": "linux.os-release",
+  "probe_version": "1.0.0",
+  "control_ids": ["U-01"],
+  "collected_at": "2026-08-06T01:05:00Z",
+  "required_privilege": "STANDARD_USER",
+  "executed_privilege": "STANDARD_USER",
+  "collection_status": "COLLECTED",
+  "error_code": "NONE",
+  "exit_code": 0,
+  "raw_output_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+  "normalized_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+  "redaction_applied": false,
+  "normalized_value": "ID=ubuntu\nVERSION_ID=\"24.04\"\n"
+}

@@ -1,0 +1,162 @@
+{
+  "fixture_set_version": "1.0.0",
+  "pack_version": "0.4.0",
+  "reference_snapshot_id": "microsoft-windows-11-2026-07-23",
+  "synthetic": true,
+  "description": "IMP-023 PC-10 and PC-11 deterministic patch and lifecycle test data",
+  "cases": [
+    {
+      "case_id": "pc10-pass-current-baseline",
+      "control_id": "PC-10",
+      "control_label": "보안 패치와 관리 절차",
+      "organization_policy": {"standard_id": "patch-management-standard", "version": "1.0.0", "procedure_attestation_id": "PROC-PATCH-001", "approved_snapshot_id": "microsoft-windows-11-2026-07-23", "maximum_scan_age_hours": 72},
+      "evidence": {
+        "schema_version": "1.0.0", "id": "65000000-0000-4000-8000-000000000101", "created_at": "2026-07-23T03:01:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "65000000-0000-4000-8000-000000001101",
+        "job_id": "65000000-0000-4000-8000-000000002101", "asset_id": "65000000-0000-4000-8000-000000003000", "package_id": "65000000-0000-4000-8000-000000004000", "source_evidence_id": "65000000-0000-4000-8000-000000005101", "control_id": "PC-10", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.update.compliance", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T03:00:00Z", "normalized_at": "2026-07-23T03:01:00Z", "source_locator": {"type": "WINDOWS_API", "provider": "Windows Update Agent"},
+        "normalized_value": {"product_name": "Windows 11", "display_version": "24H2", "edition_group": "HOME_PRO", "os_build": 26100, "ubr": 8875, "installed_cumulative_kb": "KB5101650", "missing_required_update_count": 0, "automatic_updates_enabled": true, "update_inventory_source": "WINDOWS_UPDATE_AGENT", "last_successful_scan_at": "2026-07-22T12:00:00Z", "restart_pending": false},
+        "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "1111111111111111111111111111111111111111111111111111111111111123"
+      },
+      "expected": {"status": "PASS", "result_code": "PATCH_BASELINE_AND_PROCEDURE_COMPLIANT"}
+    },
+    {
+      "case_id": "pc10-fail-required-update-missing",
+      "control_id": "PC-10",
+      "control_label": "보안 패치와 관리 절차",
+      "organization_policy": {"standard_id": "patch-management-standard", "version": "1.0.0", "procedure_attestation_id": "PROC-PATCH-001", "approved_snapshot_id": "microsoft-windows-11-2026-07-23", "maximum_scan_age_hours": 72},
+      "evidence": {
+        "schema_version": "1.0.0", "id": "65000000-0000-4000-8000-000000000102", "created_at": "2026-07-23T03:02:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "65000000-0000-4000-8000-000000001102",
+        "job_id": "65000000-0000-4000-8000-000000002102", "asset_id": "65000000-0000-4000-8000-000000003000", "package_id": "65000000-0000-4000-8000-000000004000", "source_evidence_id": "65000000-0000-4000-8000-000000005102", "control_id": "PC-10", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.update.compliance", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T03:00:00Z", "normalized_at": "2026-07-23T03:02:00Z", "source_locator": {"type": "WINDOWS_API", "provider": "Windows Update Agent"},
+        "normalized_value": {"product_name": "Windows 11", "display_version": "24H2", "edition_group": "HOME_PRO", "os_build": 26100, "ubr": 8737, "installed_cumulative_kb": "KB5095093", "missing_required_update_count": 1, "automatic_updates_enabled": true, "update_inventory_source": "WINDOWS_UPDATE_AGENT", "last_successful_scan_at": "2026-07-22T12:00:00Z", "restart_pending": false},
+        "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "2222222222222222222222222222222222222222222222222222222222222223"
+      },
+      "expected": {"status": "FAIL", "result_code": "REQUIRED_SECURITY_UPDATE_MISSING"}
+    },
+    {
+      "case_id": "pc10-fail-automatic-update-disabled",
+      "control_id": "PC-10",
+      "control_label": "보안 패치와 관리 절차",
+      "organization_policy": {"standard_id": "patch-management-standard", "version": "1.0.0", "procedure_attestation_id": "PROC-PATCH-001", "approved_snapshot_id": "microsoft-windows-11-2026-07-23", "maximum_scan_age_hours": 72},
+      "evidence": {
+        "schema_version": "1.0.0", "id": "65000000-0000-4000-8000-000000000103", "created_at": "2026-07-23T03:03:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "65000000-0000-4000-8000-000000001103",
+        "job_id": "65000000-0000-4000-8000-000000002103", "asset_id": "65000000-0000-4000-8000-000000003000", "package_id": "65000000-0000-4000-8000-000000004000", "source_evidence_id": "65000000-0000-4000-8000-000000005103", "control_id": "PC-10", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.update.compliance", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T03:00:00Z", "normalized_at": "2026-07-23T03:03:00Z", "source_locator": {"type": "WINDOWS_API", "provider": "Windows Update Agent"},
+        "normalized_value": {"product_name": "Windows 11", "display_version": "25H2", "edition_group": "ENTERPRISE_EDUCATION", "os_build": 26200, "ubr": 8894, "installed_cumulative_kb": "KB5121767", "missing_required_update_count": 0, "automatic_updates_enabled": false, "update_inventory_source": "WSUS_OR_INTUNE_COMPLIANCE", "last_successful_scan_at": "2026-07-23T01:00:00Z", "restart_pending": false},
+        "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "3333333333333333333333333333333333333333333333333333333333333323"
+      },
+      "expected": {"status": "FAIL", "result_code": "AUTOMATIC_UPDATE_DISABLED"}
+    },
+    {
+      "case_id": "pc10-error-collection",
+      "control_id": "PC-10",
+      "control_label": "보안 패치와 관리 절차",
+      "organization_policy": {"standard_id": "patch-management-standard", "version": "1.0.0", "procedure_attestation_id": "PROC-PATCH-001", "approved_snapshot_id": "microsoft-windows-11-2026-07-23", "maximum_scan_age_hours": 72},
+      "evidence": {
+        "schema_version": "1.0.0", "id": "65000000-0000-4000-8000-000000000104", "created_at": "2026-07-23T03:04:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "65000000-0000-4000-8000-000000001104",
+        "job_id": "65000000-0000-4000-8000-000000002104", "asset_id": "65000000-0000-4000-8000-000000003000", "package_id": "65000000-0000-4000-8000-000000004000", "source_evidence_id": "65000000-0000-4000-8000-000000005104", "control_id": "PC-10", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.update.compliance", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T03:00:00Z", "normalized_at": "2026-07-23T03:04:00Z", "source_locator": {"type": "WINDOWS_API", "provider": "Windows Update Agent"},
+        "collection_status": "ERROR", "error_code": "PERMISSION_DENIED", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "4444444444444444444444444444444444444444444444444444444444444423"
+      },
+      "expected": {"status": "ERROR", "result_code": "PC10_COLLECTION_FAILED"}
+    },
+    {
+      "case_id": "pc10-review-no-procedure",
+      "control_id": "PC-10",
+      "control_label": "보안 패치와 관리 절차",
+      "evidence": {
+        "schema_version": "1.0.0", "id": "65000000-0000-4000-8000-000000000105", "created_at": "2026-07-23T03:05:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "65000000-0000-4000-8000-000000001105",
+        "job_id": "65000000-0000-4000-8000-000000002105", "asset_id": "65000000-0000-4000-8000-000000003000", "package_id": "65000000-0000-4000-8000-000000004000", "source_evidence_id": "65000000-0000-4000-8000-000000005105", "control_id": "PC-10", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.update.compliance", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T03:00:00Z", "normalized_at": "2026-07-23T03:05:00Z", "source_locator": {"type": "WINDOWS_API", "provider": "Windows Update Agent"},
+        "normalized_value": {"product_name": "Windows 11", "display_version": "26H1", "edition_group": "HOME_PRO", "os_build": 28000, "ubr": 2525, "installed_cumulative_kb": "KB5101649", "missing_required_update_count": 0, "automatic_updates_enabled": true, "update_inventory_source": "WINDOWS_UPDATE_HISTORY_AND_BUILD", "last_successful_scan_at": "2026-07-23T01:00:00Z", "restart_pending": false},
+        "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "5555555555555555555555555555555555555555555555555555555555555523"
+      },
+      "expected": {"status": "REVIEW", "result_code": "PATCH_MANAGEMENT_PROCEDURE_REQUIRED"}
+    },
+    {
+      "case_id": "pc10-review-restart-pending",
+      "control_id": "PC-10",
+      "control_label": "보안 패치와 관리 절차",
+      "organization_policy": {"standard_id": "patch-management-standard", "version": "1.0.0", "procedure_attestation_id": "PROC-PATCH-001", "approved_snapshot_id": "microsoft-windows-11-2026-07-23", "maximum_scan_age_hours": 72},
+      "evidence": {
+        "schema_version": "1.0.0", "id": "65000000-0000-4000-8000-000000000106", "created_at": "2026-07-23T03:06:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "65000000-0000-4000-8000-000000001106",
+        "job_id": "65000000-0000-4000-8000-000000002106", "asset_id": "65000000-0000-4000-8000-000000003000", "package_id": "65000000-0000-4000-8000-000000004000", "source_evidence_id": "65000000-0000-4000-8000-000000005106", "control_id": "PC-10", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.update.compliance", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T03:00:00Z", "normalized_at": "2026-07-23T03:06:00Z", "source_locator": {"type": "WINDOWS_API", "provider": "Windows Update Agent"},
+        "normalized_value": {"product_name": "Windows 11", "display_version": "24H2", "edition_group": "HOME_PRO", "os_build": 26100, "ubr": 8875, "installed_cumulative_kb": "KB5101650", "missing_required_update_count": 0, "automatic_updates_enabled": true, "update_inventory_source": "WINDOWS_UPDATE_AGENT", "last_successful_scan_at": "2026-07-23T01:00:00Z", "restart_pending": true},
+        "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "6666666666666666666666666666666666666666666666666666666666666623"
+      },
+      "expected": {"status": "REVIEW", "result_code": "PATCH_RESTART_PENDING"}
+    },
+
+    {
+      "case_id": "pc11-pass-supported-home-pro",
+      "control_id": "PC-11",
+      "control_label": "Windows 지원 기간",
+      "organization_policy": {"standard_id": "os-lifecycle-standard", "version": "1.0.0", "procedure_attestation_id": "PROC-LIFECYCLE-001", "approved_snapshot_id": "microsoft-windows-11-2026-07-23", "maximum_scan_age_hours": 72},
+      "evidence": {
+        "schema_version": "1.0.0", "id": "65000000-0000-4000-8000-000000000111", "created_at": "2026-07-23T03:11:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "65000000-0000-4000-8000-000000001111",
+        "job_id": "65000000-0000-4000-8000-000000002111", "asset_id": "65000000-0000-4000-8000-000000003000", "package_id": "65000000-0000-4000-8000-000000004000", "source_evidence_id": "65000000-0000-4000-8000-000000005111", "control_id": "PC-11", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.os.lifecycle", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T03:00:00Z", "normalized_at": "2026-07-23T03:11:00Z", "source_locator": {"type": "REGISTRY", "provider": "Windows CurrentVersion"},
+        "normalized_value": {"product_name": "Windows 11", "edition_group": "HOME_PRO", "display_version": "24H2", "os_build": 26100, "ubr": 8875, "architecture": "x86_64"},
+        "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "7777777777777777777777777777777777777777777777777777777777777723"
+      },
+      "expected": {"status": "PASS", "result_code": "WINDOWS_VERSION_SUPPORTED_AND_MANAGED"}
+    },
+    {
+      "case_id": "pc11-pass-enterprise-23h2-supported",
+      "control_id": "PC-11",
+      "control_label": "Windows 지원 기간",
+      "organization_policy": {"standard_id": "os-lifecycle-standard", "version": "1.0.0", "procedure_attestation_id": "PROC-LIFECYCLE-001", "approved_snapshot_id": "microsoft-windows-11-2026-07-23", "maximum_scan_age_hours": 72},
+      "evidence": {
+        "schema_version": "1.0.0", "id": "65000000-0000-4000-8000-000000000112", "created_at": "2026-07-23T03:12:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "65000000-0000-4000-8000-000000001112",
+        "job_id": "65000000-0000-4000-8000-000000002112", "asset_id": "65000000-0000-4000-8000-000000003000", "package_id": "65000000-0000-4000-8000-000000004000", "source_evidence_id": "65000000-0000-4000-8000-000000005112", "control_id": "PC-11", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.os.lifecycle", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T03:00:00Z", "normalized_at": "2026-07-23T03:12:00Z", "source_locator": {"type": "REGISTRY", "provider": "Windows CurrentVersion"},
+        "normalized_value": {"product_name": "Windows 11", "edition_group": "ENTERPRISE_EDUCATION", "display_version": "23H2", "os_build": 22631, "ubr": 7376, "architecture": "x86_64"},
+        "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "8888888888888888888888888888888888888888888888888888888888888823"
+      },
+      "expected": {"status": "PASS", "result_code": "WINDOWS_VERSION_SUPPORTED_AND_MANAGED"}
+    },
+    {
+      "case_id": "pc11-fail-home-pro-eol",
+      "control_id": "PC-11",
+      "control_label": "Windows 지원 기간",
+      "organization_policy": {"standard_id": "os-lifecycle-standard", "version": "1.0.0", "procedure_attestation_id": "PROC-LIFECYCLE-001", "approved_snapshot_id": "microsoft-windows-11-2026-07-23", "maximum_scan_age_hours": 72},
+      "evidence": {
+        "schema_version": "1.0.0", "id": "65000000-0000-4000-8000-000000000113", "created_at": "2026-07-23T03:13:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "65000000-0000-4000-8000-000000001113",
+        "job_id": "65000000-0000-4000-8000-000000002113", "asset_id": "65000000-0000-4000-8000-000000003000", "package_id": "65000000-0000-4000-8000-000000004000", "source_evidence_id": "65000000-0000-4000-8000-000000005113", "control_id": "PC-11", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.os.lifecycle", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T03:00:00Z", "normalized_at": "2026-07-23T03:13:00Z", "source_locator": {"type": "REGISTRY", "provider": "Windows CurrentVersion"},
+        "normalized_value": {"product_name": "Windows 11", "edition_group": "HOME_PRO", "display_version": "23H2", "os_build": 22631, "ubr": 7376, "architecture": "x86_64"},
+        "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "9999999999999999999999999999999999999999999999999999999999999923"
+      },
+      "expected": {"status": "FAIL", "result_code": "WINDOWS_VERSION_END_OF_SUPPORT"}
+    },
+    {
+      "case_id": "pc11-error-collection",
+      "control_id": "PC-11",
+      "control_label": "Windows 지원 기간",
+      "organization_policy": {"standard_id": "os-lifecycle-standard", "version": "1.0.0", "procedure_attestation_id": "PROC-LIFECYCLE-001", "approved_snapshot_id": "microsoft-windows-11-2026-07-23", "maximum_scan_age_hours": 72},
+      "evidence": {
+        "schema_version": "1.0.0", "id": "65000000-0000-4000-8000-000000000114", "created_at": "2026-07-23T03:14:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "65000000-0000-4000-8000-000000001114",
+        "job_id": "65000000-0000-4000-8000-000000002114", "asset_id": "65000000-0000-4000-8000-000000003000", "package_id": "65000000-0000-4000-8000-000000004000", "source_evidence_id": "65000000-0000-4000-8000-000000005114", "control_id": "PC-11", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.os.lifecycle", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T03:00:00Z", "normalized_at": "2026-07-23T03:14:00Z", "source_locator": {"type": "REGISTRY", "provider": "Windows CurrentVersion"},
+        "collection_status": "ERROR", "error_code": "PERMISSION_DENIED", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa23"
+      },
+      "expected": {"status": "ERROR", "result_code": "PC11_COLLECTION_FAILED"}
+    },
+    {
+      "case_id": "pc11-review-unknown-edition",
+      "control_id": "PC-11",
+      "control_label": "Windows 지원 기간",
+      "organization_policy": {"standard_id": "os-lifecycle-standard", "version": "1.0.0", "procedure_attestation_id": "PROC-LIFECYCLE-001", "approved_snapshot_id": "microsoft-windows-11-2026-07-23", "maximum_scan_age_hours": 72},
+      "evidence": {
+        "schema_version": "1.0.0", "id": "65000000-0000-4000-8000-000000000115", "created_at": "2026-07-23T03:15:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "65000000-0000-4000-8000-000000001115",
+        "job_id": "65000000-0000-4000-8000-000000002115", "asset_id": "65000000-0000-4000-8000-000000003000", "package_id": "65000000-0000-4000-8000-000000004000", "source_evidence_id": "65000000-0000-4000-8000-000000005115", "control_id": "PC-11", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.os.lifecycle", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T03:00:00Z", "normalized_at": "2026-07-23T03:15:00Z", "source_locator": {"type": "REGISTRY", "provider": "Windows CurrentVersion"},
+        "normalized_value": {"product_name": "Windows 11", "edition_group": "SPECIAL_EDITION", "display_version": "25H2", "os_build": 26200, "ubr": 8875, "architecture": "x86_64"},
+        "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb23"
+      },
+      "expected": {"status": "REVIEW", "result_code": "LIFECYCLE_RECORD_NOT_FOUND"}
+    },
+    {
+      "case_id": "pc11-review-no-procedure",
+      "control_id": "PC-11",
+      "control_label": "Windows 지원 기간",
+      "evidence": {
+        "schema_version": "1.0.0", "id": "65000000-0000-4000-8000-000000000116", "created_at": "2026-07-23T03:16:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "65000000-0000-4000-8000-000000001116",
+        "job_id": "65000000-0000-4000-8000-000000002116", "asset_id": "65000000-0000-4000-8000-000000003000", "package_id": "65000000-0000-4000-8000-000000004000", "source_evidence_id": "65000000-0000-4000-8000-000000005116", "control_id": "PC-11", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.os.lifecycle", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T03:00:00Z", "normalized_at": "2026-07-23T03:16:00Z", "source_locator": {"type": "REGISTRY", "provider": "Windows CurrentVersion"},
+        "normalized_value": {"product_name": "Windows 11", "edition_group": "ENTERPRISE_EDUCATION", "display_version": "24H2", "os_build": 26100, "ubr": 8875, "architecture": "x86_64"},
+        "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc23"
+      },
+      "expected": {"status": "REVIEW", "result_code": "OS_LIFECYCLE_PROCEDURE_REQUIRED"}
+    }
+  ]
+}

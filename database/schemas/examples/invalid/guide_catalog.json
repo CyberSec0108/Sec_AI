@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0.0",
+  "catalog_id": "secai-guide-catalog",
+  "guides": [
+    {
+      "guide_id": "example-security-guide",
+      "version": "1",
+      "document_code": "EXAMPLE-GUIDE-1",
+      "publisher": "Example Publisher",
+      "title": "Example Security Guide",
+      "edition": "First edition",
+      "language": "ko",
+      "classification": "PUBLIC_SOURCE_UNCONFIRMED_LICENSE",
+      "status": "DRAFT",
+      "supersedes": null,
+      "source": {
+        "relative_path": "data/example-security-guide.pdf",
+        "media_type": "application/pdf",
+        "source_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+        "size_bytes": 1024,
+        "page_count": 10,
+        "pdf_version": "PDF 1.7",
+        "encrypted": false,
+        "metadata_created_at": "2026-01-01T00:00:00Z"
+      },
+      "license_policy": {
+        "status": "REVIEW_REQUIRED",
+        "allowed_use": "LOCAL_INTERNAL_DEVELOPMENT_ONLY",
+        "redistribution_allowed": false,
+        "derivative_text_storage_allowed": false,
+        "review_note": "Public reuse terms have not been verified."
+      },
+      "access_scope": {
+        "scope_type": "PROJECT_LOCAL_DEVELOPMENT",
+        "roles": ["ADMIN"]
+      },
+      "query_scopes": [
+        {
+          "scope_id": "example-section",
+          "section_label": "Example section",
+          "pdf_page_start": 4,
+          "pdf_page_end": 2,
+          "default_enabled": true
+        }
+      ],
+      "gates": {
+        "source_hash_verified": true,
+        "page_map_verified": true,
+        "visual_anchor_verified": true,
+        "malware_scan_passed": false,
+        "ocr_quality_approved": false,
+        "license_review_approved": false,
+        "retrieval_quality_approved": false
+      },
+      "audit_pack_activation_allowed": true
+    }
+  ]
+}

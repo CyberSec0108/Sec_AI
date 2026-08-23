@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0.0",
+  "id": "40000000-0000-4000-8000-000000000001",
+  "created_at": "2026-07-21T06:15:00Z",
+  "source": "rule-engine",
+  "producer_name": "sec-ai-rule-engine",
+  "producer_version": "1.0.0",
+  "correlation_id": "10000000-0000-4000-8000-000000000002",
+  "job_id": "10000000-0000-4000-8000-000000000003",
+  "asset_id": "10000000-0000-4000-8000-000000000004",
+  "control_id": "PC-07",
+  "guide_version": "2026",
+  "severity": "MEDIUM",
+  "subject": {"scope": "ASSET"},
+  "status": "N/A",
+  "applicability": {"status": "APPLICABLE", "reason_code": "CONTRADICTORY"},
+  "audit_pack": {"id": "50000000-0000-4000-8000-000000000001", "version": "1.0.0", "sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"},
+  "rule_result": {"rule_id": "pc07.ntfs", "rule_version": "1.0.0", "result_code": "INVALID", "input_sha256": "1111111111111111111111111111111111111111111111111111111111111111", "output_sha256": "2222222222222222222222222222222222222222222222222222222222222222"},
+  "evidence_refs": [],
+  "evidence_set_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+  "error_codes": [],
+  "evaluated_at": "2026-07-21T06:15:00Z"
+}
+

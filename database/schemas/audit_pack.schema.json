@@ -1,0 +1,177 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sec-ai.local/v1/audit_pack.schema.json",
+  "title": "Sec_AI Audit Pack",
+  "allOf": [
+    {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/commonFields"},
+    {
+      "type": "object",
+      "required": [
+        "pack_profile", "name", "version", "guide", "target", "effective_from",
+        "content_sha256", "controls", "approval"
+      ],
+      "properties": {
+        "source": {"const": "audit-pack-builder"},
+        "pack_profile": {"const": "KISA-2026-PC-MVP"},
+        "name": {"type": "string", "minLength": 1, "maxLength": 128},
+        "version": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/semver"},
+        "guide": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["publisher", "version", "section", "document_sha256"],
+          "properties": {
+            "publisher": {"const": "KISA"},
+            "version": {"const": "2026"},
+            "section": {"const": "07.PC"},
+            "document_sha256": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/sha256"}
+          }
+        },
+        "target": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["os_family", "versions", "architectures"],
+          "properties": {
+            "os_family": {"const": "WINDOWS"},
+            "versions": {"type": "array", "const": ["11"]},
+            "architectures": {"type": "array", "const": ["x86_64"]}
+          }
+        },
+        "effective_from": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/timestamp"},
+        "effective_until": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/timestamp"},
+        "content_sha256": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/sha256"},
+        "controls": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 18,
+          "items": {"$ref": "#/$defs/control"}
+        },
+        "approval": {"$ref": "#/$defs/approval"}
+      }
+    }
+  ],
+  "$defs": {
+    "ruleRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rule_id", "rule_version", "parameters"],
+      "properties": {
+        "rule_id": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/identifier"},
+        "rule_version": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/semver"},
+        "parameters": {
+          "type": "object",
+          "maxProperties": 64,
+          "propertyNames": {"pattern": "^[A-Za-z][A-Za-z0-9_]{0,63}$"},
+          "additionalProperties": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/boundedValue"}
+        }
+      }
+    },
+    "evidenceRequirement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["requirement_id", "probe_ids", "required", "minimum_records", "accepted_collection_status"],
+      "properties": {
+        "requirement_id": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/identifier"},
+        "probe_ids": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 32,
+          "uniqueItems": true,
+          "items": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/identifier"}
+        },
+        "required": {"type": "boolean"},
+        "minimum_records": {"type": "integer", "minimum": 0, "maximum": 512},
+        "accepted_collection_status": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"enum": ["COLLECTED", "ERROR", "SKIPPED"]}
+        },
+        "organization_policy_required": {"type": "boolean"},
+        "manual_attestation_allowed": {"type": "boolean"}
+      }
+    },
+    "citation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["document", "page_start", "page_end"],
+      "properties": {
+        "document": {"const": "KISA-2026-07-PC"},
+        "page_start": {"type": "integer", "minimum": 555, "maximum": 592},
+        "page_end": {"type": "integer", "minimum": 555, "maximum": 592},
+        "section_label": {"type": "string", "maxLength": 128}
+      }
+    },
+    "control": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "control_id", "title", "category", "severity", "automation_type", "required_privileges",
+        "applicability_rule", "evidence_requirements", "evaluation_rule", "citations", "fixture_refs"
+      ],
+      "properties": {
+        "control_id": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/controlId"},
+        "title": {"type": "string", "minLength": 1, "maxLength": 256},
+        "category": {"enum": ["ACCOUNT_MANAGEMENT", "SERVICE_MANAGEMENT", "PATCH_MANAGEMENT", "SECURITY_MANAGEMENT"]},
+        "severity": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/severity"},
+        "automation_type": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/automationType"},
+        "required_privileges": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"enum": ["STANDARD_USER", "ELEVATED_ADMIN", "ORGANIZATION_POLICY"]}
+        },
+        "applicability_rule": {"$ref": "#/$defs/ruleRef"},
+        "evidence_requirements": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 64,
+          "items": {"$ref": "#/$defs/evidenceRequirement"}
+        },
+        "evaluation_rule": {"$ref": "#/$defs/ruleRef"},
+        "citations": {"type": "array", "minItems": 1, "maxItems": 16, "items": {"$ref": "#/$defs/citation"}},
+        "fixture_refs": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["pass", "fail", "error"],
+          "properties": {
+            "pass": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/identifier"},
+            "fail": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/identifier"},
+            "error": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/identifier"},
+            "review": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/identifier"},
+            "not_applicable": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/identifier"}
+          }
+        }
+      }
+    },
+    "approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status"],
+      "properties": {
+        "status": {"enum": ["DRAFT", "APPROVED", "REVOKED"]},
+        "approved_at": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/timestamp"},
+        "approver_ids": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 16,
+          "uniqueItems": true,
+          "items": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/uuid"}
+        },
+        "signature": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/signature"},
+        "revocation_reason": {"type": "string", "minLength": 1, "maxLength": 512}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"status": {"const": "APPROVED"}}, "required": ["status"]},
+          "then": {"required": ["approved_at", "approver_ids", "signature"]}
+        },
+        {
+          "if": {"properties": {"status": {"const": "REVOKED"}}, "required": ["status"]},
+          "then": {"required": ["revocation_reason"]}
+        }
+      ]
+    }
+  },
+  "unevaluatedProperties": false
+}
+

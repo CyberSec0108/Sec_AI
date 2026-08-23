@@ -1,0 +1,160 @@
+{
+  "fixture_set_version": "1.0.0",
+  "pack_version": "0.6.0",
+  "synthetic": true,
+  "description": "IMP-025 PC-16 through PC-18 deterministic user, removable media and remote assistance test data",
+  "cases": [
+    {
+      "case_id": "pc16-pass-policy-lock", "control_id": "PC-16", "control_label": "화면보호기 잠금",
+      "evidence": {
+        "schema_version": "1.0.0", "id": "67000000-0000-4000-8000-000000000161", "created_at": "2026-07-23T05:01:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "67000000-0000-4000-8000-000000001161",
+        "job_id": "67000000-0000-4000-8000-000000002161", "asset_id": "67000000-0000-4000-8000-000000003000", "package_id": "67000000-0000-4000-8000-000000004000", "source_evidence_id": "67000000-0000-4000-8000-000000005161", "control_id": "PC-16", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.user.screensaver-policy", "probe_version": "0.1.0", "subject": {"scope": "USER", "user_sid": "S-1-5-21-1000000000-2000000000-3000000000-1001"}, "collected_at": "2026-07-23T05:00:00Z", "normalized_at": "2026-07-23T05:01:00Z", "source_locator": {"type": "REGISTRY", "provider": "HKCU effective screen saver policy"},
+        "normalized_value": {"screen_save_active": "1", "screen_save_timeout_seconds": 600, "screen_saver_is_secure": "1", "screen_saver_executable_present": true, "effective_policy_source": "HKCU_POLICIES", "user_coverage_complete": true},
+        "policy_scope": "USER", "policy_source": "HKCU_POLICIES", "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "1111111111111111111111111111111111111111111111111111111111111111"
+      },
+      "expected": {"status": "PASS", "result_code": "SCREEN_SAVER_LOCK_POLICY_COMPLIANT"}
+    },
+    {
+      "case_id": "pc16-fail-timeout-over-600", "control_id": "PC-16", "control_label": "화면보호기 잠금",
+      "evidence": {
+        "schema_version": "1.0.0", "id": "67000000-0000-4000-8000-000000000162", "created_at": "2026-07-23T05:02:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "67000000-0000-4000-8000-000000001162",
+        "job_id": "67000000-0000-4000-8000-000000002162", "asset_id": "67000000-0000-4000-8000-000000003000", "package_id": "67000000-0000-4000-8000-000000004000", "source_evidence_id": "67000000-0000-4000-8000-000000005162", "control_id": "PC-16", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.user.screensaver-policy", "probe_version": "0.1.0", "subject": {"scope": "USER", "user_sid": "S-1-5-21-1000000000-2000000000-3000000000-1001"}, "collected_at": "2026-07-23T05:00:00Z", "normalized_at": "2026-07-23T05:02:00Z", "source_locator": {"type": "REGISTRY", "provider": "HKCU effective screen saver policy"},
+        "normalized_value": {"screen_save_active": "1", "screen_save_timeout_seconds": 900, "screen_saver_is_secure": "1", "screen_saver_executable_present": true, "effective_policy_source": "HKCU_USER_SETTING", "user_coverage_complete": true},
+        "policy_scope": "USER", "policy_source": "HKCU_USER_SETTING", "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+      },
+      "expected": {"status": "FAIL", "result_code": "SCREEN_SAVER_LOCK_POLICY_VIOLATION"}
+    },
+    {
+      "case_id": "pc16-fail-password-protection-off", "control_id": "PC-16", "control_label": "화면보호기 잠금",
+      "evidence": {
+        "schema_version": "1.0.0", "id": "67000000-0000-4000-8000-000000000163", "created_at": "2026-07-23T05:03:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "67000000-0000-4000-8000-000000001163",
+        "job_id": "67000000-0000-4000-8000-000000002163", "asset_id": "67000000-0000-4000-8000-000000003000", "package_id": "67000000-0000-4000-8000-000000004000", "source_evidence_id": "67000000-0000-4000-8000-000000005163", "control_id": "PC-16", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.user.screensaver-policy", "probe_version": "0.1.0", "subject": {"scope": "USER", "user_sid": "S-1-5-21-1000000000-2000000000-3000000000-1001"}, "collected_at": "2026-07-23T05:00:00Z", "normalized_at": "2026-07-23T05:03:00Z", "source_locator": {"type": "REGISTRY", "provider": "HKCU effective screen saver policy"},
+        "normalized_value": {"screen_save_active": "1", "screen_save_timeout_seconds": 300, "screen_saver_is_secure": "0", "screen_saver_executable_present": true, "effective_policy_source": "HKCU_USER_SETTING", "user_coverage_complete": true},
+        "policy_scope": "USER", "policy_source": "HKCU_USER_SETTING", "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "3333333333333333333333333333333333333333333333333333333333333333"
+      },
+      "expected": {"status": "FAIL", "result_code": "SCREEN_SAVER_LOCK_POLICY_VIOLATION"}
+    },
+    {
+      "case_id": "pc16-review-user-coverage-incomplete", "control_id": "PC-16", "control_label": "화면보호기 잠금",
+      "evidence": {
+        "schema_version": "1.0.0", "id": "67000000-0000-4000-8000-000000000164", "created_at": "2026-07-23T05:04:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "67000000-0000-4000-8000-000000001164",
+        "job_id": "67000000-0000-4000-8000-000000002164", "asset_id": "67000000-0000-4000-8000-000000003000", "package_id": "67000000-0000-4000-8000-000000004000", "source_evidence_id": "67000000-0000-4000-8000-000000005164", "control_id": "PC-16", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.user.screensaver-policy", "probe_version": "0.1.0", "subject": {"scope": "USER", "user_sid": "S-1-5-21-1000000000-2000000000-3000000000-1001"}, "collected_at": "2026-07-23T05:00:00Z", "normalized_at": "2026-07-23T05:04:00Z", "source_locator": {"type": "REGISTRY", "provider": "HKCU effective screen saver policy"},
+        "normalized_value": {"screen_save_active": "1", "screen_save_timeout_seconds": 600, "screen_saver_is_secure": "1", "screen_saver_executable_present": true, "effective_policy_source": "HKCU_POLICIES", "user_coverage_complete": false},
+        "policy_scope": "USER", "policy_source": "HKCU_POLICIES", "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "4444444444444444444444444444444444444444444444444444444444444444"
+      },
+      "expected": {"status": "REVIEW", "result_code": "SCREEN_SAVER_USER_COVERAGE_INCOMPLETE"}
+    },
+    {
+      "case_id": "pc16-error-collection", "control_id": "PC-16", "control_label": "화면보호기 잠금",
+      "evidence": {
+        "schema_version": "1.0.0", "id": "67000000-0000-4000-8000-000000000165", "created_at": "2026-07-23T05:05:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "67000000-0000-4000-8000-000000001165",
+        "job_id": "67000000-0000-4000-8000-000000002165", "asset_id": "67000000-0000-4000-8000-000000003000", "package_id": "67000000-0000-4000-8000-000000004000", "source_evidence_id": "67000000-0000-4000-8000-000000005165", "control_id": "PC-16", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.user.screensaver-policy", "probe_version": "0.1.0", "subject": {"scope": "USER", "user_sid": "S-1-5-21-1000000000-2000000000-3000000000-1001"}, "collected_at": "2026-07-23T05:00:00Z", "normalized_at": "2026-07-23T05:05:00Z", "source_locator": {"type": "REGISTRY", "provider": "HKCU effective screen saver policy"},
+        "policy_scope": "USER", "policy_source": "UNKNOWN", "collection_status": "ERROR", "error_code": "PERMISSION_DENIED", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "5555555555555555555555555555555555555555555555555555555555555555"
+      },
+      "expected": {"status": "ERROR", "result_code": "PC16_COLLECTION_FAILED"}
+    },
+
+    {
+      "case_id": "pc17-pass-autoplay-and-procedure", "control_id": "PC-17", "control_label": "이동식 미디어 보호",
+      "organization_policy": {"standard_id": "removable-media-standard", "version": "1.0.0", "procedure_attestation_id": "RM-PROC-001", "procedure_status": "APPROVED", "media_scope": "CD_DVD_USB_AND_REMOVABLE"},
+      "evidence": {
+        "schema_version": "1.0.0", "id": "67000000-0000-4000-8000-000000000171", "created_at": "2026-07-23T05:11:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "67000000-0000-4000-8000-000000001171",
+        "job_id": "67000000-0000-4000-8000-000000002171", "asset_id": "67000000-0000-4000-8000-000000003000", "package_id": "67000000-0000-4000-8000-000000004000", "source_evidence_id": "67000000-0000-4000-8000-000000005171", "control_id": "PC-17", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.media.autoplay-policy", "probe_version": "0.1.0", "subject": {"scope": "POLICY", "subject_key": "effective-autoplay-policy"}, "collected_at": "2026-07-23T05:10:00Z", "normalized_at": "2026-07-23T05:11:00Z", "source_locator": {"type": "REGISTRY", "provider": "Windows effective AutoPlay policy"},
+        "normalized_value": {"turn_off_autoplay_enabled": true, "autoplay_scope": "ALL_DRIVES", "autorun_default_behavior": "DO_NOT_EXECUTE", "non_volume_autoplay_disallowed": true, "effective_policy_source": "DOMAIN"},
+        "policy_scope": "MACHINE", "policy_source": "DOMAIN", "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "6666666666666666666666666666666666666666666666666666666666666666"
+      },
+      "expected": {"status": "PASS", "result_code": "REMOVABLE_MEDIA_CONTROLS_COMPLIANT"}
+    },
+    {
+      "case_id": "pc17-fail-autoplay-enabled", "control_id": "PC-17", "control_label": "이동식 미디어 보호",
+      "organization_policy": {"standard_id": "removable-media-standard", "version": "1.0.0", "procedure_attestation_id": "RM-PROC-001", "procedure_status": "APPROVED", "media_scope": "CD_DVD_USB_AND_REMOVABLE"},
+      "evidence": {
+        "schema_version": "1.0.0", "id": "67000000-0000-4000-8000-000000000172", "created_at": "2026-07-23T05:12:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "67000000-0000-4000-8000-000000001172",
+        "job_id": "67000000-0000-4000-8000-000000002172", "asset_id": "67000000-0000-4000-8000-000000003000", "package_id": "67000000-0000-4000-8000-000000004000", "source_evidence_id": "67000000-0000-4000-8000-000000005172", "control_id": "PC-17", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.media.autoplay-policy", "probe_version": "0.1.0", "subject": {"scope": "POLICY", "subject_key": "effective-autoplay-policy"}, "collected_at": "2026-07-23T05:10:00Z", "normalized_at": "2026-07-23T05:12:00Z", "source_locator": {"type": "REGISTRY", "provider": "Windows effective AutoPlay policy"},
+        "normalized_value": {"turn_off_autoplay_enabled": false, "autoplay_scope": "ALL_DRIVES", "autorun_default_behavior": "EXECUTE_COMMANDS", "non_volume_autoplay_disallowed": false, "effective_policy_source": "LOCAL"},
+        "policy_scope": "MACHINE", "policy_source": "LOCAL", "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "7777777777777777777777777777777777777777777777777777777777777777"
+      },
+      "expected": {"status": "FAIL", "result_code": "REMOVABLE_MEDIA_AUTORUN_CONTROL_VIOLATION"}
+    },
+    {
+      "case_id": "pc17-fail-scope-not-all-drives", "control_id": "PC-17", "control_label": "이동식 미디어 보호",
+      "organization_policy": {"standard_id": "removable-media-standard", "version": "1.0.0", "procedure_attestation_id": "RM-PROC-001", "procedure_status": "APPROVED", "media_scope": "CD_DVD_USB_AND_REMOVABLE"},
+      "evidence": {
+        "schema_version": "1.0.0", "id": "67000000-0000-4000-8000-000000000173", "created_at": "2026-07-23T05:13:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "67000000-0000-4000-8000-000000001173",
+        "job_id": "67000000-0000-4000-8000-000000002173", "asset_id": "67000000-0000-4000-8000-000000003000", "package_id": "67000000-0000-4000-8000-000000004000", "source_evidence_id": "67000000-0000-4000-8000-000000005173", "control_id": "PC-17", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.media.autoplay-policy", "probe_version": "0.1.0", "subject": {"scope": "POLICY", "subject_key": "effective-autoplay-policy"}, "collected_at": "2026-07-23T05:10:00Z", "normalized_at": "2026-07-23T05:13:00Z", "source_locator": {"type": "REGISTRY", "provider": "Windows effective AutoPlay policy"},
+        "normalized_value": {"turn_off_autoplay_enabled": true, "autoplay_scope": "CD_AND_REMOVABLE", "autorun_default_behavior": "DO_NOT_EXECUTE", "non_volume_autoplay_disallowed": true, "effective_policy_source": "LOCAL"},
+        "policy_scope": "MACHINE", "policy_source": "LOCAL", "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "8888888888888888888888888888888888888888888888888888888888888888"
+      },
+      "expected": {"status": "FAIL", "result_code": "REMOVABLE_MEDIA_AUTORUN_CONTROL_VIOLATION"}
+    },
+    {
+      "case_id": "pc17-review-procedure-missing", "control_id": "PC-17", "control_label": "이동식 미디어 보호",
+      "evidence": {
+        "schema_version": "1.0.0", "id": "67000000-0000-4000-8000-000000000174", "created_at": "2026-07-23T05:14:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "67000000-0000-4000-8000-000000001174",
+        "job_id": "67000000-0000-4000-8000-000000002174", "asset_id": "67000000-0000-4000-8000-000000003000", "package_id": "67000000-0000-4000-8000-000000004000", "source_evidence_id": "67000000-0000-4000-8000-000000005174", "control_id": "PC-17", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.media.autoplay-policy", "probe_version": "0.1.0", "subject": {"scope": "POLICY", "subject_key": "effective-autoplay-policy"}, "collected_at": "2026-07-23T05:10:00Z", "normalized_at": "2026-07-23T05:14:00Z", "source_locator": {"type": "REGISTRY", "provider": "Windows effective AutoPlay policy"},
+        "normalized_value": {"turn_off_autoplay_enabled": true, "autoplay_scope": "ALL_DRIVES", "autorun_default_behavior": "DO_NOT_EXECUTE", "non_volume_autoplay_disallowed": true, "effective_policy_source": "MDM"},
+        "policy_scope": "MDM", "policy_source": "MDM", "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "9999999999999999999999999999999999999999999999999999999999999999"
+      },
+      "expected": {"status": "REVIEW", "result_code": "REMOVABLE_MEDIA_PROCEDURE_ATTESTATION_REQUIRED"}
+    },
+    {
+      "case_id": "pc17-error-collection", "control_id": "PC-17", "control_label": "이동식 미디어 보호",
+      "evidence": {
+        "schema_version": "1.0.0", "id": "67000000-0000-4000-8000-000000000175", "created_at": "2026-07-23T05:15:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "67000000-0000-4000-8000-000000001175",
+        "job_id": "67000000-0000-4000-8000-000000002175", "asset_id": "67000000-0000-4000-8000-000000003000", "package_id": "67000000-0000-4000-8000-000000004000", "source_evidence_id": "67000000-0000-4000-8000-000000005175", "control_id": "PC-17", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.media.autoplay-policy", "probe_version": "0.1.0", "subject": {"scope": "POLICY", "subject_key": "effective-autoplay-policy"}, "collected_at": "2026-07-23T05:10:00Z", "normalized_at": "2026-07-23T05:15:00Z", "source_locator": {"type": "REGISTRY", "provider": "Windows effective AutoPlay policy"},
+        "policy_scope": "MACHINE", "policy_source": "UNKNOWN", "collection_status": "ERROR", "error_code": "PERMISSION_DENIED", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": {"status": "ERROR", "result_code": "PC17_COLLECTION_FAILED"}
+    },
+
+    {
+      "case_id": "pc18-pass-both-disabled", "control_id": "PC-18", "control_label": "Windows 원격지원 차단",
+      "evidence": {
+        "schema_version": "1.0.0", "id": "67000000-0000-4000-8000-000000000181", "created_at": "2026-07-23T05:21:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "67000000-0000-4000-8000-000000001181",
+        "job_id": "67000000-0000-4000-8000-000000002181", "asset_id": "67000000-0000-4000-8000-000000003000", "package_id": "67000000-0000-4000-8000-000000004000", "source_evidence_id": "67000000-0000-4000-8000-000000005181", "control_id": "PC-18", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.remote-assistance.policy", "probe_version": "0.1.0", "subject": {"scope": "POLICY", "subject_key": "windows-remote-assistance"}, "collected_at": "2026-07-23T05:20:00Z", "normalized_at": "2026-07-23T05:21:00Z", "source_locator": {"type": "REGISTRY", "provider": "HKLM Remote Assistance policy"},
+        "normalized_value": {"f_allow_to_get_help": "0", "f_allow_unsolicited": "0", "effective_policy_source": "DOMAIN"},
+        "policy_scope": "MACHINE", "policy_source": "DOMAIN", "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      },
+      "expected": {"status": "PASS", "result_code": "REMOTE_ASSISTANCE_EXPLICITLY_DISABLED"}
+    },
+    {
+      "case_id": "pc18-fail-solicited-enabled", "control_id": "PC-18", "control_label": "Windows 원격지원 차단",
+      "evidence": {
+        "schema_version": "1.0.0", "id": "67000000-0000-4000-8000-000000000182", "created_at": "2026-07-23T05:22:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "67000000-0000-4000-8000-000000001182",
+        "job_id": "67000000-0000-4000-8000-000000002182", "asset_id": "67000000-0000-4000-8000-000000003000", "package_id": "67000000-0000-4000-8000-000000004000", "source_evidence_id": "67000000-0000-4000-8000-000000005182", "control_id": "PC-18", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.remote-assistance.policy", "probe_version": "0.1.0", "subject": {"scope": "POLICY", "subject_key": "windows-remote-assistance"}, "collected_at": "2026-07-23T05:20:00Z", "normalized_at": "2026-07-23T05:22:00Z", "source_locator": {"type": "REGISTRY", "provider": "HKLM Remote Assistance policy"},
+        "normalized_value": {"f_allow_to_get_help": "1", "f_allow_unsolicited": "0", "effective_policy_source": "LOCAL"},
+        "policy_scope": "MACHINE", "policy_source": "LOCAL", "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      },
+      "expected": {"status": "FAIL", "result_code": "REMOTE_ASSISTANCE_ENABLED"}
+    },
+    {
+      "case_id": "pc18-fail-offer-enabled", "control_id": "PC-18", "control_label": "Windows 원격지원 차단",
+      "evidence": {
+        "schema_version": "1.0.0", "id": "67000000-0000-4000-8000-000000000183", "created_at": "2026-07-23T05:23:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "67000000-0000-4000-8000-000000001183",
+        "job_id": "67000000-0000-4000-8000-000000002183", "asset_id": "67000000-0000-4000-8000-000000003000", "package_id": "67000000-0000-4000-8000-000000004000", "source_evidence_id": "67000000-0000-4000-8000-000000005183", "control_id": "PC-18", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.remote-assistance.policy", "probe_version": "0.1.0", "subject": {"scope": "POLICY", "subject_key": "windows-remote-assistance"}, "collected_at": "2026-07-23T05:20:00Z", "normalized_at": "2026-07-23T05:23:00Z", "source_locator": {"type": "REGISTRY", "provider": "HKLM Remote Assistance policy"},
+        "normalized_value": {"f_allow_to_get_help": "0", "f_allow_unsolicited": "1", "effective_policy_source": "MDM"},
+        "policy_scope": "MDM", "policy_source": "MDM", "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      },
+      "expected": {"status": "FAIL", "result_code": "REMOTE_ASSISTANCE_ENABLED"}
+    },
+    {
+      "case_id": "pc18-review-not-configured", "control_id": "PC-18", "control_label": "Windows 원격지원 차단",
+      "evidence": {
+        "schema_version": "1.0.0", "id": "67000000-0000-4000-8000-000000000184", "created_at": "2026-07-23T05:24:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "67000000-0000-4000-8000-000000001184",
+        "job_id": "67000000-0000-4000-8000-000000002184", "asset_id": "67000000-0000-4000-8000-000000003000", "package_id": "67000000-0000-4000-8000-000000004000", "source_evidence_id": "67000000-0000-4000-8000-000000005184", "control_id": "PC-18", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.remote-assistance.policy", "probe_version": "0.1.0", "subject": {"scope": "POLICY", "subject_key": "windows-remote-assistance"}, "collected_at": "2026-07-23T05:20:00Z", "normalized_at": "2026-07-23T05:24:00Z", "source_locator": {"type": "REGISTRY", "provider": "HKLM Remote Assistance policy"},
+        "normalized_value": {"f_allow_to_get_help": "MISSING", "f_allow_unsolicited": "MISSING", "effective_policy_source": "WINDOWS_DEFAULT"},
+        "policy_scope": "MACHINE", "policy_source": "WINDOWS_DEFAULT", "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+      },
+      "expected": {"status": "REVIEW", "result_code": "REMOTE_ASSISTANCE_POLICY_NOT_EXPLICIT"}
+    },
+    {
+      "case_id": "pc18-error-collection", "control_id": "PC-18", "control_label": "Windows 원격지원 차단",
+      "evidence": {
+        "schema_version": "1.0.0", "id": "67000000-0000-4000-8000-000000000185", "created_at": "2026-07-23T05:25:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "67000000-0000-4000-8000-000000001185",
+        "job_id": "67000000-0000-4000-8000-000000002185", "asset_id": "67000000-0000-4000-8000-000000003000", "package_id": "67000000-0000-4000-8000-000000004000", "source_evidence_id": "67000000-0000-4000-8000-000000005185", "control_id": "PC-18", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.remote-assistance.policy", "probe_version": "0.1.0", "subject": {"scope": "POLICY", "subject_key": "windows-remote-assistance"}, "collected_at": "2026-07-23T05:20:00Z", "normalized_at": "2026-07-23T05:25:00Z", "source_locator": {"type": "REGISTRY", "provider": "HKLM Remote Assistance policy"},
+        "policy_scope": "MACHINE", "policy_source": "UNKNOWN", "collection_status": "ERROR", "error_code": "PERMISSION_DENIED", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+      },
+      "expected": {"status": "ERROR", "result_code": "PC18_COLLECTION_FAILED"}
+    }
+  ]
+}

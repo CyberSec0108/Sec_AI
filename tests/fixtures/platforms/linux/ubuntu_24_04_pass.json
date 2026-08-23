@@ -1,0 +1,8 @@
+{
+  "linux.login-defs": "PASS_MAX_DAYS 90\nPASS_MIN_LEN 12\n",
+  "linux.sshd-effective": "permitrootlogin no\npasswordauthentication no\n",
+  "linux.shadow-mode": "640:root:shadow\n",
+  "linux.firewall-state": "active\n",
+  "linux.time-sync": "yes\n",
+  "linux.auditd-state": "active\n"
+}

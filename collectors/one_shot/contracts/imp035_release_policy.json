@@ -1,0 +1,48 @@
+{
+  "contract_version": "1.0.0",
+  "imp": "IMP-035",
+  "development_profile": {
+    "id": "DEV-EPHEMERAL-AUTHENTICODE",
+    "purpose": "코드서명 pipeline과 fail-closed 검증을 위한 개발 인수",
+    "publisher_subject_prefix": "CN=Sec_AI IMP-035 DEV Publisher",
+    "self_signed_dev_trust_anchor": true,
+    "install_dev_root_in_windows_trust_store": false,
+    "key_algorithm": "RSA",
+    "minimum_key_bits": 3072,
+    "digest_algorithm": "SHA256",
+    "required_eku_oid": "1.3.6.1.5.5.7.3.3",
+    "private_key_exportable": false,
+    "maximum_certificate_days": 31,
+    "timestamp_required": true,
+    "revocation_profile": "EPHEMERAL_DEV_CA_POLICY",
+    "temporary_trust_store_cleanup_required": true
+  },
+  "release_checks": {
+    "unsigned_input_required": true,
+    "pre_and_post_sign_hash_required": true,
+    "certificate_chain_required": true,
+    "tamper_must_be_rejected": true,
+    "revoked_must_be_rejected": true,
+    "revocation_unavailable_must_be_rejected": true,
+    "stale_revocation_status_must_be_rejected": true,
+    "signed_artifact_rescan_required": [
+      "ClamAV",
+      "Microsoft Defender"
+    ],
+    "frozen_self_check_required": true
+  },
+  "external_release_gates": {
+    "organization_code_signing_certificate": true,
+    "organization_publisher_approval": true,
+    "production_crl_or_ocsp": true,
+    "clean_windows_11_vm": true,
+    "smartscreen_acceptance": true
+  },
+  "output_boundary": {
+    "directory": "runtime/imp035-artifacts",
+    "production_release": false,
+    "download_enabled": false,
+    "portable_bundle_created": false,
+    "official_finding_created": false
+  }
+}

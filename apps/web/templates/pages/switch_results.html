@@ -1,0 +1,152 @@
+{% import "components/audit_ui.html" as ui %}
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <meta name="switch-run-id" content="{{ run_id }}">
+  <title>네트워크 스위치 점검 결과 | Sec_AI</title>
+  <link rel="stylesheet" href="/static/app/app.css">
+  <script src="/static/app/theme.js" defer></script>
+  <script src="/static/app/restricted-markdown.js" defer></script>
+  <script src="/static/app/switch-results.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">본문으로 건너뛰기</a>
+  {{ ui.app_header("results", "network") }}
+  <main id="main-content" class="container product-shell switch-results-page">
+    <a class="back-link" href="/ui/switch-scan">← 네트워크 스위치 다시 점검</a>
+    <header class="page-heading">
+      <div>
+        <p class="section-code">AOS-CX REST 읽기 전용 점검</p>
+        <h1>네트워크 스위치 점검 결과</h1>
+        <p class="lead">{{ result.asset.vendor }} {{ result.asset.product_family }} · {{ result.asset.platform_version }}</p>
+      </div>
+    </header>
+
+
+    <aside class="ai-preview-notice">
+      <strong>조직 입력 판정값 {{ result.criteria_summary.organization_supplemental_assessment_count }}개를 저장했고 {{ result.criteria_summary.organization_supplemental_assessment_applied_count }}개 항목에 적용했습니다.</strong>
+      이 값은 REST로 수집한 장비 설정이 아니며 점검 전에 선택한 조직 보완 판정입니다. 장비값만으로 판정된 항목에는 적용하지 않았습니다.
+    </aside>
+
+    <section class="summary-panel" aria-labelledby="switch-summary-title">
+      <div class="summary-heading">
+        <p class="section-label">점검 결과</p>
+        <h2 id="switch-summary-title">N-01~N-38 결과 요약</h2>
+      </div>
+      <dl class="summary-list summary-list-four" aria-label="상태별 결과 바로 보기">
+        <div><button type="button" data-switch-result-status="ALL" aria-pressed="true"><span>전체</span><strong>{{ presented_controls|length }}</strong></button></div>
+        <div class="summary-pass"><button type="button" data-switch-result-status="PASS" aria-pressed="false"><span>양호</span><strong>{{ status_counts.PASS }}</strong></button></div>
+        <div class="summary-fail"><button type="button" data-switch-result-status="FAIL" aria-pressed="false"><span>취약</span><strong>{{ status_counts.FAIL }}</strong></button></div>
+        <div class="summary-error"><button type="button" data-switch-result-status="ERROR" aria-pressed="false"><span>확인 필요</span><strong>{{ status_counts.ERROR + status_counts.REVIEW }}</strong></button></div>
+        <div class="summary-na"><button type="button" data-switch-result-status="N/A" aria-pressed="false"><span>해당 없음</span><strong>{{ status_counts["N/A"] }}</strong></button></div>
+      </dl>
+    </section>
+
+    <section class="result-toolbar" aria-label="스위치 점검 결과 작업">
+      <div>
+        <strong>{{ result.completed_at }}</strong>
+        <span>인증서가 고정된 HTTPS REST GET으로 저장한 읽기 전용 결과입니다.</span>
+      </div>
+      <div class="result-toolbar-actions">
+        <a class="button-link" href="/ui/switch-scan">다른 스위치 점검</a>
+      </div>
+    </section>
+
+    <details id="switch-result-report-panel" class="panel result-report-panel result-report-compact">
+      <summary>결과 보고서(PDF) 받기</summary>
+      <div class="result-report-actions">
+        <a id="switch-user-pdf" class="button-link button-link-primary" href="/api/v1/switch/audits/{{ run_id }}/report.pdf?kind=USER">사용자용 PDF 받기</a>
+        <a id="switch-technical-pdf" class="button-link" href="/api/v1/switch/audits/{{ run_id }}/report.pdf?kind=TECHNICAL">기술 검증용 PDF 받기</a>
+      </div>
+      <p class="result-report-status">사용자용 보고서와 검증 담당자용 증적 보고서를 구분해 받을 수 있습니다.</p>
+      <aside class="result-report-scope">
+        <strong>사용자용 PDF</strong>에는 실제 확인값·개발용 판정·KISA 근거·다음 행동을 담고 내부 기술 위치는 제외합니다.
+        <strong>기술 검증용 PDF</strong>에는 권한이 있는 검증 담당자가 실제 확인값·REST 수집 계보와 무결성 hash를 확인할 수 있는 내용을 담습니다.
+      </aside>
+      <details class="panel technical-integrity switch-result-integrity">
+        <summary>결과 무결성 확인값 보기</summary>
+        <dl class="switch-result-metadata">
+          <div><dt>점검 기준</dt><dd>{{ result.benchmark.id }} · {{ result.benchmark.version }}</dd></div>
+          <div><dt>결과 SHA-256</dt><dd><code>{{ result_sha256 }}</code></dd></div>
+          <div><dt>설정 변경</dt><dd>없음 · HTTPS REST GET만 사용</dd></div>
+          <div><dt>민감 원문</dt><dd>비밀번호·세션 쿠키·REST 원문 제외</dd></div>
+        </dl>
+      </details>
+    </details>
+
+    <details id="switch-recheck-panel" class="panel administrator-recheck-panel recheck-controls-panel">
+      <summary>N-01~N-38 네트워크 스위치 재점검 보기</summary>
+      <div class="panel-heading administrator-recheck-heading">
+        <p class="section-label">전체 항목 재점검</p>
+        <h2>같은 기준으로 스위치 설정을 다시 확인합니다</h2>
+        <p>기존 결과를 바꾸지 않고 인증서가 고정된 HTTPS REST GET으로 N-01~N-38을 새로 점검합니다.</p>
+      </div>
+      <a class="button-link" href="/ui/switch-scan">네트워크 스위치 다시 점검</a>
+    </details>
+
+    <section id="switch-integrated-results" class="panel linux-result-list-panel" data-result-view="combined" data-result-status="ALL" aria-labelledby="switch-control-results-title">
+      <div class="integrated-results-heading">
+        <div class="panel-heading">
+          <p class="section-label">항목별 점검 결과</p>
+          <h2 id="switch-control-results-title">항목별 결과를 한 화면에서 확인하세요</h2>
+          <p>점검 결과와 AI 설명을 Windows PC·Linux 서버 결과와 같은 순서로 보여드립니다.</p>
+        </div>
+        <div class="result-view-switch" role="group" aria-label="결과 표시 방식">
+          <button type="button" data-result-view-button="combined" aria-pressed="true">통합 보기</button>
+          <button type="button" data-result-view-button="results" aria-pressed="false">점검 결과만</button>
+          <button type="button" data-result-view-button="ai" aria-pressed="false">AI 설명만</button>
+        </div>
+      </div>
+
+      <section id="switch-ai-summary-panel" class="ai-integrated-summary ai-summary-stream" aria-labelledby="switch-ai-summary-title" aria-busy="false">
+        <div class="ai-integrated-summary-heading">
+          <div>
+            <p class="section-label">AI 종합 설명</p>
+            <h3 id="switch-ai-summary-title">전체 상태와 항목별 AI 설명</h3>
+            <p id="switch-ai-status" role="status" aria-live="polite">AI 설명 생성을 누르면 비식별 확인값과 개발용 기준이 현재 설정된 모델 게이트웨이로 전달됩니다.</p>
+          </div>
+          <div class="ai-stream-progress-actions">
+            <strong id="switch-ai-count">0 / {{ presented_controls|length }}</strong>
+            <button id="switch-ai-start" class="button-link button-link-primary" type="button">AI 설명 생성하기</button>
+            <button id="switch-ai-stop" class="button-secondary" type="button" hidden>AI 설명 생성 멈추기</button>
+          </div>
+        </div>
+        <progress id="switch-ai-progress" max="{{ presented_controls|length }}" value="0">0 / {{ presented_controls|length }}</progress>
+        <div id="switch-ai-summary" class="ai-stream-text ai-markdown" role="document"></div>
+      </section>
+
+      <div id="switch-control-results" class="linux-control-results" aria-label="스위치 항목별 결과와 AI 설명">
+        {% for control in presented_controls %}
+        {% set status_class = "pass" if control.status == "PASS" else ("fail" if control.status == "FAIL" else ("review" if control.status == "N/A" else "error")) %}
+        {% set display_status = "ERROR" if control.status == "REVIEW" else control.status %}
+        <article class="integrated-control-card integrated-status-{{ status_class }}" data-control-id="{{ control.control_id }}" data-status="{{ display_status }}" aria-busy="true">
+          <header class="integrated-control-heading">
+            <div>
+              <p class="section-label">항목 {{ loop.index }} / {{ loop.length }}</p>
+              <h3>{{ control.control_id }} · {{ control.title }}</h3>
+            </div>
+            <span class="status integrated-status-{{ status_class }}">{% if control.status == "PASS" %}양호{% elif control.status == "FAIL" %}취약{% elif control.status == "N/A" %}해당 없음{% else %}확인 필요{% endif %}</span>
+          </header>
+          <section class="integrated-result-section" aria-label="{{ control.control_id }} 점검 결과">
+            <dl class="integrated-facts">
+              <div class="integrated-fact"><dt>무엇을 확인했나요</dt><dd>{{ control.what_was_checked }}</dd></div>
+              <div class="integrated-fact"><dt>내 스위치에서 확인한 값</dt><dd>{{ control.observed_summary }}</dd></div>
+              <div class="integrated-fact"><dt>적용된 안전 기준</dt><dd>{{ control.expected_summary }}</dd></div>
+              <div class="integrated-fact"><dt>판정 이유</dt><dd>{{ control.judgement_explanation }}</dd></div>
+            </dl>
+          </section>
+          <section class="integrated-ai-section" aria-label="{{ control.control_id }} AI 상세 설명">
+            <h4 class="integrated-ai-title">AI 상세 설명</h4>
+            <p class="integrated-card-ai-status">위의 AI 설명 생성하기를 누르면 설명과 출처를 표시합니다.</p>
+            <div class="integrated-ai-text ai-markdown" role="document"></div>
+          </section>
+        </article>
+        {% endfor %}
+      </div>
+    </section>
+  </main>
+</body>
+</html>

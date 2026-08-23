@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sec-ai.local/v1/finding_guide_evidence.schema.json",
+  "title": "Sec_AI result-specific KISA guide evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "reason_code",
+    "control_id",
+    "rule_status",
+    "status_authority",
+    "explanation_input_sha256",
+    "search_query_sha256",
+    "citations",
+    "evidence_segments",
+    "official_finding_write_allowed",
+    "output_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "status": {"enum": ["FOUND", "INSUFFICIENT_EVIDENCE", "CONFLICT"]},
+    "reason_code": {"type": ["string", "null"], "minLength": 1, "maxLength": 128},
+    "control_id": {"type": "string", "pattern": "^PC-(0[1-9]|1[0-8])$"},
+    "rule_status": {"enum": ["PASS", "FAIL", "ERROR", "REVIEW", "N/A"]},
+    "status_authority": {"const": "RULE_ENGINE"},
+    "explanation_input_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "search_query_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "citations": {
+      "type": "array",
+      "maxItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "chunk_id",
+          "guide_id",
+          "guide_version",
+          "document_code",
+          "source_sha256",
+          "scope_id",
+          "pdf_page_number",
+          "control_id",
+          "section_label",
+          "paragraph_ordinal",
+          "paragraph_sha256",
+          "text_sha256",
+          "dense_score",
+          "lexical_score",
+          "rerank_score"
+        ],
+        "properties": {
+          "chunk_id": {"type": "string", "format": "uuid"},
+          "guide_id": {"type": "string", "minLength": 1, "maxLength": 128},
+          "guide_version": {"type": "string", "minLength": 1, "maxLength": 64},
+          "document_code": {"type": "string", "minLength": 1, "maxLength": 128},
+          "source_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "scope_id": {"const": "kisa-2026-pc"},
+          "pdf_page_number": {"type": "integer", "minimum": 552, "maximum": 592},
+          "control_id": {"type": "string", "pattern": "^PC-(0[1-9]|1[0-8])$"},
+          "section_label": {"type": "string", "minLength": 1, "maxLength": 256},
+          "paragraph_ordinal": {"type": "integer", "minimum": 1},
+          "paragraph_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "text_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "dense_score": {"type": "number", "minimum": 0, "maximum": 1},
+          "lexical_score": {"type": "number", "minimum": 0, "maximum": 1},
+          "rerank_score": {"type": "number", "minimum": 0, "maximum": 1}
+        }
+      }
+    },
+    "evidence_segments": {
+      "type": "array",
+      "maxItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "chunk_id",
+          "paragraph_ordinal",
+          "paragraph_text",
+          "paragraph_sha256"
+        ],
+        "properties": {
+          "chunk_id": {"type": "string", "format": "uuid"},
+          "paragraph_ordinal": {"type": "integer", "minimum": 1},
+          "paragraph_text": {"type": "string", "minLength": 1, "maxLength": 8000},
+          "paragraph_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+        }
+      }
+    },
+    "official_finding_write_allowed": {"const": false},
+    "output_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "FOUND"}}},
+      "then": {
+        "properties": {
+          "reason_code": {"type": "null"},
+          "citations": {"minItems": 1},
+          "evidence_segments": {"minItems": 1}
+        }
+      },
+      "else": {
+        "properties": {
+          "reason_code": {"type": "string", "minLength": 1},
+          "citations": {"maxItems": 0},
+          "evidence_segments": {"maxItems": 0}
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "lock": "collector-build.lock",
+  "runtime": "CPython 3.14.6",
+  "platform": "windows/amd64",
+  "hash_install": "PASS",
+  "versions": {
+    "httpx": "0.28.1",
+    "jsonschema": "4.26.0",
+    "pydantic": "2.13.4",
+    "rfc8785": "0.1.4",
+    "pyinstaller": "6.21.0"
+  },
+  "status": "PASS"
+}

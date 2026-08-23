@@ -1,0 +1,95 @@
+{% import "components/audit_ui.html" as ui %}
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Linux 서버 관리 | Sec_AI</title>
+  <link rel="stylesheet" href="/static/app/app.css">
+</head>
+<body>
+  {{ ui.app_header("account", "account") }}
+  <main class="container product-shell linux-server-admin" data-ui-standard="linux-server-admin-v1">
+    <p><a href="/auth/session">← 계정정보로 돌아가기</a></p>
+    <header class="page-heading">
+      <div>
+        <p class="section-code">관리자 운영 기능</p>
+        <h1>Linux 서버 관리</h1>
+        <p>점검할 서버의 접속 위치만 등록합니다. 지원 Linux 배포판과 버전은 연결 확인 때 자동으로 판별합니다.</p>
+      </div>
+    </header>
+
+    {% if error_message %}<p class="form-message form-message-error" role="alert">{{ error_message }}</p>{% endif %}
+    {% if success_message %}<p class="form-message form-message-success" role="status">{{ success_message }}</p>{% endif %}
+
+    <section class="panel linux-server-registration">
+      <div class="section-heading-row">
+        <div><p class="section-code">1단계</p><h2>새 서버 등록</h2></div>
+        <p>허용 네트워크 {{ allowed_cidrs|join(", ") }} · SSH 포트 {{ allowed_ports|join(", ") }}</p>
+      </div>
+      <form method="post" action="/admin/linux-servers" class="linux-server-register-form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <label>화면에 표시할 별칭<input name="alias" required minlength="2" maxlength="80" placeholder="예: 회계 Linux 서버"></label>
+        <label>서버 IP<input name="host" required maxlength="64" inputmode="decimal" placeholder="예: 192.168.110.150"></label>
+        <label>SSH 포트<input name="port" required type="number" min="1" max="65535" value="22"></label>
+        <label>점검 전용 계정<input name="ssh_username" required maxlength="32" value="secai-audit" autocomplete="off"></label>
+        <button type="submit">등록하고 SSH 공개키 자동 발급</button>
+      </form>
+      <p class="muted-copy">등록만으로 접속되지는 않습니다. 아래에 발급된 공개키를 서버에 설치하고 호스트 키를 확인해야 합니다.</p>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading-row">
+        <div><p class="section-code">2~3단계</p><h2>등록된 서버</h2></div>
+        <p>연결 확인에 성공한 서버만 일반 사용자의 Linux 점검 목록에 표시됩니다.</p>
+      </div>
+      {% if not assets %}
+      <div class="empty-state"><strong>아직 등록된 서버가 없습니다.</strong><p>위 양식에 별칭과 접속 정보를 입력해 주세요.</p></div>
+      {% else %}
+      <div class="linux-managed-asset-list">
+        {% for asset in assets %}
+        <article class="linux-managed-asset" id="server-{{ asset.asset_id }}">
+          <header>
+            <div><h3>{{ asset.alias }}</h3><p>{{ asset.host }}:{{ asset.port }} · {{ asset.ssh_username }}</p></div>
+            {% if asset.state == "ACTIVE" %}<span class="status-badge status-pass">점검 가능</span>
+            {% elif asset.state == "SUSPENDED" %}<span class="status-badge status-review">사용 중지</span>
+            {% else %}<span class="status-badge status-review">공개키 설치 대기</span>{% endif %}
+          </header>
+
+          <div class="linux-registration-steps">
+            <section>
+              <h4>2단계 · SSH 공개키 설치</h4>
+              <p>서버 콘솔에서 <code>{{ asset.ssh_username }}</code> 계정의 <code>~/.ssh/authorized_keys</code>에 아래 한 줄을 추가합니다.</p>
+              <textarea readonly rows="3" aria-label="{{ asset.alias }} SSH 공개키">restrict {{ asset.public_key }}</textarea>
+            </section>
+
+            {% if asset.state != "SUSPENDED" %}
+            <section>
+              <h4>3단계 · 호스트 키 확인 후 연결 시험</h4>
+              <p>서버 콘솔에서 <code>sudo cat /etc/ssh/ssh_host_ed25519_key.pub</code>를 실행합니다. 출력된 키와 지문을 서버 담당자에게 별도로 확인한 뒤 입력하세요.</p>
+              <form method="post" action="/admin/linux-servers/{{ asset.asset_id }}/activate" class="linux-host-key-form">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                <label>서버의 Ed25519 호스트 공개키<textarea name="host_key" required minlength="20" maxlength="2048" rows="3" placeholder="ssh-ed25519 AAAA..."></textarea></label>
+                <label class="checkbox-row"><input type="checkbox" name="fingerprint_confirmed" value="true" required> 서버 담당자 또는 VM 콘솔을 통해 키 지문을 따로 확인했습니다.</label>
+                <button type="submit">연결 확인하고 점검 목록에 추가</button>
+              </form>
+              {% if asset.host_key_fingerprint %}<p><strong>확인된 지문</strong> <code>{{ asset.host_key_fingerprint }}</code></p>{% endif %}
+              {% if asset.distribution %}<p><strong>자동 확인 결과</strong> {{ asset.distribution }} · {{ asset.platform_version }} · {{ asset.architecture }}</p>{% endif %}
+            </section>
+            {% endif %}
+          </div>
+
+          {% if asset.state != "SUSPENDED" %}
+          <form method="post" action="/admin/linux-servers/{{ asset.asset_id }}/suspend" class="linux-server-suspend-form">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+            <button type="submit" class="button-secondary">이 서버 사용 중지</button>
+          </form>
+          {% endif %}
+        </article>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </section>
+  </main>
+</body>
+</html>

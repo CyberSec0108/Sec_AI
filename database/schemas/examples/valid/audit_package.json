@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.0.0",
+  "id": "20000000-0000-4000-8000-000000000001",
+  "created_at": "2026-07-21T06:10:00Z",
+  "source": "collector",
+  "producer_name": "sec-ai-one-shot-collector",
+  "producer_version": "1.0.0",
+  "correlation_id": "10000000-0000-4000-8000-000000000002",
+  "job_id": "10000000-0000-4000-8000-000000000003",
+  "asset_id": "10000000-0000-4000-8000-000000000004",
+  "manifest_id": "10000000-0000-4000-8000-000000000001",
+  "manifest_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "nonce": "MDEyMzQ1Njc4OWFiY2RlZg",
+  "issued_at": "2026-07-21T06:10:00Z",
+  "expires_at": "2026-07-21T06:40:00Z",
+  "execution_attempt_id": "20000000-0000-4000-8000-000000000002",
+  "collector": {
+    "name": "sec-ai-one-shot-collector",
+    "version": "1.0.0",
+    "build_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "probe_bundle_version": "1.0.0",
+    "release_channel": "SIGNED-PILOT"
+  },
+  "host": {
+    "os_family": "WINDOWS",
+    "product_name": "Windows 11 Pro",
+    "edition": "Professional",
+    "display_version": "24H2",
+    "build": 26100,
+    "ubr": 1000,
+    "architecture": "x86_64",
+    "timezone": "Asia/Seoul",
+    "clock_status": "SYNCHRONIZED"
+  },
+  "archive": {
+    "format": "ZIP-STORED-OR-DEFLATE",
+    "archive_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "content_set_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "compressed_bytes": 4096,
+    "uncompressed_bytes": 8192,
+    "file_count": 2
+  },
+  "file_inventory": [
+    {
+      "path": "collector_manifest.json",
+      "media_type": "application/json",
+      "size_bytes": 2048,
+      "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    {
+      "path": "evidence/20000000-0000-4000-8000-000000000003.json",
+      "media_type": "application/json",
+      "size_bytes": 1024,
+      "sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+    }
+  ],
+  "evidence_records": [
+    {
+      "evidence_id": "20000000-0000-4000-8000-000000000003",
+      "control_id": "PC-07",
+      "guide_version": "2026",
+      "probe_id": "win.fs.volumes",
+      "probe_version": "1.0.0",
+      "collected_at": "2026-07-21T06:09:00Z",
+      "execution_identity": {
+        "privilege": "STANDARD_USER",
+        "user_sid": "S-1-5-21-1000",
+        "elevated": false
+      },
+      "source_locator": {
+        "type": "WINDOWS_API",
+        "provider": "GetVolumeInformationW",
+        "locator": "fixed-volumes"
+      },
+      "raw_value": {"filesystem": "NTFS", "drive_type": "FIXED"},
+      "normalized_candidate": "NTFS",
+      "unit": "filesystem",
+      "policy_scope": "MACHINE",
+      "policy_source": "LOCAL_EFFECTIVE",
+      "collection_status": "COLLECTED",
+      "error_code": "NONE",
+      "redacted": false,
+      "evidence_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+    }
+  ],
+  "authentication": {
+    "profile": "ONLINE-AUTHENTICATED",
+    "assurance_level": "HIGH",
+    "authenticated_subject_id": "20000000-0000-4000-8000-000000000004",
+    "transport_receipt_id": "20000000-0000-4000-8000-000000000005"
+  }
+}
+

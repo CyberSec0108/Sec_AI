@@ -1,0 +1,102 @@
+{% import "components/audit_ui.html" as ui %}
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <meta name="linux-run-id" content="{{ run_id }}">
+  <title>Linux 서버 점검 결과 | Sec_AI</title>
+  <link rel="stylesheet" href="/static/app/app.css">
+  <script src="/static/app/theme.js" defer></script>
+  <script src="/static/app/restricted-markdown.js" defer></script>
+  <script src="/static/app/linux-results.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">본문으로 건너뛰기</a>
+  {{ ui.app_header("results", "linux") }}
+  <main id="main-content" class="container product-shell linux-shell">
+    <a class="back-link" href="/ui/linux-scan">← Linux 서버 다시 점검</a>
+    <header class="page-heading">
+      <div>
+        <p class="section-code">KISA UNIX U-01~U-67</p>
+        <h1>Linux 서버 점검 결과</h1>
+        <p class="lead">실제로 읽은 자료를 중요도순으로 보여주고, 무엇을 확인했는지와 다음 행동을 쉬운 말로 안내합니다.</p>
+      </div>
+    </header>
+    <section id="linux-result-loading" class="panel"><p role="status">저장된 점검 결과의 무결성을 확인하고 있습니다.</p></section>
+    <div id="linux-result-content" hidden>
+      <aside id="linux-applied-criteria" class="criteria-default-notice" aria-labelledby="linux-applied-criteria-title">
+        <div><p class="section-label">이번 서버 점검 기준</p><h2 id="linux-applied-criteria-title">KISA·SecAI Linux 안전 기본 기준이 자동 적용되었습니다</h2><p id="linux-applied-criteria-status">점검 시작 시점의 기준값을 결과 확인값에 함께 고정했습니다.</p></div>
+        <div class="criteria-default-details"><a href="/ui/linux-scan">Linux 기준 확인·수정</a></div>
+      </aside>
+      <section class="summary-panel" aria-labelledby="linux-summary-title">
+        <div class="summary-heading"><p class="section-label">점검 결과</p><h2 id="linux-summary-title">U-01~U-67 결과 요약</h2></div>
+        <dl id="linux-summary" class="summary-list summary-list-four" aria-label="상태별 결과 바로 보기"></dl>
+      </section>
+      <section class="result-toolbar" aria-label="Linux 점검 결과 작업">
+        <div>
+          <strong id="linux-result-observed-at">점검 시각 확인 중</strong>
+          <span id="linux-result-comparison">저장된 읽기 전용 점검 결과입니다.</span>
+        </div>
+        <div class="result-toolbar-actions">
+          <a class="button-link" href="/ui/linux-ai?run_id={{ run_id }}">AI에게 추가 질문</a>
+          <a class="button-link" href="/ui/linux-scan">다른 서버 점검</a>
+        </div>
+      </section>
+
+      <details id="linux-result-report-panel" class="panel result-report-panel result-report-compact">
+        <summary>결과 보고서(PDF) 받기</summary>
+        <div class="result-report-actions">
+          <a id="linux-user-pdf" class="button-link button-link-primary" href="#">사용자용 PDF 받기</a>
+          <a id="linux-technical-pdf" class="button-link" href="#">기술 검증용 PDF 받기</a>
+        </div>
+        <p class="result-report-status">사용자용 보고서와 검증 담당자용 증적 보고서를 구분해 받을 수 있습니다.</p>
+        <aside class="result-report-scope">
+          <strong>사용자용 PDF</strong>에는 실제 확인값·판정·KISA 근거·AI 설명을 담고 내부 기술 위치는 제외합니다.
+          <strong>기술 검증용 PDF</strong>에는 권한이 있는 검증 담당자가 실제 확인값·정규화 증적·수집 계보와 무결성 hash를 확인할 수 있는 내용을 담습니다.
+        </aside>
+        <details class="panel technical-integrity linux-result-integrity">
+          <summary>결과 무결성 확인값 보기</summary>
+          <p>검증 담당자가 저장된 결과가 바뀌지 않았는지 확인할 때 사용하는 값입니다.</p>
+          <code id="linux-result-hash" class="linux-result-hash"></code>
+        </details>
+      </details>
+
+      <details id="linux-recheck-panel" class="panel administrator-recheck-panel recheck-controls-panel">
+        <summary>U-01~U-67 서버 재점검 보기</summary>
+        <div class="panel-heading administrator-recheck-heading">
+          <p class="section-label">전체 항목 재점검</p>
+          <h2>같은 기준으로 서버 설정을 다시 확인합니다</h2>
+          <p>기존 결과를 바꾸지 않고 U-01~U-67에 필요한 42개 읽기 전용 자료를 새로 수집합니다.</p>
+        </div>
+        <a class="button-link" href="/ui/linux-scan">Linux 서버 다시 점검</a>
+      </details>
+
+      <section id="linux-integrated-results" class="panel linux-result-list-panel" data-result-view="combined" aria-labelledby="linux-control-results-title">
+        <div class="integrated-results-heading">
+          <div class="panel-heading">
+            <p class="section-label">항목별 점검 결과</p>
+            <h2 id="linux-control-results-title">항목별 결과를 한 화면에서 확인하세요</h2>
+            <p>점검 결과와 AI 설명을 Windows PC 결과와 같은 순서로 보여드립니다.</p>
+          </div>
+          <div class="result-view-switch" role="group" aria-label="결과 표시 방식">
+            <button type="button" data-result-view-button="combined" aria-pressed="true">통합 보기</button>
+            <button type="button" data-result-view-button="results" aria-pressed="false">점검 결과만</button>
+            <button type="button" data-result-view-button="ai" aria-pressed="false">AI 설명만</button>
+          </div>
+        </div>
+        <section id="linux-ai-summary-panel" class="ai-integrated-summary ai-summary-stream" aria-labelledby="linux-ai-summary-title" aria-busy="true">
+          <div class="ai-integrated-summary-heading">
+            <div><p class="section-label">AI 종합 설명</p><h3 id="linux-ai-summary-title">전체 상태와 우선 조치를 준비하고 있습니다</h3><p id="linux-ai-status" role="status" aria-live="polite">점검 결과와 KISA 근거를 정리하고 있습니다.</p></div>
+            <div class="ai-stream-progress-actions"><strong id="linux-ai-count">0 / 67</strong><button id="linux-ai-stop" class="button-secondary" type="button" hidden>설명 생성 멈추기</button></div>
+          </div>
+          <progress id="linux-ai-progress" max="67" value="0">0 / 67</progress>
+          <div id="linux-ai-summary" class="ai-stream-text ai-markdown" role="document"></div>
+        </section>
+        <div id="linux-control-results" class="linux-control-results" aria-label="Linux 항목별 결과와 AI 설명"></div>
+      </section>
+    </div>
+  </main>
+</body>
+</html>

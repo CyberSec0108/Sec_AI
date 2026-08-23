@@ -1,0 +1,175 @@
+{% import "components/audit_ui.html" as ui %}
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <title>가이드 질의 | Sec_AI</title>
+  <link rel="stylesheet" href="/static/app/app.css">
+  <script src="/static/app/theme.js" defer></script>
+  <script src="/static/app/restricted-markdown.js" defer></script>
+  <script src="/static/app/guide-chat.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">본문으로 건너뛰기</a>
+  {{ ui.app_header("guide_chat", "guide") }}
+
+  <main id="main-content" class="container product-shell chat-page" data-ui-standard="guide-chat-live-v1">
+    <header class="chat-page-heading">
+      <div>
+        <h3>가이드 질의</h3>
+      </div>
+    </header>
+    <input
+      type="hidden"
+      id="guide-select"
+      value="secai-integrated-security-guides|2026-08-06|integrated-all"
+    >
+
+    <div id="chat-layout" class="chat-layout">
+      <aside class="chat-history-panel" id="history" aria-labelledby="history-title">
+        <div class="chat-sidebar-actions">
+          <button
+            type="button"
+            id="history-panel-toggle"
+            class="panel-collapse-toggle"
+            aria-expanded="true"
+            aria-controls="history-panel-content"
+            aria-label="내 대화 패널 접기"
+            title="내 대화 패널 접기"
+          >
+            <svg class="panel-toggle-icon panel-toggle-icon-history" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 5h16M4 12h16M4 19h10"/>
+            </svg>
+            <span class="panel-toggle-label sr-only">내 대화 패널 접기</span>
+          </button>
+        </div>
+        <div id="history-panel-content">
+          <div class="chat-history-heading">
+            <h2 id="history-title">내 대화</h2>
+            <span id="history-count">0건</span>
+          </div>
+          <button type="button" id="new-chat" class="chat-new-button">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+            <span>새 대화</span>
+          </button>
+          <label class="chat-history-search" for="thread-search">
+            <span>대화 검색</span>
+            <input
+              type="search"
+              id="thread-search"
+              maxlength="100"
+              placeholder="제목으로 찾기"
+            >
+          </label>
+          <label class="chat-history-filter" for="thread-view">
+            <span>목록</span>
+            <select id="thread-view">
+              <option value="ACTIVE">사용 중인 대화</option>
+              <option value="ARCHIVED">보관한 대화</option>
+              <option value="ALL">전체 대화</option>
+            </select>
+          </label>
+          <nav id="thread-list" aria-label="최근 대화 목록"></nav>
+          <p id="history-empty" class="chat-empty">저장된 대화가 없습니다.</p>
+          <div id="thread-delete-undo" class="chat-delete-undo" role="status" hidden>
+            <span>대화를 목록에서 삭제했습니다.</span>
+            <button type="button" id="thread-delete-undo-button">삭제 취소</button>
+          </div>
+        </div>
+      </aside>
+
+      <div
+        id="history-panel-resizer"
+        class="chat-panel-resizer"
+        role="separator"
+        aria-label="대화 목록 너비 조절"
+        aria-orientation="vertical"
+        aria-valuemin="220"
+        aria-valuemax="460"
+        aria-valuenow="300"
+        tabindex="0"
+      ></div>
+
+      <section class="chat-conversation" aria-labelledby="conversation-title">
+        <div class="chat-conversation-heading">
+          <div>
+            <p class="section-label">질문과 답변</p>
+            <h2 id="conversation-title">무엇을 확인하고 싶으신가요?</h2>
+          </div>
+          <button
+            type="button"
+            id="source-panel-toggle"
+            class="panel-collapse-toggle source-drawer-toggle"
+            aria-expanded="false"
+            aria-controls="source-panel-content"
+            aria-label="답변 출처 열기"
+            title="답변 출처 열기"
+          >
+            <svg class="panel-toggle-icon panel-toggle-icon-source" viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="4" width="18" height="16" rx="2"/>
+              <path d="M15 4v16M18 9h0M18 12h0M18 15h0"/>
+            </svg>
+            <span class="panel-toggle-label sr-only">답변 출처 열기</span>
+          </button>
+        </div>
+
+        <div id="message-list" class="chat-message-list" aria-live="polite" aria-busy="false">
+          <div id="chat-welcome" class="chat-welcome">
+            <strong>이렇게 물어보세요</strong>
+            <button type="button" class="question-example">Unix U-01 root 계정 원격 접속 제한 기준을 알려주세요.</button>
+            <button type="button" class="question-example">네트워크 장비 N-01은 무엇을 확인하나요?</button>
+            <button type="button" class="question-example">클라우드 CA-03 MFA 설정 기준을 알려주세요.</button>
+          </div>
+        </div>
+
+        <form id="question-form" class="chat-composer">
+          <label for="question-input" class="sr-only">질문</label>
+          <div class="chat-composer-shell">
+            <textarea
+              id="question-input"
+              maxlength="500"
+              rows="2"
+              placeholder="무엇이든 물어보세요 (Shift+Enter로 줄바꿈)"
+              aria-describedby="question-count"
+              required
+            ></textarea>
+            <div class="chat-composer-controls">
+              <span id="question-count">0/500자</span>
+              <label class="chat-profile-control">
+                <span class="sr-only">답변 방식</span>
+                <select id="answer-profile" aria-label="답변 방식">
+                  <option value="FAST">빠른 답변</option>
+                  <option value="PRECISE">자세한 답변</option>
+                </select>
+              </label>
+              <button type="button" id="cancel-edit" class="chat-compact-button" hidden>수정 취소</button>
+              <button type="button" id="stop-answer" class="chat-compact-button" hidden>중단</button>
+              <button type="submit" id="send-question" class="chat-send-button" aria-label="질문 보내기" title="질문 보내기">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 2 11 13"/><path d="m22 2-7 20-4-9-9-4z"/></svg>
+              </button>
+            </div>
+          </div>
+          <span id="chat-status" class="sr-only" role="status" aria-live="polite">질문을 입력해 주세요.</span>
+        </form>
+      </section>
+
+      <aside class="chat-source-panel" aria-labelledby="source-title">
+        <div id="source-panel-content">
+          <div class="chat-source-heading">
+            <div>
+              <p class="section-label">답변 근거</p>
+              <h2 id="source-title" tabindex="-1">출처</h2>
+            </div>
+            <button type="button" id="source-panel-close" class="chat-icon-button" aria-label="답변 출처 닫기" title="답변 출처 닫기">×</button>
+          </div>
+          <div id="source-list">
+            <p class="chat-empty">답변을 선택하면 사용한 가이드 쪽수가 표시됩니다.</p>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+</body>
+</html>

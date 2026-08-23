@@ -1,0 +1,24 @@
+{
+  "fixture_type": "SYNTHETIC",
+  "distribution": "ROCKY_9",
+  "description": "실제 Rocky VM 증적이 아닌 배포판별 명령·파서 회귀용 고정 입력",
+  "outputs": {
+    "linux.os-release": "NAME=\"Rocky Linux\"\nID=\"rocky\"\nVERSION_ID=\"9.6\"\n",
+    "linux.sshd-effective": "permitrootlogin no\n",
+    "linux.passwd-db": "root:x:0:0:root:/root:/bin/bash\nnobody:x:65534:65534:nobody:/:/sbin/nologin\n",
+    "linux.group-db": "root:x:0:\nwheel:x:10:root\n",
+    "linux.login-defs": "PASS_MAX_DAYS 90\nPASS_MIN_LEN 8\nUMASK 027\nENCRYPT_METHOD YESCRYPT\n",
+    "linux.pam-policy": "pam_faillock.so deny=5\npam_pwquality.so minlen=8\n",
+    "linux.pam-su": "auth required pam_wheel.so use_uid\n",
+    "linux.profile-policy": "TMOUT=600\numask 027\n",
+    "linux.firewall-state": "running\n",
+    "linux.firewall-rules": "services: ssh\nports:\n",
+    "linux.listening-sockets": "LISTEN 0 128 0.0.0.0:22 0.0.0.0:*\n",
+    "linux.pending-security-updates": "",
+    "linux.time-sync": "yes\n",
+    "linux.auditd-state": "active\n",
+    "linux.logging-state": "active\n",
+    "linux.logging-config": "authpriv.* /var/log/secure\n",
+    "linux.log-metadata": "600:root:root:/var/log/secure\n644:root:root:/var/log/messages\n"
+  }
+}

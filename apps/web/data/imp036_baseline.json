@@ -1,0 +1,117 @@
+{
+  "acceptance_status": "PASS",
+  "boundaries": {
+    "automatic_uac": false,
+    "clean_vm_claimed": false,
+    "draft_pack_only": true,
+    "read_only": true
+  },
+  "collector": {
+    "artifact": "SecAI-Collector-Windows-x64.exe",
+    "download_enabled": false,
+    "production_release_ready": false,
+    "release_channel": "DEV-SIGNED-UNTRUSTED-OUTSIDE-TEST",
+    "self_check": "PASS"
+  },
+  "docker_core": {
+    "expected_services": 8,
+    "healthy_services": 8,
+    "running_services": 8,
+    "services": [
+      {
+        "healthy": true,
+        "running": true,
+        "service": "postgres"
+      },
+      {
+        "healthy": true,
+        "running": true,
+        "service": "redis"
+      },
+      {
+        "healthy": true,
+        "running": true,
+        "service": "aistor"
+      },
+      {
+        "healthy": true,
+        "running": true,
+        "service": "clamav"
+      },
+      {
+        "healthy": true,
+        "running": true,
+        "service": "api"
+      },
+      {
+        "healthy": true,
+        "running": true,
+        "service": "worker"
+      },
+      {
+        "healthy": true,
+        "running": true,
+        "service": "scheduler"
+      },
+      {
+        "healthy": true,
+        "running": true,
+        "service": "gateway"
+      }
+    ],
+    "state": "READY"
+  },
+  "environment": {
+    "clean_vm_verified": false,
+    "kind": "CURRENT_WINDOWS_DEVELOPMENT_HOST",
+    "operating_system": {
+      "architecture": "x86_64",
+      "build": "26200.8894",
+      "display_version": "25H2",
+      "edition": "Windows 11 Home"
+    },
+    "vm_acceptance_deferred_to": "IMP-052"
+  },
+  "imp": "IMP-036",
+  "next_imp": "IMP-037",
+  "observed_at_utc": "2026-07-23T10:17:52.307Z",
+  "official_finding_created": false,
+  "portable_bundle_created": false,
+  "privacy": {
+    "computer_name_disclosed": false,
+    "sensitive_values_disclosed": false,
+    "sid_disclosed": false,
+    "user_name_disclosed": false,
+    "volume_identifiers_disclosed": false
+  },
+  "security_products": [
+    {
+      "detail": "실시간 보호 사용",
+      "name": "Microsoft Defender Antivirus",
+      "state": "ACTIVE"
+    },
+    {
+      "detail": "확인한 프로필 3개 중 3개 사용",
+      "name": "Windows Defender Firewall",
+      "state": "ACTIVE"
+    }
+  ],
+  "settings_safety": {
+    "before_after_equal": true,
+    "raw_snapshot_values_disclosed": false,
+    "settings_diff_count": 0,
+    "snapshot_digests_disclosed": false,
+    "snapshot_surfaces": [
+      "POWERSHELL_EXECUTION_POLICY",
+      "DISK_FLAGS",
+      "PARTITION_LAYOUT",
+      "VOLUME_FILESYSTEM",
+      "BITLOCKER_STATE"
+    ]
+  },
+  "token": {
+    "automatic_elevation": false,
+    "integrity_level": "UNKNOWN",
+    "level": "STANDARD_USER"
+  }
+}

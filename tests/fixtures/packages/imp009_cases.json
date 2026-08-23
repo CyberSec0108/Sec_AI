@@ -1,0 +1,32 @@
+{
+  "contract_version": "IMP-009-v1",
+  "data_classification": "SYNTHETIC-NON-SENSITIVE",
+  "accepted_case": {
+    "id": "PACKAGE-VALID",
+    "members": [
+      "collector_manifest.json",
+      "evidence/aaaaaaaa-0000-4000-8000-000000000001.json"
+    ]
+  },
+  "rejection_cases": [
+    {"id": "PACKAGE-TRAVERSAL", "expected_code": "PATH_TRAVERSAL"},
+    {"id": "PACKAGE-BACKSLASH", "expected_code": "PATH_INVALID"},
+    {"id": "PACKAGE-NESTED", "expected_code": "NESTED_ARCHIVE"},
+    {"id": "PACKAGE-DUPLICATE-PATH", "expected_code": "DUPLICATE_PATH"},
+    {"id": "PACKAGE-CASE-COLLISION", "expected_code": "CASE_COLLISION"},
+    {"id": "PACKAGE-SYMLINK", "expected_code": "SYMLINK_ENTRY"},
+    {"id": "PACKAGE-REPARSE-POINT", "expected_code": "REPARSE_POINT"},
+    {"id": "PACKAGE-DIRECTORY", "expected_code": "DIRECTORY_ENTRY"},
+    {"id": "PACKAGE-ENCRYPTED", "expected_code": "ENCRYPTED_ENTRY"},
+    {"id": "PACKAGE-COMPRESSION-METHOD", "expected_code": "UNSUPPORTED_COMPRESSION"},
+    {"id": "PACKAGE-COMPRESSION-BOMB", "expected_code": "COMPRESSION_RATIO_EXCEEDED"},
+    {"id": "PACKAGE-TOO-LARGE", "expected_code": "ARCHIVE_TOO_LARGE"},
+    {"id": "PACKAGE-TOO-MANY-FILES", "expected_code": "FILE_COUNT_OUT_OF_RANGE"},
+    {"id": "PACKAGE-MANIFEST-MISSING", "expected_code": "REQUIRED_MANIFEST_MISSING"},
+    {"id": "PACKAGE-DUPLICATE-JSON-KEY", "expected_code": "DUPLICATE_JSON_KEY"},
+    {"id": "PACKAGE-FILE-MISSING", "expected_code": "FILE_MISSING"},
+    {"id": "PACKAGE-UNDECLARED-FILE", "expected_code": "UNDECLARED_FILE"},
+    {"id": "PACKAGE-HASH-MISMATCH", "expected_code": "HASH_MISMATCH"},
+    {"id": "PACKAGE-ARCHIVE-HASH-MISMATCH", "expected_code": "ARCHIVE_HASH_MISMATCH"}
+  ]
+}

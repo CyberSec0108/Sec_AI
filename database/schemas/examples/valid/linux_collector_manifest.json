@@ -1,0 +1,61 @@
+{
+  "schema_version": "2.0.0",
+  "profile": "LINUX-ONESHOT-MANIFEST-V2",
+  "id": "61000000-0000-4000-8000-000000000001",
+  "created_at": "2026-08-06T01:00:00Z",
+  "source": "api",
+  "producer_name": "sec-ai-api",
+  "producer_version": "0.7.0",
+  "correlation_id": "61000000-0000-4000-8000-000000000002",
+  "organization_id": "61000000-0000-4000-8000-000000000003",
+  "subject_user_id": "61000000-0000-4000-8000-000000000004",
+  "job_id": "61000000-0000-4000-8000-000000000005",
+  "asset_id": "61000000-0000-4000-8000-000000000006",
+  "execution_attempt_id": "61000000-0000-4000-8000-000000000007",
+  "guide_version": "2026",
+  "nonce": "LinuxOneShotNonceExample0001",
+  "issued_at": "2026-08-06T01:00:00Z",
+  "expires_at": "2026-08-06T01:30:00Z",
+  "manifest_content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "target": {"os_family": "LINUX", "distribution": "UBUNTU_24_04", "architecture": "x86_64"},
+  "collector_constraint": {
+    "name": "sec-ai-linux-one-shot",
+    "min_version": "0.1.0",
+    "max_version_exclusive": "1.0.0",
+    "release_channel": "DEV-UNTRUSTED",
+    "probe_bundle_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  },
+  "criteria_snapshot": {
+    "benchmark_id": "KISA-2026-UNIX-U01-U67",
+    "benchmark_version": "2026-DRAFT",
+    "values": {"password_maximum_age_days": 90},
+    "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "probes": [{
+    "probe_id": "linux.os-release",
+    "probe_version": "1.0.0",
+    "control_ids": ["U-01"],
+    "required_privilege": "STANDARD_USER",
+    "exact_argv": ["/usr/bin/cat", "/etc/os-release"],
+    "timeout_seconds": 10,
+    "max_output_bytes": 8192,
+    "accepted_exit_codes": [0]
+  }],
+  "submission": {
+    "allowed_profiles": ["ONLINE-AUTHENTICATED", "OFFLINE-USER-SUBMITTED"],
+    "endpoint_id": "linux.oneshot.submit.v1",
+    "max_archive_bytes": 10485760,
+    "max_uncompressed_bytes": 52428800,
+    "max_files": 64
+  },
+  "authorization": {
+    "profile": "MANIFEST-SIGNED-V1",
+    "signature": {
+      "canonicalization": "RFC8785-JCS",
+      "algorithm": "Ed25519",
+      "key_id": "linux-manifest-dev-1",
+      "signed_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    }
+  }
+}

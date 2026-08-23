@@ -1,0 +1,17 @@
+{
+  "lock": "worker.lock",
+  "runtime": "CPython 3.14.6",
+  "platform": "linux/amd64",
+  "hash_install": "PASS",
+  "imports": [
+    "celery",
+    "langgraph",
+    "psycopg",
+    "redis",
+    "minio",
+    "jsonschema",
+    "sqlalchemy",
+    "pydantic"
+  ],
+  "status": "PASS"
+}

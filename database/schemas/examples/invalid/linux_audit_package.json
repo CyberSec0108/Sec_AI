@@ -1,0 +1,5 @@
+{
+  "schema_version": "2.0.0",
+  "profile": "LINUX-ONESHOT-PACKAGE-V2",
+  "authentication": {"profile": "OFFLINE-USER-SUBMITTED", "assurance_level": "HIGH"}
+}

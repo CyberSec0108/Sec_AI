@@ -1,0 +1,79 @@
+{% import "components/audit_ui.html" as ui %}
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <title>점검 프로그램 다운로드 | Sec_AI</title>
+  <link rel="stylesheet" href="/static/app/app.css">
+  <script src="/static/app/theme.js" defer></script>
+  <script src="/static/app/dev-signed-downloads.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">본문으로 건너뛰기</a>
+  {{ ui.app_header("downloads", "windows") }}
+  <main id="main-content" class="container product-shell download-shell">
+    <header class="page-heading">
+      <div>
+        <p class="section-code">Windows·Linux 점검 프로그램</p>
+        <h1>점검 프로그램 다운로드</h1>
+        <p class="lead">내 장비 종류에 맞는 파일을 받고 한 번 실행합니다.</p>
+      </div>
+    </header>
+    <aside class="draft-notice" role="note">
+      <strong>개발시험 전용 임시 서명입니다.</strong>
+      조직의 운영 서명이 아닙니다. 격리된 개발 PC와 시험 VM에서만 사용하세요.
+    </aside>
+    <p id="download-release-status" role="status" aria-live="polite">
+      서명·SHA-256·만료 상태를 확인하고 있습니다.
+    </p>
+
+    <details class="download-tunnel-help">
+      <summary>Linux VM에서 받기 전에 한 번만 준비하기</summary>
+      <ol>
+        <li>이 다운로드 화면은 Windows에서 그대로 열어 둡니다.</li>
+        <li>Windows PowerShell에서 <code>ssh -N -R 18480:127.0.0.1:18480 &lt;VM사용자&gt;@&lt;VM_IP&gt;</code>를 실행하고 창을 열어 둡니다.</li>
+        <li>아래에서 터미널 코드를 만든 뒤 VM 터미널에 표시된 명령과 코드를 입력합니다. VM에는 웹브라우저가 필요하지 않습니다.</li>
+      </ol>
+    </details>
+
+    <section class="download-grid" aria-label="운영체제별 다운로드">
+      <article class="download-card" data-platform="WINDOWS_X64">
+        <h2>Windows 10·11 x64</h2>
+        <p>현재 Windows PC에서 내려받아 실행합니다.</p>
+        <dl><dt>파일</dt><dd data-field="filename">확인 중</dd><dt>SHA-256</dt><dd><code data-field="sha256">확인 중</code></dd></dl>
+        <div class="download-actions">
+          <button type="button" data-action="browser">브라우저로 다운로드</button>
+          <button type="button" class="button-secondary" data-action="code">일회용 코드 만들기</button>
+        </div>
+        <p data-field="message" role="status"></p>
+        <div class="download-code-panel" data-field="code-panel" hidden>
+          <strong data-field="code"></strong><small data-field="expiry"></small>
+          <pre data-field="command"></pre>
+        </div>
+      </article>
+
+      <article class="download-card" data-platform="LINUX_AUTO_X64">
+        <h2>Linux 서버 x86_64</h2>
+        <p>Ubuntu·Debian·Rocky·RHEL·AlmaLinux를 직접 고르지 않습니다. 프로그램이 서버 종류와 버전을 자동으로 확인합니다.</p>
+        <dl><dt>파일</dt><dd data-field="filename">확인 중</dd><dt>SHA-256</dt><dd><code data-field="sha256">확인 중</code></dd></dl>
+        <div class="download-actions">
+          <button type="button" data-action="browser">브라우저로 다운로드</button>
+          <button type="button" class="button-secondary" data-action="code">터미널 코드 만들기</button>
+        </div>
+        <p data-field="message" role="status"></p>
+        <div class="download-code-panel" data-field="code-panel" hidden>
+          <strong data-field="code"></strong><small data-field="expiry"></small>
+          <pre data-field="command"></pre>
+        </div>
+      </article>
+
+    </section>
+    <aside class="ai-preview-notice" role="note">
+      다운로드 코드는 로그인한 사용자가 발급하며 10분 동안 한 번만 사용할 수 있습니다.
+      코드·서명·파일 hash 중 하나라도 맞지 않으면 파일을 보내지 않습니다.
+    </aside>
+  </main>
+</body>
+</html>

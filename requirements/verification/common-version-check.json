@@ -1,0 +1,14 @@
+{
+  "locks": [
+    "api.lock",
+    "worker.lock",
+    "ingestion.lock"
+  ],
+  "common_packages": 32,
+  "version_conflicts": 0,
+  "constraints_added": {
+    "redis": ">=6.4,<6.5",
+    "websockets": ">=15,<16"
+  },
+  "status": "PASS"
+}

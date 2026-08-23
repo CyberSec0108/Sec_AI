@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0.0",
+  "evaluation_id": "invalid-evaluation",
+  "guide": {
+    "guide_id": "kisa",
+    "version": "2026",
+    "scope_id": "pc",
+    "source_sha256": "not-a-hash"
+  },
+  "thresholds": {
+    "top1_control_accuracy": 0.5,
+    "citation_page_accuracy": 1.0,
+    "paragraph_evidence_accuracy": 1.0,
+    "no_evidence_accuracy": 1.0,
+    "conflict_accuracy": 1.0,
+    "maximum_scope_leaks": 0
+  },
+  "cases": []
+}

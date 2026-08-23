@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0.0",
+  "status": "GENERATED",
+  "runtime_profile": "VLLM_COMPATIBILITY_TEST_DOUBLE",
+  "external_data_transfer": false,
+  "official_results": [
+    {
+      "control_id": "PC-01",
+      "rule_status": "AI_CHANGED_PASS",
+      "status_authority": "LLM"
+    }
+  ],
+  "safety": {
+    "official_finding_write_allowed": true,
+    "audit_pack_write_allowed": true,
+    "rule_status_unchanged": false,
+    "test_data_only": false
+  }
+}

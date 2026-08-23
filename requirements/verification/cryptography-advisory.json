@@ -1,0 +1,12 @@
+{
+  "advisory": "GHSA-537c-gmf6-5ccf",
+  "detected_by": "pip-audit 2.10.1 --strict",
+  "affected_lock_version": "47.0.0",
+  "fixed_lock_version": "48.0.1",
+  "constraint": "cryptography>=48.0.1,<49",
+  "runtime": "CPython 3.14.6",
+  "platform": "linux/amd64",
+  "lock_files": ["api.lock", "worker.lock", "ingestion.lock", "dev.lock"],
+  "post_fix_audit": "PASS: No known vulnerabilities found",
+  "status": "PASS"
+}

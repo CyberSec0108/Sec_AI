@@ -1,0 +1,33 @@
+{
+  "imp": "IMP-041",
+  "title": "점검 진행·취소·안전한 재시도",
+  "progress": {
+    "refresh_safe": true,
+    "current_item_disclosed": true,
+    "raw_windows_values_disclosed": false,
+    "percent_range": [0, 100]
+  },
+  "cancellation": {
+    "cooperative": true,
+    "safe_boundary": "CURRENT_COLLECTION_GROUP_COMPLETED",
+    "settings_modified": false,
+    "raw_values_persisted": false
+  },
+  "retry": {
+    "allowed_after": ["CANCELLED", "FAILED"],
+    "same_job_id": true,
+    "attempt_incremented": true
+  },
+  "duplicate_prevention": {
+    "maximum_active_runs": 1,
+    "duplicate_http_status": 409,
+    "official_finding_created": false
+  },
+  "security": {
+    "loopback_only": true,
+    "exact_origin_required": true,
+    "ephemeral_token_required": true,
+    "internal_exception_disclosed": false,
+    "automatic_uac": false
+  }
+}

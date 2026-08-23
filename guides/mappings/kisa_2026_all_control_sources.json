@@ -1,0 +1,3552 @@
+{
+  "schema_version": "1.0.0",
+  "mapping_id": "kisa-2026-all-control-sources",
+  "version": "1.0.0",
+  "status": "APPROVED_SOURCE",
+  "guide": {
+    "guide_id": "kisa-major-infrastructure-detailed-guide",
+    "version": "2026",
+    "source_sha256": "44fe393981b244147be6af7423d99dc15633c089fad0bcb296cbe2371dde812d",
+    "required_catalog_status": "APPROVED"
+  },
+  "runtime_activation_allowed": true,
+  "mappings": [
+    {
+      "control_id": "UNIX-INTRO",
+      "control_title": "분류 안내",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 7,
+      "page_end": 11,
+      "section_label": "01. Unix 서버 · 분류 안내",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-01",
+      "control_title": "root 계정 원격 접속 제한",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 12,
+      "page_end": 14,
+      "section_label": "01. Unix 서버 · U-01 root 계정 원격 접속 제한",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-02",
+      "control_title": "비밀번호 관리정책 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 15,
+      "page_end": 20,
+      "section_label": "01. Unix 서버 · U-02 비밀번호 관리정책 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-03",
+      "control_title": "계정 잠금 임계값 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 21,
+      "page_end": 24,
+      "section_label": "01. Unix 서버 · U-03 계정 잠금 임계값 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-04",
+      "control_title": "비밀번호 파일 보호",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 25,
+      "page_end": 26,
+      "section_label": "01. Unix 서버 · U-04 비밀번호 파일 보호",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-05",
+      "control_title": "root 이외의 UID가 ‘0’ 금지",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 27,
+      "page_end": 28,
+      "section_label": "01. Unix 서버 · U-05 root 이외의 UID가 ‘0’ 금지",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-06",
+      "control_title": "사용자 계정 su 기능 제한",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 29,
+      "page_end": 30,
+      "section_label": "01. Unix 서버 · U-06 사용자 계정 su 기능 제한",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-07",
+      "control_title": "불필요한 계정 제거",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 31,
+      "page_end": 31,
+      "section_label": "01. Unix 서버 · U-07 불필요한 계정 제거",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-08",
+      "control_title": "관리자 그룹에 최소한의 계정 포함",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 32,
+      "page_end": 32,
+      "section_label": "01. Unix 서버 · U-08 관리자 그룹에 최소한의 계정 포함",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-09",
+      "control_title": "계정이 존재하지 않는 GID 금지",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 33,
+      "page_end": 33,
+      "section_label": "01. Unix 서버 · U-09 계정이 존재하지 않는 GID 금지",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-10",
+      "control_title": "동일한 UID 금지",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 34,
+      "page_end": 34,
+      "section_label": "01. Unix 서버 · U-10 동일한 UID 금지",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-11",
+      "control_title": "사용자 shell 점검",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 35,
+      "page_end": 35,
+      "section_label": "01. Unix 서버 · U-11 사용자 shell 점검",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-12",
+      "control_title": "세션 종료 시간 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 36,
+      "page_end": 36,
+      "section_label": "01. Unix 서버 · U-12 세션 종료 시간 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-13",
+      "control_title": "안전한 비밀번호 암호화 알고리즘 사용",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 37,
+      "page_end": 38,
+      "section_label": "01. Unix 서버 · U-13 안전한 비밀번호 암호화 알고리즘 사용",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-14",
+      "control_title": "root 홈, 패스 디렉터리 권한 및 패스 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 39,
+      "page_end": 39,
+      "section_label": "01. Unix 서버 · U-14 root 홈, 패스 디렉터리 권한 및 패스 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-15",
+      "control_title": "파일 및 디렉터리 소유자 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 40,
+      "page_end": 40,
+      "section_label": "01. Unix 서버 · U-15 파일 및 디렉터리 소유자 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-16",
+      "control_title": "/etc/passwd 파일 소유자 및 권한 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 41,
+      "page_end": 41,
+      "section_label": "01. Unix 서버 · U-16 /etc/passwd 파일 소유자 및 권한 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-17",
+      "control_title": "시스템 시작 스크립트 권한 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 42,
+      "page_end": 43,
+      "section_label": "01. Unix 서버 · U-17 시스템 시작 스크립트 권한 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-18",
+      "control_title": "/etc/shadow 파일 소유자 및 권한 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 44,
+      "page_end": 44,
+      "section_label": "01. Unix 서버 · U-18 /etc/shadow 파일 소유자 및 권한 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-19",
+      "control_title": "/etc/hosts 파일 소유자 및 권한 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 45,
+      "page_end": 45,
+      "section_label": "01. Unix 서버 · U-19 /etc/hosts 파일 소유자 및 권한 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-20",
+      "control_title": "/etc/(x)inetd.conf 파일 소유자 및 권한 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 46,
+      "page_end": 47,
+      "section_label": "01. Unix 서버 · U-20 /etc/(x)inetd.conf 파일 소유자 및 권한 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-21",
+      "control_title": "/etc/(r)syslog.conf 파일 소유자 및 권한 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 48,
+      "page_end": 48,
+      "section_label": "01. Unix 서버 · U-21 /etc/(r)syslog.conf 파일 소유자 및 권한 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-22",
+      "control_title": "/etc/services 파일 소유자 및 권한 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 49,
+      "page_end": 49,
+      "section_label": "01. Unix 서버 · U-22 /etc/services 파일 소유자 및 권한 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-23",
+      "control_title": "SUID, SGID, Sticky bit 설정 파일 점검",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 50,
+      "page_end": 50,
+      "section_label": "01. Unix 서버 · U-23 SUID, SGID, Sticky bit 설정 파일 점검",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-24",
+      "control_title": "사용자, 시스템 환경변수 파일 소유자 및 권한 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 51,
+      "page_end": 51,
+      "section_label": "01. Unix 서버 · U-24 사용자, 시스템 환경변수 파일 소유자 및 권한 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-25",
+      "control_title": "world writable 파일 점검",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 52,
+      "page_end": 52,
+      "section_label": "01. Unix 서버 · U-25 world writable 파일 점검",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-26",
+      "control_title": "/dev에 존재하지 않는 device 파일 점검",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 53,
+      "page_end": 53,
+      "section_label": "01. Unix 서버 · U-26 /dev에 존재하지 않는 device 파일 점검",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-27",
+      "control_title": "$HOME/.rhosts, hosts.equiv 사용 금지",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 54,
+      "page_end": 55,
+      "section_label": "01. Unix 서버 · U-27 $HOME/.rhosts, hosts.equiv 사용 금지",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-28",
+      "control_title": "접속 IP 및 포트 제한",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 56,
+      "page_end": 60,
+      "section_label": "01. Unix 서버 · U-28 접속 IP 및 포트 제한",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-29",
+      "control_title": "hosts.lpd 파일 소유자 및 권한 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 61,
+      "page_end": 61,
+      "section_label": "01. Unix 서버 · U-29 hosts.lpd 파일 소유자 및 권한 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-30",
+      "control_title": "UMASK 설정 관리",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 62,
+      "page_end": 64,
+      "section_label": "01. Unix 서버 · U-30 UMASK 설정 관리",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-31",
+      "control_title": "홈디렉토리 소유자 및 권한 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 65,
+      "page_end": 65,
+      "section_label": "01. Unix 서버 · U-31 홈디렉토리 소유자 및 권한 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-32",
+      "control_title": "홈 디렉토리로 지정한 디렉토리의 존재 관리",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 66,
+      "page_end": 66,
+      "section_label": "01. Unix 서버 · U-32 홈 디렉토리로 지정한 디렉토리의 존재 관리",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-33",
+      "control_title": "숨겨진 파일 및 디렉토리 검색 및 제거",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 67,
+      "page_end": 67,
+      "section_label": "01. Unix 서버 · U-33 숨겨진 파일 및 디렉토리 검색 및 제거",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-34",
+      "control_title": "Finger 서비스 비활성화",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 68,
+      "page_end": 69,
+      "section_label": "01. Unix 서버 · U-34 Finger 서비스 비활성화",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-35",
+      "control_title": "공유 서비스에 대한 익명 접근 제한 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 70,
+      "page_end": 76,
+      "section_label": "01. Unix 서버 · U-35 공유 서비스에 대한 익명 접근 제한 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-36",
+      "control_title": "r 계열 서비스 비활성화",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 77,
+      "page_end": 79,
+      "section_label": "01. Unix 서버 · U-36 r 계열 서비스 비활성화",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-37",
+      "control_title": "crontab 설정파일 권한 설정 미흡",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 80,
+      "page_end": 82,
+      "section_label": "01. Unix 서버 · U-37 crontab 설정파일 권한 설정 미흡",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-38",
+      "control_title": "DoS 공격에 취약한 서비스 비활성화",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 83,
+      "page_end": 85,
+      "section_label": "01. Unix 서버 · U-38 DoS 공격에 취약한 서비스 비활성화",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-39",
+      "control_title": "불필요한 NFS 서비스 비활성화",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 86,
+      "page_end": 88,
+      "section_label": "01. Unix 서버 · U-39 불필요한 NFS 서비스 비활성화",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-40",
+      "control_title": "NFS 접근 통제",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 89,
+      "page_end": 92,
+      "section_label": "01. Unix 서버 · U-40 NFS 접근 통제",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-41",
+      "control_title": "불필요한 automountd 제거",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 93,
+      "page_end": 95,
+      "section_label": "01. Unix 서버 · U-41 불필요한 automountd 제거",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-42",
+      "control_title": "불필요한 RPC 서비스 비활성화",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 96,
+      "page_end": 98,
+      "section_label": "01. Unix 서버 · U-42 불필요한 RPC 서비스 비활성화",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-43",
+      "control_title": "NIS, NIS+ 점검",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 99,
+      "page_end": 101,
+      "section_label": "01. Unix 서버 · U-43 NIS, NIS+ 점검",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-44",
+      "control_title": "tftp, talk 서비스 비활성화",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 102,
+      "page_end": 104,
+      "section_label": "01. Unix 서버 · U-44 tftp, talk 서비스 비활성화",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-45",
+      "control_title": "메일 서비스 버전 점검",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 105,
+      "page_end": 110,
+      "section_label": "01. Unix 서버 · U-45 메일 서비스 버전 점검",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-46",
+      "control_title": "일반 사용자의 메일 서비스 실행 방지",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 111,
+      "page_end": 112,
+      "section_label": "01. Unix 서버 · U-46 일반 사용자의 메일 서비스 실행 방지",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-47",
+      "control_title": "스팸 메일 릴레이 제한",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 113,
+      "page_end": 115,
+      "section_label": "01. Unix 서버 · U-47 스팸 메일 릴레이 제한",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-48",
+      "control_title": "expn, vrfy 명령어 제한",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 116,
+      "page_end": 117,
+      "section_label": "01. Unix 서버 · U-48 expn, vrfy 명령어 제한",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-49",
+      "control_title": "DNS 보안 버전 패치",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 118,
+      "page_end": 120,
+      "section_label": "01. Unix 서버 · U-49 DNS 보안 버전 패치",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-50",
+      "control_title": "DNS ZoneTransfer 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 121,
+      "page_end": 121,
+      "section_label": "01. Unix 서버 · U-50 DNS ZoneTransfer 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-51",
+      "control_title": "DNS 서비스의 취약한 동적 업데이트 설정 금지",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 122,
+      "page_end": 123,
+      "section_label": "01. Unix 서버 · U-51 DNS 서비스의 취약한 동적 업데이트 설정 금지",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-52",
+      "control_title": "Telnet 서비스 비활성화",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 124,
+      "page_end": 126,
+      "section_label": "01. Unix 서버 · U-52 Telnet 서비스 비활성화",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-53",
+      "control_title": "FTP 서비스 정보 노출 제한",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 127,
+      "page_end": 130,
+      "section_label": "01. Unix 서버 · U-53 FTP 서비스 정보 노출 제한",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-54",
+      "control_title": "암호화되지 않는 FTP 서비스 비활성화",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 131,
+      "page_end": 133,
+      "section_label": "01. Unix 서버 · U-54 암호화되지 않는 FTP 서비스 비활성화",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-55",
+      "control_title": "FTP 계정 shell 제한",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 134,
+      "page_end": 134,
+      "section_label": "01. Unix 서버 · U-55 FTP 계정 shell 제한",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-56",
+      "control_title": "FTP 서비스 접근 제어 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 135,
+      "page_end": 138,
+      "section_label": "01. Unix 서버 · U-56 FTP 서비스 접근 제어 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-57",
+      "control_title": "Ftpusers 파일 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 139,
+      "page_end": 140,
+      "section_label": "01. Unix 서버 · U-57 Ftpusers 파일 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-58",
+      "control_title": "불필요한 SNMP 서비스 구동 점검",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 141,
+      "page_end": 142,
+      "section_label": "01. Unix 서버 · U-58 불필요한 SNMP 서비스 구동 점검",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-59",
+      "control_title": "안전한 SNMP 버전 사용",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 143,
+      "page_end": 144,
+      "section_label": "01. Unix 서버 · U-59 안전한 SNMP 버전 사용",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-60",
+      "control_title": "SNMP Community String 복잡성 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 145,
+      "page_end": 147,
+      "section_label": "01. Unix 서버 · U-60 SNMP Community String 복잡성 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-61",
+      "control_title": "SNMP Access Control 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 148,
+      "page_end": 149,
+      "section_label": "01. Unix 서버 · U-61 SNMP Access Control 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-62",
+      "control_title": "로그인 시 경고 메시지 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 150,
+      "page_end": 158,
+      "section_label": "01. Unix 서버 · U-62 로그인 시 경고 메시지 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-63",
+      "control_title": "sudo 명령어 접근 관리",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 159,
+      "page_end": 159,
+      "section_label": "01. Unix 서버 · U-63 sudo 명령어 접근 관리",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-64",
+      "control_title": "주기적 보안 패치 및 벤더 권고사항 적용",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 160,
+      "page_end": 163,
+      "section_label": "01. Unix 서버 · U-64 주기적 보안 패치 및 벤더 권고사항 적용",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-65",
+      "control_title": "NTP 및 시각 동기화 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 164,
+      "page_end": 165,
+      "section_label": "01. Unix 서버 · U-65 NTP 및 시각 동기화 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-66",
+      "control_title": "정책에 따른 시스템 로깅 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 166,
+      "page_end": 170,
+      "section_label": "01. Unix 서버 · U-66 정책에 따른 시스템 로깅 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "U-67",
+      "control_title": "로그 디렉터리 소유자 및 권한 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 171,
+      "page_end": 171,
+      "section_label": "01. Unix 서버 · U-67 로그 디렉터리 소유자 및 권한 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "WINDOWS-INTRO",
+      "control_title": "분류 안내",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 172,
+      "page_end": 176,
+      "section_label": "02. Windows 서버 · 분류 안내",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-01",
+      "control_title": "Administrator 계정 이름 변경 등 보안성 강화",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 177,
+      "page_end": 177,
+      "section_label": "02. Windows 서버 · W-01 Administrator 계정 이름 변경 등 보안성 강화",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-02",
+      "control_title": "Guest 계정 비활성화",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 178,
+      "page_end": 178,
+      "section_label": "02. Windows 서버 · W-02 Guest 계정 비활성화",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-03",
+      "control_title": "불필요한 계정 제거",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 179,
+      "page_end": 179,
+      "section_label": "02. Windows 서버 · W-03 불필요한 계정 제거",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-04",
+      "control_title": "계정 잠금 임계값 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 180,
+      "page_end": 180,
+      "section_label": "02. Windows 서버 · W-04 계정 잠금 임계값 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-05",
+      "control_title": "해독 가능한 암호화를 사용하여 암호 저장 해제",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 181,
+      "page_end": 181,
+      "section_label": "02. Windows 서버 · W-05 해독 가능한 암호화를 사용하여 암호 저장 해제",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-06",
+      "control_title": "관리자 그룹에 최소한의 사용자 포함",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 182,
+      "page_end": 183,
+      "section_label": "02. Windows 서버 · W-06 관리자 그룹에 최소한의 사용자 포함",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-07",
+      "control_title": "Everyone 사용 권한을 익명 사용자에 적용",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 184,
+      "page_end": 184,
+      "section_label": "02. Windows 서버 · W-07 Everyone 사용 권한을 익명 사용자에 적용",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-08",
+      "control_title": "계정 잠금 기간 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 185,
+      "page_end": 186,
+      "section_label": "02. Windows 서버 · W-08 계정 잠금 기간 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-09",
+      "control_title": "비밀번호 관리 정책 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 187,
+      "page_end": 188,
+      "section_label": "02. Windows 서버 · W-09 비밀번호 관리 정책 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-10",
+      "control_title": "마지막 사용자 이름 표시 안 함",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 189,
+      "page_end": 190,
+      "section_label": "02. Windows 서버 · W-10 마지막 사용자 이름 표시 안 함",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-11",
+      "control_title": "로컬 로그온 허용",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 191,
+      "page_end": 191,
+      "section_label": "02. Windows 서버 · W-11 로컬 로그온 허용",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-12",
+      "control_title": "익명 SID/이름 변환 허용 해제",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 192,
+      "page_end": 192,
+      "section_label": "02. Windows 서버 · W-12 익명 SID/이름 변환 허용 해제",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-13",
+      "control_title": "콘솔 로그온 시 로컬 계정에서 빈 암호 사용 제한",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 193,
+      "page_end": 193,
+      "section_label": "02. Windows 서버 · W-13 콘솔 로그온 시 로컬 계정에서 빈 암호 사용 제한",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-14",
+      "control_title": "원격터미널 접속 가능한 사용자 그룹 제한",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 194,
+      "page_end": 195,
+      "section_label": "02. Windows 서버 · W-14 원격터미널 접속 가능한 사용자 그룹 제한",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-15",
+      "control_title": "사용자 개인키 사용 시 암호 입력",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 196,
+      "page_end": 196,
+      "section_label": "02. Windows 서버 · W-15 사용자 개인키 사용 시 암호 입력",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-16",
+      "control_title": "공유 권한 및 사용자 그룹 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 197,
+      "page_end": 197,
+      "section_label": "02. Windows 서버 · W-16 공유 권한 및 사용자 그룹 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-17",
+      "control_title": "하드디스크 기본 공유 제거",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 198,
+      "page_end": 199,
+      "section_label": "02. Windows 서버 · W-17 하드디스크 기본 공유 제거",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-18",
+      "control_title": "불필요한 서비스 제거",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 200,
+      "page_end": 203,
+      "section_label": "02. Windows 서버 · W-18 불필요한 서비스 제거",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-19",
+      "control_title": "불필요한 IIS 서비스 구동 점검",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 204,
+      "page_end": 204,
+      "section_label": "02. Windows 서버 · W-19 불필요한 IIS 서비스 구동 점검",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-20",
+      "control_title": "NetBIOS 바인딩 서비스 구동 점검",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 205,
+      "page_end": 206,
+      "section_label": "02. Windows 서버 · W-20 NetBIOS 바인딩 서비스 구동 점검",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-21",
+      "control_title": "암호화되지 않는 FTP 서비스 비활성화",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 207,
+      "page_end": 207,
+      "section_label": "02. Windows 서버 · W-21 암호화되지 않는 FTP 서비스 비활성화",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-22",
+      "control_title": "FTP 디렉토리 접근권한 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 208,
+      "page_end": 209,
+      "section_label": "02. Windows 서버 · W-22 FTP 디렉토리 접근권한 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-23",
+      "control_title": "공유 서비스에 대한 익명 접근 제한 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 210,
+      "page_end": 211,
+      "section_label": "02. Windows 서버 · W-23 공유 서비스에 대한 익명 접근 제한 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-24",
+      "control_title": "FTP 접근 제어 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 212,
+      "page_end": 213,
+      "section_label": "02. Windows 서버 · W-24 FTP 접근 제어 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-25",
+      "control_title": "DNS Zone Transfer 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 214,
+      "page_end": 215,
+      "section_label": "02. Windows 서버 · W-25 DNS Zone Transfer 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-26",
+      "control_title": "RDS(Remote Data Services)제거",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 216,
+      "page_end": 216,
+      "section_label": "02. Windows 서버 · W-26 RDS(Remote Data Services)제거",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-27",
+      "control_title": "최신 Windows OS Build 버전 적용",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 217,
+      "page_end": 217,
+      "section_label": "02. Windows 서버 · W-27 최신 Windows OS Build 버전 적용",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-28",
+      "control_title": "터미널 서비스 암호화 수준 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 218,
+      "page_end": 219,
+      "section_label": "02. Windows 서버 · W-28 터미널 서비스 암호화 수준 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-29",
+      "control_title": "불필요한 SNMP 서비스 구동 점검",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 220,
+      "page_end": 220,
+      "section_label": "02. Windows 서버 · W-29 불필요한 SNMP 서비스 구동 점검",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-30",
+      "control_title": "SNMP Community String 복잡성 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 221,
+      "page_end": 221,
+      "section_label": "02. Windows 서버 · W-30 SNMP Community String 복잡성 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-31",
+      "control_title": "SNMP Access Control 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 222,
+      "page_end": 222,
+      "section_label": "02. Windows 서버 · W-31 SNMP Access Control 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-32",
+      "control_title": "DNS 서비스 구동 점검",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 223,
+      "page_end": 224,
+      "section_label": "02. Windows 서버 · W-32 DNS 서비스 구동 점검",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-33",
+      "control_title": "HTTP/FTP/SMTP 배너 차단",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 225,
+      "page_end": 227,
+      "section_label": "02. Windows 서버 · W-33 HTTP/FTP/SMTP 배너 차단",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-34",
+      "control_title": "Telnet 서비스 비활성화",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 228,
+      "page_end": 228,
+      "section_label": "02. Windows 서버 · W-34 Telnet 서비스 비활성화",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-35",
+      "control_title": "불필요한 ODBC/OLE-DB 데이터 소스와 드라이브 제거",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 229,
+      "page_end": 229,
+      "section_label": "02. Windows 서버 · W-35 불필요한 ODBC/OLE-DB 데이터 소스와 드라이브 제거",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-36",
+      "control_title": "원격터미널 접속 타임아웃 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 230,
+      "page_end": 231,
+      "section_label": "02. Windows 서버 · W-36 원격터미널 접속 타임아웃 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-37",
+      "control_title": "예약된 작업에 의심스러운 명령이 등록되어 있는지 점검",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 232,
+      "page_end": 232,
+      "section_label": "02. Windows 서버 · W-37 예약된 작업에 의심스러운 명령이 등록되어 있는지 점검",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-38",
+      "control_title": "주기적 보안 패치 및 벤더 권고사항 적용",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 233,
+      "page_end": 233,
+      "section_label": "02. Windows 서버 · W-38 주기적 보안 패치 및 벤더 권고사항 적용",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-39",
+      "control_title": "백신 프로그램 업데이트",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 234,
+      "page_end": 234,
+      "section_label": "02. Windows 서버 · W-39 백신 프로그램 업데이트",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-40",
+      "control_title": "정책에 따른 시스템 로깅 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 235,
+      "page_end": 236,
+      "section_label": "02. Windows 서버 · W-40 정책에 따른 시스템 로깅 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-41",
+      "control_title": "NTP 및 시각 동기화 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 237,
+      "page_end": 238,
+      "section_label": "02. Windows 서버 · W-41 NTP 및 시각 동기화 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-42",
+      "control_title": "이벤트 로그 관리 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 239,
+      "page_end": 239,
+      "section_label": "02. Windows 서버 · W-42 이벤트 로그 관리 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-43",
+      "control_title": "이벤트 로그 파일 접근 통제 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 240,
+      "page_end": 240,
+      "section_label": "02. Windows 서버 · W-43 이벤트 로그 파일 접근 통제 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-44",
+      "control_title": "원격으로 액세스할 수 있는 레지스트리 경로",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 241,
+      "page_end": 241,
+      "section_label": "02. Windows 서버 · W-44 원격으로 액세스할 수 있는 레지스트리 경로",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-45",
+      "control_title": "백신 프로그램 설치",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 242,
+      "page_end": 242,
+      "section_label": "02. Windows 서버 · W-45 백신 프로그램 설치",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-46",
+      "control_title": "SAM 파일 접근 통제 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 243,
+      "page_end": 243,
+      "section_label": "02. Windows 서버 · W-46 SAM 파일 접근 통제 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-47",
+      "control_title": "화면 보호기 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 244,
+      "page_end": 245,
+      "section_label": "02. Windows 서버 · W-47 화면 보호기 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-48",
+      "control_title": "로그온하지 않고 시스템 종료 허용",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 246,
+      "page_end": 247,
+      "section_label": "02. Windows 서버 · W-48 로그온하지 않고 시스템 종료 허용",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-49",
+      "control_title": "원격 시스템에서 강제로 시스템 종료",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 248,
+      "page_end": 248,
+      "section_label": "02. Windows 서버 · W-49 원격 시스템에서 강제로 시스템 종료",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-50",
+      "control_title": "보안 감사를 로그 할 수 없는 경우 즉시 시스템 종료",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 249,
+      "page_end": 250,
+      "section_label": "02. Windows 서버 · W-50 보안 감사를 로그 할 수 없는 경우 즉시 시스템 종료",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-51",
+      "control_title": "SAM 계정과 공유의 익명 열거 허용 안 함",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 251,
+      "page_end": 252,
+      "section_label": "02. Windows 서버 · W-51 SAM 계정과 공유의 익명 열거 허용 안 함",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-52",
+      "control_title": "Autologon 기능 제어",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 253,
+      "page_end": 253,
+      "section_label": "02. Windows 서버 · W-52 Autologon 기능 제어",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-53",
+      "control_title": "이동식 미디어 포맷 및 꺼내기 허용",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 254,
+      "page_end": 254,
+      "section_label": "02. Windows 서버 · W-53 이동식 미디어 포맷 및 꺼내기 허용",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-54",
+      "control_title": "Dos 공격 방어 레지스트리 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 255,
+      "page_end": 255,
+      "section_label": "02. Windows 서버 · W-54 Dos 공격 방어 레지스트리 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-55",
+      "control_title": "사용자가 프린터 드라이버를 설치할 수 없게 함",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 256,
+      "page_end": 256,
+      "section_label": "02. Windows 서버 · W-55 사용자가 프린터 드라이버를 설치할 수 없게 함",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-56",
+      "control_title": "SMB 세션 중단 관리 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 257,
+      "page_end": 258,
+      "section_label": "02. Windows 서버 · W-56 SMB 세션 중단 관리 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-57",
+      "control_title": "로그온 시 경고 메시지 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 259,
+      "page_end": 260,
+      "section_label": "02. Windows 서버 · W-57 로그온 시 경고 메시지 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-58",
+      "control_title": "사용자별 홈 디렉터리 권한 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 261,
+      "page_end": 262,
+      "section_label": "02. Windows 서버 · W-58 사용자별 홈 디렉터리 권한 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-59",
+      "control_title": "LAN Manager 인증 수준",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 263,
+      "page_end": 264,
+      "section_label": "02. Windows 서버 · W-59 LAN Manager 인증 수준",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-60",
+      "control_title": "보안 채널 데이터 디지털 암호화 또는 서명",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 265,
+      "page_end": 266,
+      "section_label": "02. Windows 서버 · W-60 보안 채널 데이터 디지털 암호화 또는 서명",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-61",
+      "control_title": "파일 및 디렉토리 보호",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 267,
+      "page_end": 267,
+      "section_label": "02. Windows 서버 · W-61 파일 및 디렉토리 보호",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-62",
+      "control_title": "시작 프로그램 목록 분석",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 268,
+      "page_end": 268,
+      "section_label": "02. Windows 서버 · W-62 시작 프로그램 목록 분석",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-63",
+      "control_title": "도메인 컨트롤러-사용자의 시간 동기화",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 269,
+      "page_end": 269,
+      "section_label": "02. Windows 서버 · W-63 도메인 컨트롤러-사용자의 시간 동기화",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "W-64",
+      "control_title": "윈도우 방화벽 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 270,
+      "page_end": 270,
+      "section_label": "02. Windows 서버 · W-64 윈도우 방화벽 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "WEB-SERVICE-INTRO",
+      "control_title": "분류 안내",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 271,
+      "page_end": 273,
+      "section_label": "03. 웹 서비스 · 분류 안내",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "WEB-01",
+      "control_title": "Default 관리자 계정명 변경",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 274,
+      "page_end": 275,
+      "section_label": "03. 웹 서비스 · WEB-01 Default 관리자 계정명 변경",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "WEB-02",
+      "control_title": "취약한 비밀번호 사용 제한",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 276,
+      "page_end": 277,
+      "section_label": "03. 웹 서비스 · WEB-02 취약한 비밀번호 사용 제한",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "WEB-03",
+      "control_title": "비밀번호 파일 권한 관리",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 278,
+      "page_end": 279,
+      "section_label": "03. 웹 서비스 · WEB-03 비밀번호 파일 권한 관리",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "WEB-04",
+      "control_title": "웹 서비스 디렉터리 리스팅 방지 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 280,
+      "page_end": 282,
+      "section_label": "03. 웹 서비스 · WEB-04 웹 서비스 디렉터리 리스팅 방지 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "WEB-05",
+      "control_title": "지정하지 않은 CGI/ISAPI 실행 제한",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 283,
+      "page_end": 285,
+      "section_label": "03. 웹 서비스 · WEB-05 지정하지 않은 CGI/ISAPI 실행 제한",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "WEB-06",
+      "control_title": "웹 서비스 상위 디렉터리 접근 제한 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 286,
+      "page_end": 289,
+      "section_label": "03. 웹 서비스 · WEB-06 웹 서비스 상위 디렉터리 접근 제한 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "WEB-07",
+      "control_title": "웹 서비스 경로 내 불필요한 파일 제거",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 290,
+      "page_end": 291,
+      "section_label": "03. 웹 서비스 · WEB-07 웹 서비스 경로 내 불필요한 파일 제거",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "WEB-08",
+      "control_title": "웹 서비스 파일 업로드 및 다운로드 용량 제한",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 292,
+      "page_end": 294,
+      "section_label": "03. 웹 서비스 · WEB-08 웹 서비스 파일 업로드 및 다운로드 용량 제한",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "WEB-09",
+      "control_title": "웹 서비스 프로세스 권한 제한",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 295,
+      "page_end": 299,
+      "section_label": "03. 웹 서비스 · WEB-09 웹 서비스 프로세스 권한 제한",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "WEB-10",
+      "control_title": "불필요한 프록시 설정 제한",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 300,
+      "page_end": 302,
+      "section_label": "03. 웹 서비스 · WEB-10 불필요한 프록시 설정 제한",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "WEB-11",
+      "control_title": "웹 서비스 경로 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 303,
+      "page_end": 304,
+      "section_label": "03. 웹 서비스 · WEB-11 웹 서비스 경로 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "WEB-12",
+      "control_title": "웹 서비스 링크 사용 금지",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 305,
+      "page_end": 307,
+      "section_label": "03. 웹 서비스 · WEB-12 웹 서비스 링크 사용 금지",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "WEB-13",
+      "control_title": "웹 서비스 설정 파일 노출 제한",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 308,
+      "page_end": 310,
+      "section_label": "03. 웹 서비스 · WEB-13 웹 서비스 설정 파일 노출 제한",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "WEB-14",
+      "control_title": "웹 서비스 경로 내 파일의 접근 통제",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 311,
+      "page_end": 312,
+      "section_label": "03. 웹 서비스 · WEB-14 웹 서비스 경로 내 파일의 접근 통제",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "WEB-15",
+      "control_title": "웹 서비스의 불필요한 스크립트 매핑 제거",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 313,
+      "page_end": 315,
+      "section_label": "03. 웹 서비스 · WEB-15 웹 서비스의 불필요한 스크립트 매핑 제거",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "WEB-16",
+      "control_title": "웹 서비스 헤더 정보 노출 제한",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 316,
+      "page_end": 319,
+      "section_label": "03. 웹 서비스 · WEB-16 웹 서비스 헤더 정보 노출 제한",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "WEB-17",
+      "control_title": "웹 서비스 가상 디렉로리 삭제",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 320,
+      "page_end": 321,
+      "section_label": "03. 웹 서비스 · WEB-17 웹 서비스 가상 디렉로리 삭제",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "WEB-18",
+      "control_title": "웹 서비스 WebDAV 비활성화",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 322,
+      "page_end": 324,
+      "section_label": "03. 웹 서비스 · WEB-18 웹 서비스 WebDAV 비활성화",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "WEB-19",
+      "control_title": "웹 서비스 SSI(Server Side Includes) 사용 제한",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 325,
+      "page_end": 328,
+      "section_label": "03. 웹 서비스 · WEB-19 웹 서비스 SSI(Server Side Includes) 사용 제한",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "WEB-20",
+      "control_title": "SSL/TLS 활성화",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 329,
+      "page_end": 333,
+      "section_label": "03. 웹 서비스 · WEB-20 SSL/TLS 활성화",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "WEB-21",
+      "control_title": "HTTP 리디렉션",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 334,
+      "page_end": 337,
+      "section_label": "03. 웹 서비스 · WEB-21 HTTP 리디렉션",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "WEB-22",
+      "control_title": "에러 페이지 관리",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 338,
+      "page_end": 341,
+      "section_label": "03. 웹 서비스 · WEB-22 에러 페이지 관리",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "WEB-23",
+      "control_title": "LDAP 알고리즘 적절하게 구성",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 342,
+      "page_end": 342,
+      "section_label": "03. 웹 서비스 · WEB-23 LDAP 알고리즘 적절하게 구성",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "WEB-24",
+      "control_title": "별도의 업로드 경로 사용 및 권한 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 343,
+      "page_end": 346,
+      "section_label": "03. 웹 서비스 · WEB-24 별도의 업로드 경로 사용 및 권한 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "WEB-25",
+      "control_title": "주기적 보안 패치 및 벤더 권고사항 적용",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 347,
+      "page_end": 349,
+      "section_label": "03. 웹 서비스 · WEB-25 주기적 보안 패치 및 벤더 권고사항 적용",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "WEB-26",
+      "control_title": "로그 디렉터리 및 파일 권한 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 350,
+      "page_end": 352,
+      "section_label": "03. 웹 서비스 · WEB-26 로그 디렉터리 및 파일 권한 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "SECURITY-EQUIPMENT-INTRO",
+      "control_title": "분류 안내",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 353,
+      "page_end": 355,
+      "section_label": "04. 보안 장비 · 분류 안내",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "S-01",
+      "control_title": "보안장비 Default 계정 변경",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 356,
+      "page_end": 357,
+      "section_label": "04. 보안 장비 · S-01 보안장비 Default 계정 변경",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "S-02",
+      "control_title": "비밀번호 관리정책 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 358,
+      "page_end": 359,
+      "section_label": "04. 보안 장비 · S-02 비밀번호 관리정책 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "S-03",
+      "control_title": "보안장비 계정별 권한 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 360,
+      "page_end": 360,
+      "section_label": "04. 보안 장비 · S-03 보안장비 계정별 권한 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "S-04",
+      "control_title": "보안장비 계정 관리",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 361,
+      "page_end": 361,
+      "section_label": "04. 보안 장비 · S-04 보안장비 계정 관리",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "S-05",
+      "control_title": "계정 잠금 임계값 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 362,
+      "page_end": 362,
+      "section_label": "04. 보안 장비 · S-05 계정 잠금 임계값 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "S-06",
+      "control_title": "보안 장비 원격 관리 접근 통제",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 363,
+      "page_end": 363,
+      "section_label": "04. 보안 장비 · S-06 보안 장비 원격 관리 접근 통제",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "S-07",
+      "control_title": "보안장비 보안 접속",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 364,
+      "page_end": 364,
+      "section_label": "04. 보안 장비 · S-07 보안장비 보안 접속",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "S-08",
+      "control_title": "세션 종료 시간 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 365,
+      "page_end": 366,
+      "section_label": "04. 보안 장비 · S-08 세션 종료 시간 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "S-09",
+      "control_title": "주기적 보안 패치 및 벤더 권고사항 적용",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 367,
+      "page_end": 367,
+      "section_label": "04. 보안 장비 · S-09 주기적 보안 패치 및 벤더 권고사항 적용",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "S-10",
+      "control_title": "보안장비 로그 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 368,
+      "page_end": 368,
+      "section_label": "04. 보안 장비 · S-10 보안장비 로그 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "S-11",
+      "control_title": "보안장비 로그 보관",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 369,
+      "page_end": 369,
+      "section_label": "04. 보안 장비 · S-11 보안장비 로그 보관",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "S-12",
+      "control_title": "보안장비 정책 백업 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 370,
+      "page_end": 370,
+      "section_label": "04. 보안 장비 · S-12 보안장비 정책 백업 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "S-13",
+      "control_title": "원격 로그 서버 사용",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 371,
+      "page_end": 371,
+      "section_label": "04. 보안 장비 · S-13 원격 로그 서버 사용",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "S-14",
+      "control_title": "NTP 및 시각 동기화 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 372,
+      "page_end": 372,
+      "section_label": "04. 보안 장비 · S-14 NTP 및 시각 동기화 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "S-15",
+      "control_title": "정책 관리",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 373,
+      "page_end": 373,
+      "section_label": "04. 보안 장비 · S-15 정책 관리",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "S-16",
+      "control_title": "NAT 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 374,
+      "page_end": 375,
+      "section_label": "04. 보안 장비 · S-16 NAT 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "S-17",
+      "control_title": "DMZ 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 376,
+      "page_end": 377,
+      "section_label": "04. 보안 장비 · S-17 DMZ 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "S-18",
+      "control_title": "최소한의 서비스만 제공",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 378,
+      "page_end": 378,
+      "section_label": "04. 보안 장비 · S-18 최소한의 서비스만 제공",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "S-19",
+      "control_title": "이상징후 탐지 모니터링 수행",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 379,
+      "page_end": 380,
+      "section_label": "04. 보안 장비 · S-19 이상징후 탐지 모니터링 수행",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "S-20",
+      "control_title": "장비 사용량 검토",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 381,
+      "page_end": 382,
+      "section_label": "04. 보안 장비 · S-20 장비 사용량 검토",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "S-21",
+      "control_title": "SNMP 서비스 확인",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 383,
+      "page_end": 383,
+      "section_label": "04. 보안 장비 · S-21 SNMP 서비스 확인",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "S-22",
+      "control_title": "SNMP Community String 복잡성 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 384,
+      "page_end": 384,
+      "section_label": "04. 보안 장비 · S-22 SNMP Community String 복잡성 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "S-23",
+      "control_title": "유해 트래픽 탐지/차단 정책 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 385,
+      "page_end": 386,
+      "section_label": "04. 보안 장비 · S-23 유해 트래픽 탐지/차단 정책 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "NETWORK-EQUIPMENT-INTRO",
+      "control_title": "분류 안내",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 387,
+      "page_end": 390,
+      "section_label": "05. 네트워크 장비 · 분류 안내",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "N-01",
+      "control_title": "비밀번호 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 391,
+      "page_end": 394,
+      "section_label": "05. 네트워크 장비 · N-01 비밀번호 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "N-02",
+      "control_title": "비밀번호 복잡성 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 395,
+      "page_end": 396,
+      "section_label": "05. 네트워크 장비 · N-02 비밀번호 복잡성 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "N-03",
+      "control_title": "암호화된 비밀번호 사용",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 397,
+      "page_end": 398,
+      "section_label": "05. 네트워크 장비 · N-03 암호화된 비밀번호 사용",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "N-04",
+      "control_title": "계정 잠금 임계값 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 399,
+      "page_end": 400,
+      "section_label": "05. 네트워크 장비 · N-04 계정 잠금 임계값 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "N-05",
+      "control_title": "사용자·명령어별 권한 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 401,
+      "page_end": 405,
+      "section_label": "05. 네트워크 장비 · N-05 사용자·명령어별 권한 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "N-06",
+      "control_title": "VTY 접근(ACL) 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 406,
+      "page_end": 409,
+      "section_label": "05. 네트워크 장비 · N-06 VTY 접근(ACL) 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "N-07",
+      "control_title": "Session Timeout 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 410,
+      "page_end": 411,
+      "section_label": "05. 네트워크 장비 · N-07 Session Timeout 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "N-08",
+      "control_title": "VTY 접속 시 안전한 프로토콜 사용",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 412,
+      "page_end": 414,
+      "section_label": "05. 네트워크 장비 · N-08 VTY 접속 시 안전한 프로토콜 사용",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "N-09",
+      "control_title": "불필요한 보조 입출력 포트 사용 금지",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 415,
+      "page_end": 416,
+      "section_label": "05. 네트워크 장비 · N-09 불필요한 보조 입출력 포트 사용 금지",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "N-10",
+      "control_title": "로그인 시 경고 메시지 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 417,
+      "page_end": 418,
+      "section_label": "05. 네트워크 장비 · N-10 로그인 시 경고 메시지 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "N-11",
+      "control_title": "원격로그 서버 사용",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 419,
+      "page_end": 421,
+      "section_label": "05. 네트워크 장비 · N-11 원격로그 서버 사용",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "N-12",
+      "control_title": "주기적 보안 패치 및 벤더 권고사항 적용",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 422,
+      "page_end": 423,
+      "section_label": "05. 네트워크 장비 · N-12 주기적 보안 패치 및 벤더 권고사항 적용",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "N-13",
+      "control_title": "로깅 버퍼 크기 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 424,
+      "page_end": 425,
+      "section_label": "05. 네트워크 장비 · N-13 로깅 버퍼 크기 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "N-14",
+      "control_title": "정책에 따른 로깅 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 426,
+      "page_end": 427,
+      "section_label": "05. 네트워크 장비 · N-14 정책에 따른 로깅 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "N-15",
+      "control_title": "NTP 및 시각 동기화 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 428,
+      "page_end": 429,
+      "section_label": "05. 네트워크 장비 · N-15 NTP 및 시각 동기화 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "N-16",
+      "control_title": "Timestamp 로그 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 430,
+      "page_end": 430,
+      "section_label": "05. 네트워크 장비 · N-16 Timestamp 로그 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "N-17",
+      "control_title": "SNMP 서비스 확인",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 431,
+      "page_end": 432,
+      "section_label": "05. 네트워크 장비 · N-17 SNMP 서비스 확인",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "N-18",
+      "control_title": "SNMP Community String 복잡성 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 433,
+      "page_end": 434,
+      "section_label": "05. 네트워크 장비 · N-18 SNMP Community String 복잡성 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "N-19",
+      "control_title": "SNMP ACL 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 435,
+      "page_end": 437,
+      "section_label": "05. 네트워크 장비 · N-19 SNMP ACL 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "N-20",
+      "control_title": "SNMP Community 권한 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 438,
+      "page_end": 439,
+      "section_label": "05. 네트워크 장비 · N-20 SNMP Community 권한 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "N-21",
+      "control_title": "TFTP 서비스 차단",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 440,
+      "page_end": 440,
+      "section_label": "05. 네트워크 장비 · N-21 TFTP 서비스 차단",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "N-22",
+      "control_title": "Spoofing 방지 필터링 적용",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 441,
+      "page_end": 443,
+      "section_label": "05. 네트워크 장비 · N-22 Spoofing 방지 필터링 적용",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "N-23",
+      "control_title": "DDoS 공격 방어 설정 또는 DDoS 장비 사용",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 444,
+      "page_end": 445,
+      "section_label": "05. 네트워크 장비 · N-23 DDoS 공격 방어 설정 또는 DDoS 장비 사용",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "N-24",
+      "control_title": "사용하지 않는 인터페이스 비활성화",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 446,
+      "page_end": 447,
+      "section_label": "05. 네트워크 장비 · N-24 사용하지 않는 인터페이스 비활성화",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "N-25",
+      "control_title": "TCP Keepalive 서비스 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 448,
+      "page_end": 448,
+      "section_label": "05. 네트워크 장비 · N-25 TCP Keepalive 서비스 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "N-26",
+      "control_title": "Finger 서비스 차단",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 449,
+      "page_end": 450,
+      "section_label": "05. 네트워크 장비 · N-26 Finger 서비스 차단",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "N-27",
+      "control_title": "웹 서비스 차단",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 451,
+      "page_end": 452,
+      "section_label": "05. 네트워크 장비 · N-27 웹 서비스 차단",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "N-28",
+      "control_title": "TCP/UDP small 서비스 차단",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 453,
+      "page_end": 453,
+      "section_label": "05. 네트워크 장비 · N-28 TCP/UDP small 서비스 차단",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "N-29",
+      "control_title": "Bootp 서비스 차단",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 454,
+      "page_end": 455,
+      "section_label": "05. 네트워크 장비 · N-29 Bootp 서비스 차단",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "N-30",
+      "control_title": "CDP 서비스 차단",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 456,
+      "page_end": 456,
+      "section_label": "05. 네트워크 장비 · N-30 CDP 서비스 차단",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "N-31",
+      "control_title": "Directed-broadcast 차단",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 457,
+      "page_end": 458,
+      "section_label": "05. 네트워크 장비 · N-31 Directed-broadcast 차단",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "N-32",
+      "control_title": "Source Routing 차단",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 459,
+      "page_end": 459,
+      "section_label": "05. 네트워크 장비 · N-32 Source Routing 차단",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "N-33",
+      "control_title": "Proxy ARP 차단",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 460,
+      "page_end": 460,
+      "section_label": "05. 네트워크 장비 · N-33 Proxy ARP 차단",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "N-34",
+      "control_title": "ICMP unreachable, redirect 차단",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 461,
+      "page_end": 462,
+      "section_label": "05. 네트워크 장비 · N-34 ICMP unreachable, redirect 차단",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "N-35",
+      "control_title": "identd 서비스 차단",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 463,
+      "page_end": 463,
+      "section_label": "05. 네트워크 장비 · N-35 identd 서비스 차단",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "N-36",
+      "control_title": "Domain Lookup 차단",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 464,
+      "page_end": 464,
+      "section_label": "05. 네트워크 장비 · N-36 Domain Lookup 차단",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "N-37",
+      "control_title": "pad 차단",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 465,
+      "page_end": 465,
+      "section_label": "05. 네트워크 장비 · N-37 pad 차단",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "N-38",
+      "control_title": "mask-reply 차단",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 466,
+      "page_end": 466,
+      "section_label": "05. 네트워크 장비 · N-38 mask-reply 차단",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "CONTROL-SYSTEM-INTRO",
+      "control_title": "분류 안내",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 467,
+      "page_end": 471,
+      "section_label": "06. 제어시스템 · 분류 안내",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-01",
+      "control_title": "계정 기능이 있는 제어시스템 구성요소에 대해 계정을 안전하게 설정하여 사용",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 472,
+      "page_end": 474,
+      "section_label": "06. 제어시스템 · C-01 계정 기능이 있는 제어시스템 구성요소에 대해 계정을 안전하게 설정하여 사용",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-02",
+      "control_title": "제어시스템 계정의 로그인/로그아웃, 사용 명령 등 사용기록을 저장",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 475,
+      "page_end": 476,
+      "section_label": "06. 제어시스템 · C-02 제어시스템 계정의 로그인/로그아웃, 사용 명령 등 사용기록을 저장",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-03",
+      "control_title": "제어시스템 계정입력 시 비밀번호 마스킹 처리, 입력값 에러 발생 시 제공 정보 제한 수행",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 477,
+      "page_end": 478,
+      "section_label": "06. 제어시스템 · C-03 제어시스템 계정입력 시 비밀번호 마스킹 처리, 입력값 에러 발생 시 제공 정보 제한 수행",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-04",
+      "control_title": "제어시스템 계정을 관리, 운영, 유지보수 등 용도에 따라 분리하고 운용",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 479,
+      "page_end": 479,
+      "section_label": "06. 제어시스템 · C-04 제어시스템 계정을 관리, 운영, 유지보수 등 용도에 따라 분리하고 운용",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-05",
+      "control_title": "제어시스템 계정에 대해 관리, 운영, 유지보수 등 용도에 맞는 최소 권한 부여",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 480,
+      "page_end": 481,
+      "section_label": "06. 제어시스템 · C-05 제어시스템 계정에 대해 관리, 운영, 유지보수 등 용도에 맞는 최소 권한 부여",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-06",
+      "control_title": "제어시스템 운전원별 유일 계정 부여 또는 시간별 사용자 기록 유지",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 482,
+      "page_end": 483,
+      "section_label": "06. 제어시스템 · C-06 제어시스템 운전원별 유일 계정 부여 또는 시간별 사용자 기록 유지",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-07",
+      "control_title": "제어시스템 구성요소에 대한 시각 동기화 수행",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 484,
+      "page_end": 486,
+      "section_label": "06. 제어시스템 · C-07 제어시스템 구성요소에 대한 시각 동기화 수행",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-08",
+      "control_title": "제어시스템에 불필요한 서비스 및 취약한 서비스 제거 또는 보완대책 수행",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 487,
+      "page_end": 489,
+      "section_label": "06. 제어시스템 · C-08 제어시스템에 불필요한 서비스 및 취약한 서비스 제거 또는 보완대책 수행",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-09",
+      "control_title": "제어시스템 구성요소에 대한 관리자 페이지 운영 시 이에 대한 접근통제(사전인가 접근만 허용) 수행",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 490,
+      "page_end": 491,
+      "section_label": "06. 제어시스템 · C-09 제어시스템 구성요소에 대한 관리자 페이지 운영 시 이에 대한 접근통제(사전인가 접근만 허용) 수행",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-10",
+      "control_title": "제어시스템 내 파일/디렉터리 접근 권한 및 신뢰 관계를 적절히 부여",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 492,
+      "page_end": 493,
+      "section_label": "06. 제어시스템 · C-10 제어시스템 내 파일/디렉터리 접근 권한 및 신뢰 관계를 적절히 부여",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-11",
+      "control_title": "제어시스템 내 제어와 직접적인 관련이 없는 불필요 프로그램 삭제",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 494,
+      "page_end": 494,
+      "section_label": "06. 제어시스템 · C-11 제어시스템 내 제어와 직접적인 관련이 없는 불필요 프로그램 삭제",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-12",
+      "control_title": "제어시스템 운영 정보, 제어 명령 등 중요 정보에 대한 위변조 및 replay 공격 방지 대책 적용",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 495,
+      "page_end": 496,
+      "section_label": "06. 제어시스템 · C-12 제어시스템 운영 정보, 제어 명령 등 중요 정보에 대한 위변조 및 replay 공격 방지 대책 적용",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-13",
+      "control_title": "제어시스템 내 전달되는 제어 명령 및 파라미터의 정상 범위를 식별하고 관리",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 497,
+      "page_end": 497,
+      "section_label": "06. 제어시스템 · C-13 제어시스템 내 전달되는 제어 명령 및 파라미터의 정상 범위를 식별하고 관리",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-14",
+      "control_title": "제어시스템 내 사용자 통신 세션에 대해 세션 타임아웃 적용",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 498,
+      "page_end": 498,
+      "section_label": "06. 제어시스템 · C-14 제어시스템 내 사용자 통신 세션에 대해 세션 타임아웃 적용",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-15",
+      "control_title": "GPS 스푸핑/재밍 공격 등 시간 동기화 서비스를 교란하기 위한 공격에 대비한 보안 조치 수행",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 499,
+      "page_end": 499,
+      "section_label": "06. 제어시스템 · C-15 GPS 스푸핑/재밍 공격 등 시간 동기화 서비스를 교란하기 위한 공격에 대비한 보안 조치 수행",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-16",
+      "control_title": "제어시스템에 대한 최신 업데이트, 보안패치를 안전하게 적용하기 위한 제조사 협력방안, 테스트 방안",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 500,
+      "page_end": 500,
+      "section_label": "06. 제어시스템 · C-16 제어시스템에 대한 최신 업데이트, 보안패치를 안전하게 적용하기 위한 제조사 협력방안, 테스트 방안",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-17",
+      "control_title": "외부 업체, 인터넷을 통한 다운로드 등의 경로로 반입된 각종 패치·업데이트 파일에 대해 무결성 검증",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 501,
+      "page_end": 501,
+      "section_label": "06. 제어시스템 · C-17 외부 업체, 인터넷을 통한 다운로드 등의 경로로 반입된 각종 패치·업데이트 파일에 대해 무결성 검증",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-18",
+      "control_title": "제어시스템 구성요소의 알려진 취약점에 대해 보안패치 적용 또는 상응하는 대응책 적용",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 502,
+      "page_end": 504,
+      "section_label": "06. 제어시스템 · C-18 제어시스템 구성요소의 알려진 취약점에 대해 보안패치 적용 또는 상응하는 대응책 적용",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-19",
+      "control_title": "운영체제, 응용프로그램, 펌웨어 등에 대한 안정성이 확인된 최신 버전의 소프트웨어 사용 및",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 505,
+      "page_end": 505,
+      "section_label": "06. 제어시스템 · C-19 운영체제, 응용프로그램, 펌웨어 등에 대한 안정성이 확인된 최신 버전의 소프트웨어 사용 및",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-20",
+      "control_title": "제어시스템 개선, 신규 시스템 도입, 패치 및 수정 시, 안전성을 테스트하기 위한 테스트베드 또는",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 506,
+      "page_end": 506,
+      "section_label": "06. 제어시스템 · C-20 제어시스템 개선, 신규 시스템 도입, 패치 및 수정 시, 안전성을 테스트하기 위한 테스트베드 또는",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-21",
+      "control_title": "제어 네트워크는 업무망, 인터넷, CCTV 망 등 외부망과 물리적으로 분리하여 사용",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 507,
+      "page_end": 508,
+      "section_label": "06. 제어시스템 · C-21 제어 네트워크는 업무망, 인터넷, CCTV 망 등 외부망과 물리적으로 분리하여 사용",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-22",
+      "control_title": "제어 네트워크 외부로 자료전달 시 물리적 일방향 자료전달 환경을 구축하여 외부에서 제어",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 509,
+      "page_end": 510,
+      "section_label": "06. 제어시스템 · C-22 제어 네트워크 외부로 자료전달 시 물리적 일방향 자료전달 환경을 구축하여 외부에서 제어",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-23",
+      "control_title": "제어 네트워크에 무선인터넷, 테더링, 외부 유선망 등의 외부망 연결을 제한하고 주기적으로 점검",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 511,
+      "page_end": 512,
+      "section_label": "06. 제어시스템 · C-23 제어 네트워크에 무선인터넷, 테더링, 외부 유선망 등의 외부망 연결을 제한하고 주기적으로 점검",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-24",
+      "control_title": "제어 네트워크에 비인가된 시스템/기기에 대한 연결 및 접속을 차단",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 513,
+      "page_end": 514,
+      "section_label": "06. 제어시스템 · C-24 제어 네트워크에 비인가된 시스템/기기에 대한 연결 및 접속을 차단",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-25",
+      "control_title": "물리적 일방향 자료전달 환경의 올바른 동작 및 운용에 대한 주기적인 점검 수행",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 515,
+      "page_end": 516,
+      "section_label": "06. 제어시스템 · C-25 물리적 일방향 자료전달 환경의 올바른 동작 및 운용에 대한 주기적인 점검 수행",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-26",
+      "control_title": "제어 네트워크를 용도에 따라 세분화하고, 접근제어를 수행하여 제어시스템 운영에 필요한 네트워크,",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 517,
+      "page_end": 518,
+      "section_label": "06. 제어시스템 · C-26 제어 네트워크를 용도에 따라 세분화하고, 접근제어를 수행하여 제어시스템 운영에 필요한 네트워크,",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-27",
+      "control_title": "제어시스템에 대해 네트워크 포트, USB 포트 등 외부 연결 접점에 대해 허가받은 사항을 제외하고 모두",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 519,
+      "page_end": 520,
+      "section_label": "06. 제어시스템 · C-27 제어시스템에 대해 네트워크 포트, USB 포트 등 외부 연결 접점에 대해 허가받은 사항을 제외하고 모두",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-28",
+      "control_title": "제어시스템 구성요소를 물리적으로 보호할 수 있는 조치 적용(잠금장치가 있는 함체, 랙, 수납 책상 등)",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 521,
+      "page_end": 521,
+      "section_label": "06. 제어시스템 · C-28 제어시스템 구성요소를 물리적으로 보호할 수 있는 조치 적용(잠금장치가 있는 함체, 랙, 수납 책상 등)",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-29",
+      "control_title": "백신 프로그램 설치가 가능한 제어시스템 구성요소에 대해 악성코드 감염 및 차단을 위한 백신 프로그램 설치",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 522,
+      "page_end": 523,
+      "section_label": "06. 제어시스템 · C-29 백신 프로그램 설치가 가능한 제어시스템 구성요소에 대해 악성코드 감염 및 차단을 위한 백신 프로그램 설치",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-30",
+      "control_title": "이상 트래픽 발생 탐지 등 제어시스템 내의 보안 관리를 위해 적합한 침입탐지시스템 등을 구축 및",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 524,
+      "page_end": 524,
+      "section_label": "06. 제어시스템 · C-30 이상 트래픽 발생 탐지 등 제어시스템 내의 보안 관리를 위해 적합한 침입탐지시스템 등을 구축 및",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-31",
+      "control_title": "제어시스템 대상 사이버 위기대응 매뉴얼을 수립",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 525,
+      "page_end": 526,
+      "section_label": "06. 제어시스템 · C-31 제어시스템 대상 사이버 위기대응 매뉴얼을 수립",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-32",
+      "control_title": "제어시스템 대상 사이버 위기대응 훈련을 정기적으로 시행",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 527,
+      "page_end": 527,
+      "section_label": "06. 제어시스템 · C-32 제어시스템 대상 사이버 위기대응 훈련을 정기적으로 시행",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-33",
+      "control_title": "제어시스템 침해사고 대응을 위한 제어시스템 설정, 중요 데이터 등을 백업 및 관리",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 528,
+      "page_end": 528,
+      "section_label": "06. 제어시스템 · C-33 제어시스템 침해사고 대응을 위한 제어시스템 설정, 중요 데이터 등을 백업 및 관리",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-34",
+      "control_title": "제어시스템의 장애 발생, 사이버 공격, 물리적 테러 등에 대한 비상계획 수립",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 529,
+      "page_end": 529,
+      "section_label": "06. 제어시스템 · C-34 제어시스템의 장애 발생, 사이버 공격, 물리적 테러 등에 대한 비상계획 수립",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-35",
+      "control_title": "제어시스템의 장애 발생, 사이버 공격, 물리적 테러 등에 대한 비상계획 훈련을 정기적으로 시행",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 530,
+      "page_end": 530,
+      "section_label": "06. 제어시스템 · C-35 제어시스템의 장애 발생, 사이버 공격, 물리적 테러 등에 대한 비상계획 훈련을 정기적으로 시행",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-36",
+      "control_title": "제어시스템 조작 불능에 대비하여 수작업 운전 매뉴얼 작성 및 교육 훈련 시행",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 531,
+      "page_end": 531,
+      "section_label": "06. 제어시스템 · C-36 제어시스템 조작 불능에 대비하여 수작업 운전 매뉴얼 작성 및 교육 훈련 시행",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-37",
+      "control_title": "제어시스템의 각종 이벤트에 대한 로그를 관리하기 위한 중앙집중식 로그관리 수행",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 532,
+      "page_end": 532,
+      "section_label": "06. 제어시스템 · C-37 제어시스템의 각종 이벤트에 대한 로그를 관리하기 위한 중앙집중식 로그관리 수행",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-38",
+      "control_title": "제어시스템 구성요소의 기준 형상을 설정하고 변경 및 업데이트 시 형상관리 수행",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 533,
+      "page_end": 534,
+      "section_label": "06. 제어시스템 · C-38 제어시스템 구성요소의 기준 형상을 설정하고 변경 및 업데이트 시 형상관리 수행",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-39",
+      "control_title": "(히)",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 535,
+      "page_end": 535,
+      "section_label": "06. 제어시스템 · C-39 (히)",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-40",
+      "control_title": "제어시스템 보호를 위한 화재탐지 설비 및 화재 진압설비를 구비",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 536,
+      "page_end": 536,
+      "section_label": "06. 제어시스템 · C-40 제어시스템 보호를 위한 화재탐지 설비 및 화재 진압설비를 구비",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-41",
+      "control_title": "제어시스템 보호를 위한 누수탐지 설비 및 침수 대응 장비 구비",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 537,
+      "page_end": 537,
+      "section_label": "06. 제어시스템 · C-41 제어시스템 보호를 위한 누수탐지 설비 및 침수 대응 장비 구비",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-42",
+      "control_title": "제어시스템에 대하여 정기적으로 사이버 위험 시나리오를 식별하고, 완화방안 수립",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 538,
+      "page_end": 538,
+      "section_label": "06. 제어시스템 · C-42 제어시스템에 대하여 정기적으로 사이버 위험 시나리오를 식별하고, 완화방안 수립",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-43",
+      "control_title": "제어시스템 구성요소에 대한 자산정보(담당자, 제조사, 모델명, 펌웨어 버전, 설치 SW 등)를 항상",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 539,
+      "page_end": 540,
+      "section_label": "06. 제어시스템 · C-43 제어시스템 구성요소에 대한 자산정보(담당자, 제조사, 모델명, 펌웨어 버전, 설치 SW 등)를 항상",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-44",
+      "control_title": "제어시스템 중요 구성요소가 설치된 장소를 보호구역으로 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 541,
+      "page_end": 541,
+      "section_label": "06. 제어시스템 · C-44 제어시스템 중요 구성요소가 설치된 장소를 보호구역으로 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-45",
+      "control_title": "제어시스템에서 USB 등 이동형 저장 매체를 사용해야 하는 경우, 사전 정의된 정책에 따라 사용",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 542,
+      "page_end": 543,
+      "section_label": "06. 제어시스템 · C-45 제어시스템에서 USB 등 이동형 저장 매체를 사용해야 하는 경우, 사전 정의된 정책에 따라 사용",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-46",
+      "control_title": "제어 네트워크에 연결되는 외부 정보통신기기 반‧출입 시 클린존 통과, 관리대장 작성 등 관리절차 마련",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 544,
+      "page_end": 544,
+      "section_label": "06. 제어시스템 · C-46 제어 네트워크에 연결되는 외부 정보통신기기 반‧출입 시 클린존 통과, 관리대장 작성 등 관리절차 마련",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-47",
+      "control_title": "제어시스템의 특성을 반영한 정보보안 정책, 지침을 수립",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 545,
+      "page_end": 546,
+      "section_label": "06. 제어시스템 · C-47 제어시스템의 특성을 반영한 정보보안 정책, 지침을 수립",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-48",
+      "control_title": "제어시스템 운영 업무에 대해 표준업무 절차서를 작성하고 적용",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 547,
+      "page_end": 547,
+      "section_label": "06. 제어시스템 · C-48 제어시스템 운영 업무에 대해 표준업무 절차서를 작성하고 적용",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-49",
+      "control_title": "제어시스템 유지보수를 위한 전용 장비(노트북 등)를 마련하고 관련 정책을 시행",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 548,
+      "page_end": 548,
+      "section_label": "06. 제어시스템 · C-49 제어시스템 유지보수를 위한 전용 장비(노트북 등)를 마련하고 관련 정책을 시행",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-50",
+      "control_title": "허가에 의한 로직 변경 정책 수립",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 549,
+      "page_end": 550,
+      "section_label": "06. 제어시스템 · C-50 허가에 의한 로직 변경 정책 수립",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "C-51",
+      "control_title": "제어시스템 운전원, 관리자, 유지보수인력, 보안 인력에 대해 직무별 직무교육을 정기적으로 실시",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 551,
+      "page_end": 551,
+      "section_label": "06. 제어시스템 · C-51 제어시스템 운전원, 관리자, 유지보수인력, 보안 인력에 대해 직무별 직무교육을 정기적으로 실시",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "PC-INTRO",
+      "control_title": "분류 안내",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 552,
+      "page_end": 554,
+      "section_label": "07. PC · 분류 안내",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "PC-01",
+      "control_title": "비밀번호의 주기적 변경",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 555,
+      "page_end": 556,
+      "section_label": "07. PC · PC-01 비밀번호의 주기적 변경",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "PC-02",
+      "control_title": "비밀번호 관리정책 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 557,
+      "page_end": 558,
+      "section_label": "07. PC · PC-02 비밀번호 관리정책 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "PC-03",
+      "control_title": "복구 콘솔에서 자동 로그온을 금지하도록 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 559,
+      "page_end": 560,
+      "section_label": "07. PC · PC-03 복구 콘솔에서 자동 로그온을 금지하도록 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "PC-04",
+      "control_title": "공유 폴더 제거",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 561,
+      "page_end": 565,
+      "section_label": "07. PC · PC-04 공유 폴더 제거",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "PC-05",
+      "control_title": "항목의 불필요한 서비스 제거",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 566,
+      "page_end": 569,
+      "section_label": "07. PC · PC-05 항목의 불필요한 서비스 제거",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "PC-06",
+      "control_title": "비인가 상용 메신저 사용 금지",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 570,
+      "page_end": 570,
+      "section_label": "07. PC · PC-06 비인가 상용 메신저 사용 금지",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "PC-07",
+      "control_title": "파일 시스템이 NTFS 포맷으로 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 571,
+      "page_end": 572,
+      "section_label": "07. PC · PC-07 파일 시스템이 NTFS 포맷으로 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "PC-08",
+      "control_title": "대상 시스템이 Windows 서버를 제외한 다른 OS로 멀티 부팅이 가능하지 않도록 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 573,
+      "page_end": 574,
+      "section_label": "07. PC · PC-08 대상 시스템이 Windows 서버를 제외한 다른 OS로 멀티 부팅이 가능하지 않도록 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "PC-09",
+      "control_title": "브라우저 종료 시 임시 인터넷 파일 폴더의 내용을 삭제하도록 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 575,
+      "page_end": 576,
+      "section_label": "07. PC · PC-09 브라우저 종료 시 임시 인터넷 파일 폴더의 내용을 삭제하도록 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "PC-10",
+      "control_title": "주기적 보안 패치 및 벤더 권고사항 적용",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 577,
+      "page_end": 578,
+      "section_label": "07. PC · PC-10 주기적 보안 패치 및 벤더 권고사항 적용",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "PC-11",
+      "control_title": "지원이 종료되지 않은 Windows OS Build 적용",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 579,
+      "page_end": 579,
+      "section_label": "07. PC · PC-11 지원이 종료되지 않은 Windows OS Build 적용",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "PC-12",
+      "control_title": "Windows 자동 로그인 점검",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 580,
+      "page_end": 581,
+      "section_label": "07. PC · PC-12 Windows 자동 로그인 점검",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "PC-13",
+      "control_title": "바이러스 백신 프로그램 설치 및 주기적 업데이트",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 582,
+      "page_end": 583,
+      "section_label": "07. PC · PC-13 바이러스 백신 프로그램 설치 및 주기적 업데이트",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "PC-14",
+      "control_title": "바이러스 백신 프로그램에서 제공하는 실시간 감시 기능 활성화",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 584,
+      "page_end": 584,
+      "section_label": "07. PC · PC-14 바이러스 백신 프로그램에서 제공하는 실시간 감시 기능 활성화",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "PC-15",
+      "control_title": "OS에서 제공하는 침입차단 기능 활성화",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 585,
+      "page_end": 586,
+      "section_label": "07. PC · PC-15 OS에서 제공하는 침입차단 기능 활성화",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "PC-16",
+      "control_title": "화면보호기 대기 시간 설정 및 재시작 시 암호 보호 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 587,
+      "page_end": 588,
+      "section_label": "07. PC · PC-16 화면보호기 대기 시간 설정 및 재시작 시 암호 보호 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "PC-17",
+      "control_title": "CD, DVD, USB 메모리 등과 같은 미디어의 자동 실행 방지 등 이동식 미디어에 대한 보안대책 수립",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 589,
+      "page_end": 590,
+      "section_label": "07. PC · PC-17 CD, DVD, USB 메모리 등과 같은 미디어의 자동 실행 방지 등 이동식 미디어에 대한 보안대책 수립",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "PC-18",
+      "control_title": "원격 지원을 금지하도록 정책이 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 591,
+      "page_end": 592,
+      "section_label": "07. PC · PC-18 원격 지원을 금지하도록 정책이 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "DBMS-INTRO",
+      "control_title": "분류 안내",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 593,
+      "page_end": 595,
+      "section_label": "08. DBMS · 분류 안내",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "D-01",
+      "control_title": "기본 계정의 비밀번호, 정책 등을 변경하여 사용",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 596,
+      "page_end": 599,
+      "section_label": "08. DBMS · D-01 기본 계정의 비밀번호, 정책 등을 변경하여 사용",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "D-02",
+      "control_title": "데이터베이스의 불필요 계정을 제거하거나, 잠금설정 후 사용",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 600,
+      "page_end": 602,
+      "section_label": "08. DBMS · D-02 데이터베이스의 불필요 계정을 제거하거나, 잠금설정 후 사용",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "D-03",
+      "control_title": "비밀번호 사용 기간 및 복잡도를 기관의 정책에 맞도록 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 603,
+      "page_end": 607,
+      "section_label": "08. DBMS · D-03 비밀번호 사용 기간 및 복잡도를 기관의 정책에 맞도록 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "D-04",
+      "control_title": "데이터베이스 관리자 권한을 꼭 필요한 계정 및 그룹에 대해서만 허용",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 608,
+      "page_end": 612,
+      "section_label": "08. DBMS · D-04 데이터베이스 관리자 권한을 꼭 필요한 계정 및 그룹에 대해서만 허용",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "D-05",
+      "control_title": "비밀번호 재사용에 대한 제약 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 613,
+      "page_end": 615,
+      "section_label": "08. DBMS · D-05 비밀번호 재사용에 대한 제약 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "D-06",
+      "control_title": "DB 사용자 계정을 개별적으로 부여하여 사용",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 616,
+      "page_end": 618,
+      "section_label": "08. DBMS · D-06 DB 사용자 계정을 개별적으로 부여하여 사용",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "D-07",
+      "control_title": "root 권한으로 서비스 구동 제한",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 619,
+      "page_end": 620,
+      "section_label": "08. DBMS · D-07 root 권한으로 서비스 구동 제한",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "D-08",
+      "control_title": "안전한 암호화 알고리즘 사용",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 621,
+      "page_end": 624,
+      "section_label": "08. DBMS · D-08 안전한 암호화 알고리즘 사용",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "D-09",
+      "control_title": "일정 횟수의 로그인 실패 시 이에 대한 잠금정책 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 625,
+      "page_end": 627,
+      "section_label": "08. DBMS · D-09 일정 횟수의 로그인 실패 시 이에 대한 잠금정책 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "D-10",
+      "control_title": "원격에서 DB 서버로의 접속 제한",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 628,
+      "page_end": 632,
+      "section_label": "08. DBMS · D-10 원격에서 DB 서버로의 접속 제한",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "D-11",
+      "control_title": "DBA 이외의 인가되지 않은 사용자가 시스템 테이블에 접근할 수 없도록 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 633,
+      "page_end": 634,
+      "section_label": "08. DBMS · D-11 DBA 이외의 인가되지 않은 사용자가 시스템 테이블에 접근할 수 없도록 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "D-12",
+      "control_title": "안전한 리스너 비밀번호 설정 및 사용",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 635,
+      "page_end": 636,
+      "section_label": "08. DBMS · D-12 안전한 리스너 비밀번호 설정 및 사용",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "D-13",
+      "control_title": "불필요한 ODBC/OLE-DB 데이터 소스와 드라이브를 제거하여 사용",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 637,
+      "page_end": 638,
+      "section_label": "08. DBMS · D-13 불필요한 ODBC/OLE-DB 데이터 소스와 드라이브를 제거하여 사용",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "D-14",
+      "control_title": "데이터베이스의 주요 설정 파일, 비밀번호 파일 등과 같은 주요 파일들의 접근 권한이 적절하게 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 639,
+      "page_end": 641,
+      "section_label": "08. DBMS · D-14 데이터베이스의 주요 설정 파일, 비밀번호 파일 등과 같은 주요 파일들의 접근 권한이 적절하게 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "D-15",
+      "control_title": "관리자 이외의 사용자가 오라클 리스너의 접속을 통해 리스너 로그 및 trace 파일에 대한 변경 제한",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 642,
+      "page_end": 643,
+      "section_label": "08. DBMS · D-15 관리자 이외의 사용자가 오라클 리스너의 접속을 통해 리스너 로그 및 trace 파일에 대한 변경 제한",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "D-16",
+      "control_title": "Windows 인증 모드 사용",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 644,
+      "page_end": 645,
+      "section_label": "08. DBMS · D-16 Windows 인증 모드 사용",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "D-17",
+      "control_title": "Audit Table은 데이터베이스 관리자 계정으로 접근하도록 제한",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 646,
+      "page_end": 647,
+      "section_label": "08. DBMS · D-17 Audit Table은 데이터베이스 관리자 계정으로 접근하도록 제한",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "D-18",
+      "control_title": "응용프로그램 또는 DBA 계정의 Role이 Public으로 설정되지 않도록 조정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 648,
+      "page_end": 649,
+      "section_label": "08. DBMS · D-18 응용프로그램 또는 DBA 계정의 Role이 Public으로 설정되지 않도록 조정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "D-19",
+      "control_title": "OS_ROLES, REMOTE_OS_AUTHENTICATION, REMOTE_OS_ROLES를 FALSE로 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 650,
+      "page_end": 651,
+      "section_label": "08. DBMS · D-19 OS_ROLES, REMOTE_OS_AUTHENTICATION, REMOTE_OS_ROLES를 FALSE로 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "D-20",
+      "control_title": "인가되지 않은 Object Owner의 제한",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 652,
+      "page_end": 653,
+      "section_label": "08. DBMS · D-20 인가되지 않은 Object Owner의 제한",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "D-21",
+      "control_title": "인가되지 않은 GRANT OPTION 사용 제한",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 654,
+      "page_end": 655,
+      "section_label": "08. DBMS · D-21 인가되지 않은 GRANT OPTION 사용 제한",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "D-22",
+      "control_title": "데이터베이스의 자원 제한 기능을 TRUE로 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 656,
+      "page_end": 656,
+      "section_label": "08. DBMS · D-22 데이터베이스의 자원 제한 기능을 TRUE로 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "D-23",
+      "control_title": "xp_cmdshell 사용 제한",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 657,
+      "page_end": 660,
+      "section_label": "08. DBMS · D-23 xp_cmdshell 사용 제한",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "D-24",
+      "control_title": "Registry Procedure 권한 제한",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 661,
+      "page_end": 662,
+      "section_label": "08. DBMS · D-24 Registry Procedure 권한 제한",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "D-25",
+      "control_title": "주기적 보안 패치 및 벤더 권고 사항 적용",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 663,
+      "page_end": 665,
+      "section_label": "08. DBMS · D-25 주기적 보안 패치 및 벤더 권고 사항 적용",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "D-26",
+      "control_title": "데이터베이스의 접근, 변경, 삭제 등의 감사 기록이 기관의 감사 기록 정책에 적합하도록 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 666,
+      "page_end": 669,
+      "section_label": "08. DBMS · D-26 데이터베이스의 접근, 변경, 삭제 등의 감사 기록이 기관의 감사 기록 정책에 적합하도록 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "MOBILE-INTRO",
+      "control_title": "분류 안내",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 670,
+      "page_end": 671,
+      "section_label": "09. 이동통신 · 분류 안내",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "M-01",
+      "control_title": "이동통신망 엣지 네트워크 운영 시 인터넷 연결 등을 고려한 보안기술을 적용",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 672,
+      "page_end": 672,
+      "section_label": "09. 이동통신 · M-01 이동통신망 엣지 네트워크 운영 시 인터넷 연결 등을 고려한 보안기술을 적용",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "M-02",
+      "control_title": "이동통신망에서 가상화 기술 적용 시 계정 관리, 이상징후 탐지 등 보안 설정 또는 기술 적용",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 673,
+      "page_end": 673,
+      "section_label": "09. 이동통신 · M-02 이동통신망에서 가상화 기술 적용 시 계정 관리, 이상징후 탐지 등 보안 설정 또는 기술 적용",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "M-03",
+      "control_title": "이동통신망 장비 및 SW 제조사 등과 보안 정책을 마련하여 운영",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 674,
+      "page_end": 674,
+      "section_label": "09. 이동통신 · M-03 이동통신망 장비 및 SW 제조사 등과 보안 정책을 마련하여 운영",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "M-04",
+      "control_title": "이동통신망 장비 구축과 네트워크 설계 시 보안 내재화를 수행",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 675,
+      "page_end": 675,
+      "section_label": "09. 이동통신 · M-04 이동통신망 장비 구축과 네트워크 설계 시 보안 내재화를 수행",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "WEB-APP-INTRO",
+      "control_title": "분류 안내",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 676,
+      "page_end": 678,
+      "section_label": "10. Web Application(웹) · 분류 안내",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "CI",
+      "control_title": "1. 코드 인젝션 (Code Injection)",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 679,
+      "page_end": 692,
+      "section_label": "10. Web Application(웹) · CI 1. 코드 인젝션 (Code Injection)",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "SI",
+      "control_title": "2. SQL 인젝션 (SQL Injection)",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 693,
+      "page_end": 699,
+      "section_label": "10. Web Application(웹) · SI 2. SQL 인젝션 (SQL Injection)",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "DI",
+      "control_title": "3. 디렉터리 인덱싱",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 700,
+      "page_end": 702,
+      "section_label": "10. Web Application(웹) · DI 3. 디렉터리 인덱싱",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "EP",
+      "control_title": "4. 에러 페이지 적용 미흡",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 703,
+      "page_end": 707,
+      "section_label": "10. Web Application(웹) · EP 4. 에러 페이지 적용 미흡",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "IL",
+      "control_title": "5. 정보 누출",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 708,
+      "page_end": 710,
+      "section_label": "10. Web Application(웹) · IL 5. 정보 누출",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "XS",
+      "control_title": "6. 크로스사이트 스크립트",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 711,
+      "page_end": 714,
+      "section_label": "10. Web Application(웹) · XS 6. 크로스사이트 스크립트",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "CF",
+      "control_title": "7. 크로스사이트 요청 위조(CSRF)",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 715,
+      "page_end": 718,
+      "section_label": "10. Web Application(웹) · CF 7. 크로스사이트 요청 위조(CSRF)",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "SF",
+      "control_title": "8. 서버사이드 요청 위조(SSRF)",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 719,
+      "page_end": 725,
+      "section_label": "10. Web Application(웹) · SF 8. 서버사이드 요청 위조(SSRF)",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "BF",
+      "control_title": "9. 약한 비밀번호 정책",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 726,
+      "page_end": 728,
+      "section_label": "10. Web Application(웹) · BF 9. 약한 비밀번호 정책",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "IA",
+      "control_title": "10. 불충분한 인증 절차",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 729,
+      "page_end": 732,
+      "section_label": "10. Web Application(웹) · IA 10. 불충분한 인증 절차",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "IN",
+      "control_title": "11. 불충분한 권한 검증",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 733,
+      "page_end": 734,
+      "section_label": "10. Web Application(웹) · IN 11. 불충분한 권한 검증",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "PR",
+      "control_title": "12. 취약한 비밀번호 복구 절차",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 735,
+      "page_end": 738,
+      "section_label": "10. Web Application(웹) · PR 12. 취약한 비밀번호 복구 절차",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "PV",
+      "control_title": "13. 프로세스 검증 누락",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 739,
+      "page_end": 743,
+      "section_label": "10. Web Application(웹) · PV 13. 프로세스 검증 누락",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "FU",
+      "control_title": "14. 악성 파일 업로드",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 744,
+      "page_end": 752,
+      "section_label": "10. Web Application(웹) · FU 14. 악성 파일 업로드",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "FD",
+      "control_title": "15. 파일 다운로드",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 753,
+      "page_end": 758,
+      "section_label": "10. Web Application(웹) · FD 15. 파일 다운로드",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "IS",
+      "control_title": "16. 불충분한 세션 관리",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 759,
+      "page_end": 765,
+      "section_label": "10. Web Application(웹) · IS 16. 불충분한 세션 관리",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "SN",
+      "control_title": "17. 데이터 평문 전송",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 766,
+      "page_end": 768,
+      "section_label": "10. Web Application(웹) · SN 17. 데이터 평문 전송",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "CC",
+      "control_title": "18. 쿠키 변조",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 769,
+      "page_end": 778,
+      "section_label": "10. Web Application(웹) · CC 18. 쿠키 변조",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "AE",
+      "control_title": "19. 관리자페이지 노출",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 775,
+      "page_end": 776,
+      "section_label": "10. Web Application(웹) · AE 19. 관리자페이지 노출",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "WM",
+      "control_title": "21. 불필요한 Method 악용",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 779,
+      "page_end": 786,
+      "section_label": "10. Web Application(웹) · WM 21. 불필요한 Method 악용",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "VIRTUALIZATION-INTRO",
+      "control_title": "분류 안내",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 787,
+      "page_end": 789,
+      "section_label": "11. 가상화 장비 · 분류 안내",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "HV-01",
+      "control_title": "계정 로그오프/세션 관리",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 790,
+      "page_end": 792,
+      "section_label": "11. 가상화 장비 · HV-01 계정 로그오프/세션 관리",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "HV-02",
+      "control_title": "가상화 장비 외부접속 차단",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 793,
+      "page_end": 795,
+      "section_label": "11. 가상화 장비 · HV-02 가상화 장비 외부접속 차단",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "HV-03",
+      "control_title": "가상화 장비 루트계정 관리",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 796,
+      "page_end": 797,
+      "section_label": "11. 가상화 장비 · HV-03 가상화 장비 루트계정 관리",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "HV-04",
+      "control_title": "가상화 장비 계정 권한 관리",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 798,
+      "page_end": 799,
+      "section_label": "11. 가상화 장비 · HV-04 가상화 장비 계정 권한 관리",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "HV-05",
+      "control_title": "가상화 장비 사용자 인증 강화",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 800,
+      "page_end": 803,
+      "section_label": "11. 가상화 장비 · HV-05 가상화 장비 사용자 인증 강화",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "HV-06",
+      "control_title": "비밀번호 관리정책 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 804,
+      "page_end": 808,
+      "section_label": "11. 가상화 장비 · HV-06 비밀번호 관리정책 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "HV-07",
+      "control_title": "계정 잠금 임계값 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 809,
+      "page_end": 811,
+      "section_label": "11. 가상화 장비 · HV-07 계정 잠금 임계값 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "HV-08",
+      "control_title": "시스템 사용 주의사항 출력 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 812,
+      "page_end": 815,
+      "section_label": "11. 가상화 장비 · HV-08 시스템 사용 주의사항 출력 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "HV-09",
+      "control_title": "(증)",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 816,
+      "page_end": 818,
+      "section_label": "11. 가상화 장비 · HV-09 (증)",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "HV-10",
+      "control_title": "SNMP Community String 복잡성 적용",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 819,
+      "page_end": 823,
+      "section_label": "11. 가상화 장비 · HV-10 SNMP Community String 복잡성 적용",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "HV-11",
+      "control_title": "MOB(Managed Object Browser) 서비스 비활성화",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 824,
+      "page_end": 825,
+      "section_label": "11. 가상화 장비 · HV-11 MOB(Managed Object Browser) 서비스 비활성화",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "HV-12",
+      "control_title": "ESXi Shell 비활성화",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 826,
+      "page_end": 826,
+      "section_label": "11. 가상화 장비 · HV-12 ESXi Shell 비활성화",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "HV-13",
+      "control_title": "ESXi Shell 세션 종료 시간 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 827,
+      "page_end": 828,
+      "section_label": "11. 가상화 장비 · HV-13 ESXi Shell 세션 종료 시간 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "HV-14",
+      "control_title": "원격 로그 서버 이용",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 829,
+      "page_end": 832,
+      "section_label": "11. 가상화 장비 · HV-14 원격 로그 서버 이용",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "HV-15",
+      "control_title": "시스템 주요 이벤트 로그 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 833,
+      "page_end": 835,
+      "section_label": "11. 가상화 장비 · HV-15 시스템 주요 이벤트 로그 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "HV-16",
+      "control_title": "비휘발성 경로 내 로그 파일 저장",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 836,
+      "page_end": 836,
+      "section_label": "11. 가상화 장비 · HV-16 비휘발성 경로 내 로그 파일 저장",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "HV-17",
+      "control_title": "코어덤프 수집 기능 활성화",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 837,
+      "page_end": 837,
+      "section_label": "11. 가상화 장비 · HV-17 코어덤프 수집 기능 활성화",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "HV-18",
+      "control_title": "가상머신의 장치 변경 제한 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 838,
+      "page_end": 839,
+      "section_label": "11. 가상화 장비 · HV-18 가상머신의 장치 변경 제한 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "HV-19",
+      "control_title": "가상 머신의 불필요한 장치 제거",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 840,
+      "page_end": 841,
+      "section_label": "11. 가상화 장비 · HV-19 가상 머신의 불필요한 장치 제거",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "HV-20",
+      "control_title": "가상머신 콘솔 클립보드 복사&붙여넣기 기능 비활성화",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 842,
+      "page_end": 843,
+      "section_label": "11. 가상화 장비 · HV-20 가상머신 콘솔 클립보드 복사&붙여넣기 기능 비활성화",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "HV-21",
+      "control_title": "가상머신 콘솔 드래그 앤 드롭 기능 비활성화",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 844,
+      "page_end": 844,
+      "section_label": "11. 가상화 장비 · HV-21 가상머신 콘솔 드래그 앤 드롭 기능 비활성화",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "HV-22",
+      "control_title": "가상스위치 MAC 주소 변경 정책 비활성화",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 845,
+      "page_end": 845,
+      "section_label": "11. 가상화 장비 · HV-22 가상스위치 MAC 주소 변경 정책 비활성화",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "HV-23",
+      "control_title": "가상스위치 무차별(Promiscuous) 모드 정책 비활성화",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 846,
+      "page_end": 847,
+      "section_label": "11. 가상화 장비 · HV-23 가상스위치 무차별(Promiscuous) 모드 정책 비활성화",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "HV-24",
+      "control_title": "가상스위치 위조전송(Forged Transmits) 모드 정책 비활성화",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 848,
+      "page_end": 849,
+      "section_label": "11. 가상화 장비 · HV-24 가상스위치 위조전송(Forged Transmits) 모드 정책 비활성화",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "HV-25",
+      "control_title": "주기적 보안 패치 및 벤더 권고사항 적용",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 850,
+      "page_end": 850,
+      "section_label": "11. 가상화 장비 · HV-25 주기적 보안 패치 및 벤더 권고사항 적용",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "CLOUD-INTRO",
+      "control_title": "분류 안내",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 851,
+      "page_end": 853,
+      "section_label": "12. 클라우드 · 분류 안내",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "CA-01",
+      "control_title": "사용자 계정 관리",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 854,
+      "page_end": 854,
+      "section_label": "12. 클라우드 · CA-01 사용자 계정 관리",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "CA-02",
+      "control_title": "사용자 정책 관리",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 855,
+      "page_end": 855,
+      "section_label": "12. 클라우드 · CA-02 사용자 정책 관리",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "CA-03",
+      "control_title": "MFA(Multi-Factor Authentication) 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 856,
+      "page_end": 856,
+      "section_label": "12. 클라우드 · CA-03 MFA(Multi-Factor Authentication) 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "CA-04",
+      "control_title": "클라우드 계정 비밀번호 정책 관리",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 857,
+      "page_end": 857,
+      "section_label": "12. 클라우드 · CA-04 클라우드 계정 비밀번호 정책 관리",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "CA-05",
+      "control_title": "인스턴스 서비스 정책 관리",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 858,
+      "page_end": 858,
+      "section_label": "12. 클라우드 · CA-05 인스턴스 서비스 정책 관리",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "CA-06",
+      "control_title": "네트워크 서비스 정책 관리",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 859,
+      "page_end": 859,
+      "section_label": "12. 클라우드 · CA-06 네트워크 서비스 정책 관리",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "CA-07",
+      "control_title": "VPC 네트워크 서브넷 관리",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 860,
+      "page_end": 860,
+      "section_label": "12. 클라우드 · CA-07 VPC 네트워크 서브넷 관리",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "CA-08",
+      "control_title": "가상 네트워크 리소스 관리",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 861,
+      "page_end": 861,
+      "section_label": "12. 클라우드 · CA-08 가상 네트워크 리소스 관리",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "CA-09",
+      "control_title": "접근 제어 설정 관리",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 862,
+      "page_end": 862,
+      "section_label": "12. 클라우드 · CA-09 접근 제어 설정 관리",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "CA-10",
+      "control_title": "스토리지 리소스 퍼블릭 접근 관리",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 863,
+      "page_end": 863,
+      "section_label": "12. 클라우드 · CA-10 스토리지 리소스 퍼블릭 접근 관리",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "CA-11",
+      "control_title": "관계형 데이터베이스 암호화 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 864,
+      "page_end": 864,
+      "section_label": "12. 클라우드 · CA-11 관계형 데이터베이스 암호화 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "CA-12",
+      "control_title": "통신구간 암호화 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 865,
+      "page_end": 865,
+      "section_label": "12. 클라우드 · CA-12 통신구간 암호화 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "CA-13",
+      "control_title": "클라우드 서비스 사용자 계정 로깅 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 866,
+      "page_end": 866,
+      "section_label": "12. 클라우드 · CA-13 클라우드 서비스 사용자 계정 로깅 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "CA-14",
+      "control_title": "인스턴스 로깅 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 867,
+      "page_end": 867,
+      "section_label": "12. 클라우드 · CA-14 인스턴스 로깅 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "CA-15",
+      "control_title": "관계형 데이터베이스 로깅 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 868,
+      "page_end": 868,
+      "section_label": "12. 클라우드 · CA-15 관계형 데이터베이스 로깅 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "CA-16",
+      "control_title": "오브젝트 스토리지 버킷 로깅 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 869,
+      "page_end": 869,
+      "section_label": "12. 클라우드 · CA-16 오브젝트 스토리지 버킷 로깅 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "CA-17",
+      "control_title": "로그 보관 기간 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 870,
+      "page_end": 870,
+      "section_label": "12. 클라우드 · CA-17 로그 보관 기간 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "CA-18",
+      "control_title": "백업 사용 여부",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 871,
+      "page_end": 871,
+      "section_label": "12. 클라우드 · CA-18 백업 사용 여부",
+      "mapping_status": "APPROVED_SOURCE"
+    },
+    {
+      "control_id": "CA-19",
+      "control_title": "가상 리소스 이상징후 알림 설정",
+      "source_document_code": "KISA-2026-FULL",
+      "page_start": 872,
+      "page_end": 873,
+      "section_label": "12. 클라우드 · CA-19 가상 리소스 이상징후 알림 설정",
+      "mapping_status": "APPROVED_SOURCE"
+    }
+  ]
+}

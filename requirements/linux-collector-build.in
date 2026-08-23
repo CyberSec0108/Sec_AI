@@ -1,0 +1,4 @@
+-r linux-collector.in
+
+# Build inside the pinned Linux builder image; PyInstaller is not a cross-compiler.
+pyinstaller==6.21.0

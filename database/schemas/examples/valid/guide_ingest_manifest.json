@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0.0",
+  "ingest_id": "48000000-0000-4000-8000-000000000101",
+  "organization_id": "48000000-0000-4000-8000-000000000001",
+  "guide": {
+    "guide_id": "synthetic-kisa-pc-guide",
+    "version": "test-1"
+  },
+  "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "scope_id": "pc-pages",
+  "classification": "SYNTHETIC_DEV_ONLY",
+  "status": "READY",
+  "gates": {
+    "source_hash_verified": true,
+    "page_map_verified": true,
+    "license_approved": true,
+    "derivative_text_storage_allowed": true,
+    "malware_scan_passed": true,
+    "extraction_quality_approved": true,
+    "query_scope_enabled": true,
+    "synthetic_test_only": true
+  },
+  "extraction": {
+    "extractor_name": "SecAI Synthetic Fixture",
+    "extractor_version": "1.0.0",
+    "page_count": 2,
+    "chunk_count": 2
+  },
+  "vector_generation": {
+    "generation_id": "48000000-0000-4000-8000-000000000102",
+    "provider": "POSTGRES_PGVECTOR",
+    "pgvector_version": "0.8.2",
+    "embedding_model_id": "secai-hash-ko-test-v1",
+    "dimension": 32,
+    "metric": "COSINE",
+    "index_type": "HNSW",
+    "status": "ACTIVE"
+  }
+}

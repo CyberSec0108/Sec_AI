@@ -1,0 +1,18 @@
+{% import "components/audit_ui.html" as ui %}
+<!doctype html>
+<html lang="ko">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>접근 권한 확인 | Sec_AI</title><link rel="stylesheet" href="/static/app/app.css"></head>
+<body>
+  {{ ui.app_header("home") }}
+  <main class="container product-shell" data-ui-standard="security-asset-v1">
+    <a class="back-link" href="/">← 처음 화면으로</a>
+    <header class="page-heading"><div><p class="section-code">권한 보호 확인</p><h1>내게 할당된 PC 자료</h1><p class="lead">주소를 직접 바꾸거나 작은 화면만 요청해도 서버가 같은 조직·PC 권한을 다시 확인합니다.</p></div><span class="feature-state feature-state-live">접근 허용</span></header>
+    {% include "components/security_asset_fragment.html" %}
+    {{ ui.technical_panel([
+      {"label": "조직 범위", "value": organization_id, "code": true},
+      {"label": "PC 범위", "value": asset_id, "code": true},
+      {"label": "원본 증적", "value": "포함하지 않음", "code": false}
+    ]) }}
+  </main>
+</body>
+</html>

@@ -1,0 +1,291 @@
+{
+  "fixture_version": "1.0.0",
+  "case_id": "pc07-edge-bitlocker-ntfs",
+  "synthetic": true,
+  "control_id": "PC-07",
+  "pack_ref": {
+    "id": "51000000-0000-4000-8000-000000000007",
+    "version": "0.1.0",
+    "content_sha256": "0849b4b117b1df82c597e5b6737f45664536958a12d996c59879a6a3954618bb"
+  },
+  "evidence": [
+    {
+      "schema_version": "1.0.0",
+      "id": "6a1f86ae-d5b8-5cf3-958b-946bb6bd6e94",
+      "created_at": "2026-07-22T08:01:00Z",
+      "source": "normalizer",
+      "producer_name": "sec-ai-normalizer",
+      "producer_version": "0.1.0",
+      "correlation_id": "42087e7f-f56b-5bf0-b442-86cd77d90c59",
+      "job_id": "e8f48db3-672d-5e8d-bbd9-8e22ddf30350",
+      "asset_id": "b2dbc834-ac0b-54ad-851c-126fe557f9a6",
+      "package_id": "d723879b-3db0-53b9-b129-70abc98d8ace",
+      "source_evidence_id": "8671f6f7-d1d1-5efe-bee4-39d9f29011ba",
+      "control_id": "PC-07",
+      "guide_version": "2026",
+      "collector_version": "0.1.0",
+      "probe_id": "win.storage.disks",
+      "probe_version": "0.1.0",
+      "subject": {
+        "scope": "VOLUME",
+        "subject_key": "vol-bitlocker"
+      },
+      "collected_at": "2026-07-22T08:00:00Z",
+      "normalized_at": "2026-07-22T08:01:00Z",
+      "source_locator": {
+        "type": "CIM",
+        "provider": "MSFT_Disk",
+        "locator": "synthetic:pc07-edge-bitlocker-ntfs:vol-bitlocker"
+      },
+      "collection_status": "COLLECTED",
+      "error_code": "NONE",
+      "redaction": {
+        "applied": false,
+        "method": "NONE"
+      },
+      "evidence_sha256": "6c87dbfd71a76a9749cbbba784cc12215f90e23c03c815d73699e42e40278e33",
+      "normalized_value": {
+        "volume_id": "vol-bitlocker",
+        "disk_id": "disk-vol-bitlocker",
+        "volume_class": "BITLOCKER_VOLUME",
+        "bus_type": "NVME",
+        "is_virtual": false,
+        "is_removable": false,
+        "is_online": true,
+        "storage_kind": "BASIC_DISK",
+        "disk_image_state": "NOT_APPLICABLE"
+      }
+    },
+    {
+      "schema_version": "1.0.0",
+      "id": "c8a37a5c-8132-5590-8a79-458eebee8df0",
+      "created_at": "2026-07-22T08:01:00Z",
+      "source": "normalizer",
+      "producer_name": "sec-ai-normalizer",
+      "producer_version": "0.1.0",
+      "correlation_id": "42087e7f-f56b-5bf0-b442-86cd77d90c59",
+      "job_id": "e8f48db3-672d-5e8d-bbd9-8e22ddf30350",
+      "asset_id": "b2dbc834-ac0b-54ad-851c-126fe557f9a6",
+      "package_id": "d723879b-3db0-53b9-b129-70abc98d8ace",
+      "source_evidence_id": "3565ee48-0476-595a-9aef-6b3725782f58",
+      "control_id": "PC-07",
+      "guide_version": "2026",
+      "collector_version": "0.1.0",
+      "probe_id": "win.storage.partitions",
+      "probe_version": "0.1.0",
+      "subject": {
+        "scope": "VOLUME",
+        "subject_key": "vol-bitlocker"
+      },
+      "collected_at": "2026-07-22T08:00:00Z",
+      "normalized_at": "2026-07-22T08:01:00Z",
+      "source_locator": {
+        "type": "CIM",
+        "provider": "MSFT_Partition",
+        "locator": "synthetic:pc07-edge-bitlocker-ntfs:vol-bitlocker"
+      },
+      "collection_status": "COLLECTED",
+      "error_code": "NONE",
+      "redaction": {
+        "applied": false,
+        "method": "NONE"
+      },
+      "evidence_sha256": "69466f04758a4157d8682d92c3a6987a68347b90fc9b557487a7787b369c680e",
+      "normalized_value": {
+        "volume_id": "vol-bitlocker",
+        "partition_role": "DATA",
+        "gpt_type": "EBD0A0A2-B9E5-4433-87C0-68B6B72699C7",
+        "trusted_role_identity": true,
+        "is_system": false,
+        "is_boot": false,
+        "is_hidden": false
+      }
+    },
+    {
+      "schema_version": "1.0.0",
+      "id": "4d5552fc-91b9-5690-8ccf-353cfdcf1fd5",
+      "created_at": "2026-07-22T08:01:00Z",
+      "source": "normalizer",
+      "producer_name": "sec-ai-normalizer",
+      "producer_version": "0.1.0",
+      "correlation_id": "42087e7f-f56b-5bf0-b442-86cd77d90c59",
+      "job_id": "e8f48db3-672d-5e8d-bbd9-8e22ddf30350",
+      "asset_id": "b2dbc834-ac0b-54ad-851c-126fe557f9a6",
+      "package_id": "d723879b-3db0-53b9-b129-70abc98d8ace",
+      "source_evidence_id": "062aa256-5d07-5b8f-8614-9d652caf1310",
+      "control_id": "PC-07",
+      "guide_version": "2026",
+      "collector_version": "0.1.0",
+      "probe_id": "win.storage.volumes",
+      "probe_version": "0.1.0",
+      "subject": {
+        "scope": "VOLUME",
+        "subject_key": "vol-bitlocker"
+      },
+      "collected_at": "2026-07-22T08:00:00Z",
+      "normalized_at": "2026-07-22T08:01:00Z",
+      "source_locator": {
+        "type": "CIM",
+        "provider": "MSFT_Volume",
+        "locator": "synthetic:pc07-edge-bitlocker-ntfs:vol-bitlocker"
+      },
+      "collection_status": "COLLECTED",
+      "error_code": "NONE",
+      "redaction": {
+        "applied": false,
+        "method": "NONE"
+      },
+      "evidence_sha256": "84cbe8186402ea67caf1a0b9c8104106e42c3fef1dce3d301d847b992bf0c6ea",
+      "normalized_value": {
+        "volume_id": "vol-bitlocker",
+        "filesystem": "NTFS",
+        "volume_class": "BITLOCKER_VOLUME",
+        "drive_type": "FIXED",
+        "drive_letter": "B",
+        "mount_kind": "DRIVE_LETTER",
+        "health_status": "HEALTHY",
+        "operational_status": "OK",
+        "bitlocker_state": "UNLOCKED_PROTECTED"
+      }
+    },
+    {
+      "schema_version": "1.0.0",
+      "id": "ebd60c81-22a9-5104-bf72-5305340db59d",
+      "created_at": "2026-07-22T08:01:00Z",
+      "source": "normalizer",
+      "producer_name": "sec-ai-normalizer",
+      "producer_version": "0.1.0",
+      "correlation_id": "42087e7f-f56b-5bf0-b442-86cd77d90c59",
+      "job_id": "e8f48db3-672d-5e8d-bbd9-8e22ddf30350",
+      "asset_id": "b2dbc834-ac0b-54ad-851c-126fe557f9a6",
+      "package_id": "d723879b-3db0-53b9-b129-70abc98d8ace",
+      "source_evidence_id": "2e1b8f8a-c7c2-55ec-88f4-9978ce1926ef",
+      "control_id": "PC-07",
+      "guide_version": "2026",
+      "collector_version": "0.1.0",
+      "probe_id": "win.storage.disks",
+      "probe_version": "0.1.0",
+      "subject": {
+        "scope": "VOLUME",
+        "subject_key": "vol-os"
+      },
+      "collected_at": "2026-07-22T08:00:00Z",
+      "normalized_at": "2026-07-22T08:01:00Z",
+      "source_locator": {
+        "type": "CIM",
+        "provider": "MSFT_Disk",
+        "locator": "synthetic:pc07-edge-bitlocker-ntfs:vol-os"
+      },
+      "collection_status": "COLLECTED",
+      "error_code": "NONE",
+      "redaction": {
+        "applied": false,
+        "method": "NONE"
+      },
+      "evidence_sha256": "ee0056c001b497c71ae9c55d026bc6f9f661b27042bca1810926191784912b8c",
+      "normalized_value": {
+        "volume_id": "vol-os",
+        "disk_id": "disk-vol-os",
+        "volume_class": "WINDOWS_OS_VOLUME",
+        "bus_type": "NVME",
+        "is_virtual": false,
+        "is_removable": false,
+        "is_online": true,
+        "storage_kind": "BASIC_DISK",
+        "disk_image_state": "NOT_APPLICABLE"
+      }
+    },
+    {
+      "schema_version": "1.0.0",
+      "id": "c79c42be-6107-56bc-942c-bac8202b4ed0",
+      "created_at": "2026-07-22T08:01:00Z",
+      "source": "normalizer",
+      "producer_name": "sec-ai-normalizer",
+      "producer_version": "0.1.0",
+      "correlation_id": "42087e7f-f56b-5bf0-b442-86cd77d90c59",
+      "job_id": "e8f48db3-672d-5e8d-bbd9-8e22ddf30350",
+      "asset_id": "b2dbc834-ac0b-54ad-851c-126fe557f9a6",
+      "package_id": "d723879b-3db0-53b9-b129-70abc98d8ace",
+      "source_evidence_id": "cdd33eb7-ae77-519f-8559-e4cb66cd1ab9",
+      "control_id": "PC-07",
+      "guide_version": "2026",
+      "collector_version": "0.1.0",
+      "probe_id": "win.storage.partitions",
+      "probe_version": "0.1.0",
+      "subject": {
+        "scope": "VOLUME",
+        "subject_key": "vol-os"
+      },
+      "collected_at": "2026-07-22T08:00:00Z",
+      "normalized_at": "2026-07-22T08:01:00Z",
+      "source_locator": {
+        "type": "CIM",
+        "provider": "MSFT_Partition",
+        "locator": "synthetic:pc07-edge-bitlocker-ntfs:vol-os"
+      },
+      "collection_status": "COLLECTED",
+      "error_code": "NONE",
+      "redaction": {
+        "applied": false,
+        "method": "NONE"
+      },
+      "evidence_sha256": "f98975fb0ce040a71ff9d3d8a887dedca55af92e73eb371f357c88e36c1f73f0",
+      "normalized_value": {
+        "volume_id": "vol-os",
+        "partition_role": "DATA",
+        "gpt_type": "EBD0A0A2-B9E5-4433-87C0-68B6B72699C7",
+        "trusted_role_identity": true,
+        "is_system": true,
+        "is_boot": true,
+        "is_hidden": false
+      }
+    },
+    {
+      "schema_version": "1.0.0",
+      "id": "f1316f40-2870-50c6-90b8-cd475c5891d7",
+      "created_at": "2026-07-22T08:01:00Z",
+      "source": "normalizer",
+      "producer_name": "sec-ai-normalizer",
+      "producer_version": "0.1.0",
+      "correlation_id": "42087e7f-f56b-5bf0-b442-86cd77d90c59",
+      "job_id": "e8f48db3-672d-5e8d-bbd9-8e22ddf30350",
+      "asset_id": "b2dbc834-ac0b-54ad-851c-126fe557f9a6",
+      "package_id": "d723879b-3db0-53b9-b129-70abc98d8ace",
+      "source_evidence_id": "8cd3527a-ce6d-58d0-86b2-d284a21fec5b",
+      "control_id": "PC-07",
+      "guide_version": "2026",
+      "collector_version": "0.1.0",
+      "probe_id": "win.storage.volumes",
+      "probe_version": "0.1.0",
+      "subject": {
+        "scope": "VOLUME",
+        "subject_key": "vol-os"
+      },
+      "collected_at": "2026-07-22T08:00:00Z",
+      "normalized_at": "2026-07-22T08:01:00Z",
+      "source_locator": {
+        "type": "CIM",
+        "provider": "MSFT_Volume",
+        "locator": "synthetic:pc07-edge-bitlocker-ntfs:vol-os"
+      },
+      "collection_status": "COLLECTED",
+      "error_code": "NONE",
+      "redaction": {
+        "applied": false,
+        "method": "NONE"
+      },
+      "evidence_sha256": "5d4e9e6422f2c04f8d5a2e67687c66652360718f79bd5158faddedd04ef200d3",
+      "normalized_value": {
+        "volume_id": "vol-os",
+        "filesystem": "NTFS",
+        "volume_class": "WINDOWS_OS_VOLUME",
+        "drive_type": "FIXED",
+        "drive_letter": "C",
+        "mount_kind": "DRIVE_LETTER",
+        "health_status": "HEALTHY",
+        "operational_status": "OK",
+        "bitlocker_state": "NONE"
+      }
+    }
+  ]
+}

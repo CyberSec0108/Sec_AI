@@ -1,0 +1,25 @@
+{
+  "lock": "linux-collector-build.lock",
+  "lock_sha256": "88e10a37d64cfa9d7bdb6bf200e32a72815db05372d94635b5607f52cf0e8de2",
+  "runtime": "CPython 3.14.6",
+  "platform": "linux/amd64 glibc>=2.34",
+  "build_image_digest": "sha256:f537f942f7e9ad151cc9f6c0af348963bf8a3efec1ad7169cd9e3b7a97d891c9",
+  "hash_install": "PASS",
+  "dependency_audit": "PASS: No known vulnerabilities found",
+  "versions": {
+    "cryptography": "50.0.0",
+    "httpx": "0.28.1",
+    "jsonschema": "4.26.0",
+    "pyinstaller": "6.21.0"
+  },
+  "vulnerability_database": {
+    "scanner": "Grype",
+    "schema": "v6.1.9",
+    "built_at": "2026-08-05T07:04:14Z",
+    "status_at_scan": "valid"
+  },
+  "os_package_scan": "PASS: Critical 0, High 0; Medium 71; 3 fixed CPython findings bound by artifact OpenVEX",
+  "vex_sha256": "ad3ab704ced000f009bba107c1a511ad84fb4c5c48718bf80516a10dc97b5a64",
+  "download_allowed": false,
+  "status": "BLOCKED_ORGANIZATION_SIGNATURE"
+}

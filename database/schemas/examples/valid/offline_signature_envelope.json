@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0.0",
+  "id": "33000000-0000-4000-8000-000000000001",
+  "created_at": "2026-07-23T08:10:00Z",
+  "source": "collector",
+  "producer_name": "sec-ai-one-shot-collector",
+  "producer_version": "0.1.0",
+  "correlation_id": "33000000-0000-4000-8000-000000000002",
+  "profile": "OFFLINE-SIGNED",
+  "payload": {
+    "organization_id": "33000000-0000-4000-8000-000000000003",
+    "asset_id": "33000000-0000-4000-8000-000000000004",
+    "job_id": "33000000-0000-4000-8000-000000000005",
+    "manifest_id": "33000000-0000-4000-8000-000000000006",
+    "manifest_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "nonce": "SU1QLTAzMy1vZmZsaW5lLTAwMDE",
+    "execution_attempt_id": "33000000-0000-4000-8000-000000000007",
+    "package_id": "33000000-0000-4000-8000-000000000008",
+    "archive_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "content_set_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "issued_at": "2026-07-23T08:00:00Z",
+    "expires_at": "2026-07-23T09:00:00Z"
+  },
+  "signer": {
+    "leaf_certificate_der_base64url": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "chain_der_base64url": [
+      "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+    ],
+    "certificate_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "required_eku_oid": "1.3.6.1.4.1.55555.1.1"
+  },
+  "signature": {
+    "canonicalization": "RFC8785-JCS",
+    "algorithm": "Ed25519",
+    "key_id": "imp033-example-leaf",
+    "signed_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "certificate_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  }
+}

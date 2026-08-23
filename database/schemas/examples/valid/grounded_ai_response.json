@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0.0",
+  "mode": "GUIDE_QA",
+  "status": "GENERATED",
+  "reason_code": null,
+  "answer": "PC-07은 점검 대상 저장 장치의 파일 시스템이 NTFS인지 확인합니다.",
+  "citations": [
+    {
+      "chunk_id": "49000000-0000-4000-8000-000000000001",
+      "guide_id": "kisa-major-infrastructure-detailed-guide",
+      "guide_version": "2026",
+      "document_code": "KISA-2026-07-PC",
+      "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "scope_id": "kisa-2026-pc",
+      "pdf_page_number": 571,
+      "control_id": "PC-07",
+      "section_label": "PC-07 파일 시스템이 NTFS 포맷으로 설정",
+      "paragraph_ordinal": 2,
+      "paragraph_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "text_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    }
+  ],
+  "model_id": "secai-local-test-model",
+  "prompt": {
+    "template_id": "secai-grounded-korean-answer",
+    "template_version": "1.0.0",
+    "template_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+  },
+  "input_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+  "output_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+  "official_finding_status": null,
+  "safety": {
+    "official_finding_write_allowed": false,
+    "audit_pack_write_allowed": false,
+    "executable_content_present": false
+  }
+}

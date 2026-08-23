@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sec-ai.local/v1/offline_signature_envelope.schema.json",
+  "title": "Sec_AI detached offline package signature envelope",
+  "allOf": [
+    {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/commonFields"},
+    {
+      "type": "object",
+      "required": ["profile", "payload", "signer", "signature"],
+      "properties": {
+        "source": {"const": "collector"},
+        "profile": {"const": "OFFLINE-SIGNED"},
+        "payload": {"$ref": "#/$defs/payload"},
+        "signer": {"$ref": "#/$defs/signer"},
+        "signature": {"$ref": "#/$defs/signature"}
+      }
+    }
+  ],
+  "$defs": {
+    "payload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "organization_id", "asset_id", "job_id", "manifest_id", "manifest_sha256",
+        "nonce", "execution_attempt_id", "package_id", "archive_sha256",
+        "content_set_sha256", "issued_at", "expires_at"
+      ],
+      "properties": {
+        "organization_id": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/uuid"},
+        "asset_id": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/uuid"},
+        "job_id": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/uuid"},
+        "manifest_id": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/uuid"},
+        "manifest_sha256": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/sha256"},
+        "nonce": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/nonce"},
+        "execution_attempt_id": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/uuid"},
+        "package_id": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/uuid"},
+        "archive_sha256": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/sha256"},
+        "content_set_sha256": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/sha256"},
+        "issued_at": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/timestamp"},
+        "expires_at": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/timestamp"}
+      }
+    },
+    "signer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "leaf_certificate_der_base64url", "chain_der_base64url",
+        "certificate_sha256", "required_eku_oid"
+      ],
+      "properties": {
+        "leaf_certificate_der_base64url": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{128,16384}$"
+        },
+        "chain_der_base64url": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {"type": "string", "pattern": "^[A-Za-z0-9_-]{128,16384}$"}
+        },
+        "certificate_sha256": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/sha256"},
+        "required_eku_oid": {"const": "1.3.6.1.4.1.55555.1.1"}
+      }
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "canonicalization", "algorithm", "key_id", "signed_sha256",
+        "certificate_sha256", "value"
+      ],
+      "properties": {
+        "canonicalization": {"const": "RFC8785-JCS"},
+        "algorithm": {"const": "Ed25519"},
+        "key_id": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/identifier"},
+        "signed_sha256": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/sha256"},
+        "certificate_sha256": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/sha256"},
+        "value": {"type": "string", "pattern": "^[A-Za-z0-9_-]{86}$"}
+      }
+    }
+  },
+  "unevaluatedProperties": false
+}

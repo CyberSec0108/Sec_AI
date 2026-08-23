@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0.0",
+  "asset_type": "LINUX_SERVER",
+  "platform": "LINUX",
+  "vendor": "ROCKY_ENTERPRISE_SOFTWARE_FOUNDATION",
+  "product_family": "ROCKY_LINUX",
+  "version": "9.4",
+  "architecture": "X86_64",
+  "role_hints": ["SERVER"],
+  "capabilities": ["FIREWALLD", "PAM", "SELINUX", "SYSTEMD"],
+  "discovery_adapter_id": "secai.linux.discovery.v1",
+  "confidence": "EXACT",
+  "limitations": [],
+  "fingerprint_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+}

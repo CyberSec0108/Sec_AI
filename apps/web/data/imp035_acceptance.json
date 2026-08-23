@@ -1,0 +1,45 @@
+{
+  "acceptance_status": "PASS_WITH_DEFERRED_EXTERNAL_GATES",
+  "artifact": {
+    "bytes": 10682576,
+    "name": "SecAI-Collector-Windows-x64.exe",
+    "post_sign_sha256": "4a41267022faff84c5aa4a16a5dcb51356c8678a3eecd144c16755c057858a5c",
+    "pre_sign_sha256": "050d1237a2b30954720d8f218d95ff41645fe6c04604410f009a5018b972430e",
+    "release_channel": "DEV-SIGNED-UNTRUSTED-OUTSIDE-TEST",
+    "version": "0.1.0"
+  },
+  "certificate": {
+    "digest_algorithm": "SHA256",
+    "eku_oid": "1.3.6.1.5.5.7.3.3",
+    "key_algorithm": "RSA",
+    "key_bits": 3072,
+    "private_key_exportable": false,
+    "profile": "DEV-EPHEMERAL-AUTHENTICODE",
+    "self_signed": true,
+    "windows_trust_store_registered": false
+  },
+  "download_enabled": false,
+  "external_gates": [
+    "조직 코드서명 인증서와 승인된 Publisher",
+    "운영 CRL 또는 OCSP 폐기 확인",
+    "깨끗한 Windows 11 VM과 SmartScreen 인수"
+  ],
+  "imp": "IMP-035",
+  "imp_complete": false,
+  "implementation_checks_passed": 12,
+  "implementation_complete": true,
+  "known_vulnerabilities": 0,
+  "malware_scan": {
+    "clamav": "CLEAN",
+    "microsoft_defender": "CLEAN"
+  },
+  "official_finding_created": false,
+  "portable_bundle_created": false,
+  "production_release_ready": false,
+  "revocation": {
+    "profile": "EPHEMERAL_DEV_CA_POLICY",
+    "status": "GOOD"
+  },
+  "tamper_rejected": true,
+  "timestamp_present": true
+}

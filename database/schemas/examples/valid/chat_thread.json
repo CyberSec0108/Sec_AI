@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0.0",
+  "thread_id": "51000000-0000-4000-8000-000000000001",
+  "organization_id": "46000000-0000-4000-8000-000000000001",
+  "owner_user_id": "46000000-0000-4000-8000-000000000003",
+  "title": "비밀번호 변경 기준",
+  "guide": {
+    "guide_id": "kisa-major-infrastructure-detailed-guide",
+    "version": "2026",
+    "scope_id": "kisa-2026-pc"
+  },
+  "profile": "FAST",
+  "status": "ACTIVE",
+  "retention_status": "REVIEW_REQUIRED",
+  "branch_from_thread_id": null,
+  "branch_from_message_id": null,
+  "audit_trace_id": "51000000-0000-4000-8000-000000000002",
+  "created_at": "2026-07-25T00:00:00Z"
+}

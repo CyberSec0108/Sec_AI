@@ -1,0 +1,62 @@
+{% import "components/audit_ui.html" as ui %}
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>사용자 계정 관리 | Sec_AI</title>
+  <link rel="stylesheet" href="/static/app/app.css">
+</head>
+<body>
+  {{ ui.app_header("admin_accounts", "account") }}
+  <main class="container product-shell account-management-shell">
+    <a class="back-link" href="/auth/session">← 로그인 보안으로</a>
+    <header class="page-heading"><div><p class="section-code">관리자</p><h1>사용자 계정 관리</h1><p class="lead">가입 요청을 승인하거나 사용 중인 계정을 중지합니다.</p></div><span class="feature-state feature-state-live">관리자 전용</span></header>
+    <aside class="draft-notice"><strong>비밀번호는 관리자에게 표시되지 않습니다.</strong> 관리자는 가입 승인과 계정 상태만 관리할 수 있습니다.</aside>
+    {% if error_message %}<div class="auth-error" role="alert">{{ error_message }}</div>{% endif %}
+    {% if success_message %}<div class="auth-success" role="status">{{ success_message }}</div>{% endif %}
+    {% if issued_mfa_code %}
+    <section class="panel mfa-issued-panel" aria-labelledby="issued-mfa-title">
+      <div><p class="section-label">한 번만 확인 가능</p><h2 id="issued-mfa-title">{{ issued_mfa_user }}님의 새 인증 코드</h2><p>만료 시각: {{ issued_mfa_expires_at }}</p></div>
+      <div class="mfa-issued-control">
+        <input id="issued-mfa-code" type="password" value="{{ issued_mfa_code }}" readonly aria-label="새 인증 코드">
+        <button type="button" id="copy-issued-mfa" class="button-secondary">코드 복사</button>
+      </div>
+      <p id="copy-issued-mfa-status" class="muted" role="status">코드는 화면에 가려져 있으며 DB에는 원문을 저장하지 않습니다.</p>
+    </section>
+    {% endif %}
+    <section class="panel">
+      <div class="panel-heading panel-heading-row"><div><p class="section-label">계정 현황</p><h2>사용자 목록</h2></div><span class="record-count">총 {{ accounts|length }}건</span></div>
+      <div class="account-table-wrap">
+        <table class="account-table">
+          <colgroup><col class="account-column-state"><col class="account-column-user"><col class="account-column-time"><col class="account-column-management"></colgroup>
+          <thead><tr><th>상태</th><th>사용자</th><th>요청·변경 시각</th><th>관리</th></tr></thead>
+          <tbody>
+          {% for account in accounts %}
+            <tr>
+              <td><span class="account-state account-state-{{ account.status|lower }}">{{ status_labels.get(account.status, account.status) }}</span></td>
+              <td><strong>{{ account.display_name }}</strong><small>{{ account.username }}</small></td>
+              <td><time datetime="{{ account.updated_at.isoformat() }}">{{ account.updated_at.strftime("%Y-%m-%d %H:%M") }}</time></td>
+              <td class="account-management-cell"><div class="account-actions">
+                <div class="account-primary-actions">
+                {% if account.status == "PENDING_APPROVAL" %}
+                <form method="post" action="/admin/accounts/{{ account.id }}/approve"><input type="hidden" name="csrf_token" value="{{ csrf_token }}"><button type="submit">승인</button></form>
+                <form method="post" action="/admin/accounts/{{ account.id }}/reject"><input type="hidden" name="csrf_token" value="{{ csrf_token }}"><button type="submit" class="button-secondary">거절</button></form>
+                {% elif account.status == "ACTIVE" and account.id != identity.user_id %}
+                <form method="post" action="/admin/accounts/{{ account.id }}/disable"><input type="hidden" name="csrf_token" value="{{ csrf_token }}"><button type="submit" class="button-secondary">사용 중지</button></form>
+                {% elif account.status == "DISABLED" %}
+                <form method="post" action="/admin/accounts/{{ account.id }}/activate"><input type="hidden" name="csrf_token" value="{{ csrf_token }}"><button type="submit">다시 사용</button></form>
+                {% endif %}
+                </div>
+                {% if account.status == "ACTIVE" %}<div class="account-security-actions"><form method="post" action="/admin/accounts/{{ account.id }}/renew-mfa"><input type="hidden" name="csrf_token" value="{{ csrf_token }}"><button type="submit" class="button-secondary">인증 코드 재발급</button></form></div>{% endif %}
+              </div></td>
+            </tr>
+          {% else %}<tr><td colspan="4">표시할 계정이 없습니다.</td></tr>{% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  <script src="/static/app/admin-accounts.js" defer></script>
+</body>
+</html>

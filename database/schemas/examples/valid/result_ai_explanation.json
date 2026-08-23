@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0.0",
+  "status": "GENERATED",
+  "reason_code": null,
+  "runtime_profile": "VLLM_COMPATIBILITY_TEST_DOUBLE",
+  "external_data_transfer": true,
+  "model_id": "openai/gpt-oss-120b",
+  "prompt": {
+    "template_id": "secai-result-analysis",
+    "template_version": "1.0.0",
+    "template_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "explanation_input_sha256s": [
+    "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  ],
+  "guide_evidence_sha256s": [
+    "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  ],
+  "input_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+  "model_output_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+  "official_results": [
+    {
+      "control_id": "PC-01",
+      "rule_status": "FAIL",
+      "status_authority": "RULE_ENGINE"
+    }
+  ],
+  "summary": {
+    "overall_state": "취약 항목을 우선 확인해야 합니다.",
+    "related_risks": ["계정 보호 설정을 함께 확인해야 합니다."],
+    "user_actions": ["현재 설정을 확인하세요."],
+    "administrator_actions": ["조직 정책 적용 여부를 확인하세요."],
+    "limitations": ["테스트 데이터 설명입니다."]
+  },
+  "items": [
+    {
+      "control_id": "PC-01",
+      "rule_status": "FAIL",
+      "status_authority": "RULE_ENGINE",
+      "what_was_checked": "비밀번호 최대 사용 기간을 확인했습니다.",
+      "observed_summary": "변경 기한이 설정되지 않았습니다.",
+      "expected_summary": "90일 이내 변경",
+      "judgement_explanation": "규칙 기준을 충족하지 않아 취약으로 판정했습니다.",
+      "kisa_basis_summary": "비밀번호 최대 사용 기간을 90일 이내로 설정합니다.",
+      "risk_explanation": "노출된 비밀번호가 장기간 악용될 수 있습니다.",
+      "ai_priority": "HIGH",
+      "priority_reason": "계정 탈취 위험과 직접 관련됩니다.",
+      "user_actions": ["비밀번호 변경 시기를 확인하세요."],
+      "administrator_actions": ["조직 암호 정책을 확인하세요."],
+      "limitations": [],
+      "related_controls": []
+    }
+  ],
+  "citations": [
+    {
+      "chunk_id": "49000000-0000-4000-8000-000000000001",
+      "guide_id": "kisa-major-infrastructure-detailed-guide",
+      "guide_version": "2026",
+      "document_code": "KISA-2026-07-PC",
+      "source_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "scope_id": "kisa-2026-pc",
+      "pdf_page_number": 555,
+      "control_id": "PC-01",
+      "section_label": "PC-01 비밀번호의 주기적 변경",
+      "paragraph_ordinal": 1,
+      "paragraph_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+      "text_sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+    }
+  ],
+  "retryable": false,
+  "safety": {
+    "official_finding_write_allowed": false,
+    "audit_pack_write_allowed": false,
+    "rule_status_unchanged": true,
+    "test_data_only": true
+  },
+  "output_sha256": "3333333333333333333333333333333333333333333333333333333333333333"
+}

@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sec-ai.local/v1/control_source_mapping.schema.json",
+  "title": "Sec_AI Control Source Mapping",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "mapping_id",
+    "version",
+    "status",
+    "guide",
+    "audit_pack",
+    "runtime_activation_allowed",
+    "mappings"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "mapping_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]{2,127}$"
+    },
+    "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "status": {"enum": ["DRAFT", "APPROVED", "RETIRED", "REVOKED"]},
+    "guide": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["guide_id", "version", "source_sha256", "required_catalog_status"],
+      "properties": {
+        "guide_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9._-]{2,127}$"
+        },
+        "version": {"type": "string", "minLength": 1, "maxLength": 64},
+        "source_sha256": {"$ref": "#/$defs/sha256"},
+        "required_catalog_status": {"const": "APPROVED"}
+      }
+    },
+    "audit_pack": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pack_profile", "version", "content_sha256", "current_status"],
+      "properties": {
+        "pack_profile": {"type": "string", "minLength": 1, "maxLength": 128},
+        "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+        "content_sha256": {"$ref": "#/$defs/sha256"},
+        "current_status": {"enum": ["DRAFT", "APPROVED", "RETIRED", "REVOKED"]}
+      }
+    },
+    "runtime_activation_allowed": {"type": "boolean"},
+    "mappings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/mapping"}
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "mapping": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "control_id",
+        "control_title",
+        "source_document_code",
+        "page_start",
+        "page_end",
+        "section_label",
+        "mapping_status"
+      ],
+      "properties": {
+        "control_id": {"type": "string", "pattern": "^PC-(0[1-9]|1[0-8])$"},
+        "control_title": {"type": "string", "minLength": 1, "maxLength": 256},
+        "source_document_code": {
+          "type": "string",
+          "pattern": "^[A-Z0-9][A-Z0-9._-]{2,63}$"
+        },
+        "page_start": {"type": "integer", "minimum": 1},
+        "page_end": {"type": "integer", "minimum": 1},
+        "section_label": {"type": "string", "minLength": 1, "maxLength": 384},
+        "mapping_status": {"const": "DRAFT"}
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+schema_version: "1.0.0"
+runtime:
+  image: ghcr.io/huggingface/text-embeddings-inference:86-1.8
+  image_digest: sha256:65f792e790f976713a5d2ab2586d93d074203d1f0ec2045e87e60113fbd0e256
+  minimum_cuda: "12.2"
+models:
+  embedding:
+    model_id: BAAI/bge-m3
+    revision: 5617a9f61b028005a4858fdac845db406aefb181
+    license: MIT
+    embedding_dimension: 1024
+    weight_file: pytorch_model.bin
+    weight_bytes: 2271145830
+    weight_sha256: b5e0ce3470abf5ef3831aa1bd5553b486803e83251590ab7ff35a117cf6aad38
+    cache_volume: sec-ai-mvp-bge-m3-model-cache
+  reranker:
+    model_id: BAAI/bge-reranker-v2-m3
+    revision: 953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e
+    license: Apache-2.0
+    weight_file: model.safetensors
+    weight_bytes: 2271071852
+    weight_sha256: d9e3e081faff1eefb84019509b2f5558fd74c1a05a2c7db22f74174fcedb5286
+    cache_volume: sec-ai-mvp-reranker-model-cache
+gpu_policy:
+  tested_device: NVIDIA GeForce RTX 3060 Laptop GPU 6GB
+  vllm_concurrent_start_allowed: false
+  failure_mode: LEGACY_LOCAL_32_DIMENSION

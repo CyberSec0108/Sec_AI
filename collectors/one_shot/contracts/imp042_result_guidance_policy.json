@@ -1,0 +1,37 @@
+{
+  "imp": "IMP-042",
+  "title": "결과·조치 안내·재점검",
+  "result_kind": "COLLECTION_GUIDANCE",
+  "control_scope": "PC-01~PC-18",
+  "control_count": 18,
+  "sort_order": ["importance", "control_id"],
+  "display_statuses": [
+    "EVIDENCE_COLLECTED",
+    "REVIEW_REQUIRED",
+    "ADMIN_REQUIRED"
+  ],
+  "wording": {
+    "evidence_collected": "자료 확인 완료",
+    "evidence_collected_is_pass": false,
+    "official_finding_label_allowed": false
+  },
+  "navigation": {
+    "maximum_actions_to_evidence_and_guidance": 3,
+    "result_route": "/ui/results"
+  },
+  "recheck": {
+    "endpoint": "/v1/recheck",
+    "allowed_after": ["COMPLETED"],
+    "same_job_id": true,
+    "attempt_incremented": true,
+    "history_append_only": true
+  },
+  "safety": {
+    "raw_windows_values_in_response": false,
+    "raw_windows_values_persisted": false,
+    "settings_modified": false,
+    "automatic_remediation": false,
+    "official_finding_created": false,
+    "administrator_collection_started": false
+  }
+}

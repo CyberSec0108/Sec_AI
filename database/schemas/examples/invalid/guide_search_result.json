@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0.0",
+  "request_id": "48000000-0000-4000-8000-000000000201",
+  "organization_id": "48000000-0000-4000-8000-000000000001",
+  "guide": {
+    "guide_id": "synthetic-kisa-pc-guide",
+    "version": "test-1"
+  },
+  "scope_id": "pc-pages",
+  "query_sha256": "not-a-sha256",
+  "provider": "MILVUS",
+  "vector_generation_id": "48000000-0000-4000-8000-000000000102",
+  "status": "FOUND",
+  "reason_code": null,
+  "hits": []
+}

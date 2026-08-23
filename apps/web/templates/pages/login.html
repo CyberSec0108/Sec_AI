@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>로그인 | Sec_AI</title>
+  <link rel="stylesheet" href="/static/app/app.css">
+</head>
+<body class="auth-page">
+  <main class="auth-shell" data-ui-standard="auth-login-v1">
+    <section class="auth-card" aria-label="로그인">
+      <!-- [login수정] 상단 아이콘·Sec_AI·원클릭 보안 점검 문구 -->
+      <div class="auth-brand">
+        <span class="brand-mark" data-brand-icon="one-click-security" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false">
+            <path d="M12 2.8 19 5.7v5.5c0 4.7-2.9 8.1-7 10-4.1-1.9-7-5.3-7-10V5.7L12 2.8Z"/>
+            <path d="m8.4 12 2.2 2.2 4.8-5.1"/>
+          </svg>
+        </span>
+        <strong>Sec_AI</strong>
+      </div>
+      <p class="section-label">원클릭 보안 점검</p>
+      {% if error_message %}
+      <div class="auth-error" role="alert">{{ error_message }}</div>
+      {% endif %}
+      <!-- [login수정] 입력 항목 이름과 계속 버튼 문구 -->
+      <form method="post" action="/auth/login" class="auth-form" target="_self">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <input type="hidden" name="next" value="{{ return_path }}">
+        <label>사용자 이름<input name="username" autocomplete="username" required maxlength="128"></label>
+        <label>비밀번호<input type="password" name="password" autocomplete="current-password" required maxlength="512"></label>
+        <button type="submit" formtarget="_self">계속</button>
+      </form>
+      <p class="auth-support-link">계정이 없으신가요? <a href="/auth/register">계정 생성 요청</a></p>
+    </section>
+  </main>
+</body>
+</html>

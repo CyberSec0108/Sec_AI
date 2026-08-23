@@ -1,0 +1,256 @@
+{
+  "fixture_set_version": "1.0.0",
+  "pack_version": "0.3.0",
+  "synthetic": true,
+  "description": "IMP-022 PC-04, PC-05, PC-06, PC-08, PC-09 deterministic test data",
+  "cases": [
+    {
+      "case_id": "pc04-pass-approved-least-privilege",
+      "control_id": "PC-04",
+      "control_label": "공유 폴더 및 공유 권한 설정",
+      "organization_policy": {"standard_id": "share-standard", "version": "1.0.0", "approved_share_ids": ["business-share-01"]},
+      "evidence": {
+        "schema_version": "1.0.0", "id": "63000000-0000-4000-8000-000000000041", "created_at": "2026-07-23T02:01:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "63000000-0000-4000-8000-000000001041",
+        "job_id": "63000000-0000-4000-8000-000000002041", "asset_id": "63000000-0000-4000-8000-000000003000", "package_id": "63000000-0000-4000-8000-000000004000", "source_evidence_id": "63000000-0000-4000-8000-000000005041", "control_id": "PC-04", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.network.smb-shares", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T02:00:00Z", "normalized_at": "2026-07-23T02:01:00Z", "source_locator": {"type": "CIM", "provider": "MSFT_SmbShare"},
+        "normalized_value": {"default_admin_share_count": 0, "unrestricted_everyone_share_count": 0, "least_privilege_violation_count": 0, "authentication_gap_count": 0, "auto_share_wks_disabled": true},
+        "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": true, "method": "HASHED", "reason": "공유 이름은 합계로 치환"}, "evidence_sha256": "1111111111111111111111111111111111111111111111111111111111111111"
+      },
+      "expected": {"status": "PASS", "result_code": "SHARES_APPROVED_AND_LEAST_PRIVILEGE"}
+    },
+    {
+      "case_id": "pc04-fail-unrestricted-share",
+      "control_id": "PC-04",
+      "control_label": "공유 폴더 및 공유 권한 설정",
+      "organization_policy": {"standard_id": "share-standard", "version": "1.0.0", "approved_share_ids": ["business-share-01"]},
+      "evidence": {
+        "schema_version": "1.0.0", "id": "63000000-0000-4000-8000-000000000042", "created_at": "2026-07-23T02:02:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "63000000-0000-4000-8000-000000001042",
+        "job_id": "63000000-0000-4000-8000-000000002042", "asset_id": "63000000-0000-4000-8000-000000003000", "package_id": "63000000-0000-4000-8000-000000004000", "source_evidence_id": "63000000-0000-4000-8000-000000005042", "control_id": "PC-04", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.network.smb-shares", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T02:01:00Z", "normalized_at": "2026-07-23T02:02:00Z", "source_locator": {"type": "CIM", "provider": "MSFT_SmbShare"},
+        "normalized_value": {"default_admin_share_count": 1, "unrestricted_everyone_share_count": 1, "least_privilege_violation_count": 1, "authentication_gap_count": 0, "auto_share_wks_disabled": false},
+        "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": true, "method": "HASHED", "reason": "공유 이름은 합계로 치환"}, "evidence_sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+      },
+      "expected": {"status": "FAIL", "result_code": "UNNECESSARY_OR_UNRESTRICTED_SHARE_FOUND"}
+    },
+    {
+      "case_id": "pc04-error-collection",
+      "control_id": "PC-04",
+      "control_label": "공유 폴더 및 공유 권한 설정",
+      "organization_policy": {"standard_id": "share-standard", "version": "1.0.0", "approved_share_ids": ["business-share-01"]},
+      "evidence": {
+        "schema_version": "1.0.0", "id": "63000000-0000-4000-8000-000000000043", "created_at": "2026-07-23T02:03:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "63000000-0000-4000-8000-000000001043",
+        "job_id": "63000000-0000-4000-8000-000000002043", "asset_id": "63000000-0000-4000-8000-000000003000", "package_id": "63000000-0000-4000-8000-000000004000", "source_evidence_id": "63000000-0000-4000-8000-000000005043", "control_id": "PC-04", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.network.smb-shares", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T02:02:00Z", "normalized_at": "2026-07-23T02:03:00Z", "source_locator": {"type": "CIM", "provider": "MSFT_SmbShare"},
+        "collection_status": "ERROR", "error_code": "PERMISSION_DENIED", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "3333333333333333333333333333333333333333333333333333333333333333"
+      },
+      "expected": {"status": "ERROR", "result_code": "PC04_COLLECTION_FAILED"}
+    },
+    {
+      "case_id": "pc04-review-no-standard",
+      "control_id": "PC-04",
+      "control_label": "공유 폴더 및 공유 권한 설정",
+      "evidence": {
+        "schema_version": "1.0.0", "id": "63000000-0000-4000-8000-000000000044", "created_at": "2026-07-23T02:04:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "63000000-0000-4000-8000-000000001044",
+        "job_id": "63000000-0000-4000-8000-000000002044", "asset_id": "63000000-0000-4000-8000-000000003000", "package_id": "63000000-0000-4000-8000-000000004000", "source_evidence_id": "63000000-0000-4000-8000-000000005044", "control_id": "PC-04", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.network.smb-shares", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T02:03:00Z", "normalized_at": "2026-07-23T02:04:00Z", "source_locator": {"type": "CIM", "provider": "MSFT_SmbShare"},
+        "normalized_value": {"default_admin_share_count": 0, "unrestricted_everyone_share_count": 0, "least_privilege_violation_count": 0, "authentication_gap_count": 0, "auto_share_wks_disabled": true},
+        "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": true, "method": "HASHED", "reason": "공유 이름은 합계로 치환"}, "evidence_sha256": "4444444444444444444444444444444444444444444444444444444444444444"
+      },
+      "expected": {"status": "REVIEW", "result_code": "ORGANIZATION_SHARE_STANDARD_REQUIRED"}
+    },
+
+    {
+      "case_id": "pc05-pass-stopped",
+      "control_id": "PC-05",
+      "control_label": "불필요한 서비스 제거",
+      "organization_policy": {"standard_id": "service-standard", "version": "1.0.0", "unnecessary_service_ids": ["legacy-service-a", "legacy-service-b"]},
+      "evidence": {
+        "schema_version": "1.0.0", "id": "63000000-0000-4000-8000-000000000051", "created_at": "2026-07-23T02:05:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "63000000-0000-4000-8000-000000001051",
+        "job_id": "63000000-0000-4000-8000-000000002051", "asset_id": "63000000-0000-4000-8000-000000003000", "package_id": "63000000-0000-4000-8000-000000004000", "source_evidence_id": "63000000-0000-4000-8000-000000005051", "control_id": "PC-05", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.services.inventory", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T02:04:00Z", "normalized_at": "2026-07-23T02:05:00Z", "source_locator": {"type": "CIM", "provider": "Win32_Service"},
+        "normalized_value": {"evaluated_unnecessary_service_count": 2, "running_unnecessary_service_count": 0, "automatic_unnecessary_service_count": 0},
+        "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "5555555555555555555555555555555555555555555555555555555555555555"
+      },
+      "expected": {"status": "PASS", "result_code": "UNNECESSARY_SERVICES_STOPPED"}
+    },
+    {
+      "case_id": "pc05-fail-running",
+      "control_id": "PC-05",
+      "control_label": "불필요한 서비스 제거",
+      "organization_policy": {"standard_id": "service-standard", "version": "1.0.0", "unnecessary_service_ids": ["legacy-service-a", "legacy-service-b"]},
+      "evidence": {
+        "schema_version": "1.0.0", "id": "63000000-0000-4000-8000-000000000052", "created_at": "2026-07-23T02:06:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "63000000-0000-4000-8000-000000001052",
+        "job_id": "63000000-0000-4000-8000-000000002052", "asset_id": "63000000-0000-4000-8000-000000003000", "package_id": "63000000-0000-4000-8000-000000004000", "source_evidence_id": "63000000-0000-4000-8000-000000005052", "control_id": "PC-05", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.services.inventory", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T02:05:00Z", "normalized_at": "2026-07-23T02:06:00Z", "source_locator": {"type": "CIM", "provider": "Win32_Service"},
+        "normalized_value": {"evaluated_unnecessary_service_count": 2, "running_unnecessary_service_count": 1, "automatic_unnecessary_service_count": 1},
+        "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "6666666666666666666666666666666666666666666666666666666666666666"
+      },
+      "expected": {"status": "FAIL", "result_code": "UNNECESSARY_SERVICE_RUNNING_OR_AUTOMATIC"}
+    },
+    {
+      "case_id": "pc05-error-collection",
+      "control_id": "PC-05",
+      "control_label": "불필요한 서비스 제거",
+      "organization_policy": {"standard_id": "service-standard", "version": "1.0.0", "unnecessary_service_ids": ["legacy-service-a", "legacy-service-b"]},
+      "evidence": {
+        "schema_version": "1.0.0", "id": "63000000-0000-4000-8000-000000000053", "created_at": "2026-07-23T02:07:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "63000000-0000-4000-8000-000000001053",
+        "job_id": "63000000-0000-4000-8000-000000002053", "asset_id": "63000000-0000-4000-8000-000000003000", "package_id": "63000000-0000-4000-8000-000000004000", "source_evidence_id": "63000000-0000-4000-8000-000000005053", "control_id": "PC-05", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.services.inventory", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T02:06:00Z", "normalized_at": "2026-07-23T02:07:00Z", "source_locator": {"type": "CIM", "provider": "Win32_Service"},
+        "collection_status": "ERROR", "error_code": "PERMISSION_DENIED", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "7777777777777777777777777777777777777777777777777777777777777777"
+      },
+      "expected": {"status": "ERROR", "result_code": "PC05_COLLECTION_FAILED"}
+    },
+    {
+      "case_id": "pc05-review-no-standard",
+      "control_id": "PC-05",
+      "control_label": "불필요한 서비스 제거",
+      "evidence": {
+        "schema_version": "1.0.0", "id": "63000000-0000-4000-8000-000000000054", "created_at": "2026-07-23T02:08:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "63000000-0000-4000-8000-000000001054",
+        "job_id": "63000000-0000-4000-8000-000000002054", "asset_id": "63000000-0000-4000-8000-000000003000", "package_id": "63000000-0000-4000-8000-000000004000", "source_evidence_id": "63000000-0000-4000-8000-000000005054", "control_id": "PC-05", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.services.inventory", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T02:07:00Z", "normalized_at": "2026-07-23T02:08:00Z", "source_locator": {"type": "CIM", "provider": "Win32_Service"},
+        "normalized_value": {"evaluated_unnecessary_service_count": 0, "running_unnecessary_service_count": 0, "automatic_unnecessary_service_count": 0},
+        "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "8888888888888888888888888888888888888888888888888888888888888888"
+      },
+      "expected": {"status": "REVIEW", "result_code": "ORGANIZATION_SERVICE_STANDARD_REQUIRED"}
+    },
+
+    {
+      "case_id": "pc06-pass-denied-absent",
+      "control_id": "PC-06",
+      "control_label": "불필요한 소프트웨어 제거",
+      "organization_policy": {"standard_id": "messenger-standard", "version": "1.0.0", "denied_product_ids": ["messenger-product-a"]},
+      "evidence": {
+        "schema_version": "1.0.0", "id": "63000000-0000-4000-8000-000000000061", "created_at": "2026-07-23T02:09:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "63000000-0000-4000-8000-000000001061",
+        "job_id": "63000000-0000-4000-8000-000000002061", "asset_id": "63000000-0000-4000-8000-000000003000", "package_id": "63000000-0000-4000-8000-000000004000", "source_evidence_id": "63000000-0000-4000-8000-000000005061", "control_id": "PC-06", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.software.messengers", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T02:08:00Z", "normalized_at": "2026-07-23T02:09:00Z", "source_locator": {"type": "PRODUCT_ADAPTER", "provider": "SecAI-SoftwareInventory"},
+        "normalized_value": {"evaluated_denied_product_count": 1, "installed_denied_product_count": 0, "running_denied_product_count": 0, "low_confidence_match_count": 0},
+        "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "9999999999999999999999999999999999999999999999999999999999999999"
+      },
+      "expected": {"status": "PASS", "result_code": "DENIED_MESSENGERS_NOT_PRESENT"}
+    },
+    {
+      "case_id": "pc06-fail-denied-installed",
+      "control_id": "PC-06",
+      "control_label": "불필요한 소프트웨어 제거",
+      "organization_policy": {"standard_id": "messenger-standard", "version": "1.0.0", "denied_product_ids": ["messenger-product-a"]},
+      "evidence": {
+        "schema_version": "1.0.0", "id": "63000000-0000-4000-8000-000000000062", "created_at": "2026-07-23T02:10:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "63000000-0000-4000-8000-000000001062",
+        "job_id": "63000000-0000-4000-8000-000000002062", "asset_id": "63000000-0000-4000-8000-000000003000", "package_id": "63000000-0000-4000-8000-000000004000", "source_evidence_id": "63000000-0000-4000-8000-000000005062", "control_id": "PC-06", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.software.messengers", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T02:09:00Z", "normalized_at": "2026-07-23T02:10:00Z", "source_locator": {"type": "PRODUCT_ADAPTER", "provider": "SecAI-SoftwareInventory"},
+        "normalized_value": {"evaluated_denied_product_count": 1, "installed_denied_product_count": 1, "running_denied_product_count": 1, "low_confidence_match_count": 0},
+        "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": {"status": "FAIL", "result_code": "DENIED_MESSENGER_INSTALLED_OR_RUNNING"}
+    },
+    {
+      "case_id": "pc06-error-collection",
+      "control_id": "PC-06",
+      "control_label": "불필요한 소프트웨어 제거",
+      "organization_policy": {"standard_id": "messenger-standard", "version": "1.0.0", "denied_product_ids": ["messenger-product-a"]},
+      "evidence": {
+        "schema_version": "1.0.0", "id": "63000000-0000-4000-8000-000000000063", "created_at": "2026-07-23T02:11:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "63000000-0000-4000-8000-000000001063",
+        "job_id": "63000000-0000-4000-8000-000000002063", "asset_id": "63000000-0000-4000-8000-000000003000", "package_id": "63000000-0000-4000-8000-000000004000", "source_evidence_id": "63000000-0000-4000-8000-000000005063", "control_id": "PC-06", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.software.messengers", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T02:10:00Z", "normalized_at": "2026-07-23T02:11:00Z", "source_locator": {"type": "PRODUCT_ADAPTER", "provider": "SecAI-SoftwareInventory"},
+        "collection_status": "ERROR", "error_code": "PROBE_TIMEOUT", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      },
+      "expected": {"status": "ERROR", "result_code": "PC06_COLLECTION_FAILED"}
+    },
+    {
+      "case_id": "pc06-review-no-standard",
+      "control_id": "PC-06",
+      "control_label": "불필요한 소프트웨어 제거",
+      "evidence": {
+        "schema_version": "1.0.0", "id": "63000000-0000-4000-8000-000000000064", "created_at": "2026-07-23T02:12:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "63000000-0000-4000-8000-000000001064",
+        "job_id": "63000000-0000-4000-8000-000000002064", "asset_id": "63000000-0000-4000-8000-000000003000", "package_id": "63000000-0000-4000-8000-000000004000", "source_evidence_id": "63000000-0000-4000-8000-000000005064", "control_id": "PC-06", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.software.messengers", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T02:11:00Z", "normalized_at": "2026-07-23T02:12:00Z", "source_locator": {"type": "PRODUCT_ADAPTER", "provider": "SecAI-SoftwareInventory"},
+        "normalized_value": {"evaluated_denied_product_count": 0, "installed_denied_product_count": 0, "running_denied_product_count": 0, "low_confidence_match_count": 0},
+        "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      },
+      "expected": {"status": "REVIEW", "result_code": "ORGANIZATION_MESSENGER_STANDARD_REQUIRED"}
+    },
+
+    {
+      "case_id": "pc08-pass-single-os-with-recovery",
+      "control_id": "PC-08",
+      "control_label": "여러 운영체제 설치 제한",
+      "evidence": {
+        "schema_version": "1.0.0", "id": "63000000-0000-4000-8000-000000000081", "created_at": "2026-07-23T02:13:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "63000000-0000-4000-8000-000000001081",
+        "job_id": "63000000-0000-4000-8000-000000002081", "asset_id": "63000000-0000-4000-8000-000000003000", "package_id": "63000000-0000-4000-8000-000000004000", "source_evidence_id": "63000000-0000-4000-8000-000000005081", "control_id": "PC-08", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.boot.entries", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T02:12:00Z", "normalized_at": "2026-07-23T02:13:00Z", "source_locator": {"type": "WINDOWS_CLI", "provider": "bcdedit"},
+        "normalized_value": {"bootable_os_count": 1, "excluded_recovery_entry_count": 1, "excluded_diagnostic_entry_count": 1, "excluded_virtualization_entry_count": 1},
+        "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      },
+      "expected": {"status": "PASS", "result_code": "SINGLE_BOOTABLE_OS"}
+    },
+    {
+      "case_id": "pc08-fail-multiple-os",
+      "control_id": "PC-08",
+      "control_label": "여러 운영체제 설치 제한",
+      "evidence": {
+        "schema_version": "1.0.0", "id": "63000000-0000-4000-8000-000000000082", "created_at": "2026-07-23T02:14:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "63000000-0000-4000-8000-000000001082",
+        "job_id": "63000000-0000-4000-8000-000000002082", "asset_id": "63000000-0000-4000-8000-000000003000", "package_id": "63000000-0000-4000-8000-000000004000", "source_evidence_id": "63000000-0000-4000-8000-000000005082", "control_id": "PC-08", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.boot.entries", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T02:13:00Z", "normalized_at": "2026-07-23T02:14:00Z", "source_locator": {"type": "WINDOWS_CLI", "provider": "bcdedit"},
+        "normalized_value": {"bootable_os_count": 2, "excluded_recovery_entry_count": 1, "excluded_diagnostic_entry_count": 0, "excluded_virtualization_entry_count": 0},
+        "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+      },
+      "expected": {"status": "FAIL", "result_code": "MULTIPLE_BOOTABLE_OS_FOUND"}
+    },
+    {
+      "case_id": "pc08-error-collection",
+      "control_id": "PC-08",
+      "control_label": "여러 운영체제 설치 제한",
+      "evidence": {
+        "schema_version": "1.0.0", "id": "63000000-0000-4000-8000-000000000083", "created_at": "2026-07-23T02:15:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "63000000-0000-4000-8000-000000001083",
+        "job_id": "63000000-0000-4000-8000-000000002083", "asset_id": "63000000-0000-4000-8000-000000003000", "package_id": "63000000-0000-4000-8000-000000004000", "source_evidence_id": "63000000-0000-4000-8000-000000005083", "control_id": "PC-08", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.boot.entries", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T02:14:00Z", "normalized_at": "2026-07-23T02:15:00Z", "source_locator": {"type": "WINDOWS_CLI", "provider": "bcdedit"},
+        "collection_status": "ERROR", "error_code": "PERMISSION_DENIED", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+      },
+      "expected": {"status": "ERROR", "result_code": "PC08_COLLECTION_FAILED"}
+    },
+
+    {
+      "case_id": "pc09-pass-cache-on-exit",
+      "control_id": "PC-09",
+      "control_label": "IE 임시 인터넷 파일 종료 시 삭제",
+      "evidence": {
+        "schema_version": "1.0.0", "id": "63000000-0000-4000-8000-000000000091", "created_at": "2026-07-23T02:16:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "63000000-0000-4000-8000-000000001091",
+        "job_id": "63000000-0000-4000-8000-000000002091", "asset_id": "63000000-0000-4000-8000-000000003000", "package_id": "63000000-0000-4000-8000-000000004000", "source_evidence_id": "63000000-0000-4000-8000-000000005091", "control_id": "PC-09", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.browser.wininet-cache-policy", "probe_version": "0.1.0", "subject": {"scope": "POLICY"}, "collected_at": "2026-07-23T02:15:00Z", "normalized_at": "2026-07-23T02:16:00Z", "source_locator": {"type": "REGISTRY", "provider": "WinINet policy"},
+        "normalized_value": {"applicability": "APPLICABLE", "ie_desktop_used": false, "ie_mode_used": true, "wininet_used": true, "organization_scope_confirmed": true, "evaluated_user_count": 3, "empty_cache_on_exit": true},
+        "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": true, "method": "OMITTED", "reason": "사용자 식별자는 저장하지 않음"}, "evidence_sha256": "1010101010101010101010101010101010101010101010101010101010101010"
+      },
+      "expected": {"status": "PASS", "result_code": "WININET_CACHE_CLEARED_ON_EXIT"}
+    },
+    {
+      "case_id": "pc09-fail-cache-retained",
+      "control_id": "PC-09",
+      "control_label": "IE 임시 인터넷 파일 종료 시 삭제",
+      "evidence": {
+        "schema_version": "1.0.0", "id": "63000000-0000-4000-8000-000000000092", "created_at": "2026-07-23T02:17:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "63000000-0000-4000-8000-000000001092",
+        "job_id": "63000000-0000-4000-8000-000000002092", "asset_id": "63000000-0000-4000-8000-000000003000", "package_id": "63000000-0000-4000-8000-000000004000", "source_evidence_id": "63000000-0000-4000-8000-000000005092", "control_id": "PC-09", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.browser.wininet-cache-policy", "probe_version": "0.1.0", "subject": {"scope": "POLICY"}, "collected_at": "2026-07-23T02:16:00Z", "normalized_at": "2026-07-23T02:17:00Z", "source_locator": {"type": "REGISTRY", "provider": "WinINet policy"},
+        "normalized_value": {"applicability": "APPLICABLE", "ie_desktop_used": false, "ie_mode_used": true, "wininet_used": true, "organization_scope_confirmed": true, "evaluated_user_count": 3, "empty_cache_on_exit": false},
+        "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": true, "method": "OMITTED", "reason": "사용자 식별자는 저장하지 않음"}, "evidence_sha256": "2020202020202020202020202020202020202020202020202020202020202020"
+      },
+      "expected": {"status": "FAIL", "result_code": "WININET_CACHE_NOT_CLEARED_ON_EXIT"}
+    },
+    {
+      "case_id": "pc09-error-collection",
+      "control_id": "PC-09",
+      "control_label": "IE 임시 인터넷 파일 종료 시 삭제",
+      "evidence": {
+        "schema_version": "1.0.0", "id": "63000000-0000-4000-8000-000000000093", "created_at": "2026-07-23T02:18:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "63000000-0000-4000-8000-000000001093",
+        "job_id": "63000000-0000-4000-8000-000000002093", "asset_id": "63000000-0000-4000-8000-000000003000", "package_id": "63000000-0000-4000-8000-000000004000", "source_evidence_id": "63000000-0000-4000-8000-000000005093", "control_id": "PC-09", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.browser.wininet-cache-policy", "probe_version": "0.1.0", "subject": {"scope": "POLICY"}, "collected_at": "2026-07-23T02:17:00Z", "normalized_at": "2026-07-23T02:18:00Z", "source_locator": {"type": "REGISTRY", "provider": "WinINet policy"},
+        "collection_status": "ERROR", "error_code": "PERMISSION_DENIED", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "3030303030303030303030303030303030303030303030303030303030303030"
+      },
+      "expected": {"status": "ERROR", "result_code": "PC09_COLLECTION_FAILED"}
+    },
+    {
+      "case_id": "pc09-review-applicability-unknown",
+      "control_id": "PC-09",
+      "control_label": "IE 임시 인터넷 파일 종료 시 삭제",
+      "evidence": {
+        "schema_version": "1.0.0", "id": "63000000-0000-4000-8000-000000000094", "created_at": "2026-07-23T02:19:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "63000000-0000-4000-8000-000000001094",
+        "job_id": "63000000-0000-4000-8000-000000002094", "asset_id": "63000000-0000-4000-8000-000000003000", "package_id": "63000000-0000-4000-8000-000000004000", "source_evidence_id": "63000000-0000-4000-8000-000000005094", "control_id": "PC-09", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.browser.wininet-cache-policy", "probe_version": "0.1.0", "subject": {"scope": "POLICY"}, "collected_at": "2026-07-23T02:18:00Z", "normalized_at": "2026-07-23T02:19:00Z", "source_locator": {"type": "REFERENCE_DATA", "provider": "organization-browser-scope"},
+        "normalized_value": {"applicability": "UNKNOWN", "ie_desktop_used": false, "ie_mode_used": false, "wininet_used": false, "organization_scope_confirmed": false, "evaluated_user_count": 0, "empty_cache_on_exit": false},
+        "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "4040404040404040404040404040404040404040404040404040404040404040"
+      },
+      "expected": {"status": "REVIEW", "result_code": "WININET_APPLICABILITY_REVIEW_REQUIRED"}
+    },
+    {
+      "case_id": "pc09-na-wininet-unused",
+      "control_id": "PC-09",
+      "control_label": "IE 임시 인터넷 파일 종료 시 삭제",
+      "evidence": {
+        "schema_version": "1.0.0", "id": "63000000-0000-4000-8000-000000000095", "created_at": "2026-07-23T02:20:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "63000000-0000-4000-8000-000000001095",
+        "job_id": "63000000-0000-4000-8000-000000002095", "asset_id": "63000000-0000-4000-8000-000000003000", "package_id": "63000000-0000-4000-8000-000000004000", "source_evidence_id": "63000000-0000-4000-8000-000000005095", "control_id": "PC-09", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.browser.wininet-cache-policy", "probe_version": "0.1.0", "subject": {"scope": "POLICY"}, "collected_at": "2026-07-23T02:19:00Z", "normalized_at": "2026-07-23T02:20:00Z", "source_locator": {"type": "REFERENCE_DATA", "provider": "organization-browser-scope"},
+        "normalized_value": {"applicability": "NOT_APPLICABLE", "ie_desktop_used": false, "ie_mode_used": false, "wininet_used": false, "organization_scope_confirmed": true, "evaluated_user_count": 0, "empty_cache_on_exit": false},
+        "policy_scope": "NOT_APPLICABLE", "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "5050505050505050505050505050505050505050505050505050505050505050"
+      },
+      "expected": {"status": "N/A", "result_code": "WININET_NOT_USED_CONFIRMED"}
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "snapshot_schema_version": "1.0.0",
+  "id": "64000000-0000-4000-8000-000000000023",
+  "snapshot_id": "microsoft-windows-11-2026-07-23",
+  "version": "1.0.0",
+  "as_of": "2026-07-23T00:00:00Z",
+  "valid_until": "2026-08-10T23:59:59Z",
+  "content_sha256": "9bb9fcc8fb8461e053ba22d33d5fbf15d4a9113651f32a834faaffc199911054",
+  "approval": {
+    "status": "DRAFT",
+    "usage": "SYNTHETIC_TEST_ONLY",
+    "signature_present": false
+  },
+  "sources": [
+    {
+      "source_id": "microsoft-windows11-release-information",
+      "authority": "Microsoft",
+      "retrieved_at": "2026-07-23T00:00:00Z",
+      "url": "https://learn.microsoft.com/en-us/windows/release-health/windows11-release-information"
+    },
+    {
+      "source_id": "microsoft-windows11-home-pro-lifecycle",
+      "authority": "Microsoft",
+      "retrieved_at": "2026-07-23T00:00:00Z",
+      "url": "https://learn.microsoft.com/en-us/lifecycle/products/windows-11-home-and-pro"
+    },
+    {
+      "source_id": "microsoft-kb5099414",
+      "authority": "Microsoft",
+      "retrieved_at": "2026-07-23T00:00:00Z",
+      "url": "https://support.microsoft.com/en-US/servicing/os/windows-11/2026/07/july-14-2026-kb5099414-os-build-22631-7376"
+    },
+    {
+      "source_id": "microsoft-kb5101650",
+      "authority": "Microsoft",
+      "retrieved_at": "2026-07-23T00:00:00Z",
+      "url": "https://support.microsoft.com/en-US/servicing/os/windows-11/2026/07/july-14-2026-kb5101650-os-builds-26200-8875-and-26100-8875"
+    },
+    {
+      "source_id": "microsoft-kb5101649",
+      "authority": "Microsoft",
+      "retrieved_at": "2026-07-23T00:00:00Z",
+      "url": "https://support.microsoft.com/en-US/servicing/os/windows-11/2026/07/july-14-2026-kb5101649-os-build-28000-2525"
+    },
+    {
+      "source_id": "microsoft-kb5121767",
+      "authority": "Microsoft",
+      "retrieved_at": "2026-07-23T00:00:00Z",
+      "url": "https://support.microsoft.com/en-US/servicing/os/windows-11/2026/07/kb5121767-out-of-band"
+    }
+  ],
+  "patch_baselines": [
+    {
+      "display_version": "23H2",
+      "base_build": 22631,
+      "minimum_ubr": 7376,
+      "baseline_kb": "KB5099414",
+      "released_on": "2026-07-14"
+    },
+    {
+      "display_version": "24H2",
+      "base_build": 26100,
+      "minimum_ubr": 8875,
+      "baseline_kb": "KB5101650",
+      "released_on": "2026-07-14"
+    },
+    {
+      "display_version": "25H2",
+      "base_build": 26200,
+      "minimum_ubr": 8875,
+      "baseline_kb": "KB5101650",
+      "released_on": "2026-07-14"
+    },
+    {
+      "display_version": "26H1",
+      "base_build": 28000,
+      "minimum_ubr": 2525,
+      "baseline_kb": "KB5101649",
+      "released_on": "2026-07-14"
+    }
+  ],
+  "advisories": [
+    {
+      "advisory_id": "KB5121767",
+      "applies_to_versions": ["24H2", "25H2"],
+      "builds": ["26100.8894", "26200.8894"],
+      "classification": "OPTIONAL_OOB_FOR_AFFECTED_DEVICES",
+      "note": "KB5101650을 포함하며 Intel IPF 영향 장치에만 권장"
+    }
+  ],
+  "lifecycle_records": [
+    {"edition_group": "HOME_PRO", "display_version": "23H2", "support_end": "2025-11-11"},
+    {"edition_group": "HOME_PRO", "display_version": "24H2", "support_end": "2026-10-13"},
+    {"edition_group": "HOME_PRO", "display_version": "25H2", "support_end": "2027-10-12"},
+    {"edition_group": "HOME_PRO", "display_version": "26H1", "support_end": "2028-03-14"},
+    {"edition_group": "ENTERPRISE_EDUCATION", "display_version": "23H2", "support_end": "2026-11-10"},
+    {"edition_group": "ENTERPRISE_EDUCATION", "display_version": "24H2", "support_end": "2027-10-12"},
+    {"edition_group": "ENTERPRISE_EDUCATION", "display_version": "25H2", "support_end": "2028-10-10"},
+    {"edition_group": "ENTERPRISE_EDUCATION", "display_version": "26H1", "support_end": "2029-03-13"},
+    {"edition_group": "IOT_ENTERPRISE", "display_version": "23H2", "support_end": "2026-11-10"},
+    {"edition_group": "IOT_ENTERPRISE", "display_version": "24H2", "support_end": "2027-10-12"},
+    {"edition_group": "IOT_ENTERPRISE", "display_version": "25H2", "support_end": "2028-10-10"},
+    {"edition_group": "ENTERPRISE_LTSC", "display_version": "24H2", "support_end": "2029-10-09"},
+    {"edition_group": "IOT_ENTERPRISE_LTSC", "display_version": "24H2", "support_end": "2034-10-10"}
+  ]
+}

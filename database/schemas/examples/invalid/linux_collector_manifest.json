@@ -1,0 +1,5 @@
+{
+  "schema_version": "2.0.0",
+  "profile": "LINUX-ONESHOT-MANIFEST-V2",
+  "unsupported_user_command": "rm -rf /"
+}

@@ -1,0 +1,78 @@
+{% import "components/audit_ui.html" as ui %}
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>가이드 검색 저장소 | Sec_AI</title>
+  <link rel="stylesheet" href="/static/app/app.css">
+</head>
+<body>
+  {{ ui.app_header("guide_store") }}
+  <main class="container product-shell" data-ui-standard="guide-store-v1">
+    <a class="back-link" href="/">← 처음 화면으로</a>
+    <header class="page-heading">
+      <div>
+        <p class="section-code">KISA 가이드 근거 검색</p>
+        <h1>가이드 검색 저장소</h1>
+        <p class="lead">질문에 맞는 KISA PC 보안 가이드 쪽을 찾기 위해 저장한 문서와 검색용 문단 수를 확인합니다.</p>
+      </div>
+      <span class="feature-state feature-state-live">실제 가이드 적재</span>
+    </header>
+
+    <aside class="preview-notice">
+      <strong>일반 사용자용 안전 조회 화면입니다</strong>
+      원문 재배포, 데이터베이스 비밀번호와 원시 벡터는 표시하지 않습니다. 데이터 수정과 SQL 관리는 별도 로컬 관리자 화면에서 수행합니다.
+    </aside>
+
+    <section class="summary-panel" aria-labelledby="guide-store-summary">
+      <div class="summary-heading">
+        <p class="section-label">저장 상태</p>
+        <h2 id="guide-store-summary">KISA PC 41쪽 검색 준비 상태</h2>
+        <p>문서 1건을 쪽 단위 검색 문단으로 나누고 같은 수의 검색 벡터를 연결합니다.</p>
+      </div>
+      <dl class="summary-list">
+        <div><dt>데이터베이스</dt><dd>PostgreSQL {{ store.postgresql_version }}</dd></div>
+        <div><dt>벡터 검색</dt><dd>pgvector {{ store.pgvector_version }}</dd></div>
+        <div><dt>문서</dt><dd>문서 {{ store.document_count }}건</dd></div>
+        <div><dt>검색 문단</dt><dd>검색 문단 {{ store.chunk_count }}건</dd></div>
+        <div><dt>검색 벡터</dt><dd>검색 벡터 {{ store.embedding_count }}건</dd></div>
+      </dl>
+    </section>
+
+    <section class="panel" aria-labelledby="guide-chunks-title">
+      {{ ui.panel_header(
+        "guide-chunks-title",
+        "적재 내용",
+        "무엇을 검색할 수 있나요?",
+        "KISA PC 가이드의 점검항목, 쪽수와 추출된 내용을 확인합니다."
+      ) }}
+      <div class="audit-table-wrap">
+        <table class="audit-table">
+          <thead>
+            <tr><th>점검항목</th><th>가이드 쪽</th><th>검색 내용</th></tr>
+          </thead>
+          <tbody>
+          {% for chunk in store.chunks %}
+            <tr id="page-{{ chunk.pdf_page_number }}">
+              <td><strong>{{ chunk.control_id }}</strong></td>
+              <td>{{ chunk.pdf_page_number }}쪽</td>
+              <td>{{ chunk.text }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    {{ ui.technical_panel([
+      {"label": "PostgreSQL", "value": store.postgresql_version, "code": true},
+      {"label": "pgvector", "value": store.pgvector_version, "code": true},
+      {"label": "Embedding model", "value": store.embedding_model_id, "code": true},
+      {"label": "차원·거리", "value": store.embedding_dimension ~ " / " ~ store.metric_type, "code": true},
+      {"label": "활성 세대", "value": store.active_generation_count ~ "건 / " ~ store.generation_status, "code": true},
+      {"label": "원시 벡터", "value": "표시하지 않음", "code": false}
+    ]) }}
+  </main>
+</body>
+</html>

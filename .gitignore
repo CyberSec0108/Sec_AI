@@ -1,0 +1,55 @@
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+secrets/
+*.key
+*.pem
+*.pfx
+*.p12
+*.license
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+.venv/
+venv/
+build/
+dist/
+!collectors/one_shot/build/
+!collectors/one_shot/build/windows_version_info.txt
+
+# IDE and OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Runtime state and sensitive evidence
+runtime/
+.runtime/
+volumes/
+backups/
+exports/
+data/runtime/
+data/evidence/
+data/uploads/
+data/quarantine/
+
+# Portable bundle output can be recreated
+portable/out/
+
+# Temporary and downloaded files
+tmp/
+downloads/
+
+# Do not redistribute public guides
+data/**/*.pdf
+*.pdf

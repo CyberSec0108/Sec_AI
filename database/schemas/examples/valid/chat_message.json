@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0.0",
+  "message_id": "51000000-0000-4000-8000-000000000004",
+  "thread_id": "51000000-0000-4000-8000-000000000001",
+  "branch_id": "51000000-0000-4000-8000-000000000003",
+  "role": "ASSISTANT",
+  "status": "COMPLETED",
+  "revision": 1,
+  "parent_message_id": "51000000-0000-4000-8000-000000000006",
+  "edit_of_message_id": null,
+  "retry_of_message_id": null,
+  "content": "비밀번호는 KISA 기준에 따라 주기적으로 변경해야 합니다.",
+  "content_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "citations": [
+    {
+      "schema_version": "1.0.0",
+      "citation_id": "51000000-0000-4000-8000-000000000005",
+      "message_id": "51000000-0000-4000-8000-000000000004",
+      "ordinal": 1,
+      "guide_id": "kisa-major-infrastructure-detailed-guide",
+      "guide_version": "2026",
+      "scope_id": "kisa-2026-pc",
+      "chunk_id": "48000000-0000-4000-8000-000000000001",
+      "pdf_page_number": 555,
+      "section_label": "PC-01 비밀번호의 주기적 변경",
+      "paragraph_ordinal": 1,
+      "paragraph_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "text_start": 0,
+      "text_end": 12
+    }
+  ],
+  "created_at": "2026-07-25T00:00:02Z"
+}

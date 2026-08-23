@@ -1,0 +1,133 @@
+{% import "components/audit_ui.html" as ui %}
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="audit-history-platform" content="{{ history.platform|lower }}">
+  <meta name="audit-history-entry-id" content="{{ history.entry_id }}">
+  <title>저장된 점검 결과 | Sec_AI</title>
+  <link rel="stylesheet" href="/static/app/app.css">
+  <script src="/static/app/theme.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">본문으로 건너뛰기</a>
+  {{ ui.app_header("results") }}
+  <main id="main-content" class="container product-shell audit-history-detail-page">
+    <a class="back-link" href="/ui/result-center">← 저장된 점검 기록으로</a>
+    <header class="page-heading">
+      <div>
+        <p class="section-code">{{ history.platform }}</p>
+        <h1>{{ history.asset_label }} 점검 결과</h1>
+        <p class="lead">현재 로그인한 아이디가 실행한 불변 snapshot입니다.</p>
+      </div>
+    </header>
+
+    <section class="summary-panel" aria-labelledby="history-summary-title">
+      <div class="summary-heading">
+        <p class="section-label">저장 결과</p>
+        <h2 id="history-summary-title">상태 요약</h2>
+      </div>
+      <dl class="summary-list summary-list-four">
+        <div><dt>전체</dt><dd>{{ history.counts.total }}</dd></div>
+        <div class="summary-pass"><dt>양호</dt><dd>{{ history.counts.pass }}</dd></div>
+        <div class="summary-fail"><dt>취약</dt><dd>{{ history.counts.fail }}</dd></div>
+        <div class="summary-error"><dt>오류</dt><dd>{{ history.counts.error }}</dd></div>
+        <div class="summary-review"><dt>검토</dt><dd>{{ history.counts.review }}</dd></div>
+      </dl>
+    </section>
+
+    <section class="panel" aria-labelledby="history-metadata-title">
+      <h2 id="history-metadata-title">점검 정보</h2>
+      <dl class="switch-result-metadata">
+        <div><dt>점검 시각</dt><dd>{{ history.completed_at }}</dd></div>
+        <div><dt>결과 번호</dt><dd>{{ history.result_id }}</dd></div>
+        <div><dt>결과 버전</dt><dd>{{ history.result_version }}</dd></div>
+        <div><dt>보존 예정</dt><dd>{{ history.retention.retain_until }}</dd></div>
+        <div><dt>Backup 상태</dt><dd>{{ history.retention.backup_status }}</dd></div>
+        <div><dt>삭제 방식</dt><dd>{{ history.retention.deletion_mode }}</dd></div>
+      </dl>
+      <details class="technical-integrity">
+        <summary>무결성 hash 확인</summary>
+        <p>결과 SHA-256</p>
+        <code>{{ history.result_sha256 }}</code>
+        <p>점검기준 SHA-256</p>
+        <code>{{ history.criteria_sha256 or "저장된 기준 hash 없음" }}</code>
+      </details>
+    </section>
+
+    <section class="panel" aria-labelledby="history-controls-title">
+      <h2 id="history-controls-title">항목별 저장 결과</h2>
+      <ol class="audit-history-control-list">
+        {% for control in history.controls %}
+        {% set official = history.official_explanations
+          | selectattr("control_id", "equalto", control.control_id) | first %}
+        {% set ai_input = history.ai_explanation_inputs
+          | selectattr("control_id", "equalto", control.control_id) | first %}
+        <li>
+          <div>
+            <strong>{{ control.control_id }} · {{ control.title }}</strong>
+            <span>{{ control.status }}</span>
+          </div>
+          <dl>
+            <div><dt>실제 확인값</dt><dd>{{ control.actual or "저장된 요약 없음" }}</dd></div>
+            <div><dt>기준</dt><dd>{{ control.expected or "저장된 요약 없음" }}</dd></div>
+            {% if official %}
+            <div>
+              <dt>공식 판정 설명</dt>
+              <dd>{{ official.judgement_explanation or "저장된 판정 설명 없음" }}</dd>
+            </div>
+            <div>
+              <dt>다음 조치</dt>
+              <dd>{{ official.action_guidance or control.action_guidance or "저장된 조치 안내 없음" }}</dd>
+            </div>
+            {% endif %}
+          </dl>
+          {% if ai_input %}
+          <details class="technical-integrity">
+            <summary>{{ control.control_id }} AI 입력 snapshot 확인</summary>
+            <pre>{{ ai_input | tojson(indent=2) }}</pre>
+          </details>
+          {% endif %}
+        </li>
+        {% endfor %}
+      </ol>
+    </section>
+
+    {% if history.presentation and history.presentation.administrator_report %}
+    <section class="panel" aria-labelledby="history-administrator-title">
+      <h2 id="history-administrator-title">저장된 관리자 권한 점검 화면</h2>
+      <p>이 결과에 연결된 최신 append-only 관리자 점검 version입니다.</p>
+      <ol class="audit-history-control-list">
+        {% for control in history.presentation.administrator_report.results %}
+        <li>
+          <div>
+            <strong>{{ control.control_id }} · {{ control.title or control.probe_id }}</strong>
+            <span>{{ control.assessment_status }}</span>
+          </div>
+          <dl>
+            <div><dt>수집 상태</dt><dd>{{ control.collection_status }}</dd></div>
+            <div><dt>실제 확인값</dt><dd>{{ control.actual or "저장된 요약 없음" }}</dd></div>
+            <div><dt>기준</dt><dd>{{ control.expected or "저장된 요약 없음" }}</dd></div>
+            <div><dt>판정 이유</dt><dd>{{ control.judgement_explanation or "저장된 설명 없음" }}</dd></div>
+          </dl>
+        </li>
+        {% endfor %}
+      </ol>
+    </section>
+    {% endif %}
+
+    <section id="audit-history-ai-screen" class="panel" aria-labelledby="history-ai-title" hidden>
+      <h2 id="history-ai-title">저장된 AI 완성 화면</h2>
+      <p>모델을 다시 호출하지 않고 PostgreSQL에 저장된 설명을 복원했습니다.</p>
+      <article class="integrated-ai-summary">
+        <h3>AI 종합 설명</h3>
+        <div id="audit-history-ai-summary" class="ai-markdown"></div>
+      </article>
+      <ol id="audit-history-ai-controls" class="audit-history-control-list"></ol>
+    </section>
+  </main>
+  <script src="/static/app/restricted-markdown.js" defer></script>
+  <script src="/static/app/audit-history-detail.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+{
+  "@context": "https://openvex.dev/ns/v0.2.0",
+  "@id": "https://sec-ai.invalid/vex/linux-collector-builder/cpython-3.14.6-patches-v1",
+  "author": "Sec_AI Supply Chain",
+  "role": "Document Creator",
+  "timestamp": "2026-08-06T00:00:00Z",
+  "version": 1,
+  "statements": [
+    {
+      "vulnerability": {
+        "name": "CVE-2026-11940"
+      },
+      "products": [
+        {
+          "@id": "pkg:generic/python@3.14.6"
+        }
+      ],
+      "status": "fixed",
+      "status_notes": "Official CPython 3.14 backport 79c06bd5c6afa3c440d50faf7ee1b147c8832b4c is applied after SHA-256 verification during the image build.",
+      "action_statement": "Replace the backport with the official CPython 3.14.7 release when available."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-11972"
+      },
+      "products": [
+        {
+          "@id": "pkg:generic/python@3.14.6"
+        }
+      ],
+      "status": "fixed",
+      "status_notes": "Official CPython 3.14 backport e86666c9dd256d52d0fbef6feb1ea4a51768fdec is applied after SHA-256 verification during the image build.",
+      "action_statement": "Replace the backport with the official CPython 3.14.7 release when available."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-15308"
+      },
+      "products": [
+        {
+          "@id": "pkg:generic/python@3.14.6"
+        }
+      ],
+      "status": "fixed",
+      "status_notes": "Official CPython 3.14 backport 07efb08123ba9367a7107325adb9d5626dca1ca9 is applied after SHA-256 verification during the image build.",
+      "action_statement": "Replace the backport with the official CPython 3.14.7 release when available."
+    }
+  ]
+}

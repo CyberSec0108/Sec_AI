@@ -1,0 +1,47 @@
+{
+  "contract_version": "1.0.0",
+  "imp": "IMP-032",
+  "profile": "ONLINE-AUTHENTICATED",
+  "credential": {
+    "format": "OPAQUE_256_BIT",
+    "server_storage": "HMAC_SHA256_ONLY",
+    "default_ttl_seconds": 3600,
+    "maximum_ttl_seconds": 7200,
+    "successful_commits": 1,
+    "maximum_failed_attempts": 5,
+    "forbidden_locations": [
+      "COMMAND_LINE",
+      "PACKAGE",
+      "SOURCE",
+      "LOG",
+      "BROWSER_STORAGE"
+    ]
+  },
+  "exact_scope": [
+    "organization_id",
+    "asset_id",
+    "job_id",
+    "manifest_id",
+    "manifest_sha256",
+    "nonce",
+    "endpoint_id",
+    "content_type",
+    "schema_version",
+    "max_archive_bytes"
+  ],
+  "commit": {
+    "nonce_replay": "REJECT",
+    "credential_reuse": "REJECT",
+    "different_asset": "REJECT",
+    "different_manifest": "REJECT",
+    "package_validation_failure": "DO_NOT_COMMIT",
+    "official_finding_created": false
+  },
+  "implementation_boundary": {
+    "credential_issue_http_endpoint": false,
+    "reason": "Human authentication and Job authorization are not implemented yet.",
+    "production_persistence": "FUTURE_AUTH_MIGRATION",
+    "dev_acceptance_store": "IN_MEMORY",
+    "tls_required_for_pilot": true
+  }
+}

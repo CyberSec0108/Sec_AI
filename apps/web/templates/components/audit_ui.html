@@ -1,0 +1,106 @@
+{% macro app_header(active, help_topic="windows") -%}
+<header class="app-header">
+  <div class="header-inner">
+    <a class="brand" href="/?new_scan=1" aria-label="Sec_AI 원클릭 점검으로 이동">
+      <span class="brand-mark" data-brand-icon="one-click-security" aria-hidden="true">
+        <svg viewBox="0 0 24 24" focusable="false">
+          <path d="M12 2.8 19 5.7v5.5c0 4.7-2.9 8.1-7 10-4.1-1.9-7-5.3-7-10V5.7L12 2.8Z"/>
+          <path d="m8.4 12 2.2 2.2 4.8-5.1"/>
+        </svg>
+      </span>
+      <span><strong>Sec_AI</strong><small>원클릭 보안 점검</small></span>
+    </a>
+    <nav class="top-nav" aria-label="점검 화면">
+      <a href="/?new_scan=1"{% if active == "home" %} aria-current="page"{% endif %}>원클릭 점검</a>
+      <a href="/ui/result-center"{% if active == "results" %} aria-current="page"{% endif %}>점검 결과</a>
+      <a href="/ui/guide-chat"{% if active == "guide_chat" %} aria-current="page"{% endif %}>가이드 질의</a>
+      <a href="/ui/help?topic={{ help_topic }}"{% if active == "help" %} aria-current="page"{% endif %}>도움말</a>
+      <a href="/auth/session">계정정보</a>
+    </nav>
+    {% if active in ["home", "results", "downloads", "guide_chat", "help", "criteria"] %}
+    <button
+      type="button"
+      id="theme-toggle"
+      class="theme-toggle"
+      aria-pressed="false"
+      aria-label="어두운 화면으로 전환"
+      title="어두운 화면으로 전환"
+    >
+      <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M20.2 15.1A8.2 8.2 0 0 1 8.9 3.8 8.5 8.5 0 1 0 20.2 15.1Z"/>
+      </svg>
+      <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="12" cy="12" r="4"/>
+        <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
+      </svg>
+      <span id="theme-toggle-label" class="sr-only">어두운 화면으로 전환</span>
+    </button>
+    {% endif %}
+  </div>
+</header>
+{%- endmacro %}
+
+{% macro page_intro(section_code, title, lead, guide_tag) -%}
+<header class="page-heading">
+  <div>
+    <p class="section-code">{{ section_code }}</p>
+    <h1>{{ title }}</h1>
+    <p class="lead">{{ lead }}</p>
+  </div>
+  <span class="guide-tag">{{ guide_tag }}</span>
+</header>
+<aside class="draft-notice" aria-label="테스트 데이터 안내">
+  <strong>테스트 데이터로 확인하는 화면입니다.</strong>
+  실제 PC 자료나 사용자 정보는 사용하지 않았으며, 현재 결과는 운영용 공식 결과가 아닙니다.
+</aside>
+{%- endmacro %}
+
+{% macro summary_panel(summary, title) -%}
+<section class="summary-panel" aria-labelledby="summary-title">
+  <div class="summary-heading">
+    <p class="section-label">점검 현황</p>
+    <h2 id="summary-title">{{ title }}</h2>
+  </div>
+  <dl class="summary-list summary-list-six">
+    <div><dt>전체 결과</dt><dd>{{ summary.total }}</dd></div>
+    <div class="summary-pass"><dt>양호 <small>(PASS)</small></dt><dd>{{ summary.pass }}</dd></div>
+    <div class="summary-fail"><dt>취약 <small>(FAIL)</small></dt><dd>{{ summary.fail }}</dd></div>
+    <div class="summary-error"><dt>확인 필요 <small>(ERROR)</small></dt><dd>{{ summary.error }}</dd></div>
+    <div class="summary-review"><dt>기준 확인 필요 <small>(REVIEW)</small></dt><dd>{{ summary.review }}</dd></div>
+    <div><dt>해당 없음 <small>(N/A)</small></dt><dd>{{ summary.na }}</dd></div>
+  </dl>
+</section>
+{%- endmacro %}
+
+{% macro panel_header(identifier, label, title, description, count=none) -%}
+<div class="panel-heading{% if count is not none %} panel-heading-row{% endif %}">
+  <div>
+    <p class="section-label">{{ label }}</p>
+    <h2 id="{{ identifier }}">{{ title }}</h2>
+    <p>{{ description }}</p>
+  </div>
+  {% if count is not none %}<span class="record-count">총 {{ count }}건</span>{% endif %}
+</div>
+{%- endmacro %}
+
+{% macro technical_panel(items, hashes=none) -%}
+<details class="technical-panel">
+  <summary><span id="technical-title">기술 정보 보기</span> <small>(점검 추적용)</small></summary>
+  <dl class="metadata-grid">
+  {% for item in items %}
+    <div>
+      <dt>{{ item.label }}</dt>
+      <dd>{% if item.code %}<code>{{ item.value }}</code>{% else %}{{ item.value }}{% endif %}</dd>
+    </div>
+  {% endfor %}
+  </dl>
+  {% if hashes %}
+  <h2>무결성 확인값 <small>(SHA-256)</small></h2>
+  <dl class="hash-list">
+  {% for item in hashes %}
+    <dt>{{ item.label }}</dt><dd><code>{{ item.value }}</code></dd>
+  {% endfor %}
+  </dl>
+  {% endif %}
+</details>
+{%- endmacro %}

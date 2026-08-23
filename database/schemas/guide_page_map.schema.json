@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sec-ai.local/v1/guide_page_map.schema.json",
+  "title": "Sec_AI exact guide page map",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "guide_id",
+    "guide_version",
+    "source_sha256",
+    "source_page_count",
+    "scope_id",
+    "pdf_page_start",
+    "pdf_page_end",
+    "extractor",
+    "pages"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "guide_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]{2,127}$"
+    },
+    "guide_version": {"type": "string", "minLength": 1, "maxLength": 64},
+    "source_sha256": {"$ref": "#/$defs/sha256"},
+    "source_page_count": {"type": "integer", "minimum": 1},
+    "scope_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]{2,63}$"
+    },
+    "pdf_page_start": {"type": "integer", "minimum": 1},
+    "pdf_page_end": {"type": "integer", "minimum": 1},
+    "extractor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version", "normalization_profile"],
+      "properties": {
+        "name": {"const": "PyMuPDF"},
+        "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+        "normalization_profile": {"const": "NFC_WHITESPACE_V1"}
+      }
+    },
+    "pages": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/page"}
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "page": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pdf_page_number",
+        "pdf_page_index",
+        "printed_page_number",
+        "printed_page_evidence",
+        "text_sha256",
+        "normalized_text_chars",
+        "control_ids"
+      ],
+      "properties": {
+        "pdf_page_number": {"type": "integer", "minimum": 1},
+        "pdf_page_index": {"type": "integer", "minimum": 0},
+        "printed_page_number": {"type": "integer", "minimum": 1},
+        "printed_page_evidence": {
+          "enum": [
+            "TEXT_PAGE_NUMBER_VERIFIED",
+            "TOC_ANCHOR_VERIFIED",
+            "PHYSICAL_SEQUENCE_VERIFIED"
+          ]
+        },
+        "text_sha256": {"$ref": "#/$defs/sha256"},
+        "normalized_text_chars": {"type": "integer", "minimum": 1},
+        "control_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^PC-(0[1-9]|1[0-8])$"}
+        }
+      }
+    }
+  }
+}

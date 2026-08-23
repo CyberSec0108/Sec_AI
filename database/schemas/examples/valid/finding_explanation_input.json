@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0.0",
+  "control_id": "PC-01",
+  "title": "비밀번호의 주기적 변경",
+  "importance": "HIGH",
+  "what_was_checked": "현재 적용되는 비밀번호 최대 사용 기간을 확인했습니다.",
+  "observed_summary": "비밀번호 최대 사용 기간은 42일입니다.",
+  "normalized_facts": {"actual_summary": "비밀번호 최대 사용 기간은 42일입니다."},
+  "collection_methods": [
+    {
+      "probe_id": "win.security.password-age",
+      "method_code": "WINDOWS_API",
+      "method_summary": "Windows가 실제로 적용하는 비밀번호 최대 사용 기간을 읽습니다.",
+      "collection_status": "COLLECTED"
+    }
+  ],
+  "execution_tools": [
+    {
+      "probe_id": "win.security.password-age",
+      "probe_version": "0.1.0",
+      "tool_name": "SecAI Windows 읽기 전용 점검 도구",
+      "collector_name": "sec-ai-one-shot-collector",
+      "collector_version": "0.1.0",
+      "adapter_id": "secai.windows-native",
+      "adapter_version": "0.1.0"
+    }
+  ],
+  "source_locations": [
+    {
+      "probe_id": "win.security.password-age",
+      "user_label": "Windows 유효 비밀번호 정책",
+      "technical_locator": "NetUserModalsGet(level=0)"
+    }
+  ],
+  "rule_status": "PASS",
+  "status_authority": "RULE_ENGINE",
+  "result_code": "PASSWORD_CHANGE_PERIOD_WITHIN_90_DAYS",
+  "result_code_visibility": "TECHNICAL_ONLY",
+  "expected_summary": "비밀번호를 1~90일 이내에 변경",
+  "judgement_explanation": "내 PC에서 확인한 내용이 적용된 안전 기준을 충족해 양호로 판정했습니다.",
+  "collection_limitations": [],
+  "importance_source": "상",
+  "kisa_citations": [
+    {
+      "guide_id": "kisa-major-infrastructure-detailed-guide",
+      "guide_version": "2026",
+      "source_sha256": "44fe393981b244147be6af7423d99dc15633c089fad0bcb296cbe2371dde812d",
+      "document_code": "KISA-2026-07-PC",
+      "page_start": 555,
+      "page_end": 556,
+      "section_label": "PC-01 비밀번호의 주기적 변경",
+      "mapping_status": "DRAFT"
+    }
+  ],
+  "allowed_actions": ["조직 기준과 다르면 Windows 계정 정책 담당자에게 변경을 요청하세요."],
+  "assessment_kind": "DEVELOPMENT_DRAFT",
+  "source_rule_result_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+  "official_finding_write_allowed": false,
+  "safety": {
+    "raw_evidence_included": false,
+    "sensitive_identifiers_included": false,
+    "rule_status_unchanged": true,
+    "internal_reason_code_user_visible": false
+  },
+  "explanation_input_sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+}

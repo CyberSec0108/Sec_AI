@@ -1,0 +1,73 @@
+# BGE-M3 계열은 아래 불변 revision만 사용하고 가중치는 named volume에 보존합니다.
+# vLLM과 동시에 기동하지 않도록 tools/search-model-runtime.ps1을 통해 실행합니다.
+services:
+  api:
+    environment:
+      SECAI_GUIDE_SEARCH_MODE: ${SECAI_GUIDE_SEARCH_MODE:-BGE_M3_WITH_LEGACY_FALLBACK}
+      SECAI_EMBEDDING_URL: ${SECAI_EMBEDDING_URL:-http://embedding-service:80}
+      SECAI_RERANKER_URL: ${SECAI_RERANKER_URL:-http://reranker-service:80}
+      SECAI_SEARCH_MODEL_TIMEOUT_SECONDS: ${SECAI_SEARCH_MODEL_TIMEOUT_SECONDS:-30}
+
+  embedding-service:
+    profiles: ["search-models"]
+    image: ghcr.io/huggingface/text-embeddings-inference:86-1.8@sha256:65f792e790f976713a5d2ab2586d93d074203d1f0ec2045e87e60113fbd0e256
+    command:
+      - --model-id
+      - BAAI/bge-m3
+      - --revision
+      - 5617a9f61b028005a4858fdac845db406aefb181
+      - --dtype
+      - float16
+      - --port
+      - "80"
+    environment:
+      HF_HOME: /data
+    volumes:
+      - bge_m3_model_cache:/data
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    tmpfs:
+      - /tmp:size=512m,mode=1777
+    gpus: all
+    networks:
+      - app_net
+    restart: unless-stopped
+
+  reranker-service:
+    profiles: ["search-models"]
+    image: ghcr.io/huggingface/text-embeddings-inference:86-1.8@sha256:65f792e790f976713a5d2ab2586d93d074203d1f0ec2045e87e60113fbd0e256
+    command:
+      - --model-id
+      - BAAI/bge-reranker-v2-m3
+      - --revision
+      - 953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e
+      - --dtype
+      - float16
+      - --port
+      - "80"
+    environment:
+      HF_HOME: /data
+    volumes:
+      - reranker_model_cache:/data
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    tmpfs:
+      - /tmp:size=512m,mode=1777
+    gpus: all
+    networks:
+      - app_net
+    restart: unless-stopped
+
+volumes:
+  bge_m3_model_cache:
+    name: sec-ai-mvp-bge-m3-model-cache
+    external: true
+  reranker_model_cache:
+    name: sec-ai-mvp-reranker-model-cache
+    external: true

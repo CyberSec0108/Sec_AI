@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sec-ai.local/v1/common.schema.json",
+  "title": "Sec_AI common definitions",
+  "$defs": {
+    "schemaVersion": {"const": "1.0.0"},
+    "uuid": {"type": "string", "format": "uuid"},
+    "timestamp": {"type": "string", "format": "date-time", "pattern": "Z$"},
+    "semver": {"type": "string", "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:[-+][0-9A-Za-z.-]+)?$", "maxLength": 64},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "nonce": {"type": "string", "pattern": "^[A-Za-z0-9_-]{22,128}$"},
+    "identifier": {"type": "string", "pattern": "^[A-Za-z][A-Za-z0-9._:-]{0,127}$"},
+    "controlId": {"type": "string", "pattern": "^PC-(0[1-9]|1[0-8])$"},
+    "findingStatus": {"enum": ["PASS", "FAIL", "REVIEW", "ERROR", "N/A"]},
+    "severity": {"enum": ["HIGH", "MEDIUM", "LOW"]},
+    "automationType": {"enum": ["AUTO", "AUTO-CONDITIONAL", "AUTO-APPLICABILITY", "MANUAL"]},
+    "source": {"enum": ["api", "collector", "normalizer", "rule-engine", "ai-service", "audit-pack-builder", "admin-ui", "scheduler", "manual-attestation"]},
+    "privilege": {"enum": ["STANDARD_USER", "ELEVATED_ADMIN", "SYSTEM", "NOT_APPLICABLE"]},
+    "errorCode": {
+      "enum": [
+        "NONE", "SCHEMA_INVALID", "SCHEMA_VERSION_UNSUPPORTED", "MANIFEST_INVALID",
+        "MANIFEST_EXPIRED", "SIGNATURE_INVALID", "HASH_MISMATCH", "REPLAY_DETECTED",
+        "UNSUPPORTED_OS", "PERMISSION_DENIED", "PROBE_NOT_ALLOWED", "PROBE_TIMEOUT",
+        "OUTPUT_LIMIT_EXCEEDED", "PARSE_FAILED", "PACKAGE_INTEGRITY_FAILED", "UPLOAD_FAILED",
+        "RULE_NOT_APPLICABLE", "EVIDENCE_INCOMPLETE", "RULE_EVALUATION_FAILED",
+        "AI_PROVIDER_UNAVAILABLE", "AI_GENERATION_FAILED", "AI_SAFETY_BLOCKED"
+      ]
+    },
+    "safePackagePath": {
+      "type": "string",
+      "anyOf": [
+        {"const": "collector_manifest.json"},
+        {"pattern": "^evidence/[0-9a-fA-F-]{36}\\.json$"},
+        {"pattern": "^errors/[0-9a-fA-F-]{36}\\.json$"}
+      ]
+    },
+    "boundedScalar": {
+      "type": ["string", "number", "boolean", "null"],
+      "maxLength": 8192
+    },
+    "boundedValue": {
+      "oneOf": [
+        {"$ref": "#/$defs/boundedScalar"},
+        {"type": "array", "maxItems": 256, "items": {"$ref": "#/$defs/boundedScalar"}},
+        {
+          "type": "object",
+          "maxProperties": 128,
+          "propertyNames": {"pattern": "^[A-Za-z0-9._:-]{1,128}$"},
+          "additionalProperties": {"$ref": "#/$defs/boundedScalar"}
+        }
+      ]
+    },
+    "commonFields": {
+      "type": "object",
+      "required": ["schema_version", "id", "created_at", "source", "producer_name", "producer_version", "correlation_id"],
+      "properties": {
+        "schema_version": {"$ref": "#/$defs/schemaVersion"},
+        "id": {"$ref": "#/$defs/uuid"},
+        "created_at": {"$ref": "#/$defs/timestamp"},
+        "source": {"$ref": "#/$defs/source"},
+        "producer_name": {"$ref": "#/$defs/identifier"},
+        "producer_version": {"$ref": "#/$defs/semver"},
+        "correlation_id": {"$ref": "#/$defs/uuid"}
+      }
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["canonicalization", "algorithm", "key_id", "signed_sha256", "value"],
+      "properties": {
+        "canonicalization": {"const": "RFC8785-JCS"},
+        "algorithm": {"enum": ["ES256", "Ed25519", "RS256"]},
+        "key_id": {"$ref": "#/$defs/identifier"},
+        "signed_sha256": {"$ref": "#/$defs/sha256"},
+        "certificate_sha256": {"$ref": "#/$defs/sha256"},
+        "value": {"type": "string", "pattern": "^[A-Za-z0-9_-]{32,4096}$"}
+      }
+    },
+    "artifactRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "sha256"],
+      "properties": {
+        "id": {"$ref": "#/$defs/uuid"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "object_version": {"type": "string", "minLength": 1, "maxLength": 128}
+      }
+    }
+  }
+}
+

@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "backup_id": "45000000-0000-4000-8000-000000000001",
+  "created_at": "2026-07-24T03:00:00Z",
+  "classification": "REAL_EVIDENCE",
+  "source_checkpoint": {
+    "alembic_version": "0004_imp045",
+    "postgres_checkpoint_at": "2026-07-24T03:00:00Z",
+    "aistor_image_ref": "latest",
+    "redis_is_business_truth": true
+  },
+  "database_inventory": {
+    "organization_count": 1,
+    "asset_count": 1,
+    "audit_job_count": 1,
+    "finding_count": 0,
+    "finding_lineage_sha256": "not-a-hash",
+    "artifact_count": 1,
+    "artifact_inventory_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  },
+  "object_inventory": [],
+  "recovery_targets": {
+    "postgres_rpo_seconds": 900,
+    "postgres_rto_seconds": 14400,
+    "evidence_rpo_seconds": 3600,
+    "evidence_rto_seconds": 28800,
+    "independent_failure_domain_required": false
+  }
+}

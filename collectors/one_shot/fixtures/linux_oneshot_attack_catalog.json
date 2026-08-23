@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0.0",
+  "profile": "SECAI-LINUX-ONESHOT-ATTACK-FIXTURE-CATALOG-V1",
+  "cases": [
+    {"id": "LIN-FX-VALID-UBUNTU", "kind": "VALID_UBUNTU_FULL", "expected": "ACCEPT_67_DRAFT_RESULTS"},
+    {"id": "LIN-FX-VALID-ROCKY", "kind": "VALID_ROCKY_FULL", "expected": "ACCEPT_67_DRAFT_RESULTS"},
+    {"id": "LIN-FX-PERMISSION", "kind": "PARTIAL_PERMISSION_DENIED", "expected": "ACCEPT_WITH_ERROR_CONTROLS"},
+    {"id": "LIN-FX-TIMEOUT", "kind": "PROBE_TIMEOUT", "expected": "ACCEPT_WITH_ERROR_CONTROLS"},
+    {"id": "LIN-FX-OUTPUT-LIMIT", "kind": "OUTPUT_LIMIT_EXCEEDED", "expected": "ACCEPT_WITH_ERROR_CONTROLS"},
+    {"id": "LIN-FX-DISTRIBUTION", "kind": "UNSUPPORTED_DISTRIBUTION", "expected": "REJECT_BEFORE_RULE_ENGINE"},
+    {"id": "LIN-FX-EXPIRED", "kind": "EXPIRED_MANIFEST", "expected": "REJECT_BEFORE_RULE_ENGINE"},
+    {"id": "LIN-FX-SCOPE", "kind": "USER_ASSET_JOB_SCOPE_MISMATCH", "expected": "REJECT_BEFORE_RULE_ENGINE"},
+    {"id": "LIN-FX-REPLAY", "kind": "NONCE_REPLAY", "expected": "REJECT_BEFORE_RULE_ENGINE"},
+    {"id": "LIN-FX-HASH", "kind": "ARCHIVE_OR_MEMBER_HASH_TAMPER", "expected": "REJECT_BEFORE_RULE_ENGINE"},
+    {"id": "LIN-FX-TRAVERSAL", "kind": "ZIP_PATH_TRAVERSAL", "expected": "REJECT_BEFORE_RULE_ENGINE"},
+    {"id": "LIN-FX-SYMLINK", "kind": "ZIP_SYMLINK", "expected": "REJECT_BEFORE_RULE_ENGINE"},
+    {"id": "LIN-FX-NESTED", "kind": "NESTED_ARCHIVE", "expected": "REJECT_BEFORE_RULE_ENGINE"},
+    {"id": "LIN-FX-BOMB", "kind": "ZIP_BOMB_CANDIDATE", "expected": "REJECT_BEFORE_RULE_ENGINE"}
+  ]
+}

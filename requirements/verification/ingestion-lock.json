@@ -1,0 +1,16 @@
+{
+  "lock": "ingestion.lock",
+  "runtime": "CPython 3.14.6",
+  "platform": "linux/amd64",
+  "hash_install": "PASS",
+  "imports": [
+    "pymupdf",
+    "psycopg",
+    "redis",
+    "minio",
+    "jsonschema",
+    "sqlalchemy",
+    "pydantic"
+  ],
+  "status": "PASS"
+}

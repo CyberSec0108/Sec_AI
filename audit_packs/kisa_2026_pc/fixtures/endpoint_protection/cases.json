@@ -1,0 +1,191 @@
+{
+  "fixture_set_version": "1.0.0",
+  "pack_version": "0.5.0",
+  "adapter_catalog_id": "secai-endpoint-protection-adapters-0.1.0",
+  "synthetic": true,
+  "description": "IMP-024 PC-12 through PC-15 deterministic endpoint protection test data",
+  "cases": [
+    {
+      "case_id": "pc12-pass-value-missing", "control_id": "PC-12", "control_label": "Windows 자동 로그인",
+      "evidence": {
+        "schema_version": "1.0.0", "id": "66000000-0000-4000-8000-000000000121", "created_at": "2026-07-23T04:01:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "66000000-0000-4000-8000-000000001121",
+        "job_id": "66000000-0000-4000-8000-000000002121", "asset_id": "66000000-0000-4000-8000-000000003000", "package_id": "66000000-0000-4000-8000-000000004000", "source_evidence_id": "66000000-0000-4000-8000-000000005121", "control_id": "PC-12", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.autologon.config", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T04:00:00Z", "normalized_at": "2026-07-23T04:01:00Z", "source_locator": {"type": "REGISTRY", "provider": "HKLM Winlogon"},
+        "normalized_value": {"auto_admin_logon_value": "MISSING", "related_autologon_configuration_present": false, "default_password_present": false},
+        "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": true, "method": "PRESENCE_ONLY"}, "evidence_sha256": "1111111111111111111111111111111111111111111111111111111111111124"
+      },
+      "expected": {"status": "PASS", "result_code": "WINDOWS_AUTOMATIC_LOGON_DISABLED"}
+    },
+    {
+      "case_id": "pc12-pass-explicit-zero", "control_id": "PC-12", "control_label": "Windows 자동 로그인",
+      "evidence": {
+        "schema_version": "1.0.0", "id": "66000000-0000-4000-8000-000000000122", "created_at": "2026-07-23T04:02:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "66000000-0000-4000-8000-000000001122",
+        "job_id": "66000000-0000-4000-8000-000000002122", "asset_id": "66000000-0000-4000-8000-000000003000", "package_id": "66000000-0000-4000-8000-000000004000", "source_evidence_id": "66000000-0000-4000-8000-000000005122", "control_id": "PC-12", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.autologon.config", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T04:00:00Z", "normalized_at": "2026-07-23T04:02:00Z", "source_locator": {"type": "REGISTRY", "provider": "HKLM Winlogon"},
+        "normalized_value": {"auto_admin_logon_value": "0", "related_autologon_configuration_present": true, "default_password_present": false},
+        "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": true, "method": "PRESENCE_ONLY"}, "evidence_sha256": "2222222222222222222222222222222222222222222222222222222222222224"
+      },
+      "expected": {"status": "PASS", "result_code": "WINDOWS_AUTOMATIC_LOGON_DISABLED"}
+    },
+    {
+      "case_id": "pc12-fail-enabled", "control_id": "PC-12", "control_label": "Windows 자동 로그인",
+      "evidence": {
+        "schema_version": "1.0.0", "id": "66000000-0000-4000-8000-000000000123", "created_at": "2026-07-23T04:03:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "66000000-0000-4000-8000-000000001123",
+        "job_id": "66000000-0000-4000-8000-000000002123", "asset_id": "66000000-0000-4000-8000-000000003000", "package_id": "66000000-0000-4000-8000-000000004000", "source_evidence_id": "66000000-0000-4000-8000-000000005123", "control_id": "PC-12", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.autologon.config", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T04:00:00Z", "normalized_at": "2026-07-23T04:03:00Z", "source_locator": {"type": "REGISTRY", "provider": "HKLM Winlogon"},
+        "normalized_value": {"auto_admin_logon_value": "1", "related_autologon_configuration_present": true, "default_password_present": true},
+        "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": true, "method": "PRESENCE_ONLY"}, "evidence_sha256": "3333333333333333333333333333333333333333333333333333333333333324"
+      },
+      "expected": {"status": "FAIL", "result_code": "WINDOWS_AUTOMATIC_LOGON_ENABLED"}
+    },
+    {
+      "case_id": "pc12-error-collection", "control_id": "PC-12", "control_label": "Windows 자동 로그인",
+      "evidence": {
+        "schema_version": "1.0.0", "id": "66000000-0000-4000-8000-000000000124", "created_at": "2026-07-23T04:04:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "66000000-0000-4000-8000-000000001124",
+        "job_id": "66000000-0000-4000-8000-000000002124", "asset_id": "66000000-0000-4000-8000-000000003000", "package_id": "66000000-0000-4000-8000-000000004000", "source_evidence_id": "66000000-0000-4000-8000-000000005124", "control_id": "PC-12", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.autologon.config", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T04:00:00Z", "normalized_at": "2026-07-23T04:04:00Z", "source_locator": {"type": "REGISTRY", "provider": "HKLM Winlogon"},
+        "collection_status": "ERROR", "error_code": "PERMISSION_DENIED", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "4444444444444444444444444444444444444444444444444444444444444424"
+      },
+      "expected": {"status": "ERROR", "result_code": "PC12_COLLECTION_FAILED"}
+    },
+
+    {
+      "case_id": "pc13-pass-defender-current", "control_id": "PC-13", "control_label": "백신 설치와 업데이트",
+      "organization_policy": {"standard_id": "antivirus-freshness-standard", "version": "1.0.0", "maximum_signature_age_hours": 48, "approved_adapter_catalog_id": "secai-endpoint-protection-adapters-0.1.0"},
+      "evidence": {
+        "schema_version": "1.0.0", "id": "66000000-0000-4000-8000-000000000131", "created_at": "2026-07-23T04:11:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "66000000-0000-4000-8000-000000001131",
+        "job_id": "66000000-0000-4000-8000-000000002131", "asset_id": "66000000-0000-4000-8000-000000003000", "package_id": "66000000-0000-4000-8000-000000004000", "source_evidence_id": "66000000-0000-4000-8000-000000005131", "control_id": "PC-13", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.antivirus.update-status", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T04:00:00Z", "normalized_at": "2026-07-23T04:11:00Z", "source_locator": {"type": "POWERSHELL", "provider": "Get-MpComputerStatus"},
+        "normalized_value": {"product_present": true, "adapter_id": "secai.microsoft-defender-antivirus", "adapter_version": "0.1.0", "product_id": "MICROSOFT_DEFENDER_ANTIVIRUS", "product_name": "Microsoft Defender Antivirus", "product_state": "ACTIVE", "service_enabled": true, "operating_mode": "NORMAL", "engine_version": "1.1.26060.3", "signature_version": "1.433.1.0", "signature_updated_at": "2026-07-22T18:00:00Z", "automatic_updates_enabled": true, "real_time_protection_enabled": true, "health_state": "HEALTHY"},
+        "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "5555555555555555555555555555555555555555555555555555555555555524"
+      },
+      "expected": {"status": "PASS", "result_code": "ANTIVIRUS_CURRENT_AND_MANAGED"}
+    },
+    {
+      "case_id": "pc13-fail-signature-stale", "control_id": "PC-13", "control_label": "백신 설치와 업데이트",
+      "organization_policy": {"standard_id": "antivirus-freshness-standard", "version": "1.0.0", "maximum_signature_age_hours": 48, "approved_adapter_catalog_id": "secai-endpoint-protection-adapters-0.1.0"},
+      "evidence": {
+        "schema_version": "1.0.0", "id": "66000000-0000-4000-8000-000000000132", "created_at": "2026-07-23T04:12:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "66000000-0000-4000-8000-000000001132",
+        "job_id": "66000000-0000-4000-8000-000000002132", "asset_id": "66000000-0000-4000-8000-000000003000", "package_id": "66000000-0000-4000-8000-000000004000", "source_evidence_id": "66000000-0000-4000-8000-000000005132", "control_id": "PC-13", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.antivirus.update-status", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T04:00:00Z", "normalized_at": "2026-07-23T04:12:00Z", "source_locator": {"type": "POWERSHELL", "provider": "Get-MpComputerStatus"},
+        "normalized_value": {"product_present": true, "adapter_id": "secai.microsoft-defender-antivirus", "adapter_version": "0.1.0", "product_id": "MICROSOFT_DEFENDER_ANTIVIRUS", "product_name": "Microsoft Defender Antivirus", "product_state": "ACTIVE", "service_enabled": true, "operating_mode": "NORMAL", "engine_version": "1.1.26060.3", "signature_version": "1.431.1.0", "signature_updated_at": "2026-07-20T00:00:00Z", "automatic_updates_enabled": true, "real_time_protection_enabled": true, "health_state": "HEALTHY"},
+        "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "6666666666666666666666666666666666666666666666666666666666666624"
+      },
+      "expected": {"status": "FAIL", "result_code": "ANTIVIRUS_SIGNATURE_STALE"}
+    },
+    {
+      "case_id": "pc13-review-no-freshness-policy", "control_id": "PC-13", "control_label": "백신 설치와 업데이트",
+      "evidence": {
+        "schema_version": "1.0.0", "id": "66000000-0000-4000-8000-000000000133", "created_at": "2026-07-23T04:13:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "66000000-0000-4000-8000-000000001133",
+        "job_id": "66000000-0000-4000-8000-000000002133", "asset_id": "66000000-0000-4000-8000-000000003000", "package_id": "66000000-0000-4000-8000-000000004000", "source_evidence_id": "66000000-0000-4000-8000-000000005133", "control_id": "PC-13", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.antivirus.update-status", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T04:00:00Z", "normalized_at": "2026-07-23T04:13:00Z", "source_locator": {"type": "POWERSHELL", "provider": "Get-MpComputerStatus"},
+        "normalized_value": {"product_present": true, "adapter_id": "secai.microsoft-defender-antivirus", "adapter_version": "0.1.0", "product_id": "MICROSOFT_DEFENDER_ANTIVIRUS", "product_name": "Microsoft Defender Antivirus", "product_state": "ACTIVE", "service_enabled": true, "operating_mode": "NORMAL", "engine_version": "1.1.26060.3", "signature_version": "1.433.1.0", "signature_updated_at": "2026-07-22T18:00:00Z", "automatic_updates_enabled": true, "real_time_protection_enabled": true, "health_state": "HEALTHY"},
+        "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "7777777777777777777777777777777777777777777777777777777777777724"
+      },
+      "expected": {"status": "REVIEW", "result_code": "ANTIVIRUS_FRESHNESS_POLICY_REQUIRED"}
+    },
+    {
+      "case_id": "pc13-review-unsupported-product", "control_id": "PC-13", "control_label": "백신 설치와 업데이트",
+      "organization_policy": {"standard_id": "antivirus-freshness-standard", "version": "1.0.0", "maximum_signature_age_hours": 48, "approved_adapter_catalog_id": "secai-endpoint-protection-adapters-0.1.0"},
+      "evidence": {
+        "schema_version": "1.0.0", "id": "66000000-0000-4000-8000-000000000134", "created_at": "2026-07-23T04:14:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "66000000-0000-4000-8000-000000001134",
+        "job_id": "66000000-0000-4000-8000-000000002134", "asset_id": "66000000-0000-4000-8000-000000003000", "package_id": "66000000-0000-4000-8000-000000004000", "source_evidence_id": "66000000-0000-4000-8000-000000005134", "control_id": "PC-13", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.antivirus.update-status", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T04:00:00Z", "normalized_at": "2026-07-23T04:14:00Z", "source_locator": {"type": "WINDOWS_API", "provider": "Windows Security Center"},
+        "normalized_value": {"product_present": true, "adapter_id": "vendor.unapproved-antivirus", "adapter_version": "9.9.9", "product_id": "UNAPPROVED_AV", "product_name": "Synthetic Vendor Antivirus", "product_state": "ACTIVE", "service_enabled": true, "operating_mode": "NORMAL", "engine_version": "9.0", "signature_version": "9.0", "signature_updated_at": "2026-07-23T03:00:00Z", "automatic_updates_enabled": true, "real_time_protection_enabled": true, "health_state": "HEALTHY"},
+        "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "8888888888888888888888888888888888888888888888888888888888888824"
+      },
+      "expected": {"status": "REVIEW", "result_code": "ANTIVIRUS_ADAPTER_NOT_SUPPORTED"}
+    },
+    {
+      "case_id": "pc13-error-collection", "control_id": "PC-13", "control_label": "백신 설치와 업데이트",
+      "evidence": {
+        "schema_version": "1.0.0", "id": "66000000-0000-4000-8000-000000000135", "created_at": "2026-07-23T04:15:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "66000000-0000-4000-8000-000000001135",
+        "job_id": "66000000-0000-4000-8000-000000002135", "asset_id": "66000000-0000-4000-8000-000000003000", "package_id": "66000000-0000-4000-8000-000000004000", "source_evidence_id": "66000000-0000-4000-8000-000000005135", "control_id": "PC-13", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.antivirus.update-status", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T04:00:00Z", "normalized_at": "2026-07-23T04:15:00Z", "source_locator": {"type": "POWERSHELL", "provider": "Get-MpComputerStatus"},
+        "collection_status": "ERROR", "error_code": "PERMISSION_DENIED", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "9999999999999999999999999999999999999999999999999999999999999924"
+      },
+      "expected": {"status": "ERROR", "result_code": "PC13_COLLECTION_FAILED"}
+    },
+
+    {
+      "case_id": "pc14-pass-defender-realtime", "control_id": "PC-14", "control_label": "백신 실시간 감시",
+      "evidence": {
+        "schema_version": "1.0.0", "id": "66000000-0000-4000-8000-000000000141", "created_at": "2026-07-23T04:21:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "66000000-0000-4000-8000-000000001141",
+        "job_id": "66000000-0000-4000-8000-000000002141", "asset_id": "66000000-0000-4000-8000-000000003000", "package_id": "66000000-0000-4000-8000-000000004000", "source_evidence_id": "66000000-0000-4000-8000-000000005141", "control_id": "PC-14", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.antivirus.realtime-status", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T04:00:00Z", "normalized_at": "2026-07-23T04:21:00Z", "source_locator": {"type": "POWERSHELL", "provider": "Get-MpComputerStatus"},
+        "normalized_value": {"product_present": true, "adapter_id": "secai.microsoft-defender-antivirus", "adapter_version": "0.1.0", "product_id": "MICROSOFT_DEFENDER_ANTIVIRUS", "product_name": "Microsoft Defender Antivirus", "product_state": "ACTIVE", "service_enabled": true, "operating_mode": "NORMAL", "engine_version": "1.1.26060.3", "signature_version": "1.433.1.0", "signature_updated_at": "2026-07-22T18:00:00Z", "automatic_updates_enabled": true, "real_time_protection_enabled": true, "health_state": "HEALTHY"},
+        "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa24"
+      },
+      "expected": {"status": "PASS", "result_code": "ANTIVIRUS_REALTIME_PROTECTION_ENABLED"}
+    },
+    {
+      "case_id": "pc14-fail-realtime-disabled", "control_id": "PC-14", "control_label": "백신 실시간 감시",
+      "evidence": {
+        "schema_version": "1.0.0", "id": "66000000-0000-4000-8000-000000000142", "created_at": "2026-07-23T04:22:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "66000000-0000-4000-8000-000000001142",
+        "job_id": "66000000-0000-4000-8000-000000002142", "asset_id": "66000000-0000-4000-8000-000000003000", "package_id": "66000000-0000-4000-8000-000000004000", "source_evidence_id": "66000000-0000-4000-8000-000000005142", "control_id": "PC-14", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.antivirus.realtime-status", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T04:00:00Z", "normalized_at": "2026-07-23T04:22:00Z", "source_locator": {"type": "POWERSHELL", "provider": "Get-MpComputerStatus"},
+        "normalized_value": {"product_present": true, "adapter_id": "secai.microsoft-defender-antivirus", "adapter_version": "0.1.0", "product_id": "MICROSOFT_DEFENDER_ANTIVIRUS", "product_name": "Microsoft Defender Antivirus", "product_state": "ACTIVE", "service_enabled": true, "operating_mode": "NORMAL", "engine_version": "1.1.26060.3", "signature_version": "1.433.1.0", "signature_updated_at": "2026-07-22T18:00:00Z", "automatic_updates_enabled": true, "real_time_protection_enabled": false, "health_state": "DEGRADED"},
+        "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb24"
+      },
+      "expected": {"status": "FAIL", "result_code": "ANTIVIRUS_REALTIME_PROTECTION_DISABLED"}
+    },
+    {
+      "case_id": "pc14-review-defender-passive", "control_id": "PC-14", "control_label": "백신 실시간 감시",
+      "evidence": {
+        "schema_version": "1.0.0", "id": "66000000-0000-4000-8000-000000000143", "created_at": "2026-07-23T04:23:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "66000000-0000-4000-8000-000000001143",
+        "job_id": "66000000-0000-4000-8000-000000002143", "asset_id": "66000000-0000-4000-8000-000000003000", "package_id": "66000000-0000-4000-8000-000000004000", "source_evidence_id": "66000000-0000-4000-8000-000000005143", "control_id": "PC-14", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.antivirus.realtime-status", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T04:00:00Z", "normalized_at": "2026-07-23T04:23:00Z", "source_locator": {"type": "POWERSHELL", "provider": "Get-MpComputerStatus"},
+        "normalized_value": {"product_present": true, "adapter_id": "secai.microsoft-defender-antivirus", "adapter_version": "0.1.0", "product_id": "MICROSOFT_DEFENDER_ANTIVIRUS", "product_name": "Microsoft Defender Antivirus", "product_state": "PASSIVE", "service_enabled": true, "operating_mode": "PASSIVE", "engine_version": "1.1.26060.3", "signature_version": "1.433.1.0", "signature_updated_at": "2026-07-22T18:00:00Z", "automatic_updates_enabled": true, "real_time_protection_enabled": false, "health_state": "PASSIVE"},
+        "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc24"
+      },
+      "expected": {"status": "REVIEW", "result_code": "ACTIVE_ANTIVIRUS_ADAPTER_COVERAGE_REQUIRED"}
+    },
+    {
+      "case_id": "pc14-error-collection", "control_id": "PC-14", "control_label": "백신 실시간 감시",
+      "evidence": {
+        "schema_version": "1.0.0", "id": "66000000-0000-4000-8000-000000000144", "created_at": "2026-07-23T04:24:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "66000000-0000-4000-8000-000000001144",
+        "job_id": "66000000-0000-4000-8000-000000002144", "asset_id": "66000000-0000-4000-8000-000000003000", "package_id": "66000000-0000-4000-8000-000000004000", "source_evidence_id": "66000000-0000-4000-8000-000000005144", "control_id": "PC-14", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.antivirus.realtime-status", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T04:00:00Z", "normalized_at": "2026-07-23T04:24:00Z", "source_locator": {"type": "POWERSHELL", "provider": "Get-MpComputerStatus"},
+        "collection_status": "ERROR", "error_code": "PROBE_TIMEOUT", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd24"
+      },
+      "expected": {"status": "ERROR", "result_code": "PC14_COLLECTION_FAILED"}
+    },
+
+    {
+      "case_id": "pc15-pass-windows-firewall", "control_id": "PC-15", "control_label": "방화벽 보호",
+      "evidence": {
+        "schema_version": "1.0.0", "id": "66000000-0000-4000-8000-000000000151", "created_at": "2026-07-23T04:31:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "66000000-0000-4000-8000-000000001151",
+        "job_id": "66000000-0000-4000-8000-000000002151", "asset_id": "66000000-0000-4000-8000-000000003000", "package_id": "66000000-0000-4000-8000-000000004000", "source_evidence_id": "66000000-0000-4000-8000-000000005151", "control_id": "PC-15", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.firewall.effective-profiles", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T04:00:00Z", "normalized_at": "2026-07-23T04:31:00Z", "source_locator": {"type": "POWERSHELL", "provider": "Get-NetFirewallProfile ActiveStore"},
+        "normalized_value": {"adapter_id": "secai.windows-firewall", "adapter_version": "0.1.0", "policy_store": "ACTIVE_STORE", "domain_applicable": true, "domain_enabled": true, "private_applicable": true, "private_enabled": true, "public_applicable": true, "public_enabled": true, "third_party_present": false, "synthetic_test_case": true},
+        "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee24"
+      },
+      "expected": {"status": "PASS", "result_code": "WINDOWS_FIREWALL_ALL_APPLICABLE_PROFILES_ENABLED"}
+    },
+    {
+      "case_id": "pc15-pass-synthetic-alternative-firewall", "control_id": "PC-15", "control_label": "방화벽 보호",
+      "evidence": {
+        "schema_version": "1.0.0", "id": "66000000-0000-4000-8000-000000000152", "created_at": "2026-07-23T04:32:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "66000000-0000-4000-8000-000000001152",
+        "job_id": "66000000-0000-4000-8000-000000002152", "asset_id": "66000000-0000-4000-8000-000000003000", "package_id": "66000000-0000-4000-8000-000000004000", "source_evidence_id": "66000000-0000-4000-8000-000000005152", "control_id": "PC-15", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.firewall.effective-profiles", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T04:00:00Z", "normalized_at": "2026-07-23T04:32:00Z", "source_locator": {"type": "POWERSHELL", "provider": "Get-NetFirewallProfile ActiveStore"},
+        "normalized_value": {"adapter_id": "secai.windows-firewall", "adapter_version": "0.1.0", "policy_store": "ACTIVE_STORE", "domain_applicable": true, "domain_enabled": false, "private_applicable": true, "private_enabled": false, "public_applicable": true, "public_enabled": false, "third_party_present": true, "third_party_adapter_id": "secai.synthetic-third-party-firewall", "third_party_adapter_version": "0.1.0", "third_party_product_state": "ACTIVE", "third_party_service_enabled": true, "third_party_health_state": "HEALTHY", "third_party_covered_profiles": "DOMAIN,PRIVATE,PUBLIC", "synthetic_test_case": true},
+        "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff24"
+      },
+      "expected": {"status": "PASS", "result_code": "APPROVED_ALTERNATIVE_FIREWALL_EFFECTIVE"}
+    },
+    {
+      "case_id": "pc15-fail-public-profile-disabled", "control_id": "PC-15", "control_label": "방화벽 보호",
+      "evidence": {
+        "schema_version": "1.0.0", "id": "66000000-0000-4000-8000-000000000153", "created_at": "2026-07-23T04:33:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "66000000-0000-4000-8000-000000001153",
+        "job_id": "66000000-0000-4000-8000-000000002153", "asset_id": "66000000-0000-4000-8000-000000003000", "package_id": "66000000-0000-4000-8000-000000004000", "source_evidence_id": "66000000-0000-4000-8000-000000005153", "control_id": "PC-15", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.firewall.effective-profiles", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T04:00:00Z", "normalized_at": "2026-07-23T04:33:00Z", "source_locator": {"type": "POWERSHELL", "provider": "Get-NetFirewallProfile ActiveStore"},
+        "normalized_value": {"adapter_id": "secai.windows-firewall", "adapter_version": "0.1.0", "policy_store": "ACTIVE_STORE", "domain_applicable": true, "domain_enabled": true, "private_applicable": true, "private_enabled": true, "public_applicable": true, "public_enabled": false, "third_party_present": false, "synthetic_test_case": true},
+        "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "1010101010101010101010101010101010101010101010101010101010101024"
+      },
+      "expected": {"status": "FAIL", "result_code": "NO_EFFECTIVE_FIREWALL_FOR_APPLICABLE_PROFILES"}
+    },
+    {
+      "case_id": "pc15-review-unapproved-third-party", "control_id": "PC-15", "control_label": "방화벽 보호",
+      "evidence": {
+        "schema_version": "1.0.0", "id": "66000000-0000-4000-8000-000000000154", "created_at": "2026-07-23T04:34:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "66000000-0000-4000-8000-000000001154",
+        "job_id": "66000000-0000-4000-8000-000000002154", "asset_id": "66000000-0000-4000-8000-000000003000", "package_id": "66000000-0000-4000-8000-000000004000", "source_evidence_id": "66000000-0000-4000-8000-000000005154", "control_id": "PC-15", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.firewall.effective-profiles", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T04:00:00Z", "normalized_at": "2026-07-23T04:34:00Z", "source_locator": {"type": "POWERSHELL", "provider": "Get-NetFirewallProfile ActiveStore"},
+        "normalized_value": {"adapter_id": "secai.windows-firewall", "adapter_version": "0.1.0", "policy_store": "ACTIVE_STORE", "domain_applicable": true, "domain_enabled": false, "private_applicable": true, "private_enabled": false, "public_applicable": true, "public_enabled": false, "third_party_present": true, "third_party_adapter_id": "vendor.unapproved-firewall", "third_party_adapter_version": "2.0.0", "third_party_product_state": "ACTIVE", "third_party_service_enabled": true, "third_party_health_state": "HEALTHY", "third_party_covered_profiles": "DOMAIN,PRIVATE,PUBLIC", "synthetic_test_case": true},
+        "collection_status": "COLLECTED", "error_code": "NONE", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "2020202020202020202020202020202020202020202020202020202020202024"
+      },
+      "expected": {"status": "REVIEW", "result_code": "THIRD_PARTY_FIREWALL_ADAPTER_COVERAGE_REQUIRED"}
+    },
+    {
+      "case_id": "pc15-error-collection", "control_id": "PC-15", "control_label": "방화벽 보호",
+      "evidence": {
+        "schema_version": "1.0.0", "id": "66000000-0000-4000-8000-000000000155", "created_at": "2026-07-23T04:35:00Z", "source": "normalizer", "producer_name": "sec-ai-normalizer", "producer_version": "0.1.0", "correlation_id": "66000000-0000-4000-8000-000000001155",
+        "job_id": "66000000-0000-4000-8000-000000002155", "asset_id": "66000000-0000-4000-8000-000000003000", "package_id": "66000000-0000-4000-8000-000000004000", "source_evidence_id": "66000000-0000-4000-8000-000000005155", "control_id": "PC-15", "guide_version": "2026", "collector_version": "0.1.0", "probe_id": "win.firewall.effective-profiles", "probe_version": "0.1.0", "subject": {"scope": "ASSET"}, "collected_at": "2026-07-23T04:00:00Z", "normalized_at": "2026-07-23T04:35:00Z", "source_locator": {"type": "POWERSHELL", "provider": "Get-NetFirewallProfile ActiveStore"},
+        "collection_status": "ERROR", "error_code": "PERMISSION_DENIED", "redaction": {"applied": false, "method": "NONE"}, "evidence_sha256": "3030303030303030303030303030303030303030303030303030303030303024"
+      },
+      "expected": {"status": "ERROR", "result_code": "PC15_COLLECTION_FAILED"}
+    }
+  ]
+}

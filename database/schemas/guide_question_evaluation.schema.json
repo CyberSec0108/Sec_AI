@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sec-ai.local/v1/guide_question_evaluation.schema.json",
+  "title": "Sec_AI Guide Question Evaluation Set",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "evaluation_id", "guide", "thresholds", "cases"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "evaluation_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{2,127}$"},
+    "guide": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["guide_id", "version", "scope_id", "source_sha256"],
+      "properties": {
+        "guide_id": {"type": "string", "minLength": 1, "maxLength": 128},
+        "version": {"type": "string", "minLength": 1, "maxLength": 64},
+        "scope_id": {"type": "string", "minLength": 1, "maxLength": 128},
+        "source_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "thresholds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["top1_control_accuracy", "citation_page_accuracy", "paragraph_evidence_accuracy", "no_evidence_accuracy", "conflict_accuracy", "maximum_scope_leaks"],
+      "properties": {
+        "top1_control_accuracy": {"const": 1.0},
+        "citation_page_accuracy": {"const": 1.0},
+        "paragraph_evidence_accuracy": {"const": 1.0},
+        "no_evidence_accuracy": {"const": 1.0},
+        "conflict_accuracy": {"const": 1.0},
+        "maximum_scope_leaks": {"const": 0}
+      }
+    },
+    "cases": {
+      "type": "array",
+      "minItems": 22,
+      "maxItems": 100,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["case_id", "question", "expected_status", "expected_control_id", "expected_page_start", "expected_page_end", "expected_section_label", "expected_evidence_terms"],
+        "properties": {
+          "case_id": {"type": "string", "pattern": "^KISA-PC-(Q(0[1-9]|1[0-8])|N0[1-9])$"},
+          "question": {"type": "string", "minLength": 5, "maxLength": 500},
+          "expected_status": {"enum": ["FOUND", "NO_EVIDENCE"]},
+          "expected_control_id": {"type": ["string", "null"], "pattern": "^PC-(0[1-9]|1[0-8])$"},
+          "expected_page_start": {"type": ["integer", "null"], "minimum": 1},
+          "expected_page_end": {"type": ["integer", "null"], "minimum": 1},
+          "expected_section_label": {"type": ["string", "null"], "minLength": 1, "maxLength": 256},
+          "expected_evidence_terms": {
+            "type": "array",
+            "maxItems": 8,
+            "uniqueItems": true,
+            "items": {"type": "string", "minLength": 1, "maxLength": 64}
+          }
+        },
+        "allOf": [
+          {
+            "if": {"properties": {"expected_status": {"const": "FOUND"}}, "required": ["expected_status"]},
+            "then": {
+              "properties": {
+                "expected_control_id": {"type": "string"},
+                "expected_page_start": {"type": "integer"},
+                "expected_page_end": {"type": "integer"},
+                "expected_section_label": {"type": "string"},
+                "expected_evidence_terms": {"minItems": 1}
+              }
+            },
+            "else": {
+              "properties": {
+                "expected_control_id": {"type": "null"},
+                "expected_page_start": {"type": "null"},
+                "expected_page_end": {"type": "null"},
+                "expected_section_label": {"type": "null"},
+                "expected_evidence_terms": {"maxItems": 0}
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

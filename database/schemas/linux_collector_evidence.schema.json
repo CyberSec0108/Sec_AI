@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sec-ai.local/v2/linux_collector_evidence.schema.json",
+  "title": "Sec_AI Linux one-shot normalized evidence member",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "evidence_id", "probe_id", "probe_version", "control_ids",
+    "collected_at", "required_privilege", "executed_privilege", "collection_status",
+    "error_code", "exit_code", "raw_output_sha256", "normalized_sha256",
+    "redaction_applied", "normalized_value"
+  ],
+  "properties": {
+    "schema_version": {"const": "2.0.0"},
+    "evidence_id": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/uuid"},
+    "probe_id": {"type": "string", "pattern": "^linux\\.[a-z0-9-]{1,96}$"},
+    "probe_version": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/semver"},
+    "control_ids": {"type": "array", "maxItems": 67, "uniqueItems": true, "items": {"type": "string", "pattern": "^U-(0[1-9]|[1-5][0-9]|6[0-7])$"}},
+    "collected_at": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/timestamp"},
+    "required_privilege": {"enum": ["STANDARD_USER", "ELEVATED_ADMIN"]},
+    "executed_privilege": {"enum": ["STANDARD_USER", "ELEVATED_ADMIN", "NOT_EXECUTED"]},
+    "collection_status": {"enum": ["COLLECTED", "ERROR", "SKIPPED"]},
+    "error_code": {"enum": ["NONE", "PERMISSION_DENIED", "PROBE_TIMEOUT", "OUTPUT_LIMIT_EXCEEDED", "PROBE_NOT_ALLOWED", "COMMAND_FAILED", "UNSUPPORTED_OS", "USER_DECLINED", "CANCELLED"]},
+    "exit_code": {"type": ["integer", "null"], "minimum": 0, "maximum": 255},
+    "raw_output_sha256": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/sha256"},
+    "normalized_sha256": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/sha256"},
+    "redaction_applied": {"type": "boolean"},
+    "normalized_value": {"type": "string", "maxLength": 1048576}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"collection_status": {"const": "COLLECTED"}}, "required": ["collection_status"]},
+      "then": {"properties": {"error_code": {"const": "NONE"}, "executed_privilege": {"enum": ["STANDARD_USER", "ELEVATED_ADMIN"]}}},
+      "else": {"properties": {"error_code": {"not": {"const": "NONE"}}, "normalized_value": {"maxLength": 0}}}
+    }
+  ]
+}

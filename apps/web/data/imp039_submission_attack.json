@@ -1,0 +1,68 @@
+{
+  "acceptance_status": "PASS",
+  "attacks": [
+    {"actual_code": "ARCHIVE_HASH_MISMATCH", "blocked": true, "category": "PACKAGE_TAMPER", "expected_codes": ["ARCHIVE_HASH_MISMATCH"], "id": "IMP039-ON-01", "surface": "ONLINE", "title": "압축 자료 내용 변경", "user_message": "점검 자료가 변경되어 접수를 중단했습니다."},
+    {"actual_code": "ARCHIVE_HASH_MISMATCH", "blocked": true, "category": "PACKAGE_TAMPER", "expected_codes": ["ARCHIVE_HASH_MISMATCH"], "id": "IMP039-ON-02", "surface": "ONLINE", "title": "자료 설명서의 압축 확인값 변경", "user_message": "점검 자료가 변경되어 접수를 중단했습니다."},
+    {"actual_code": "MANIFEST_HASH_MISMATCH", "blocked": true, "category": "PACKAGE_TAMPER", "expected_codes": ["MANIFEST_HASH_MISMATCH"], "id": "IMP039-ON-03", "surface": "ONLINE", "title": "점검 지시서 내용 변경", "user_message": "점검 자료가 변경되어 접수를 중단했습니다."},
+    {"actual_code": "MANIFEST_SIGNATURE_INVALID", "blocked": true, "category": "SIGNATURE", "expected_codes": ["MANIFEST_SIGNATURE_INVALID"], "id": "IMP039-ON-04", "surface": "ONLINE", "title": "점검 지시서 서명 실패", "user_message": "서명 또는 인증서 확인에 실패하여 접수를 중단했습니다."},
+    {"actual_code": "CREDENTIAL_EXPIRED", "blocked": true, "category": "EXPIRY", "expected_codes": ["CREDENTIAL_EXPIRED"], "id": "IMP039-ON-05", "surface": "ONLINE", "title": "만료된 온라인 접수 권한", "user_message": "사용 시간이 지난 요청이므로 다시 점검해야 합니다."},
+    {"actual_code": "MANIFEST_EXPIRED", "blocked": true, "category": "EXPIRY", "expected_codes": ["MANIFEST_EXPIRED"], "id": "IMP039-ON-06", "surface": "ONLINE", "title": "만료된 점검 지시서", "user_message": "사용 시간이 지난 요청이므로 다시 점검해야 합니다."},
+    {"actual_code": "CREDENTIAL_ALREADY_USED", "blocked": true, "category": "REPLAY", "expected_codes": ["CREDENTIAL_ALREADY_USED"], "id": "IMP039-ON-07", "surface": "ONLINE", "title": "처리된 온라인 접수 권한 재사용", "user_message": "이미 처리된 요청이므로 중복 접수를 차단했습니다."},
+    {"actual_code": "NONCE_REPLAYED", "blocked": true, "category": "REPLAY", "expected_codes": ["NONCE_REPLAYED"], "id": "IMP039-ON-08", "surface": "ONLINE", "title": "새 접수 권한으로 같은 요청 번호 재전송", "user_message": "이미 처리된 요청이므로 중복 접수를 차단했습니다."},
+    {"actual_code": "CREDENTIAL_SCOPE_MISMATCH", "blocked": true, "category": "SCOPE", "expected_codes": ["CREDENTIAL_SCOPE_MISMATCH"], "id": "IMP039-ON-09", "surface": "ONLINE", "title": "다른 점검 지시서로 접수", "user_message": "허용된 PC와 작업 범위가 일치하지 않아 접수를 중단했습니다."},
+    {"actual_code": "MANIFEST_SCOPE_MISMATCH", "blocked": true, "category": "SCOPE", "expected_codes": ["MANIFEST_SCOPE_MISMATCH"], "id": "IMP039-ON-10", "surface": "ONLINE", "title": "다른 PC 번호로 접수", "user_message": "허용된 PC와 작업 범위가 일치하지 않아 접수를 중단했습니다."},
+    {"actual_code": "MANIFEST_SCOPE_MISMATCH", "blocked": true, "category": "SCOPE", "expected_codes": ["MANIFEST_SCOPE_MISMATCH"], "id": "IMP039-ON-11", "surface": "ONLINE", "title": "다른 점검 작업 번호로 접수", "user_message": "허용된 PC와 작업 범위가 일치하지 않아 접수를 중단했습니다."},
+    {"actual_code": "ATTESTATION_BINDING_MISMATCH", "blocked": true, "category": "SCOPE", "expected_codes": ["ATTESTATION_BINDING_MISMATCH"], "id": "IMP039-ON-12", "surface": "ONLINE", "title": "다른 조직 저장 영역으로 접수", "user_message": "허용된 PC와 작업 범위가 일치하지 않아 접수를 중단했습니다."},
+    {"actual_code": "CREDENTIAL_SCOPE_MISMATCH", "blocked": true, "category": "SCOPE", "expected_codes": ["CREDENTIAL_SCOPE_MISMATCH"], "id": "IMP039-ON-13", "surface": "ONLINE", "title": "허용되지 않은 자료 형식으로 접수", "user_message": "허용된 PC와 작업 범위가 일치하지 않아 접수를 중단했습니다."},
+    {"actual_code": "OFFLINE_SIGNATURE_INVALID", "blocked": true, "category": "SIGNATURE", "expected_codes": ["OFFLINE_SIGNATURE_INVALID"], "id": "IMP039-OFF-01", "surface": "OFFLINE", "title": "오프라인 서명값 변경", "user_message": "서명 또는 인증서 확인에 실패하여 접수를 중단했습니다."},
+    {"actual_code": "OFFLINE_CERTIFICATE_WRONG_EKU", "blocked": true, "category": "SIGNATURE", "expected_codes": ["OFFLINE_CERTIFICATE_WRONG_EKU"], "id": "IMP039-OFF-02", "surface": "OFFLINE", "title": "점검 자료 서명 권한이 없는 인증서", "user_message": "서명 또는 인증서 확인에 실패하여 접수를 중단했습니다."},
+    {"actual_code": "OFFLINE_CERTIFICATE_SUBJECT_MISMATCH", "blocked": true, "category": "SCOPE", "expected_codes": ["OFFLINE_CERTIFICATE_SUBJECT_MISMATCH"], "id": "IMP039-OFF-03", "surface": "OFFLINE", "title": "다른 PC에 발급된 인증서", "user_message": "허용된 PC와 작업 범위가 일치하지 않아 접수를 중단했습니다."},
+    {"actual_code": "OFFLINE_CERTIFICATE_UNTRUSTED", "blocked": true, "category": "SIGNATURE", "expected_codes": ["OFFLINE_CERTIFICATE_UNTRUSTED"], "id": "IMP039-OFF-04", "surface": "OFFLINE", "title": "신뢰 목록에 없는 발급기관", "user_message": "서명 또는 인증서 확인에 실패하여 접수를 중단했습니다."},
+    {"actual_code": "OFFLINE_CERTIFICATE_REVOKED", "blocked": true, "category": "SIGNATURE", "expected_codes": ["OFFLINE_CERTIFICATE_REVOKED"], "id": "IMP039-OFF-05", "surface": "OFFLINE", "title": "폐기된 인증서", "user_message": "서명 또는 인증서 확인에 실패하여 접수를 중단했습니다."},
+    {"actual_code": "OFFLINE_REVOCATION_UNAVAILABLE", "blocked": true, "category": "SIGNATURE", "expected_codes": ["OFFLINE_REVOCATION_UNAVAILABLE"], "id": "IMP039-OFF-06", "surface": "OFFLINE", "title": "오래되거나 확인할 수 없는 폐기 상태", "user_message": "서명 또는 인증서 확인에 실패하여 접수를 중단했습니다."},
+    {"actual_code": "OFFLINE_TIME_INVALID", "blocked": true, "category": "EXPIRY", "expected_codes": ["OFFLINE_TIME_INVALID"], "id": "IMP039-OFF-07", "surface": "OFFLINE", "title": "만료된 오프라인 서명 자료", "user_message": "사용 시간이 지난 요청이므로 다시 점검해야 합니다."},
+    {"actual_code": "ARCHIVE_HASH_MISMATCH", "blocked": true, "category": "PACKAGE_TAMPER", "expected_codes": ["ARCHIVE_HASH_MISMATCH"], "id": "IMP039-OFF-08", "surface": "OFFLINE", "title": "서명 후 압축 자료 내용 변경", "user_message": "점검 자료가 변경되어 접수를 중단했습니다."},
+    {"actual_code": "OFFLINE_SIGNED_SCOPE_MISMATCH", "blocked": true, "category": "PACKAGE_TAMPER", "expected_codes": ["OFFLINE_SIGNED_SCOPE_MISMATCH"], "id": "IMP039-OFF-09", "surface": "OFFLINE", "title": "서명 후 자료 설명서 변경", "user_message": "점검 자료가 변경되어 접수를 중단했습니다."},
+    {"actual_code": "MANIFEST_HASH_MISMATCH", "blocked": true, "category": "PACKAGE_TAMPER", "expected_codes": ["MANIFEST_HASH_MISMATCH"], "id": "IMP039-OFF-10", "surface": "OFFLINE", "title": "서명 후 점검 지시서 변경", "user_message": "점검 자료가 변경되어 접수를 중단했습니다."},
+    {"actual_code": "OFFLINE_USER_AUTH_REQUIRED", "blocked": true, "category": "USER_AUTH", "expected_codes": ["OFFLINE_USER_AUTH_REQUIRED"], "id": "IMP039-OFF-11", "surface": "OFFLINE", "title": "로그인하지 않은 사용자의 수동 제출", "user_message": "로그인·화면 요청·PC 접근 권한을 확인할 수 없어 접수를 중단했습니다."},
+    {"actual_code": "OFFLINE_CSRF_REQUIRED", "blocked": true, "category": "USER_AUTH", "expected_codes": ["OFFLINE_CSRF_REQUIRED"], "id": "IMP039-OFF-12", "surface": "OFFLINE", "title": "화면 요청 확인값이 없는 수동 제출", "user_message": "로그인·화면 요청·PC 접근 권한을 확인할 수 없어 접수를 중단했습니다."},
+    {"actual_code": "OFFLINE_USER_SCOPE_MISMATCH", "blocked": true, "category": "USER_AUTH", "expected_codes": ["OFFLINE_USER_SCOPE_MISMATCH"], "id": "IMP039-OFF-13", "surface": "OFFLINE", "title": "권한이 없는 PC의 수동 제출", "user_message": "로그인·화면 요청·PC 접근 권한을 확인할 수 없어 접수를 중단했습니다."},
+    {"actual_code": "ATTESTATION_BINDING_MISMATCH", "blocked": true, "category": "SCOPE", "expected_codes": ["ATTESTATION_BINDING_MISMATCH"], "id": "IMP039-OFF-14", "surface": "OFFLINE", "title": "다른 조직으로 바꾼 사용자 제출", "user_message": "허용된 PC와 작업 범위가 일치하지 않아 접수를 중단했습니다."},
+    {"actual_code": "OFFLINE_NONCE_REPLAYED", "blocked": true, "category": "REPLAY", "expected_codes": ["OFFLINE_NONCE_REPLAYED"], "id": "IMP039-OFF-15", "surface": "OFFLINE", "title": "서명 제출 후 사용자 제출로 바꾼 재전송", "user_message": "이미 처리된 요청이므로 중복 접수를 차단했습니다."}
+  ],
+  "downstream_boundary": {
+    "attack_submissions_accepted": 0,
+    "finding_writes": 0,
+    "normalizer_runs": 0,
+    "objects_persisted": 0,
+    "official_findings_created": 0,
+    "rule_runs": 0
+  },
+  "imp": "IMP-039",
+  "limitations": [
+    "개인정보가 없는 합성 Package와 메모리 저장소로 수행한 개발 공격시험입니다.",
+    "운영 업로드 endpoint와 조직 인증서는 활성화하지 않았습니다.",
+    "clean Windows VM·조직 서명·SmartScreen 검증은 단계 J에서 수행합니다."
+  ],
+  "next_imp": "IMP-040",
+  "official_finding_created": false,
+  "original_evidence_persisted": false,
+  "production_upload_endpoint_enabled": false,
+  "safe_reporting": {
+    "certificate_body_exposed": false,
+    "credential_exposed": false,
+    "exception_message_exposed": false,
+    "private_key_exposed": false,
+    "raw_evidence_exposed": false,
+    "temporary_path_exposed": false
+  },
+  "scope": "합성 Package의 제출·서명 공격 회귀",
+  "summary": {
+    "attack_count": 28,
+    "blocked_count": 28,
+    "escaped_count": 0,
+    "offline_count": 15,
+    "online_count": 13
+  },
+  "test_data_only": true
+}

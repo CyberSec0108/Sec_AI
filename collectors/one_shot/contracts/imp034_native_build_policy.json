@@ -1,0 +1,60 @@
+{
+  "contract_version": "1.0.0",
+  "imp": "IMP-034",
+  "artifact": {
+    "name": "SecAI-Collector-Windows-x64.exe",
+    "version": "0.1.0",
+    "format": "PE32+",
+    "machine": "AMD64",
+    "packaging": "PYINSTALLER_ONEFILE",
+    "maximum_bytes": 104857600,
+    "authenticode": "NOT_SIGNED_EXPECTED_UNTIL_IMP035"
+  },
+  "builder": {
+    "os": "Windows 11",
+    "architecture": "x86_64",
+    "python": "3.14.6",
+    "pyinstaller": "6.21.0",
+    "hash_locked_install": true,
+    "linux_cross_build": "REJECT"
+  },
+  "embedded_resources": {
+    "roots": [
+      "collectors/one_shot/contracts",
+      "collectors/one_shot/probes/windows/powershell",
+      "database/schemas"
+    ],
+    "manifest_sha256_required": true,
+    "secret_patterns_forbidden": [
+      "*.key",
+      "*.pem",
+      "*.pfx",
+      "*.p12",
+      "*.license",
+      ".env*"
+    ]
+  },
+  "supply_chain": {
+    "lock": "requirements/lock/collector-build.lock",
+    "sbom": "CYCLONEDX_JSON",
+    "vulnerability_scanner": "pip-audit",
+    "known_vulnerabilities_allowed": 0,
+    "malware_scanners": [
+      "ClamAV",
+      "Microsoft Defender"
+    ],
+    "all_required_scanners_clean": true
+  },
+  "execution_boundary": {
+    "self_check_reads_host_security_settings": false,
+    "self_check_changes_settings": false,
+    "automatic_elevation": false,
+    "actual_collection_cli_enabled": false,
+    "official_finding_created": false
+  },
+  "output_boundary": {
+    "directory": "runtime/imp034-artifacts",
+    "portable_bundle_created": false,
+    "production_release": false
+  }
+}

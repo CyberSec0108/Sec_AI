@@ -1,0 +1,554 @@
+name: sec-ai-mvp
+
+x-project-labels: &project-labels
+  io.sec-ai-mvp.project: "Sec_AI"
+  io.sec-ai-mvp.managed-by: "docker-compose"
+
+x-service-security: &service-security
+  read_only: true
+  security_opt:
+    - no-new-privileges:true
+  cap_drop:
+    - ALL
+
+x-python-environment: &python-environment
+  SECAI_POSTGRES_HOST: postgres
+  SECAI_POSTGRES_PORT: "5432"
+  SECAI_POSTGRES_DB: ${SECAI_POSTGRES_DB:-secai}
+  SECAI_POSTGRES_USER: ${SECAI_POSTGRES_RUNTIME_USER:-secai_runtime}
+  SECAI_POSTGRES_PASSWORD_FILE: /run/secrets/postgres_runtime_password
+  SECAI_REDIS_HOST: redis
+  SECAI_REDIS_PORT: "6379"
+  SECAI_REDIS_USER: ${SECAI_REDIS_USER:-secai_celery}
+  SECAI_REDIS_PASSWORD_FILE: /run/secrets/redis_password
+  SECAI_AISTOR_ENDPOINT: http://aistor:9000
+  SECAI_CLAMAV_HOST: clamav
+  SECAI_CLAMAV_PORT: "3310"
+  SECAI_DEPENDENCY_TIMEOUT_SECONDS: "2.0"
+
+services:
+  gateway:
+    <<: *service-security
+    image: sec-ai-mvp/gateway:0.1.0
+    build:
+      context: .
+      dockerfile: deploy/docker/gateway.Dockerfile
+      args:
+        NGINX_BASE: docker.io/library/nginx:1.30.4-alpine@sha256:8a4f4b94275ff59d809477799cbbaf1a7ab65ed1871403d05e31fd66bdb8db82
+    platform: linux/amd64
+    labels:
+      <<: *project-labels
+      io.sec-ai-mvp.component: gateway
+    depends_on:
+      api:
+        condition: service_healthy
+    ports:
+      - "${SECAI_GATEWAY_BIND:-127.0.0.1}:${SECAI_GATEWAY_PORT:-18480}:8080"
+    tmpfs:
+      - /tmp:size=16m,mode=1777
+      - /var/cache/nginx:size=16m,mode=0770,uid=101,gid=101
+    networks:
+      - frontend_net
+
+  api:
+    <<: *service-security
+    image: sec-ai-mvp/audit-api:0.1.0
+    build:
+      context: .
+      dockerfile: deploy/docker/api.Dockerfile
+      args:
+        PYTHON_BASE: docker.io/library/python:3.14.6-slim-bookworm@sha256:f70215e5dbe2a47dee6d23f9c6d358bf3c148f59cce2fd165b61118e9d80f2bb
+    platform: linux/amd64
+    labels:
+      <<: *project-labels
+      io.sec-ai-mvp.component: audit-api
+    environment:
+      <<: *python-environment
+      SECAI_LOCAL_VLLM_STATUS: PREPARED_NOT_ACTIVE
+      SECAI_LOCAL_VLLM_IMAGE: sec-ai-mvp/vllm-openai-gpu:0.23.0
+      SECAI_LOCAL_VLLM_IMAGE_DIGEST: sha256:48f9f370497eee3748a693c01030c82dbcee87a0db52f5e7901c9744787f4a00
+      SECAI_LOCAL_VLLM_BASE_DIGEST: sha256:3a1e7f5904e1a1192a02aa0086ceaffc33985d7044c7bb25b3a43d61bdbe3ac0
+      SECAI_LOCAL_VLLM_RUNTIME_GATE: BLOCKED_VULNERABILITIES_GPU_MODEL
+      SECAI_RESULT_AI_TIMEOUT_SECONDS: ${SECAI_RESULT_AI_TIMEOUT_SECONDS:-260}
+      SECAI_RESULT_AI_BATCH_SIZE: ${SECAI_RESULT_AI_BATCH_SIZE:-6}
+      SECAI_GUIDE_SEARCH_MODE: ${SECAI_GUIDE_SEARCH_MODE:-LEGACY_LOCAL}
+      SECAI_EMBEDDING_URL: ${SECAI_EMBEDDING_URL:-http://embedding-service:80}
+      SECAI_RERANKER_URL: ${SECAI_RERANKER_URL:-http://reranker-service:80}
+      SECAI_SEARCH_MODEL_TIMEOUT_SECONDS: ${SECAI_SEARCH_MODEL_TIMEOUT_SECONDS:-30}
+      SECAI_GUIDE_SEARCH_FAST_TOP_K: ${SECAI_GUIDE_SEARCH_FAST_TOP_K:-5}
+      SECAI_GUIDE_SEARCH_PRECISE_TOP_K: ${SECAI_GUIDE_SEARCH_PRECISE_TOP_K:-10}
+      SECAI_GUIDE_SEARCH_RESULT_TOP_K: ${SECAI_GUIDE_SEARCH_RESULT_TOP_K:-5}
+      SECAI_GUIDE_SEARCH_QUERY_EXPANSION_LIMIT: ${SECAI_GUIDE_SEARCH_QUERY_EXPANSION_LIMIT:-6}
+      SECAI_GUIDE_SEARCH_CANDIDATE_MULTIPLIER: ${SECAI_GUIDE_SEARCH_CANDIDATE_MULTIPLIER:-4}
+      SECAI_GUIDE_SEARCH_CANDIDATE_LIMIT: ${SECAI_GUIDE_SEARCH_CANDIDATE_LIMIT:-20}
+      SECAI_GUIDE_SEARCH_DB_CANDIDATE_MULTIPLIER: ${SECAI_GUIDE_SEARCH_DB_CANDIDATE_MULTIPLIER:-4}
+      SECAI_GUIDE_SEARCH_DB_CANDIDATE_LIMIT: ${SECAI_GUIDE_SEARCH_DB_CANDIDATE_LIMIT:-100}
+      SECAI_GUIDE_SEARCH_RRF_K: ${SECAI_GUIDE_SEARCH_RRF_K:-60}
+      SECAI_GUIDE_SEARCH_DENSE_WEIGHT: ${SECAI_GUIDE_SEARCH_DENSE_WEIGHT:-0.15}
+      SECAI_GUIDE_SEARCH_LEXICAL_WEIGHT: ${SECAI_GUIDE_SEARCH_LEXICAL_WEIGHT:-0.85}
+      SECAI_GUIDE_SEARCH_BASE_WEIGHT: ${SECAI_GUIDE_SEARCH_BASE_WEIGHT:-0.60}
+      SECAI_GUIDE_SEARCH_RERANKER_WEIGHT: ${SECAI_GUIDE_SEARCH_RERANKER_WEIGHT:-0.40}
+      SECAI_GUIDE_SEARCH_MIN_RERANK_SCORE: ${SECAI_GUIDE_SEARCH_MIN_RERANK_SCORE:-0.30}
+      SECAI_GUIDE_SEARCH_MIN_LEXICAL_SCORE: ${SECAI_GUIDE_SEARCH_MIN_LEXICAL_SCORE:-0.35}
+      SECAI_GUIDE_SOURCE_PDF: /run/secai-guides/kisa-2026.pdf
+      SECAI_LINUX_RUNTIME_ROOT: /run/secai-vmware
+      SECAI_LINUX_ASSET_KEY_ROOT: /run/secai-linux-asset-keys
+      SECAI_LINUX_ASSET_ALLOWED_CIDRS: ${SECAI_LINUX_ASSET_ALLOWED_CIDRS:-192.168.110.0/24}
+      SECAI_LINUX_ASSET_ALLOWED_PORTS: ${SECAI_LINUX_ASSET_ALLOWED_PORTS:-22}
+      SECAI_LINUX_UBUNTU_HOST: ${SECAI_LINUX_UBUNTU_HOST:-192.168.110.146}
+      SECAI_LINUX_ROCKY_HOST: ${SECAI_LINUX_ROCKY_HOST:-192.168.110.148}
+      SECAI_LINUX_SSH_USER: ${SECAI_LINUX_SSH_USER:-secai-lab}
+    secrets:
+      - postgres_runtime_password
+      - demo_csrf_token
+      - auth_session_index_key
+      - auth_dev_password
+      - auth_dev_mfa_code
+      - redis_password
+      - model_gateway_token
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      clamav:
+        condition: service_healthy
+    tmpfs:
+      - /tmp:size=64m,mode=1777
+    volumes:
+      - type: bind
+        source: .runtime/vmware
+        target: /run/secai-vmware
+        read_only: true
+      - type: bind
+        source: .runtime/linux-asset-keys
+        target: /run/secai-linux-asset-keys
+        read_only: false
+      - type: bind
+        source: data/주요정보통신기반시설 기술적 취약점 분석·평가 방법 상세가이드.pdf
+        target: /run/secai-guides/kisa-2026.pdf
+        read_only: true
+    networks:
+      - frontend_net
+      - app_net
+
+  migrate:
+    <<: *service-security
+    profiles: ["tools"]
+    image: sec-ai-mvp/audit-api:0.1.0
+    build:
+      context: .
+      dockerfile: deploy/docker/api.Dockerfile
+      args:
+        PYTHON_BASE: docker.io/library/python:3.14.6-slim-bookworm@sha256:f70215e5dbe2a47dee6d23f9c6d358bf3c148f59cce2fd165b61118e9d80f2bb
+    platform: linux/amd64
+    labels:
+      <<: *project-labels
+      io.sec-ai-mvp.component: database-migrator
+    environment:
+      SECAI_POSTGRES_HOST: postgres
+      SECAI_POSTGRES_PORT: "5432"
+      SECAI_POSTGRES_DB: ${SECAI_POSTGRES_DB:-secai}
+      SECAI_POSTGRES_USER: ${SECAI_POSTGRES_MIGRATOR_USER:-secai_app}
+      SECAI_POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+      SECAI_POSTGRES_RUNTIME_USER: ${SECAI_POSTGRES_RUNTIME_USER:-secai_runtime}
+      SECAI_POSTGRES_RUNTIME_PASSWORD_FILE: /run/secrets/postgres_runtime_password
+      SECAI_POSTGRES_DB_ADMIN_USER: ${SECAI_POSTGRES_DB_ADMIN_USER:-secai_db_admin}
+      SECAI_POSTGRES_DB_ADMIN_PASSWORD_FILE: /run/secrets/postgres_db_admin_password
+    secrets:
+      - postgres_password
+      - postgres_runtime_password
+      - postgres_db_admin_password
+    depends_on:
+      postgres:
+        condition: service_healthy
+    tmpfs:
+      - /tmp:size=64m,mode=1777
+    networks:
+      - app_net
+    entrypoint: ["python"]
+    command: ["database/migrate.py"]
+
+  worker:
+    <<: *service-security
+    image: sec-ai-mvp/audit-worker:0.1.0
+    build:
+      context: .
+      dockerfile: deploy/docker/worker.Dockerfile
+      args:
+        PYTHON_BASE: docker.io/library/python:3.14.6-slim-bookworm@sha256:f70215e5dbe2a47dee6d23f9c6d358bf3c148f59cce2fd165b61118e9d80f2bb
+        SECAI_COMPONENT: audit-worker
+    platform: linux/amd64
+    labels:
+      <<: *project-labels
+      io.sec-ai-mvp.component: audit-worker
+    environment: *python-environment
+    secrets:
+      - postgres_runtime_password
+      - redis_password
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    command:
+      - -m
+      - celery
+      - -A
+      - apps.worker.celery_app:celery_app
+      - worker
+      - --loglevel=INFO
+      - --concurrency=1
+      - --without-gossip
+      - --without-mingle
+      - --without-heartbeat
+    tmpfs:
+      - /tmp:size=128m,mode=1777
+    stop_grace_period: 45s
+    networks:
+      - app_net
+
+  maintenance-worker:
+    <<: *service-security
+    image: sec-ai-mvp/audit-maintenance-worker:0.1.0
+    build:
+      context: .
+      dockerfile: deploy/docker/worker.Dockerfile
+      args:
+        PYTHON_BASE: docker.io/library/python:3.14.6-slim-bookworm@sha256:f70215e5dbe2a47dee6d23f9c6d358bf3c148f59cce2fd165b61118e9d80f2bb
+        SECAI_COMPONENT: audit-maintenance-worker
+    platform: linux/amd64
+    labels:
+      <<: *project-labels
+      io.sec-ai-mvp.component: audit-maintenance-worker
+    environment: *python-environment
+    secrets:
+      - postgres_runtime_password
+      - redis_password
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    command:
+      - -m
+      - celery
+      - -A
+      - apps.worker.celery_app:celery_app
+      - worker
+      - --loglevel=INFO
+      - --concurrency=1
+      - --queues=maintenance
+      - --without-gossip
+      - --without-mingle
+      - --without-heartbeat
+    tmpfs:
+      - /tmp:size=128m,mode=1777
+    stop_grace_period: 45s
+    networks:
+      - app_net
+
+  scheduler:
+    <<: *service-security
+    image: sec-ai-mvp/audit-scheduler:0.1.0
+    build:
+      context: .
+      dockerfile: deploy/docker/worker.Dockerfile
+      args:
+        PYTHON_BASE: docker.io/library/python:3.14.6-slim-bookworm@sha256:f70215e5dbe2a47dee6d23f9c6d358bf3c148f59cce2fd165b61118e9d80f2bb
+        SECAI_COMPONENT: audit-scheduler
+    platform: linux/amd64
+    labels:
+      <<: *project-labels
+      io.sec-ai-mvp.component: audit-scheduler
+    environment: *python-environment
+    secrets:
+      - postgres_runtime_password
+      - redis_password
+    depends_on:
+      redis:
+        condition: service_healthy
+    command:
+      - -m
+      - celery
+      - -A
+      - apps.scheduler.celery_app:celery_app
+      - beat
+      - --loglevel=INFO
+      - --schedule=/tmp/celerybeat-schedule
+    tmpfs:
+      - /tmp:size=64m,mode=1777
+    networks:
+      - app_net
+
+  model-gateway:
+    <<: *service-security
+    image: sec-ai-mvp/model-gateway:0.1.0
+    build:
+      context: .
+      dockerfile: deploy/docker/model-gateway.Dockerfile
+      args:
+        PYTHON_BASE: docker.io/library/python:3.14.6-alpine3.23@sha256:e10f6e0f219a81c65c518e339e7e9bf2f8c63b6ba1bf112e1bb2d1e395ed0c17
+    platform: linux/amd64
+    labels:
+      <<: *project-labels
+      io.sec-ai-mvp.component: model-gateway
+    environment:
+      SECAI_LLM_API_BASE: ${SECAI_LLM_API_BASE:-https://openrouter.ai/api/v1}
+      SECAI_LLM_MODEL: ${SECAI_LLM_MODEL:-openai/gpt-oss-120b}
+      SECAI_LLM_REASONING_EFFORT: ${SECAI_LLM_REASONING_EFFORT:-low}
+      SECAI_LLM_REQUEST_TIMEOUT_SECONDS: ${SECAI_LLM_REQUEST_TIMEOUT_SECONDS:-240}
+      SECAI_LLM_FAST_MAX_OUTPUT_TOKENS: ${SECAI_LLM_FAST_MAX_OUTPUT_TOKENS:-8000}
+      SECAI_LLM_PRECISE_MAX_OUTPUT_TOKENS: ${SECAI_LLM_PRECISE_MAX_OUTPUT_TOKENS:-16000}
+      SECAI_LLM_API_KEY_FILE: /run/secrets/llm_api_key
+      SECAI_LLM_GATEWAY_TOKEN_FILE: /run/secrets/model_gateway_token
+    secrets:
+      - llm_api_key
+      - model_gateway_token
+    tmpfs:
+      - /tmp:size=64m,mode=1777
+    networks:
+      - frontend_net
+      - app_net
+      - model_net
+    restart: unless-stopped
+
+  vllm:
+    <<: *service-security
+    profiles: ["local-vllm"]
+    image: sec-ai-mvp/vllm-openai-gpu:0.23.0
+    build:
+      context: .
+      dockerfile: deploy/docker/vllm.Dockerfile
+      args:
+        VLLM_BASE: docker.io/vllm/vllm-openai:v0.23.0@sha256:3a1e7f5904e1a1192a02aa0086ceaffc33985d7044c7bb25b3a43d61bdbe3ac0
+    platform: linux/amd64
+    labels:
+      <<: *project-labels
+      io.sec-ai-mvp.component: vllm
+      io.sec-ai-mvp.runtime-status: prepared-not-active
+    command:
+      - --model
+      - ${SECAI_VLLM_MODEL_PATH:-/models/NOT_CONFIGURED}
+      - --served-model-name
+      - ${SECAI_VLLM_SERVED_MODEL:-NOT_CONFIGURED}
+      - --host
+      - 0.0.0.0
+      - --port
+      - "8000"
+    volumes:
+      - vllm_model_data:/models:ro
+    tmpfs:
+      - /tmp:size=1g,mode=1777
+      - /root/.cache:size=256m,mode=0700
+    shm_size: "4gb"
+    gpus: all
+    networks:
+      - model_net
+    restart: "no"
+
+  postgres:
+    image: sec-ai-mvp/postgres:0.1.0
+    build:
+      context: .
+      dockerfile: deploy/docker/postgres.Dockerfile
+      args:
+        POSTGRES_BASE: docker.io/pgvector/pgvector:0.8.2-pg18-bookworm@sha256:2ac2c62ac8f030b414b19ea633a6d1d4d37c03abe52ce91887a4e5b4fbb5c73c
+    platform: linux/amd64
+    labels:
+      <<: *project-labels
+      io.sec-ai-mvp.component: postgres
+    environment:
+      POSTGRES_DB: ${SECAI_POSTGRES_DB:-secai}
+      POSTGRES_USER: ${SECAI_POSTGRES_USER:-secai_app}
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+      POSTGRES_INITDB_ARGS: --auth-host=scram-sha-256
+    secrets:
+      - postgres_password
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready -U "$${POSTGRES_USER}" -d "$${POSTGRES_DB}" -h 127.0.0.1
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    tmpfs:
+      - /tmp:size=64m,mode=1777
+      - /var/run/postgresql:size=16m,mode=3775
+    networks:
+      - app_net
+    restart: unless-stopped
+
+  redis:
+    image: sec-ai-mvp/redis:0.1.0
+    build:
+      context: .
+      dockerfile: deploy/docker/redis.Dockerfile
+      args:
+        REDIS_BASE: docker.io/library/redis:8.8.0@sha256:5d2c689b4b55fc3fab4b0cc8aaa950f85b508c76c1e0f35a90d8f411d55a8b2b
+    platform: linux/amd64
+    labels:
+      <<: *project-labels
+      io.sec-ai-mvp.component: redis
+    command:
+      - redis-server
+      - --aclfile
+      - /run/secrets/redis_users_acl
+      - --appendonly
+      - "yes"
+      - --appendfsync
+      - everysec
+      - --maxmemory-policy
+      - noeviction
+      - --protected-mode
+      - "yes"
+    secrets:
+      - redis_password
+      - redis_users_acl
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - REDISCLI_AUTH="$$(cat /run/secrets/redis_password)" redis-cli --user "$${SECAI_REDIS_USER:-secai_celery}" ping | grep -q PONG
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    environment:
+      SECAI_REDIS_USER: ${SECAI_REDIS_USER:-secai_celery}
+    volumes:
+      - redis_data:/data
+    networks:
+      - app_net
+    restart: unless-stopped
+
+  aistor:
+    image: sec-ai-mvp/aistor:0.1.0
+    build:
+      context: .
+      dockerfile: deploy/docker/aistor.Dockerfile
+      args:
+        AISTOR_BASE: quay.io/minio/aistor/minio:RELEASE.2026-06-06T02-44-06Z@sha256:5dbb753c0dbe6a987dd30ce564f66c0042e291e464d10e792443451d4fec2120
+    platform: linux/amd64
+    labels:
+      <<: *project-labels
+      io.sec-ai-mvp.component: aistor
+    command:
+      - server
+      - --license
+      - /run/secrets/minio.license
+      - --address
+      - :9000
+      - --console-address
+      - :9001
+      - /data
+    environment:
+      MINIO_ROOT_USER_FILE: /run/secrets/aistor_root_user
+      MINIO_ROOT_PASSWORD_FILE: /run/secrets/aistor_root_password
+    secrets:
+      - source: aistor_license
+        target: minio.license
+      - aistor_root_user
+      - aistor_root_password
+    healthcheck:
+      test:
+        - CMD
+        - curl
+        - -fsS
+        - http://127.0.0.1:9000/minio/health/live
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+    volumes:
+      - aistor_data:/data
+    tmpfs:
+      - /tmp:size=64m,mode=1777
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    networks:
+      - app_net
+    restart: unless-stopped
+
+  clamav:
+    <<: *service-security
+    image: sec-ai-mvp/clamav:0.1.0
+    build:
+      context: .
+      dockerfile: deploy/docker/clamav.Dockerfile
+      args:
+        CLAMAV_BASE: docker.io/clamav/clamav:1.4.5@sha256:48eaad9644475c2d466ce6d4ba2da892dbd4dcd47713201d31b665364655cc3c
+    platform: linux/amd64
+    labels:
+      <<: *project-labels
+      io.sec-ai-mvp.component: clamav
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - clamdcheck.sh
+      interval: 15s
+      timeout: 5s
+      retries: 20
+      start_period: 90s
+    tmpfs:
+      - /tmp:size=128m,mode=1777
+      - /run/clamav:size=16m,mode=1777
+      - /var/log/clamav:size=16m,mode=1777
+    networks:
+      - app_net
+    restart: unless-stopped
+
+networks:
+  frontend_net:
+    name: sec-ai-mvp-frontend
+  app_net:
+    name: sec-ai-mvp-app
+    internal: true
+  model_net:
+    name: sec-ai-mvp-model
+    internal: true
+
+volumes:
+  postgres_data:
+    name: sec-ai-mvp-postgres-data
+  redis_data:
+    name: sec-ai-mvp-redis-data
+  aistor_data:
+    name: sec-ai-mvp-aistor-data
+  vllm_model_data:
+    name: sec-ai-mvp-vllm-model-data
+
+secrets:
+  postgres_password:
+    file: ./runtime/dev-secrets/postgres_password
+  postgres_runtime_password:
+    file: ./runtime/dev-secrets/postgres_runtime_password
+  postgres_db_admin_password:
+    file: ./runtime/dev-secrets/postgres_db_admin_password
+  demo_csrf_token:
+    file: ./runtime/dev-secrets/demo_csrf_token
+  auth_session_index_key:
+    file: ./runtime/dev-secrets/auth_session_index_key
+  auth_dev_password:
+    file: ./runtime/dev-secrets/auth_dev_password
+  auth_dev_mfa_code:
+    file: ./runtime/dev-secrets/auth_dev_mfa_code
+  redis_password:
+    file: ./runtime/dev-secrets/redis_password
+  redis_users_acl:
+    file: ./runtime/dev-secrets/redis_users.acl
+  aistor_license:
+    file: ./runtime/dev-secrets/minio.license
+  aistor_root_user:
+    file: ./runtime/dev-secrets/aistor_root_user
+  aistor_root_password:
+    file: ./runtime/dev-secrets/aistor_root_password
+  llm_api_key:
+    file: ./runtime/dev-secrets/llm_api_key
+  model_gateway_token:
+    file: ./runtime/dev-secrets/model_gateway_token

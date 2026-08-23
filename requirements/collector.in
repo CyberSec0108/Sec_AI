@@ -1,0 +1,5 @@
+# Windows One-shot Collector runtime. Keep this intentionally small.
+httpx>=0.28,<1
+jsonschema>=4.25,<5
+pydantic>=2.12,<3
+rfc8785==0.1.4

@@ -1,0 +1,142 @@
+{
+  "schema_version": "1.0.0",
+  "catalog_id": "secai-guide-catalog",
+  "guides": [
+    {
+      "guide_id": "kisa-major-infrastructure-detailed-guide",
+      "version": "2026",
+      "document_code": "KISA-2026-FULL",
+      "publisher": "한국인터넷진흥원",
+      "title": "2026 주요정보통신기반시설 기술적 취약점 분석·평가 방법 상세가이드",
+      "edition": "2026",
+      "language": "ko",
+      "classification": "PUBLIC_SOURCE_INTERNAL_APPROVED",
+      "status": "APPROVED",
+      "supersedes": null,
+      "source": {
+        "relative_path": "data/주요정보통신기반시설 기술적 취약점 분석·평가 방법 상세가이드.pdf",
+        "media_type": "application/pdf",
+        "source_sha256": "44fe393981b244147be6af7423d99dc15633c089fad0bcb296cbe2371dde812d",
+        "size_bytes": 8415536,
+        "page_count": 873,
+        "pdf_version": "PDF 1.4",
+        "encrypted": false,
+        "metadata_created_at": "2025-12-23T16:15:37+09:00"
+      },
+      "license_policy": {
+        "status": "APPROVED",
+        "allowed_use": "APPROVED_INTERNAL_GUIDE_QA",
+        "redistribution_allowed": false,
+        "derivative_text_storage_allowed": true,
+        "review_note": "2026-07-24 사용자 승인에 따라 이 프로젝트 내부의 가이드 질문·답변을 위한 검색, 파생 text·chunk·embedding 저장을 허용한다. 외부 재배포 권한을 뜻하지 않으며 원문 재배포는 계속 금지한다."
+      },
+      "access_scope": {
+        "scope_type": "PROJECT_LOCAL_DEVELOPMENT",
+        "roles": ["ADMIN", "SECURITY_OFFICER"]
+      },
+      "query_scopes": [
+        {
+          "scope_id": "kisa-2026-pc",
+          "section_label": "07. PC",
+          "pdf_page_start": 552,
+          "pdf_page_end": 592,
+          "default_enabled": true
+        },
+        {
+          "scope_id": "kisa-2026-all",
+          "section_label": "전체 분류",
+          "pdf_page_start": 7,
+          "pdf_page_end": 873,
+          "default_enabled": true
+        },
+        {
+          "scope_id": "kisa-2026-unix-server",
+          "section_label": "01. Unix 서버",
+          "pdf_page_start": 7,
+          "pdf_page_end": 171,
+          "default_enabled": false
+        },
+        {
+          "scope_id": "kisa-2026-windows-server",
+          "section_label": "02. Windows 서버",
+          "pdf_page_start": 172,
+          "pdf_page_end": 270,
+          "default_enabled": false
+        },
+        {
+          "scope_id": "kisa-2026-web-service",
+          "section_label": "03. 웹 서비스",
+          "pdf_page_start": 271,
+          "pdf_page_end": 352,
+          "default_enabled": false
+        },
+        {
+          "scope_id": "kisa-2026-security-equipment",
+          "section_label": "04. 보안 장비",
+          "pdf_page_start": 353,
+          "pdf_page_end": 386,
+          "default_enabled": false
+        },
+        {
+          "scope_id": "kisa-2026-network-equipment",
+          "section_label": "05. 네트워크 장비",
+          "pdf_page_start": 387,
+          "pdf_page_end": 466,
+          "default_enabled": false
+        },
+        {
+          "scope_id": "kisa-2026-control-system",
+          "section_label": "06. 제어시스템",
+          "pdf_page_start": 467,
+          "pdf_page_end": 551,
+          "default_enabled": false
+        },
+        {
+          "scope_id": "kisa-2026-dbms",
+          "section_label": "08. DBMS",
+          "pdf_page_start": 593,
+          "pdf_page_end": 669,
+          "default_enabled": false
+        },
+        {
+          "scope_id": "kisa-2026-mobile",
+          "section_label": "09. 이동통신",
+          "pdf_page_start": 670,
+          "pdf_page_end": 675,
+          "default_enabled": false
+        },
+        {
+          "scope_id": "kisa-2026-web-application",
+          "section_label": "10. Web Application(웹)",
+          "pdf_page_start": 676,
+          "pdf_page_end": 786,
+          "default_enabled": false
+        },
+        {
+          "scope_id": "kisa-2026-virtualization",
+          "section_label": "11. 가상화 장비",
+          "pdf_page_start": 787,
+          "pdf_page_end": 850,
+          "default_enabled": false
+        },
+        {
+          "scope_id": "kisa-2026-cloud",
+          "section_label": "12. 클라우드",
+          "pdf_page_start": 851,
+          "pdf_page_end": 873,
+          "default_enabled": false
+        }
+      ],
+      "gates": {
+        "source_hash_verified": true,
+        "page_map_verified": true,
+        "visual_anchor_verified": true,
+        "malware_scan_passed": true,
+        "ocr_quality_approved": true,
+        "license_review_approved": true,
+        "retrieval_quality_approved": true
+      },
+      "audit_pack_activation_allowed": false
+    }
+  ]
+}

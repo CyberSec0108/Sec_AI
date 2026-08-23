@@ -1,0 +1,74 @@
+{% import "components/audit_ui.html" as ui %}
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <title>AI 점검 결과 설명 | Sec_AI</title>
+  <link rel="stylesheet" href="/static/app/app.css">
+  <script src="/static/app/theme.js" defer></script>
+  <script src="/static/app/restricted-markdown.js" defer></script>
+  <script src="/static/app/result-ai-analysis.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">본문으로 건너뛰기</a>
+  {{ ui.app_header("results", "windows") }}
+  <main id="main-content" class="container product-shell ai-analysis-shell">
+    <header class="page-heading">
+      <div>
+        <p class="section-code">AI 점검 결과 설명</p>
+        <h1>Windows PC 점검 결과를 AI가 설명합니다.</h1>
+      </div>
+    </header>
+
+
+    <section class="panel ai-stream-progress" aria-labelledby="ai-stream-progress-title">
+      <div class="panel-heading panel-heading-row">
+        <div>
+          <p class="section-label">실시간 설명</p>
+          <h2 id="ai-stream-progress-title">AI 설명 생성</h2>
+          <p id="ai-stream-status" role="status" aria-live="polite">점검 결과와 KISA 근거를 확인하고 있습니다.</p>
+        </div>
+        <div class="ai-stream-progress-actions">
+          <strong id="ai-stream-count">0 / 18</strong>
+          <button id="ai-stream-stop" class="button-secondary" type="button" disabled>
+            설명 생성 멈추기
+          </button>
+        </div>
+      </div>
+      <progress id="ai-stream-progress" max="18" value="0">0 / 18</progress>
+    </section>
+
+    <section id="ai-summary-panel" class="panel ai-summary-stream" aria-labelledby="ai-summary-title">
+      <div class="panel-heading">
+        <p class="section-label">AI 종합 설명</p>
+        <h2 id="ai-summary-title">전체 상태와 우선 조치를 먼저 종합합니다</h2>
+      </div>
+      <div
+        id="ai-summary-text"
+        class="ai-stream-text ai-markdown"
+        role="document"
+        aria-label="AI 종합 설명 내용"
+        aria-live="off"
+        tabindex="0"
+      >점검 결과와 KISA 기준을 바탕으로 전체 상태와 먼저 할 일을 보여드립니다.</div>
+      <aside class="ai-summary-source-scope" aria-label="AI 종합 설명의 근거와 한계">
+        <strong>AI 종합 설명의 근거와 한계</strong>
+        <p>
+          종합 설명은 각 항목의 내 PC 확인값·KISA 원문·AI 일반 보안지식을 구분해 설명합니다.
+          AI 일반 보안지식은 이해를 돕는 보충 설명이며 공식 판정 근거가 아니고
+          최신성을 보장하지 않습니다.
+        </p>
+      </aside>
+    </section>
+
+    <section id="ai-control-stream" class="ai-control-stream" aria-label="항목별 상세 설명"></section>
+
+    <nav class="ai-analysis-actions" aria-label="상세 설명 다음 작업">
+      <a class="button-secondary" href="/ui/results">상세 점검 결과 보기</a>
+      <a class="button" href="/ui/guide-chat">점검 결과에 대해 질문하기</a>
+    </nav>
+  </main>
+</body>
+</html>

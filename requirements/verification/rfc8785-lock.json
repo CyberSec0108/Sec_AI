@@ -1,0 +1,28 @@
+{
+  "dependency": "rfc8785",
+  "version": "0.1.4",
+  "runtime": "CPython 3.14.6",
+  "platforms": ["linux/amd64", "windows/amd64"],
+  "direct_inputs": ["base.in", "collector.in"],
+  "lock_files": [
+    "api.lock",
+    "worker.lock",
+    "ingestion.lock",
+    "dev.lock",
+    "collector.lock",
+    "collector-build.lock"
+  ],
+  "artifacts": {
+    "wheel_sha256": "520d690b448ecf0703691c76e1a34a24ddcd4fc5bc41d589cb7c58ec651bcd48",
+    "sdist_sha256": "e545841329fe0eee4f6a3b44e7034343100c12b4ec566dc06ca9735681deb4da"
+  },
+  "official_vector": {
+    "source": "RFC 8785 section 3",
+    "canonical_sha256": "2d5e01a318d0f0879ab568c4be289c8b1f64ef8921a53c6277d5e069978baacb",
+    "linux_result": "PASS",
+    "windows_result": "PASS"
+  },
+  "negative_tests": ["NaN", "Infinity", "negative Infinity", "integer outside IEEE-754 safe domain"],
+  "lock_diff": "rfc8785 0.1.4 added to central and IMP-028 Collector locks; cryptography remediation is tracked separately",
+  "status": "PASS"
+}

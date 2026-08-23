@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sec-ai.local/v1/normalized_evidence.schema.json",
+  "title": "Sec_AI normalized evidence",
+  "allOf": [
+    {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/commonFields"},
+    {
+      "type": "object",
+      "required": [
+        "job_id", "asset_id", "package_id", "source_evidence_id", "control_id", "guide_version",
+        "collector_version", "probe_id", "probe_version", "subject", "collected_at", "normalized_at",
+        "source_locator", "collection_status", "error_code", "redaction", "evidence_sha256"
+      ],
+      "properties": {
+        "source": {"const": "normalizer"},
+        "job_id": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/uuid"},
+        "asset_id": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/uuid"},
+        "package_id": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/uuid"},
+        "source_evidence_id": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/uuid"},
+        "control_id": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/controlId"},
+        "guide_version": {"const": "2026"},
+        "collector_version": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/semver"},
+        "probe_id": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/identifier"},
+        "probe_version": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/semver"},
+        "subject": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["scope"],
+          "properties": {
+            "scope": {"enum": ["ASSET", "USER", "VOLUME", "PRODUCT", "POLICY"]},
+            "user_sid": {"type": "string", "pattern": "^S-[0-9-]{5,184}$"},
+            "subject_key": {"type": "string", "minLength": 1, "maxLength": 128}
+          },
+          "allOf": [
+            {
+              "if": {"properties": {"scope": {"const": "USER"}}, "required": ["scope"]},
+              "then": {"required": ["user_sid"]}
+            }
+          ]
+        },
+        "collected_at": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/timestamp"},
+        "normalized_at": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/timestamp"},
+        "source_locator": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "provider"],
+          "properties": {
+            "type": {"enum": ["WINDOWS_API", "REGISTRY", "POWERSHELL", "CIM", "WINDOWS_CLI", "PRODUCT_ADAPTER", "MANUAL_ATTESTATION", "REFERENCE_DATA"]},
+            "provider": {"type": "string", "minLength": 1, "maxLength": 128},
+            "locator": {"type": "string", "minLength": 1, "maxLength": 512}
+          }
+        },
+        "raw_value": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/boundedValue"},
+        "normalized_value": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/boundedValue"},
+        "unit": {"type": "string", "maxLength": 64},
+        "policy_scope": {"enum": ["MACHINE", "USER", "DOMAIN", "MDM", "PRODUCT", "ORGANIZATION", "NOT_APPLICABLE"]},
+        "policy_source": {"type": "string", "maxLength": 128},
+        "effective_value": {"type": "boolean"},
+        "collection_status": {"enum": ["COLLECTED", "ERROR", "SKIPPED"]},
+        "error_code": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/errorCode"},
+        "redaction": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["applied"],
+          "properties": {
+            "applied": {"type": "boolean"},
+            "method": {"enum": ["NONE", "PRESENCE_ONLY", "MASKED", "HASHED", "OMITTED"]},
+            "reason": {"type": "string", "maxLength": 256}
+          }
+        },
+        "evidence_sha256": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/sha256"},
+        "attestation_id": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/uuid"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"collection_status": {"const": "COLLECTED"}}, "required": ["collection_status"]},
+          "then": {"required": ["normalized_value"], "properties": {"error_code": {"const": "NONE"}}},
+          "else": {"properties": {"error_code": {"not": {"const": "NONE"}}}}
+        }
+      ]
+    }
+  ],
+  "unevaluatedProperties": false
+}
+

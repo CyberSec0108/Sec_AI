@@ -1,0 +1,133 @@
+{
+  "fixture_set_version": "1.0.0",
+  "control_id": "PC-07",
+  "synthetic": true,
+  "canonicalization": "RFC8785-JCS",
+  "pack_ref": {
+    "id": "51000000-0000-4000-8000-000000000007",
+    "version": "0.1.0",
+    "content_sha256": "0849b4b117b1df82c597e5b6737f45664536958a12d996c59879a6a3954618bb"
+  },
+  "case_count": 17,
+  "cases": [
+    {
+      "case_id": "pc07-pass",
+      "input_path": "pc07/input/pc07-pass.json",
+      "expected_path": "pc07/expected/pc07-pass.json",
+      "input_sha256": "4ad336daf5e7edf314a9c402e74388ab1f5ac7b8033aa31536b02abe04d416c8",
+      "expected_sha256": "22a226b66162bb37291300e4e42ba059b121f7443354ac3b7621a4a0a03e019a"
+    },
+    {
+      "case_id": "pc07-fail-fat32",
+      "input_path": "pc07/input/pc07-fail-fat32.json",
+      "expected_path": "pc07/expected/pc07-fail-fat32.json",
+      "input_sha256": "0ecdf9f68e623641eb098edfb9a9b7709fe2093dab3e6f013dc604eaa1fc8c8f",
+      "expected_sha256": "94811a49261f32e4af178eb87e5f38a029e1f74d1b5ffe3655564188ffe50d8c"
+    },
+    {
+      "case_id": "pc07-fail-exfat",
+      "input_path": "pc07/input/pc07-fail-exfat.json",
+      "expected_path": "pc07/expected/pc07-fail-exfat.json",
+      "input_sha256": "64cf84c60d37058cf8d09cc2f47a5df70b9ed6c50920d57ba93214717a62e1a5",
+      "expected_sha256": "96b21a47accf2dbd5ef1242bf38566fa123c85ad84a1f257fdb65014fcfd3d9f"
+    },
+    {
+      "case_id": "pc07-error-collection",
+      "input_path": "pc07/input/pc07-error-collection.json",
+      "expected_path": "pc07/expected/pc07-error-collection.json",
+      "input_sha256": "fd0d641138ec6e3996d3ed36c4b4ff87d94a02f93dc5aa9dd95cf37596e47b9e",
+      "expected_sha256": "53315def1a618e9a7fe3af7a5b0f22a8df4c3b528954c45fbe27ac9a04ade3c9"
+    },
+    {
+      "case_id": "pc07-error-filesystem-unknown",
+      "input_path": "pc07/input/pc07-error-filesystem-unknown.json",
+      "expected_path": "pc07/expected/pc07-error-filesystem-unknown.json",
+      "input_sha256": "9d114226deda348a66bd6900e5dee0e2843420fe5bac4edd267825d911370c86",
+      "expected_sha256": "1405b534b393aa23d8d1ba6ad5be7ee050b3d9f0f561fc98aac24d46254707e3"
+    },
+    {
+      "case_id": "pc07-error-no-evaluated-volume",
+      "input_path": "pc07/input/pc07-error-no-evaluated-volume.json",
+      "expected_path": "pc07/expected/pc07-error-no-evaluated-volume.json",
+      "input_sha256": "da7a683c83ee32c2bdf8dd2ac02549f0b6b83e9379604d1d390d4e53c7027ef6",
+      "expected_sha256": "7626a9d86fb653a0730adf1437865bdd1a3ade2284ffa8b5b10cde95b9a258d7"
+    },
+    {
+      "case_id": "pc07-excluded-efi",
+      "input_path": "pc07/input/pc07-excluded-efi.json",
+      "expected_path": "pc07/expected/pc07-excluded-efi.json",
+      "input_sha256": "111d315f1ceb65d1dfd5cac44e804fb9fe0c14d8791728354b37662c6f9e1950",
+      "expected_sha256": "032696cba5501a89e8071292f35d87ff93810cb2e23df76f01f7c617edc461b3"
+    },
+    {
+      "case_id": "pc07-excluded-recovery",
+      "input_path": "pc07/input/pc07-excluded-recovery.json",
+      "expected_path": "pc07/expected/pc07-excluded-recovery.json",
+      "input_sha256": "e0c75809bc767ad571aa2b9f6751d0335d9930764adb5a41d3fb2158e9c42657",
+      "expected_sha256": "1817fa32451d0e6d1bd1f55fa4fa567f56b17828b019078155f3da6a84d955ed"
+    },
+    {
+      "case_id": "pc07-edge-refs",
+      "input_path": "pc07/input/pc07-edge-refs.json",
+      "expected_path": "pc07/expected/pc07-edge-refs.json",
+      "input_sha256": "450e7430cbe891af32300dc38997b9e5bb99a93f6ec37275ef6121a8b7b9fb6d",
+      "expected_sha256": "19e7d4a34cdf8f70ef90547f72a51e25afd9de3f4adb646d20fecf0c3eb99df2"
+    },
+    {
+      "case_id": "pc07-edge-vhd-ntfs",
+      "input_path": "pc07/input/pc07-edge-vhd-ntfs.json",
+      "expected_path": "pc07/expected/pc07-edge-vhd-ntfs.json",
+      "input_sha256": "b30a3d802bd6f3a04f21c773e6e110800b3901c876a0b8bc90e81c6fe372c371",
+      "expected_sha256": "b6e7bec1080c20d670d97a1d198f165fdbd60300446c381d4eb63e4cf91ea56e"
+    },
+    {
+      "case_id": "pc07-edge-vhd-fat32",
+      "input_path": "pc07/input/pc07-edge-vhd-fat32.json",
+      "expected_path": "pc07/expected/pc07-edge-vhd-fat32.json",
+      "input_sha256": "3dffe452f59eacf2b3bdf799169af3d56b970f33d87366a816b942cf7cba73fb",
+      "expected_sha256": "3aa42a4f30e0c968a89eb55877ecb47911c1f6dd0b1de44f179101a242b123b6"
+    },
+    {
+      "case_id": "pc07-edge-vhd-detached",
+      "input_path": "pc07/input/pc07-edge-vhd-detached.json",
+      "expected_path": "pc07/expected/pc07-edge-vhd-detached.json",
+      "input_sha256": "9d0e2af38c2c754da5131a16e2489b7aefea08aa146056433636d68173d8f224",
+      "expected_sha256": "415dc7e16da129d91d4333020e4cf99eaebc8e29953c9302472a4bacedb213e0"
+    },
+    {
+      "case_id": "pc07-edge-storage-spaces-ntfs",
+      "input_path": "pc07/input/pc07-edge-storage-spaces-ntfs.json",
+      "expected_path": "pc07/expected/pc07-edge-storage-spaces-ntfs.json",
+      "input_sha256": "10dad19339b56865665b53474156b693bbe49a9c4b69f2b1c39e0ab46e96b967",
+      "expected_sha256": "cc691f442805fdbabccb5c2a1be85de254bdd4b21bc24a14a8c7de0605225a7c"
+    },
+    {
+      "case_id": "pc07-edge-storage-spaces-refs",
+      "input_path": "pc07/input/pc07-edge-storage-spaces-refs.json",
+      "expected_path": "pc07/expected/pc07-edge-storage-spaces-refs.json",
+      "input_sha256": "22d84b9ae5d51e8fe0172481ebe865ac9b7f444f3ee2c47c754dcedb448826cb",
+      "expected_sha256": "36052ed2702014cf13e8a9494f75726a24722757533d42bad65ca61eace96ae3"
+    },
+    {
+      "case_id": "pc07-edge-bitlocker-ntfs",
+      "input_path": "pc07/input/pc07-edge-bitlocker-ntfs.json",
+      "expected_path": "pc07/expected/pc07-edge-bitlocker-ntfs.json",
+      "input_sha256": "f3385b242f1bd209589cecc0d709481238ca359dc58fd94ad864dac3f0f78c8b",
+      "expected_sha256": "8c8ad1bd60d9cf87389772233769090a7b3028e69986ce1fc43a7f701bb816c8"
+    },
+    {
+      "case_id": "pc07-edge-bitlocker-locked",
+      "input_path": "pc07/input/pc07-edge-bitlocker-locked.json",
+      "expected_path": "pc07/expected/pc07-edge-bitlocker-locked.json",
+      "input_sha256": "b43df68767c9f15570958771055b7c202158478a8c31d42cb2eb5dea9bd36860",
+      "expected_sha256": "10ff4ef8cfb688f393654cf4711ffaf01d4807731d382e58df5899b7ae4823dd"
+    },
+    {
+      "case_id": "pc07-edge-mounted-folder",
+      "input_path": "pc07/input/pc07-edge-mounted-folder.json",
+      "expected_path": "pc07/expected/pc07-edge-mounted-folder.json",
+      "input_sha256": "dbeabd21162051c2ec1da9f75cfd8fb2d7bfcdab8d8c56e260ffaaa38c156283",
+      "expected_sha256": "3957e412c43f4d0a3c043af6a248b1b8ba1b3ce67fb59e131df72d83bad8ad16"
+    }
+  ]
+}

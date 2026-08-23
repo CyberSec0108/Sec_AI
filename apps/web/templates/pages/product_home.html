@@ -1,0 +1,104 @@
+{% import "components/audit_ui.html" as ui %}
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <title>원클릭 보안 점검 | Sec_AI</title>
+  <link rel="stylesheet" href="/static/app/app.css">
+  <script src="/static/app/theme.js" defer></script>
+  <script src="/static/app/product.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">본문으로 건너뛰기</a>
+  {{ ui.app_header("home", "windows") }}
+
+  <main id="main-content" class="container product-shell" data-ui-standard="product-home-v1">
+    <header class="product-hero">
+      <div>
+        <p class="section-code">원클릭 보안 점검</p>
+        <h1>내 장비의 보안 상태를 간편하게 점검 하세요</h1>
+      </div>
+    </header>
+
+    <nav class="beginner-flow" aria-label="처음 사용하는 순서">
+      <ol>
+        <li><strong>1. 점검 장비 선택</strong><span>점검시작 클릭</span></li>
+        <li><strong>2. 결과 확인</strong><span>확인한 결과와 다음 행동 보기</span></li>
+        <li><strong>3. 보안관련 질문</strong><span>공식 가이드 기반 답변 확인</span></li>
+      </ol>
+    </nav>
+
+    <section aria-labelledby="features-title">
+      <div class="product-section-heading">
+        <div><p class="section-label">주요 기능</p><h2 id="features-title">무엇을 할 수 있나요?</h2></div>
+        <a class="button-link button-link-primary product-download-link" href="/ui/dev-downloads">
+          Windows·Linux 점검 프로그램 다운로드 <span aria-hidden="true">↓</span>
+        </a>
+      </div>
+      <!-- [카드수정] 카드의 공통 HTML 구조와 버튼·링크 배치는 이 반복문에서 수정합니다. -->
+      <div class="feature-grid">
+      {% for feature in features.values() %}
+        <article class="feature-card feature-card-{{ feature.state|lower }}">
+          <div class="feature-card-heading">
+            <h3>{{ feature.title }}</h3>
+            {% if feature.state != "LIVE" %}<span class="feature-state feature-state-{{ feature.state|lower }}">{{ feature.state_label }}</span>{% endif %}
+          </div>
+          <p>{{ feature.description }}</p>
+          <small>{{ feature.availability }}</small>
+          {% if feature.id == "pc_scan" %}
+            <button type="button" id="start-standard-scan" class="feature-action">열기<span aria-hidden="true">→</span></button>
+          {% elif feature.href %}
+            <a class="feature-link" href="{{ feature.href }}">{{ "예시 보기" if feature.state == "PREVIEW" else "열기" }} <span aria-hidden="true">→</span></a>
+          {% else %}
+            <span class="feature-disabled">준비 중</span>
+          {% endif %}
+        </article>
+      {% endfor %}
+      </div>
+    </section>
+
+    <dialog id="scan-consent-dialog" class="scan-consent-dialog" aria-labelledby="scan-consent-title">
+      <div id="scan-consent-copy">
+        <p class="section-label">Windows PC 점검</p>
+        <h2 id="scan-consent-title">점검 전에 확인해 주세요</h2>
+        <section id="scan-criteria-preparation" class="scan-criteria-preparation" aria-labelledby="scan-criteria-title">
+          <div>
+            <h3 id="scan-criteria-title">이번 점검에 적용할 기준</h3>
+            <p id="scan-criteria-status" role="status">KISA 가이드 기준과 저장한 사용자 기준을 확인하고 있습니다.</p>
+          </div>
+          <label for="scan-personal-criteria">점검 기준 선택
+            <select id="scan-personal-criteria"><option value="">KISA 가이드 기준 (기본)</option></select>
+          </label>
+          <dl>
+            <div><dt>기본 점검 기준</dt><dd>KISA PC 보안 가이드 2026 · 자동 적용</dd></div>
+            <div><dt>관리자 설정값</dt><dd id="scan-organization-criteria">불러오는 중</dd></div>
+          </dl>
+          <a href="/ui/criteria">내 점검 기준 만들기·수정</a>
+        </section>
+        <section
+          id="administrator-scan-disclosure"
+          class="administrator-scan-disclosure"
+          aria-labelledby="administrator-disclosure-title"
+          data-consent-version="{{ administrator_consent_version }}"
+        >
+          <h3 id="administrator-disclosure-title">관리자 권한이 필요한 확인 항목</h3>
+          <p>다음 5개 항목은 일반 권한으로 읽을 수 없어, 일반 점검이 끝난 뒤 Windows 권한 확인창이 표시됩니다.</p>
+          <ul>
+            {% for probe in administrator_probes %}
+            <li data-administrator-probe-id="{{ probe.probe_id }}">{{ probe.control_id }} · {{ probe.title }}</li>
+            {% endfor %}
+          </ul>
+          <p class="administrator-uac-notice"><strong>중요:</strong> 권한 확인창에서 반드시 <strong>‘예’</strong>를 선택해야 합니다. ‘아니요’ 선택 시 일반 점검 결과만 표시됩니다.</p>
+        </section>
+        <label class="scan-consent-check"><input id="scan-consent-check" type="checkbox"> 점검 목적과 관리자 5개 항목을 확인했으며, 일반 점검 후 Windows 권한 확인창을 표시하는 데 동의합니다.</label>
+        <div class="scan-dialog-actions">
+          <button type="button" id="close-scan-consent" class="button-secondary">취소</button>
+          <button type="button" id="confirm-standard-scan" disabled>동의하고 전체 점검 시작</button>
+        </div>
+      </div>
+    </dialog>
+  </main>
+</body>
+</html>

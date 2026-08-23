@@ -1,0 +1,215 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sec-ai.local/v1/finding_explanation_input.schema.json",
+  "title": "Sec_AI deterministic finding explanation input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "control_id",
+    "title",
+    "importance",
+    "what_was_checked",
+    "observed_summary",
+    "normalized_facts",
+    "collection_methods",
+    "execution_tools",
+    "source_locations",
+    "evidence_trace",
+    "rule_status",
+    "status_authority",
+    "result_code",
+    "result_code_visibility",
+    "expected_summary",
+    "judgement_explanation",
+    "collection_limitations",
+    "importance_source",
+    "kisa_citations",
+    "allowed_actions",
+    "assessment_kind",
+    "source_rule_result_sha256",
+    "official_finding_write_allowed",
+    "safety",
+    "explanation_input_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "control_id": {"type": "string", "pattern": "^PC-(0[1-9]|1[0-8])$"},
+    "title": {"type": "string", "minLength": 1, "maxLength": 256},
+    "importance": {"enum": ["HIGH", "MEDIUM", "LOW"]},
+    "what_was_checked": {"type": "string", "minLength": 1, "maxLength": 4000},
+    "observed_summary": {"type": "string", "minLength": 1, "maxLength": 4000},
+    "normalized_facts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["actual_summary"],
+      "properties": {
+        "actual_summary": {"type": "string", "minLength": 1, "maxLength": 4000}
+      }
+    },
+    "collection_methods": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["probe_id", "method_code", "method_summary", "collection_status"],
+        "properties": {
+          "probe_id": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/identifier"},
+          "method_code": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/identifier"},
+          "method_summary": {"type": "string", "minLength": 1, "maxLength": 1000},
+          "collection_status": {"enum": ["COLLECTED", "ERROR", "UNSUPPORTED"]}
+        }
+      }
+    },
+    "execution_tools": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "probe_id",
+          "probe_version",
+          "tool_name",
+          "collector_name",
+          "collector_version",
+          "adapter_id",
+          "adapter_version"
+        ],
+        "properties": {
+          "probe_id": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/identifier"},
+          "probe_version": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/semver"},
+          "tool_name": {"type": "string", "minLength": 1, "maxLength": 256},
+          "collector_name": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/identifier"},
+          "collector_version": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/semver"},
+          "adapter_id": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/identifier"},
+          "adapter_version": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/semver"}
+        }
+      }
+    },
+    "source_locations": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["probe_id", "user_label", "technical_locator"],
+        "properties": {
+          "probe_id": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/identifier"},
+          "user_label": {"type": "string", "minLength": 1, "maxLength": 512},
+          "technical_locator": {"type": "string", "minLength": 1, "maxLength": 1000}
+        }
+      }
+    },
+    "evidence_trace": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 32,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "probe_id",
+          "collection_status",
+          "collected_at_utc",
+          "normalized_records_sha256",
+          "source_labels",
+          "raw_evidence_available"
+        ],
+        "properties": {
+          "probe_id": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/identifier"},
+          "collection_status": {"enum": ["COLLECTED", "ERROR", "UNSUPPORTED"]},
+          "collected_at_utc": {
+            "type": ["string", "null"],
+            "maxLength": 64
+          },
+          "normalized_records_sha256": {
+            "oneOf": [
+              {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/sha256"},
+              {"type": "null"}
+            ]
+          },
+          "source_labels": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 8,
+            "items": {"type": "string", "minLength": 1, "maxLength": 512}
+          },
+          "raw_evidence_available": {"const": false}
+        }
+      }
+    },
+    "rule_status": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/findingStatus"},
+    "status_authority": {"const": "RULE_ENGINE"},
+    "result_code": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/identifier"},
+    "result_code_visibility": {"const": "TECHNICAL_ONLY"},
+    "expected_summary": {"type": "string", "minLength": 1, "maxLength": 4000},
+    "judgement_explanation": {"type": "string", "minLength": 1, "maxLength": 4000},
+    "collection_limitations": {
+      "type": "array",
+      "maxItems": 32,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1, "maxLength": 1000}
+    },
+    "importance_source": {"enum": ["상", "중", "하"]},
+    "kisa_citations": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "guide_id",
+          "guide_version",
+          "source_sha256",
+          "document_code",
+          "page_start",
+          "page_end",
+          "section_label",
+          "mapping_status"
+        ],
+        "properties": {
+          "guide_id": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/identifier"},
+          "guide_version": {"type": "string", "minLength": 1, "maxLength": 128},
+          "source_sha256": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/sha256"},
+          "document_code": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/identifier"},
+          "page_start": {"type": "integer", "minimum": 1},
+          "page_end": {"type": "integer", "minimum": 1},
+          "section_label": {"type": "string", "minLength": 1, "maxLength": 512},
+          "mapping_status": {"enum": ["DRAFT", "APPROVED", "REJECTED"]}
+        }
+      }
+    },
+    "allowed_actions": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 16,
+      "items": {"type": "string", "minLength": 1, "maxLength": 2000}
+    },
+    "assessment_kind": {"enum": ["DEVELOPMENT_DRAFT", "OFFICIAL_FINDING"]},
+    "source_rule_result_sha256": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/sha256"},
+    "official_finding_write_allowed": {"const": false},
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "raw_evidence_included",
+        "sensitive_identifiers_included",
+        "rule_status_unchanged",
+        "internal_reason_code_user_visible"
+      ],
+      "properties": {
+        "raw_evidence_included": {"const": false},
+        "sensitive_identifiers_included": {"const": false},
+        "rule_status_unchanged": {"const": true},
+        "internal_reason_code_user_visible": {"const": false}
+      }
+    },
+    "explanation_input_sha256": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/sha256"}
+  }
+}

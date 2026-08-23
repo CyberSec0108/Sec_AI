@@ -1,0 +1,124 @@
+{% import "components/audit_ui.html" as ui %}
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <title>Linux 서버 점검 | Sec_AI</title>
+  <link rel="stylesheet" href="/static/app/app.css">
+  <script src="/static/app/theme.js" defer></script>
+  <script src="/static/app/linux-scan.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">본문으로 건너뛰기</a>
+  {{ ui.app_header("home", "linux") }}
+  <main id="main-content" class="container product-shell linux-shell">
+    <a class="back-link" href="/">← 장비 선택으로</a>
+    <header class="page-heading">
+      <div>
+        <p class="section-code">KISA UNIX 서버 보안 점검</p>
+        <h1>Linux 서버 점검</h1>
+        <p class="lead">Linux 서버의 U-01~U-67 항목을 읽기 전용으로 확인합니다. 서버 종류와 버전은 시스템이 자동으로 확인합니다.</p>
+      </div>
+    </header>
+    <aside class="ai-preview-notice">
+      <strong>서버 설정을 변경하지 않습니다.</strong>
+      등록된 시험 장비에 SSH 키로 접속해 고정된 읽기 전용 명령만 실행하며, 명령·원문·정규화 결과의 SHA-256 확인값을 남깁니다.
+    </aside>
+    <aside class="ai-preview-notice">
+      <strong>회사 등록 장비가 아닌 내 서버를 점검하시나요?</strong>
+      SSH 주소나 key를 등록하지 않는 <a href="/ui/linux-self-scan">Linux 원샷 자가 점검</a>을 사용하세요. 두 방식의 결과는 서로 섞이지 않습니다.
+    </aside>
+    <section id="linux-start-panel" class="panel linux-start-panel" aria-labelledby="linux-device-title">
+      <div class="panel-heading">
+        <p class="section-label">등록된 서버 선택</p>
+        <h2 id="linux-device-title">점검할 서버를 선택하세요</h2>
+        <p>Linux 종류를 고르는 화면이 아닙니다. 서버 종류와 버전은 SSH 연결 후 자동으로 확인합니다.</p>
+      </div>
+      <div class="linux-device-grid">
+      {% for asset in assets %}
+        <label class="linux-device-card">
+          <input type="radio" name="linux-asset" value="{{ asset.key }}"{% if loop.first %} checked{% endif %}>
+          <strong>{{ asset.label }}</strong>
+          <span>{{ asset.connection_label }} · {{ asset.benchmark }}</span>
+          <small>{{ asset.platform_hint }}</small>
+        </label>
+      {% endfor %}
+      </div>
+      <section class="linux-criteria-panel" aria-labelledby="linux-criteria-title">
+        <div>
+          <p class="section-label">이번 점검 기준</p>
+          <h3 id="linux-criteria-title">KISA·SecAI Linux 안전 기본 기준</h3>
+          <p>기준을 따로 만들지 않아도 안전 기본값이 자동 적용됩니다. 필요한 경우 숫자와 승인 목록만 수정할 수 있습니다.</p>
+        </div>
+        <details>
+          <summary>Linux 점검 기준 확인·수정</summary>
+          <div class="linux-criteria-grid">
+            <label>비밀번호 최대 사용 기간
+              <span><input id="linux-password-maximum-age" type="number" min="1" max="365" value="{{ default_criteria.password_maximum_age_days }}"> 일</span>
+            </label>
+            <label>비밀번호 최소 길이
+              <span><input id="linux-password-minimum-length" type="number" min="8" max="64" value="{{ default_criteria.password_minimum_length }}"> 자</span>
+            </label>
+            <label>계정 잠금 최대 실패 횟수
+              <span><input id="linux-account-lock-threshold" type="number" min="1" max="20" value="{{ default_criteria.account_lock_threshold }}"> 회</span>
+            </label>
+            <label>자동 세션 종료 시간
+              <span><input id="linux-session-timeout" type="number" min="60" max="3600" value="{{ default_criteria.session_timeout_seconds }}"> 초</span>
+            </label>
+            <label>승인된 관리자 계정 <small>한 줄에 하나</small>
+              <textarea id="linux-approved-admin-accounts" rows="3">{{ default_criteria.approved_admin_accounts|join('\n') }}</textarea>
+            </label>
+            <label>승인된 수신 포트 <small>쉼표로 구분</small>
+              <input id="linux-approved-listening-ports" type="text" value="{{ default_criteria.approved_listening_ports|join(', ') }}">
+            </label>
+            <label>승인된 SUID·SGID 파일 경로 <small>한 줄에 하나, 비워 두면 확인 필요로 표시</small>
+              <textarea id="linux-approved-suid-paths" rows="3">{{ default_criteria.approved_suid_paths|join('\n') }}</textarea>
+            </label>
+          </div>
+          <button id="linux-criteria-reset" class="button-secondary" type="button">기본 점검값으로 되돌리기</button>
+          <p class="scan-control-progress-note">명령·스크립트·정규식은 입력할 수 없습니다. 자료를 읽지 못한 항목은 양호로 추정하지 않고 확인 필요로 표시합니다.</p>
+        </details>
+      </section>
+      <button id="linux-start" class="button" type="button">Linux 서버 자동 확인 및 점검 시작</button>
+      <p id="linux-start-error" class="error-text" role="alert"></p>
+    </section>
+    <section id="linux-progress-panel" class="panel linux-live-progress" hidden aria-labelledby="linux-progress-title">
+      <div class="panel-heading panel-heading-row">
+        <div>
+          <p class="section-label">실시간 점검</p>
+          <h2 id="linux-progress-title">서버 설정을 확인하고 있습니다</h2>
+          <p id="linux-progress-message" role="status" aria-live="polite">안전한 연결을 준비하고 있습니다.</p>
+        </div>
+        <strong id="linux-progress-count">0 / 67</strong>
+      </div>
+      <section id="linux-detected-platform" class="linux-platform-detection" hidden aria-live="polite">
+        <div>
+          <p class="section-label">자동 확인 결과</p>
+          <strong id="linux-detected-platform-name">운영체제를 확인하고 있습니다.</strong>
+        </div>
+        <small id="linux-detected-platform-support">지원 여부를 확인한 뒤 읽기 전용 점검을 시작합니다.</small>
+      </section>
+      <progress id="linux-progress" max="67" value="0">0 / 67</progress>
+      <section class="scan-control-progress" aria-labelledby="linux-control-progress-title">
+        <div class="scan-control-progress-heading">
+          <div><p class="section-label">실시간 점검 항목</p><h3 id="linux-control-progress-title">현재 무엇을 확인하고 있나요?</h3></div>
+          <strong id="linux-control-progress-summary">확인 완료 0개 · 확인 중 0개 · 대기 67개</strong>
+        </div>
+        <ol id="linux-control-progress-list" class="scan-control-progress-list">
+          {% for control in controls %}
+          <li class="scan-control-progress-item scan-control-progress-waiting" data-control-id="{{ control.control_id }}">
+            <span class="scan-control-progress-marker" aria-hidden="true"></span>
+            <span><strong>{{ control.control_id }} · {{ control.title }}</strong><small>KISA UNIX 서버 보안 점검</small></span>
+            <span class="scan-control-progress-status">대기</span>
+          </li>
+          {% endfor %}
+        </ol>
+        <p class="scan-control-progress-note">현재 읽기 전용 확인: <strong id="linux-current-probe">연결 준비</strong></p>
+      </section>
+      <button id="linux-cancel" class="button-secondary" type="button">점검 중단</button>
+    </section>
+  </main>
+</body>
+</html>

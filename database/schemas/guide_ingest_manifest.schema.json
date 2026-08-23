@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sec-ai.local/v1/guide_ingest_manifest.schema.json",
+  "title": "Sec_AI Guide Ingest Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "ingest_id",
+    "organization_id",
+    "guide",
+    "source_sha256",
+    "scope_id",
+    "classification",
+    "status",
+    "gates",
+    "extraction",
+    "vector_generation"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "ingest_id": {"type": "string", "format": "uuid"},
+    "organization_id": {"type": "string", "format": "uuid"},
+    "guide": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["guide_id", "version"],
+      "properties": {
+        "guide_id": {"type": "string", "minLength": 1, "maxLength": 128},
+        "version": {"type": "string", "minLength": 1, "maxLength": 64}
+      }
+    },
+    "source_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "scope_id": {"type": "string", "minLength": 1, "maxLength": 128},
+    "classification": {
+      "enum": ["PUBLIC_GUIDE", "SYNTHETIC_DEV_ONLY"]
+    },
+    "status": {"enum": ["BLOCKED", "READY"]},
+    "gates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_hash_verified",
+        "page_map_verified",
+        "license_approved",
+        "derivative_text_storage_allowed",
+        "malware_scan_passed",
+        "extraction_quality_approved",
+        "query_scope_enabled",
+        "synthetic_test_only"
+      ],
+      "properties": {
+        "source_hash_verified": {"type": "boolean"},
+        "page_map_verified": {"type": "boolean"},
+        "license_approved": {"type": "boolean"},
+        "derivative_text_storage_allowed": {"type": "boolean"},
+        "malware_scan_passed": {"type": "boolean"},
+        "extraction_quality_approved": {"type": "boolean"},
+        "query_scope_enabled": {"type": "boolean"},
+        "synthetic_test_only": {"type": "boolean"}
+      }
+    },
+    "extraction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "extractor_name",
+        "extractor_version",
+        "page_count",
+        "chunk_count"
+      ],
+      "properties": {
+        "extractor_name": {"type": "string", "minLength": 1, "maxLength": 128},
+        "extractor_version": {"type": "string", "minLength": 1, "maxLength": 64},
+        "page_count": {"type": "integer", "minimum": 1},
+        "chunk_count": {"type": "integer", "minimum": 1}
+      }
+    },
+    "vector_generation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "generation_id",
+        "provider",
+        "pgvector_version",
+        "embedding_model_id",
+        "dimension",
+        "metric",
+        "index_type",
+        "status"
+      ],
+      "properties": {
+        "generation_id": {"type": "string", "format": "uuid"},
+        "provider": {"const": "POSTGRES_PGVECTOR"},
+        "pgvector_version": {"const": "0.8.2"},
+        "embedding_model_id": {"type": "string", "minLength": 1, "maxLength": 128},
+        "dimension": {"const": 32},
+        "metric": {"const": "COSINE"},
+        "index_type": {"const": "HNSW"},
+        "status": {"enum": ["BUILDING", "VALIDATING", "ACTIVE", "FAILED"]}
+      }
+    }
+  }
+}

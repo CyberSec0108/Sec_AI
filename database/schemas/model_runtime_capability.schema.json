@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sec-ai.local/v1/model_runtime_capability.schema.json",
+  "title": "Sec_AI Model Runtime Capability",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "runtime_id",
+    "protocol",
+    "provider_kind",
+    "deployment_mode",
+    "model_id",
+    "model_license",
+    "provider_terms_review",
+    "external_data_transfer",
+    "local_model_loaded",
+    "supports_streaming",
+    "profiles",
+    "official_finding_write_allowed",
+    "audit_pack_write_allowed",
+    "automatic_model_fallback_allowed",
+    "failure_behavior",
+    "connection_status",
+    "configured_model_found",
+    "resolved_model_id",
+    "retryable"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "runtime_id": {
+      "type": "string",
+      "const": "secai-model-gateway"
+    },
+    "protocol": {"const": "OPENAI_CHAT_COMPLETIONS"},
+    "provider_kind": {
+      "enum": ["OPENROUTER", "VLLM", "OPENAI_COMPATIBLE"]
+    },
+    "deployment_mode": {
+      "enum": ["REMOTE_API", "LOCAL_VLLM"]
+    },
+    "model_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]*$"
+    },
+    "model_license": {
+      "enum": ["Apache-2.0", "REVIEW_REQUIRED"]
+    },
+    "provider_terms_review": {
+      "enum": ["OPENROUTER_TERMS_APPLY", "LOCAL_OPERATION"]
+    },
+    "external_data_transfer": {"type": "boolean"},
+    "local_model_loaded": {"type": "boolean"},
+    "supports_streaming": {"type": "boolean"},
+    "profiles": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["FAST", "PRECISE"],
+      "properties": {
+        "FAST": {"$ref": "#/$defs/profile"},
+        "PRECISE": {"$ref": "#/$defs/profile"}
+      }
+    },
+    "official_finding_write_allowed": {"const": false},
+    "audit_pack_write_allowed": {"const": false},
+    "automatic_model_fallback_allowed": {"const": false},
+    "failure_behavior": {"const": "AI_UNAVAILABLE_CORE_CONTINUES"},
+    "connection_status": {
+      "enum": [
+        "AVAILABLE",
+        "MODEL_NOT_FOUND",
+        "UNAVAILABLE",
+        "AUTHENTICATION_FAILED",
+        "USAGE_LIMIT_REACHED",
+        "UPSTREAM_TIMEOUT",
+        "RATE_LIMITED",
+        "MODEL_UNAVAILABLE",
+        "REQUEST_REJECTED",
+        "UPSTREAM_ERROR"
+      ]
+    },
+    "configured_model_found": {"type": "boolean"},
+    "resolved_model_id": {
+      "type": ["string", "null"],
+      "maxLength": 200
+    },
+    "retryable": {"type": "boolean"}
+  },
+  "$defs": {
+    "profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reasoning_effort", "max_output_tokens"],
+      "properties": {
+        "reasoning_effort": {"enum": ["low", "medium", "high"]},
+        "max_output_tokens": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4000
+        }
+      }
+    }
+  }
+}

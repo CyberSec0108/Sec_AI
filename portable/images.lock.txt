@@ -1,0 +1,10 @@
+# Internal-use-only portable image set.
+# External images use the approved linux/amd64 immutable platform digest.
+docker.io/library/python:3.14.6-slim-bookworm@sha256:f70215e5dbe2a47dee6d23f9c6d358bf3c148f59cce2fd165b61118e9d80f2bb
+docker.io/library/python:3.14.6-alpine3.23@sha256:e10f6e0f219a81c65c518e339e7e9bf2f8c63b6ba1bf112e1bb2d1e395ed0c17
+docker.io/library/nginx:1.30.4-alpine@sha256:8a4f4b94275ff59d809477799cbbaf1a7ab65ed1871403d05e31fd66bdb8db82
+docker.io/pgvector/pgvector:0.8.2-pg18-bookworm@sha256:2ac2c62ac8f030b414b19ea633a6d1d4d37c03abe52ce91887a4e5b4fbb5c73c
+docker.io/library/redis:8.8.0@sha256:5d2c689b4b55fc3fab4b0cc8aaa950f85b508c76c1e0f35a90d8f411d55a8b2b
+docker.io/clamav/clamav:1.4.5@sha256:48eaad9644475c2d466ce6d4ba2da892dbd4dcd47713201d31b665364655cc3c
+docker.io/dpage/pgadmin4:9.16@sha256:66a300a7ecdcc1f325af0c430315329bca46cd4a7067227d6899802238167c6e
+quay.io/minio/aistor/minio:RELEASE.2026-06-06T02-44-06Z@sha256:5dbb753c0dbe6a987dd30ce564f66c0042e291e464d10e792443451d4fec2120

@@ -1,0 +1,15 @@
+{
+  "lock": "collector.lock",
+  "runtime": "CPython 3.14.6",
+  "platform": "windows/amd64",
+  "hash_install": "PASS",
+  "pip_check": "PASS",
+  "versions": {
+    "httpx": "0.28.1",
+    "jsonschema": "4.26.0",
+    "pydantic": "2.13.4",
+    "rfc8785": "0.1.4"
+  },
+  "rfc8785_official_vector_sha256": "2d5e01a318d0f0879ab568c4be289c8b1f64ef8921a53c6277d5e069978baacb",
+  "status": "PASS"
+}

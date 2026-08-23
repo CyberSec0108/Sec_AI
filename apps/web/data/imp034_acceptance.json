@@ -1,0 +1,32 @@
+{
+  "acceptance_status": "PASS",
+  "artifact": {
+    "bytes": 11810657,
+    "name": "SecAI-Collector-Windows-x64.exe",
+    "release_channel": "DEV-UNSIGNED",
+    "sha256": "61e2cffce303b6b8eb1a3e61699338f081ec6ebdf7ce4cc3377bccba5ea91708",
+    "version": "0.1.0"
+  },
+  "authenticode": "DEFERRED_TO_IMP035",
+  "builder": {
+    "architecture": "AMD64",
+    "os": "Windows 11",
+    "pyinstaller": "6.21.0",
+    "python": "3.14.6"
+  },
+  "checks_passed": 10,
+  "dependency_components": 24,
+  "download_enabled": false,
+  "embedded_resources": 88,
+  "imp": "IMP-034",
+  "known_vulnerabilities": 0,
+  "malware_scan": {
+    "clamav": "CLEAN",
+    "microsoft_defender": "CLEAN"
+  },
+  "next_imp": "IMP-035",
+  "official_finding_created": false,
+  "portable_bundle_created": false,
+  "production_release": false,
+  "receipt_scope": "SANITIZED_PUBLIC_BUILD_METADATA"
+}

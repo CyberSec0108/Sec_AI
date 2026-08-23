@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0.0",
+  "guide_id": "example-security-guide",
+  "guide_version": "1",
+  "source_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+  "source_page_count": 10,
+  "scope_id": "example-section",
+  "pdf_page_start": 2,
+  "pdf_page_end": 3,
+  "extractor": {
+    "name": "PyMuPDF",
+    "version": "1.28.0",
+    "normalization_profile": "NFC_WHITESPACE_V1"
+  },
+  "pages": [
+    {
+      "pdf_page_number": 2,
+      "pdf_page_index": 7,
+      "printed_page_number": 2,
+      "printed_page_evidence": "TEXT_PAGE_NUMBER_VERIFIED",
+      "text_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+      "normalized_text_chars": 100,
+      "control_ids": []
+    },
+    {
+      "pdf_page_number": 2,
+      "pdf_page_index": 1,
+      "printed_page_number": 2,
+      "printed_page_evidence": "TEXT_PAGE_NUMBER_VERIFIED",
+      "text_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+      "normalized_text_chars": 120,
+      "control_ids": ["PC-01"]
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Restricted Markdown Browser Gate</title>
+  <link rel="stylesheet" href="../../apps/web/static/app/app.css">
+  <script src="../../apps/web/static/app/restricted-markdown.js" defer></script>
+  <script src="restricted_markdown.browser.test.js" defer></script>
+</head>
+<body>
+  <main>
+    <div
+      id="markdown-output"
+      class="ai-stream-text ai-markdown"
+      role="document"
+      aria-label="AI 설명 테스트"
+      tabindex="0"
+    ></div>
+    <div
+      id="stream-output"
+      class="ai-stream-text ai-markdown"
+      role="document"
+      aria-label="AI 스트림 테스트"
+      tabindex="0"
+    ></div>
+    <pre id="test-result" data-status="RUNNING">RUNNING</pre>
+  </main>
+</body>
+</html>

@@ -1,0 +1,54 @@
+{
+  "contract_version": "1.0.0",
+  "imp": "IMP-040",
+  "launcher": {
+    "entry": "SecAI-Collector-Windows-x64.exe",
+    "default_action": "OPEN_PRODUCT_AND_WAIT_FOR_STANDARD_USER_SCAN",
+    "maximum_user_actions_after_open": 1,
+    "powershell_command_required_from_user": false,
+    "docker_command_required_from_user": false,
+    "automatic_elevation": false,
+    "bridge": {
+      "host": "127.0.0.1",
+      "port": 18481,
+      "token_bits": 256,
+      "allowed_origins": [
+        "http://127.0.0.1:18480",
+        "http://localhost:18480"
+      ],
+      "single_scan_per_process": true,
+      "closes_after_scan": true
+    }
+  },
+  "standard_scan": {
+    "privilege": "STANDARD_USER",
+    "probe_count": 15,
+    "read_only": true,
+    "settings_modified": false,
+    "raw_values_persisted": false,
+    "official_finding_created": false
+  },
+  "feature_states": [
+    "LIVE",
+    "PREVIEW",
+    "BLOCKED",
+    "HIDDEN"
+  ],
+  "preview_boundary": {
+    "real_pc_data": false,
+    "collection_calls": 0,
+    "storage_calls": 0,
+    "submission_calls": 0,
+    "evaluation_calls": 0,
+    "finding_writes": 0
+  },
+  "blocked_boundary": {
+    "administrator_scan_http_status": 423,
+    "direct_url_bypass_allowed": false
+  },
+  "release_boundary": {
+    "production_download": false,
+    "organization_signature": false,
+    "portable_bundle_created": false
+  }
+}

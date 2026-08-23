@@ -1,0 +1,313 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "product-ai-01-windows-explanation-sources",
+  "contract_version": "1.0.0",
+  "collector_name": "sec-ai-one-shot-collector",
+  "collector_version": "0.1.0",
+  "execution_mode": "WINDOWS_READ_ONLY",
+  "sources": [
+    {
+      "control_id": "PC-01",
+      "probe_id": "win.security.password-age",
+      "probe_version": "0.1.0",
+      "adapter_id": "secai.windows-native",
+      "adapter_version": "0.1.0",
+      "method_code": "WINDOWS_API",
+      "method_summary": "Windows가 실제로 적용하는 비밀번호 최대 사용 기간을 읽습니다.",
+      "tool_name": "SecAI Windows 읽기 전용 점검 도구",
+      "source_locations": [
+        {"user_label": "Windows 유효 비밀번호 정책", "technical_locator": "NetUserModalsGet(level=0)"}
+      ]
+    },
+    {
+      "control_id": "PC-02",
+      "probe_id": "win.security.password-policy",
+      "probe_version": "0.1.0",
+      "adapter_id": "secai.windows-account-policy",
+      "adapter_version": "0.1.0",
+      "method_code": "WINDOWS_ADSI",
+      "method_summary": "Windows 계정 정책 인터페이스에서 비밀번호 길이와 사용 기간을 읽습니다.",
+      "tool_name": "SecAI Windows 관리자 읽기 전용 점검 도구",
+      "source_locations": [
+        {"user_label": "Windows 계정 비밀번호 정책", "technical_locator": "WinNT://local-computer,computer"}
+      ]
+    },
+    {
+      "control_id": "PC-03",
+      "probe_id": "win.security.recovery-console",
+      "probe_version": "0.1.0",
+      "adapter_id": "secai.windows-registry",
+      "adapter_version": "0.1.0",
+      "method_code": "WINDOWS_REGISTRY",
+      "method_summary": "Windows 레지스트리에서 복구 콘솔 자동 관리자 로그온 정책을 읽습니다.",
+      "tool_name": "SecAI Windows 읽기 전용 점검 도구",
+      "source_locations": [
+        {
+          "user_label": "Windows 복구 콘솔 보안 정책",
+          "technical_locator": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Setup\\RecoveryConsole\\SecurityLevel"
+        }
+      ]
+    },
+    {
+      "control_id": "PC-04",
+      "probe_id": "win.network.smb-shares",
+      "probe_version": "0.1.0",
+      "adapter_id": "secai.windows-smb-native",
+      "adapter_version": "0.1.0",
+      "method_code": "WINDOWS_SMB_API",
+      "method_summary": "Windows 공유 목록과 공유 접근 권한을 읽습니다.",
+      "tool_name": "SecAI Windows 관리자 읽기 전용 점검 도구",
+      "source_locations": [
+        {"user_label": "Windows SMB 공유와 접근 권한", "technical_locator": "Get-SmbShare; Get-SmbShareAccess"},
+        {
+          "user_label": "Windows 자동 관리 공유 정책",
+          "technical_locator": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters"
+        }
+      ]
+    },
+    {
+      "control_id": "PC-05",
+      "probe_id": "win.services.inventory",
+      "probe_version": "0.1.0",
+      "adapter_id": "secai.windows-service-control-manager",
+      "adapter_version": "0.1.0",
+      "method_code": "WINDOWS_SERVICE_MANAGER",
+      "method_summary": "Windows 서비스 목록과 시작 유형·실행 상태를 읽습니다.",
+      "tool_name": "SecAI Windows 읽기 전용 점검 도구",
+      "source_locations": [
+        {"user_label": "Windows 서비스 관리자", "technical_locator": "Get-Service"},
+        {
+          "user_label": "Windows 서비스 시작 설정",
+          "technical_locator": "HKLM\\SYSTEM\\CurrentControlSet\\Services"
+        }
+      ]
+    },
+    {
+      "control_id": "PC-06",
+      "probe_id": "win.software.messengers",
+      "probe_version": "0.1.0",
+      "adapter_id": "secai.windows-installed-software-inventory",
+      "adapter_version": "0.1.0",
+      "method_code": "WINDOWS_REGISTRY",
+      "method_summary": "Windows에 등록된 설치 제품 수를 읽고 조직의 허용 목록과 비교할 준비를 합니다.",
+      "tool_name": "SecAI Windows 관리자 읽기 전용 점검 도구",
+      "source_locations": [
+        {
+          "user_label": "Windows 64비트 설치 제품 목록",
+          "technical_locator": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall"
+        },
+        {
+          "user_label": "Windows 32비트 설치 제품 목록",
+          "technical_locator": "HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall"
+        }
+      ]
+    },
+    {
+      "control_id": "PC-07",
+      "probe_id": "win.storage.disks",
+      "probe_version": "0.1.0",
+      "adapter_id": "secai.windows-storage-native",
+      "adapter_version": "0.1.0",
+      "method_code": "WINDOWS_STORAGE_CMDLET",
+      "method_summary": "Windows 저장 장치 정보를 읽습니다.",
+      "tool_name": "SecAI Windows 읽기 전용 점검 도구",
+      "source_locations": [
+        {"user_label": "Windows 디스크 정보", "technical_locator": "Get-Disk"}
+      ]
+    },
+    {
+      "control_id": "PC-07",
+      "probe_id": "win.storage.partitions",
+      "probe_version": "0.1.0",
+      "adapter_id": "secai.windows-storage-native",
+      "adapter_version": "0.1.0",
+      "method_code": "WINDOWS_STORAGE_CMDLET",
+      "method_summary": "Windows 파티션 구조와 역할을 읽습니다.",
+      "tool_name": "SecAI Windows 읽기 전용 점검 도구",
+      "source_locations": [
+        {"user_label": "Windows 파티션 정보", "technical_locator": "Get-Partition"}
+      ]
+    },
+    {
+      "control_id": "PC-07",
+      "probe_id": "win.storage.volumes",
+      "probe_version": "0.1.0",
+      "adapter_id": "secai.windows-storage-native",
+      "adapter_version": "0.1.0",
+      "method_code": "WINDOWS_STORAGE_CMDLET",
+      "method_summary": "Windows 볼륨의 파일 시스템과 보호 상태를 읽습니다.",
+      "tool_name": "SecAI Windows 읽기 전용 점검 도구",
+      "source_locations": [
+        {"user_label": "Windows 볼륨과 파일 시스템 정보", "technical_locator": "Get-Volume; Get-BitLockerVolume"}
+      ]
+    },
+    {
+      "control_id": "PC-08",
+      "probe_id": "win.boot.entries",
+      "probe_version": "0.1.0",
+      "adapter_id": "secai.windows-bcdedit-native",
+      "adapter_version": "0.1.0",
+      "method_code": "WINDOWS_BOOT_CONFIGURATION",
+      "method_summary": "Windows 부팅 구성에서 운영체제 로더 항목 수를 읽습니다.",
+      "tool_name": "SecAI Windows 관리자 읽기 전용 점검 도구",
+      "source_locations": [
+        {"user_label": "Windows 부팅 구성 저장소", "technical_locator": "bcdedit.exe /enum OSLOADER /v"}
+      ]
+    },
+    {
+      "control_id": "PC-09",
+      "probe_id": "win.browser.wininet-cache-policy",
+      "probe_version": "0.1.0",
+      "adapter_id": "secai.windows-registry",
+      "adapter_version": "0.1.0",
+      "method_code": "WINDOWS_REGISTRY",
+      "method_summary": "현재 사용자의 WinINet 임시 파일 삭제 정책을 읽습니다.",
+      "tool_name": "SecAI Windows 읽기 전용 점검 도구",
+      "source_locations": [
+        {
+          "user_label": "현재 사용자 인터넷 임시 파일 정책",
+          "technical_locator": "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\Cache\\Persistent"
+        }
+      ]
+    },
+    {
+      "control_id": "PC-10",
+      "probe_id": "win.update.compliance",
+      "probe_version": "0.1.0",
+      "adapter_id": "secai.windows-update-history-build",
+      "adapter_version": "0.1.0",
+      "method_code": "WINDOWS_UPDATE_API",
+      "method_summary": "Windows Update 이력과 현재 빌드·재시작 대기 상태를 읽습니다.",
+      "tool_name": "SecAI Windows 관리자 읽기 전용 점검 도구",
+      "source_locations": [
+        {"user_label": "Windows Update 설치 이력", "technical_locator": "Microsoft.Update.Session"},
+        {
+          "user_label": "Windows 자동 업데이트 정책",
+          "technical_locator": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU"
+        }
+      ]
+    },
+    {
+      "control_id": "PC-11",
+      "probe_id": "win.os.lifecycle",
+      "probe_version": "0.1.0",
+      "adapter_id": "secai.windows-native",
+      "adapter_version": "0.1.0",
+      "method_code": "WINDOWS_REGISTRY",
+      "method_summary": "Windows 제품·버전·빌드 정보를 읽습니다.",
+      "tool_name": "SecAI Windows 읽기 전용 점검 도구",
+      "source_locations": [
+        {
+          "user_label": "Windows 제품과 빌드 정보",
+          "technical_locator": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion"
+        }
+      ]
+    },
+    {
+      "control_id": "PC-12",
+      "probe_id": "win.autologon.config",
+      "probe_version": "0.1.0",
+      "adapter_id": "secai.winlogon-native",
+      "adapter_version": "0.1.0",
+      "method_code": "WINDOWS_REGISTRY",
+      "method_summary": "비밀번호 내용은 읽지 않고 Windows 자동 로그온 구성의 존재와 활성 상태만 확인합니다.",
+      "tool_name": "SecAI Windows 읽기 전용 점검 도구",
+      "source_locations": [
+        {
+          "user_label": "Windows 자동 로그온 구성",
+          "technical_locator": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon"
+        }
+      ]
+    },
+    {
+      "control_id": "PC-13",
+      "probe_id": "win.antivirus.update-status",
+      "probe_version": "0.1.0",
+      "adapter_id": "secai.microsoft-defender-antivirus",
+      "adapter_version": "0.1.0",
+      "method_code": "WINDOWS_DEFENDER_API",
+      "method_summary": "Microsoft Defender의 사용 상태와 엔진·보안 정보 업데이트 상태를 읽습니다.",
+      "tool_name": "SecAI Windows 읽기 전용 점검 도구",
+      "source_locations": [
+        {"user_label": "Microsoft Defender 상태", "technical_locator": "Get-MpComputerStatus"}
+      ]
+    },
+    {
+      "control_id": "PC-14",
+      "probe_id": "win.antivirus.realtime-status",
+      "probe_version": "0.1.0",
+      "adapter_id": "secai.microsoft-defender-antivirus",
+      "adapter_version": "0.1.0",
+      "method_code": "WINDOWS_DEFENDER_API",
+      "method_summary": "Microsoft Defender의 실시간 보호·동작 감시 상태를 읽습니다.",
+      "tool_name": "SecAI Windows 읽기 전용 점검 도구",
+      "source_locations": [
+        {"user_label": "Microsoft Defender 실시간 보호 상태", "technical_locator": "Get-MpComputerStatus"}
+      ]
+    },
+    {
+      "control_id": "PC-15",
+      "probe_id": "win.firewall.effective-profiles",
+      "probe_version": "0.1.0",
+      "adapter_id": "secai.windows-firewall",
+      "adapter_version": "0.1.0",
+      "method_code": "WINDOWS_FIREWALL_API",
+      "method_summary": "현재 적용 중인 Windows 방화벽 프로필과 활성 상태를 읽습니다.",
+      "tool_name": "SecAI Windows 읽기 전용 점검 도구",
+      "source_locations": [
+        {
+          "user_label": "Windows 방화벽의 현재 적용 정책",
+          "technical_locator": "Get-NetFirewallProfile -PolicyStore ActiveStore"
+        }
+      ]
+    },
+    {
+      "control_id": "PC-16",
+      "probe_id": "win.user.screensaver-policy",
+      "probe_version": "0.1.0",
+      "adapter_id": "secai.windows-registry",
+      "adapter_version": "0.1.0",
+      "method_code": "WINDOWS_REGISTRY",
+      "method_summary": "현재 사용자의 화면보호기 활성·대기 시간·암호 보호 정책을 읽습니다.",
+      "tool_name": "SecAI Windows 읽기 전용 점검 도구",
+      "source_locations": [
+        {
+          "user_label": "현재 사용자 화면보호기 정책",
+          "technical_locator": "HKCU\\Control Panel\\Desktop"
+        }
+      ]
+    },
+    {
+      "control_id": "PC-17",
+      "probe_id": "win.media.autoplay-policy",
+      "probe_version": "0.1.0",
+      "adapter_id": "secai.windows-registry",
+      "adapter_version": "0.1.0",
+      "method_code": "WINDOWS_REGISTRY",
+      "method_summary": "이동식 미디어의 자동 실행과 자동 재생 차단 정책을 읽습니다.",
+      "tool_name": "SecAI Windows 읽기 전용 점검 도구",
+      "source_locations": [
+        {
+          "user_label": "Windows 자동 실행·자동 재생 정책",
+          "technical_locator": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer"
+        }
+      ]
+    },
+    {
+      "control_id": "PC-18",
+      "probe_id": "win.remote-assistance.policy",
+      "probe_version": "0.1.0",
+      "adapter_id": "secai.windows-registry",
+      "adapter_version": "0.1.0",
+      "method_code": "WINDOWS_REGISTRY",
+      "method_summary": "요청형·제안형 Windows 원격지원 허용 정책을 읽습니다.",
+      "tool_name": "SecAI Windows 읽기 전용 점검 도구",
+      "source_locations": [
+        {
+          "user_label": "Windows 원격지원 정책",
+          "technical_locator": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{% import "components/audit_ui.html" as ui %}
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>일반 권한 점검 완료 | Sec_AI</title>
+  <link rel="stylesheet" href="/static/app/app.css">
+</head>
+<body>
+  {{ ui.app_header("home") }}
+  <main class="container product-shell" data-ui-standard="launcher-return-v1">
+    <a class="back-link" href="/">← 처음 화면으로</a>
+    <header class="page-heading">
+      <div>
+        <p class="section-code">일반 사용자 권한 · 읽기 전용</p>
+        <h1>일반 권한 점검을 마쳤습니다</h1>
+        <p class="lead">Windows 실행 파일이 고정된 15개 항목을 확인하고 원본 설정값을 저장하지 않았습니다.</p>
+      </div>
+      <span class="feature-state feature-state-live">완료</span>
+    </header>
+    <section class="summary-panel">
+      <div class="summary-heading"><p class="section-label">이번 실행</p><h2>점검 시작 결과</h2></div>
+      <dl class="summary-list">
+        <div><dt>전체 항목</dt><dd>{{ total }}</dd></div>
+        <div class="summary-pass"><dt>수집 완료</dt><dd>{{ collected }}</dd></div>
+        <div class="summary-error"><dt>확인 필요</dt><dd>{{ errors }}</dd></div>
+        <div><dt>설정 변경</dt><dd>0</dd></div>
+      </dl>
+    </section>
+
+    <p class="launcher-summary">수집 완료 {{ collected }}개 · 확인 필요 {{ errors }}개</p>
+  </main>
+</body>
+</html>

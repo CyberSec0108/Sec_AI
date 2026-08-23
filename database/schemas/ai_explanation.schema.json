@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sec-ai.local/v1/ai_explanation.schema.json",
+  "title": "Sec_AI non-authoritative AI explanation",
+  "allOf": [
+    {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/commonFields"},
+    {
+      "type": "object",
+      "required": [
+        "job_id", "asset_id", "finding_id", "finding_sha256", "official_finding_status",
+        "generation_status", "input_evidence_refs", "safety", "generated_at"
+      ],
+      "properties": {
+        "source": {"const": "ai-service"},
+        "job_id": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/uuid"},
+        "asset_id": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/uuid"},
+        "finding_id": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/uuid"},
+        "finding_sha256": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/sha256"},
+        "official_finding_status": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/findingStatus"},
+        "generation_status": {"enum": ["GENERATED", "SKIPPED", "FAILED"]},
+        "model": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["provider", "name", "version", "artifact_sha256"],
+          "properties": {
+            "provider": {"type": "string", "minLength": 1, "maxLength": 128},
+            "name": {"type": "string", "minLength": 1, "maxLength": 128},
+            "version": {"type": "string", "minLength": 1, "maxLength": 128},
+            "artifact_sha256": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/sha256"}
+          }
+        },
+        "prompt": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["template_id", "template_version", "template_sha256"],
+          "properties": {
+            "template_id": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/identifier"},
+            "template_version": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/semver"},
+            "template_sha256": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/sha256"}
+          }
+        },
+        "input_evidence_refs": {
+          "type": "array",
+          "maxItems": 128,
+          "uniqueItems": true,
+          "items": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/artifactRef"}
+        },
+        "output": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["summary", "rationale", "citations", "limitations"],
+          "properties": {
+            "summary": {"type": "string", "minLength": 1, "maxLength": 4000},
+            "rationale": {"type": "string", "minLength": 1, "maxLength": 12000},
+            "citations": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 64,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["evidence_id", "claim"],
+                "properties": {
+                  "evidence_id": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/uuid"},
+                  "claim": {"type": "string", "minLength": 1, "maxLength": 1000},
+                  "locator": {"type": "string", "maxLength": 256}
+                }
+              }
+            },
+            "limitations": {"type": "array", "maxItems": 32, "items": {"type": "string", "minLength": 1, "maxLength": 1000}}
+          }
+        },
+        "error_code": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/errorCode"},
+        "safety": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["official_status_unchanged", "executable_content_present", "human_review_required"],
+          "properties": {
+            "official_status_unchanged": {"const": true},
+            "executable_content_present": {"const": false},
+            "human_review_required": {"type": "boolean"}
+          }
+        },
+        "generated_at": {"$ref": "https://schemas.sec-ai.local/v1/common.schema.json#/$defs/timestamp"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"generation_status": {"const": "GENERATED"}}, "required": ["generation_status"]},
+          "then": {"required": ["model", "prompt", "output"], "properties": {"input_evidence_refs": {"minItems": 1}, "error_code": {"const": "NONE"}}}
+        },
+        {
+          "if": {"properties": {"generation_status": {"const": "FAILED"}}, "required": ["generation_status"]},
+          "then": {"required": ["error_code"], "properties": {"error_code": {"enum": ["AI_PROVIDER_UNAVAILABLE", "AI_GENERATION_FAILED", "AI_SAFETY_BLOCKED"]}}}
+        }
+      ]
+    }
+  ],
+  "unevaluatedProperties": false
+}

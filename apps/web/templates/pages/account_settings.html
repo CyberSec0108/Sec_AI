@@ -1,0 +1,42 @@
+{% import "components/audit_ui.html" as ui %}
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>내 계정 설정 | Sec_AI</title>
+  <link rel="stylesheet" href="/static/app/app.css">
+</head>
+<body>
+  {{ ui.app_header("account_settings", "account") }}
+  <main class="container product-shell account-management-shell">
+    <a class="back-link" href="/auth/session">← 로그인 보안으로</a>
+    <header class="page-heading"><div><p class="section-code">내 계정</p><h1>계정 정보 변경</h1><p class="lead">표시 이름과 비밀번호를 안전하게 변경합니다.</p></div></header>
+    {% if error_message %}<div class="auth-error" role="alert">{{ error_message }}</div>{% endif %}
+    {% if success_message %}<div class="auth-success" role="status">{{ success_message }}</div>{% endif %}
+    <div class="account-management-grid">
+      <section class="panel">
+        <h2>기본 정보</h2>
+        <form method="post" action="/auth/settings/profile" class="auth-form">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+          <label>사용자 이름<input value="{{ identity.username }}" readonly aria-readonly="true"></label>
+          <label>표시 이름<input name="display_name" value="{{ identity.display_name }}" required maxlength="128"></label>
+          <button type="submit">표시 이름 저장</button>
+        </form>
+      </section>
+      <section class="panel">
+        <h2>비밀번호 변경</h2>
+        <p>변경하면 현재 기기를 포함한 모든 로그인 세션이 종료됩니다.</p>
+        <form method="post" action="/auth/settings/password" class="auth-form">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+          <label>현재 비밀번호<input type="password" name="current_password" autocomplete="current-password" required maxlength="512"></label>
+          <label>새 비밀번호<input type="password" name="new_password" autocomplete="new-password" required maxlength="512"></label>
+          <small>9자 이상이며 문자·숫자·특수문자를 각각 한 개 이상 포함해 주세요.</small>
+          <label>새 비밀번호 확인<input type="password" name="password_confirmation" autocomplete="new-password" required maxlength="512"></label>
+          <button type="submit">비밀번호 변경</button>
+        </form>
+      </section>
+    </div>
+  </main>
+</body>
+</html>

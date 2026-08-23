@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0.0",
+  "status": "FOUND",
+  "reason_code": null,
+  "control_id": "PC-07",
+  "rule_status": "FAIL",
+  "status_authority": "RULE_ENGINE",
+  "explanation_input_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "search_query_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "citations": [],
+  "evidence_segments": [],
+  "official_finding_write_allowed": false,
+  "output_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+}

@@ -1,0 +1,244 @@
+{
+  "acceptance_status": "PASS",
+  "administrator": {
+    "cancel_available_before_start": true,
+    "explicit_consent": true,
+    "probe_count": 5,
+    "separate_process": true
+  },
+  "environment": {
+    "clean_vm_verified": false,
+    "kind": "CURRENT_WINDOWS_DEVELOPMENT_HOST"
+  },
+  "imp": "IMP-037",
+  "next_imp": "IMP-038",
+  "observed_at_utc": "2026-08-05T11:01:16Z",
+  "official_finding_created": false,
+  "portable_bundle_created": false,
+  "privacy": {
+    "computer_name_disclosed": false,
+    "sensitive_values_disclosed": false,
+    "sid_disclosed": false,
+    "user_name_disclosed": false,
+    "volume_identifiers_disclosed": false
+  },
+  "results": [
+    {
+      "collection_status": "COLLECTED",
+      "control_ids": [
+        "PC-01"
+      ],
+      "error_code": "NONE",
+      "privilege": "STANDARD_USER",
+      "probe_id": "win.security.password-age",
+      "record_count": 1
+    },
+    {
+      "collection_status": "COLLECTED",
+      "control_ids": [
+        "PC-03"
+      ],
+      "error_code": "NONE",
+      "privilege": "STANDARD_USER",
+      "probe_id": "win.security.recovery-console",
+      "record_count": 1
+    },
+    {
+      "collection_status": "COLLECTED",
+      "control_ids": [
+        "PC-05"
+      ],
+      "error_code": "NONE",
+      "privilege": "STANDARD_USER",
+      "probe_id": "win.services.inventory",
+      "record_count": 314
+    },
+    {
+      "collection_status": "COLLECTED",
+      "control_ids": [
+        "PC-09"
+      ],
+      "error_code": "NONE",
+      "privilege": "STANDARD_USER",
+      "probe_id": "win.browser.wininet-cache-policy",
+      "record_count": 1
+    },
+    {
+      "collection_status": "COLLECTED",
+      "control_ids": [
+        "PC-11"
+      ],
+      "error_code": "NONE",
+      "privilege": "STANDARD_USER",
+      "probe_id": "win.os.lifecycle",
+      "record_count": 1
+    },
+    {
+      "collection_status": "COLLECTED",
+      "control_ids": [
+        "PC-12"
+      ],
+      "error_code": "NONE",
+      "privilege": "STANDARD_USER",
+      "probe_id": "win.autologon.config",
+      "record_count": 1
+    },
+    {
+      "collection_status": "COLLECTED",
+      "control_ids": [
+        "PC-13"
+      ],
+      "error_code": "NONE",
+      "privilege": "STANDARD_USER",
+      "probe_id": "win.antivirus.update-status",
+      "record_count": 1
+    },
+    {
+      "collection_status": "COLLECTED",
+      "control_ids": [
+        "PC-14"
+      ],
+      "error_code": "NONE",
+      "privilege": "STANDARD_USER",
+      "probe_id": "win.antivirus.realtime-status",
+      "record_count": 1
+    },
+    {
+      "collection_status": "COLLECTED",
+      "control_ids": [
+        "PC-15"
+      ],
+      "error_code": "NONE",
+      "privilege": "STANDARD_USER",
+      "probe_id": "win.firewall.effective-profiles",
+      "record_count": 3
+    },
+    {
+      "collection_status": "COLLECTED",
+      "control_ids": [
+        "PC-16"
+      ],
+      "error_code": "NONE",
+      "privilege": "STANDARD_USER",
+      "probe_id": "win.user.screensaver-policy",
+      "record_count": 1
+    },
+    {
+      "collection_status": "COLLECTED",
+      "control_ids": [
+        "PC-17"
+      ],
+      "error_code": "NONE",
+      "privilege": "STANDARD_USER",
+      "probe_id": "win.media.autoplay-policy",
+      "record_count": 1
+    },
+    {
+      "collection_status": "COLLECTED",
+      "control_ids": [
+        "PC-18"
+      ],
+      "error_code": "NONE",
+      "privilege": "STANDARD_USER",
+      "probe_id": "win.remote-assistance.policy",
+      "record_count": 1
+    },
+    {
+      "collection_status": "COLLECTED",
+      "control_ids": [
+        "PC-07"
+      ],
+      "error_code": "NONE",
+      "privilege": "STANDARD_USER",
+      "probe_id": "win.storage.disks",
+      "record_count": 4
+    },
+    {
+      "collection_status": "COLLECTED",
+      "control_ids": [
+        "PC-07"
+      ],
+      "error_code": "NONE",
+      "privilege": "STANDARD_USER",
+      "probe_id": "win.storage.partitions",
+      "record_count": 4
+    },
+    {
+      "collection_status": "COLLECTED",
+      "control_ids": [
+        "PC-07"
+      ],
+      "error_code": "NONE",
+      "privilege": "STANDARD_USER",
+      "probe_id": "win.storage.volumes",
+      "record_count": 4
+    },
+    {
+      "collection_status": "COLLECTED",
+      "control_ids": [
+        "PC-02"
+      ],
+      "error_code": "NONE",
+      "privilege": "ADMINISTRATOR",
+      "probe_id": "win.security.password-policy",
+      "record_count": 1
+    },
+    {
+      "collection_status": "COLLECTED",
+      "control_ids": [
+        "PC-04"
+      ],
+      "error_code": "NONE",
+      "privilege": "ADMINISTRATOR",
+      "probe_id": "win.network.smb-shares",
+      "record_count": 1
+    },
+    {
+      "collection_status": "COLLECTED",
+      "control_ids": [
+        "PC-06"
+      ],
+      "error_code": "NONE",
+      "privilege": "ADMINISTRATOR",
+      "probe_id": "win.software.messengers",
+      "record_count": 3
+    },
+    {
+      "collection_status": "COLLECTED",
+      "control_ids": [
+        "PC-08"
+      ],
+      "error_code": "NONE",
+      "privilege": "ADMINISTRATOR",
+      "probe_id": "win.boot.entries",
+      "record_count": 1
+    },
+    {
+      "collection_status": "COLLECTED",
+      "control_ids": [
+        "PC-10"
+      ],
+      "error_code": "NONE",
+      "privilege": "ADMINISTRATOR",
+      "probe_id": "win.update.compliance",
+      "record_count": 1
+    }
+  ],
+  "safety": {
+    "automatic_uac": false,
+    "max_output_bytes": 65536,
+    "raw_values_persisted": false,
+    "read_only": true,
+    "settings_diff_count": 0,
+    "timeout_seconds": 30
+  },
+  "summary": {
+    "administrator": 5,
+    "collected": 20,
+    "permission_denied": 0,
+    "query_failed": 0,
+    "standard": 15,
+    "total": 20,
+    "unsupported": 0
+  }
+}

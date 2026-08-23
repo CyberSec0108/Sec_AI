@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sec-ai.local/v1/queue_task_message.schema.json",
+  "title": "Sec_AI Queue Task Message",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "task_name",
+    "job_id",
+    "asset_id",
+    "workflow_step",
+    "expected_input_version",
+    "idempotency_key",
+    "correlation_id",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "task_name": {
+      "const": "secai.maintenance.verify_delivery"
+    },
+    "job_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "asset_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "workflow_step": {
+      "const": "IMP044_RECOVERY_PROBE"
+    },
+    "expected_input_version": {
+      "const": 1
+    },
+    "idempotency_key": {
+      "type": "string",
+      "pattern": "^job:[0-9a-f-]{36}:IMP044_RECOVERY_PROBE:v1$",
+      "maxLength": 96
+    },
+    "correlation_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    }
+  }
+}
