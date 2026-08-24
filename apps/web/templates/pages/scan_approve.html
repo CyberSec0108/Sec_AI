@@ -1,0 +1,80 @@
+{% import "components/audit_ui.html" as ui %}
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <title>점검 실행 승인 | Sec_AI</title>
+  <link rel="stylesheet" href="/static/app/app.css">
+  <script src="/static/app/theme.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">본문으로 건너뛰기</a>
+  {{ ui.app_header("home", "windows") }}
+  <main id="main-content" class="container product-shell">
+    <header class="page-heading">
+      <div>
+        <p class="section-code">점검 실행 승인</p>
+        <h1>이 PC에서 점검을 시작할까요?</h1>
+        <p class="lead">방금 실행한 점검 프로그램이 승인을 기다리고 있습니다.</p>
+      </div>
+    </header>
+
+    {% if state == "PENDING" %}
+    <section class="panel" aria-labelledby="scan-approve-title">
+      <div class="panel-heading">
+        <p class="section-label">1단계 · 대상 확인</p>
+        <h2 id="scan-approve-title">이 PC가 맞는지 확인하세요</h2>
+      </div>
+      <dl class="summary-list">
+        <dt>점검 대상 장비</dt>
+        <dd><strong>{{ device_name }}</strong></dd>
+      </dl>
+      <p>화면에 표시된 이름이 지금 프로그램을 실행한 PC와 다르면 승인하지 마세요.</p>
+
+      <form method="post" action="/ui/scan-approve/{{ request_id }}/decision">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <label class="consent-choice">
+          <input type="checkbox" name="elevated_consent" value="on">
+          계정 정책·SSH·파일 권한 등 39개 항목을 추가로 확인합니다 (관리자 권한 필요)
+        </label>
+        <p class="help-text">
+          체크하지 않으면 일반 권한으로 볼 수 있는 항목만 점검합니다.
+          비밀번호 입력은 Windows가 직접 처리하며 Sec_AI는 읽거나 저장하지 않습니다.
+        </p>
+        <button class="button" type="submit" name="decision" value="APPROVE">점검 승인</button>
+        <button class="button-secondary" type="submit" name="decision" value="DECLINE">거부</button>
+      </form>
+    </section>
+    {% elif state == "APPROVED" %}
+    <section class="panel" aria-labelledby="scan-approved-title">
+      <div class="panel-heading">
+        <p class="section-label">승인 완료</p>
+        <h2 id="scan-approved-title">{{ device_name }} 점검을 승인했습니다</h2>
+      </div>
+      <p role="status" aria-live="polite">
+        프로그램이 점검을 시작합니다. 이 창은 닫아도 됩니다.
+        {% if elevated_consent %}추가 권한 항목까지 확인합니다.{% else %}일반 권한 항목만 확인합니다.{% endif %}
+      </p>
+    </section>
+    {% elif state == "DECLINED" %}
+    <section class="panel" aria-labelledby="scan-declined-title">
+      <div class="panel-heading">
+        <p class="section-label">거부됨</p>
+        <h2 id="scan-declined-title">{{ device_name }} 점검을 거부했습니다</h2>
+      </div>
+      <p>프로그램은 아무것도 수집하지 않고 종료합니다.</p>
+    </section>
+    {% else %}
+    <section class="panel" aria-labelledby="scan-expired-title">
+      <div class="panel-heading">
+        <p class="section-label">기한 만료</p>
+        <h2 id="scan-expired-title">승인 시간이 지났습니다</h2>
+      </div>
+      <p>점검 프로그램을 다시 실행하면 새 승인 요청이 만들어집니다.</p>
+    </section>
+    {% endif %}
+  </main>
+</body>
+</html>

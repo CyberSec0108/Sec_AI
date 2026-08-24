@@ -27,6 +27,7 @@ from apps.api.product import router as product_router
 from apps.api.queue_recovery import router as queue_recovery_router
 from apps.api.result_ai_explanation import router as result_ai_explanation_router
 from apps.api.result_reports import router as result_reports_router
+from apps.api.scan_approval import router as scan_approval_router
 from apps.api.security_surface import router as security_surface_router
 from apps.api.storage_recovery import router as storage_recovery_router
 from apps.api.switch_audit import router as switch_audit_router
@@ -60,6 +61,7 @@ app.include_router(linux_asset_management_router)
 app.include_router(linux_oneshot_router)
 app.include_router(switch_audit_router)
 app.include_router(vulnerability_check_router)
+app.include_router(scan_approval_router)
 
 
 def _authentication_exempt(path: str) -> bool:

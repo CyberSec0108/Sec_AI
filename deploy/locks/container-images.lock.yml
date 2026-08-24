@@ -95,7 +95,7 @@ images:
 
   - id: redis
     services: [redis]
-    status: LOCKED-RSALV2-INTERNAL
+    status: LOCKED-AGPLV3-SELECTED-INTERNAL
     registry: docker.io
     repository: library/redis
     tag: 8.8.0
@@ -104,7 +104,14 @@ images:
     immutable_ref: docker.io/library/redis:8.8.0@sha256:5d2c689b4b55fc3fab4b0cc8aaa950f85b508c76c1e0f35a90d8f411d55a8b2b
     upstream_revision: 40511fc518c300f3b48059daf43c7ac2ef97550b
     source: https://github.com/redis/docker-library-redis
-    license: RSALv2
+    license: AGPL-3.0-only
+    license_options: [RSALv2, SSPLv1, AGPL-3.0-only]
+    license_selection_reason: >-
+      Redis 8.8 LICENSE.txt가 세 라이선스 중 선택을 허용한다. 이 프로젝트가
+      AGPL-3.0으로 배포되므로 AGPLv3를 선택한다. upstream 이미지는 수정하지 않고
+      별도 컨테이너에서 네트워크로만 사용한다.
+    license_source: https://raw.githubusercontent.com/redis/redis/8.8/LICENSE.txt
+    license_verified_at: "2026-08-23"
     usage: internal-only-celery-broker
     restrictions: [no-sale, no-delivery, no-redis-managed-service, no-redis-source-modification, preserve-notices]
     gate: Pass SBOM, vulnerability, ACL, network isolation, persistence and Outbox recovery tests before Pilot use. Reapprove the license if the usage or distribution model changes.

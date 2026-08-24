@@ -122,3 +122,4 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\dev.ps1 -Action All
 ```
 
 Pack 변경은 관련 시험이 통과했다는 이유만으로 승인 완료가 되지 않습니다. 검증 결과, 검토자, source hash, 서명과 배포 상태를 별도 승인 기록에 남겨야 합니다.
+

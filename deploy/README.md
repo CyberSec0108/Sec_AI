@@ -166,3 +166,4 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\core.ps1 -Action Dow
 - AIStor license, 비밀번호와 이후 TLS·KMS key는 source, image, `.env`, 이동 묶음에 넣지 않는다.
 - 합성 UI/API는 `SECAI_DEV_DEMO_ENABLED=true`, DEV-LOCAL 로그인과 fixed synthetic case allowlist에 한정된다. 실제 원본 download·운영 권한 surface가 아니다.
 - 합성 object의 versioning·exact version 격리 복원은 통과했지만, 장기 보존 bucket·Object Lock·KMS와 다른 failure domain의 독립 백업은 아직 없다.
+

@@ -3,6 +3,17 @@ runtime:
   image: ghcr.io/huggingface/text-embeddings-inference:86-1.8
   image_digest: sha256:65f792e790f976713a5d2ab2586d93d074203d1f0ec2045e87e60113fbd0e256
   minimum_cuda: "12.2"
+  license: Apache-2.0
+  license_source: >-
+    이미지 OCI label org.opencontainers.image.licenses=Apache-2.0
+    (image version label 86-1.8.3, revision 78502d8e61223d2c73d4bb7aeaea46787e90d596)
+  base_image_license: NVIDIA Deep Learning Container License
+  base_image_license_path: /NGC-DL-CONTAINER-LICENSE
+  license_note: >-
+    TEI 애플리케이션은 Apache-2.0이지만 배포 이미지는 NVIDIA CUDA 12.2 런타임을
+    포함하며 해당 구성 요소는 NVIDIA Deep Learning Container License를 따른다.
+    이미지를 재배포하지 않고 upstream에서 직접 pull 한다.
+  license_verified_at: "2026-08-23"
 models:
   embedding:
     model_id: BAAI/bge-m3

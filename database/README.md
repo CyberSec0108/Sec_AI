@@ -123,3 +123,4 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\core.ps1 -Action Hea
 - [ ] 정본의 append-only 제약이 유지됩니다.
 - [ ] rollback 또는 복구 경로와 배포 순서를 기록했습니다.
 - [ ] 관련 집중시험과 Schema·타입 검사를 실행했습니다.
+

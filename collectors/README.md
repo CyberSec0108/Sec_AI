@@ -132,3 +132,4 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\dev.ps1 -Action Test
 - [ ] 수집 오류를 취약 판정으로 오분류하지 않습니다.
 - [ ] 기존 계약·Pack·Finding 재현성을 깨지 않습니다.
 - [ ] build hash, SBOM, CVE, 악성코드와 서명 상태를 검증했습니다.
+
