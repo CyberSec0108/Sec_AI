@@ -136,3 +136,51 @@ def test_store_keeps_only_the_hmac_and_carries_the_owner_scope() -> None:
     assert record.subject_user_id == USER_ID
     assert record.organization_id == ORGANIZATION_ID
     assert record.used_runs == 0
+
+
+def test_verify_confirms_the_token_without_spending_a_run() -> None:
+    service = _service()
+    issued = _issue(service)
+
+    for _ in range(5):
+        verified = service.verify(
+            issued.token,
+            server_origin=ORIGIN,
+            received_at=NOW + timedelta(hours=1),
+        )
+
+    assert verified.subject_user_id == USER_ID
+    assert verified.organization_id == ORGANIZATION_ID
+    assert verified.remaining_runs == 3
+
+    started = service.start_run(
+        issued.token,
+        server_origin=ORIGIN,
+        received_at=NOW + timedelta(hours=2),
+    )
+    assert started.remaining_runs == 2
+
+
+def test_verify_still_refuses_expired_foreign_or_unknown_tokens() -> None:
+    service = _service()
+    issued = _issue(service)
+
+    with pytest.raises(ScanTokenError) as expired:
+        service.verify(
+            issued.token,
+            server_origin=ORIGIN,
+            received_at=NOW + timedelta(hours=24, seconds=1),
+        )
+    assert expired.value.code is ScanTokenErrorCode.EXPIRED
+
+    with pytest.raises(ScanTokenError) as foreign:
+        service.verify(
+            issued.token,
+            server_origin="http://10.0.0.9:18480",
+            received_at=NOW,
+        )
+    assert foreign.value.code is ScanTokenErrorCode.SCOPE_MISMATCH
+
+    with pytest.raises(ScanTokenError) as unknown:
+        service.verify("aaaa.bbbb", server_origin=ORIGIN, received_at=NOW)
+    assert unknown.value.code is ScanTokenErrorCode.INVALID

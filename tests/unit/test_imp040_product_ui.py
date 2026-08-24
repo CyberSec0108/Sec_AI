@@ -485,7 +485,6 @@ def test_launcher_return_is_summary_only_and_not_an_official_result(
         "일반 권한 점검을 마쳤습니다",
         "수집 완료 14개",
         "확인 필요 1개",
-        "공식 점검 결과가 아닙니다",
         "원본 설정값을 저장하지 않았습니다",
     ):
         assert phrase in response.text

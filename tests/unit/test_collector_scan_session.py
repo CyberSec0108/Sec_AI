@@ -11,7 +11,11 @@ from security_audit.collector.scan_approval import (
     ScanApprovalService,
     ScanApprovalState,
 )
-from security_audit.collector.scan_session import ScanSessionService
+from security_audit.collector.scan_session import (
+    ScanSessionError,
+    ScanSessionErrorCode,
+    ScanSessionService,
+)
 from security_audit.collector.scan_token import (
     InMemoryScanTokenStore,
     ScanTokenError,
@@ -165,3 +169,133 @@ def test_issued_sidecar_token_can_immediately_register_a_run() -> None:
     assert issued.max_runs == 3
     assert issued.expires_at == NOW + timedelta(hours=24)
     assert registered.remaining_runs == 2
+
+
+def test_authorize_exchange_requires_an_approved_request_from_the_same_token() -> None:
+    session, tokens = _session()
+    token = _token(tokens)
+    registered = session.register(
+        token,
+        device_name="DESKTOP-A17",
+        server_origin=ORIGIN,
+        received_at=NOW,
+    )
+
+    with pytest.raises(ScanSessionError) as not_yet:
+        session.authorize_exchange(
+            registered.request_id,
+            token=token,
+            server_origin=ORIGIN,
+            received_at=NOW,
+        )
+    assert not_yet.value.code is ScanSessionErrorCode.NOT_APPROVED
+
+    session.approve(
+        registered.request_id,
+        approving_user_id=OWNER_ID,
+        elevated_consent=True,
+        decided_at=NOW + timedelta(minutes=1),
+    )
+    authorized = session.authorize_exchange(
+        registered.request_id,
+        token=token,
+        server_origin=ORIGIN,
+        received_at=NOW + timedelta(minutes=2),
+    )
+
+    assert authorized.organization_id == ORGANIZATION_ID
+    assert authorized.subject_user_id == OWNER_ID
+    assert authorized.device_name == "DESKTOP-A17"
+    assert authorized.elevated_consent is True
+
+
+def test_authorize_exchange_rejects_a_token_from_another_owner() -> None:
+    session, tokens = _session()
+    registered = session.register(
+        _token(tokens),
+        device_name="DESKTOP-A17",
+        server_origin=ORIGIN,
+        received_at=NOW,
+    )
+    session.approve(
+        registered.request_id,
+        approving_user_id=OWNER_ID,
+        elevated_consent=False,
+        decided_at=NOW,
+    )
+    foreign = tokens.issue(
+        organization_id=ORGANIZATION_ID,
+        subject_user_id=OTHER_ID,
+        server_origin=ORIGIN,
+        issued_at=NOW,
+    ).token
+
+    with pytest.raises(ScanSessionError) as mismatch:
+        session.authorize_exchange(
+            registered.request_id,
+            token=foreign,
+            server_origin=ORIGIN,
+            received_at=NOW,
+        )
+    assert mismatch.value.code is ScanSessionErrorCode.OWNER_MISMATCH
+
+
+def test_authorize_exchange_does_not_spend_another_run() -> None:
+    session, tokens = _session()
+    token = _token(tokens)
+    registered = session.register(
+        token,
+        device_name="DESKTOP-A17",
+        server_origin=ORIGIN,
+        received_at=NOW,
+    )
+    session.approve(
+        registered.request_id,
+        approving_user_id=OWNER_ID,
+        elevated_consent=False,
+        decided_at=NOW,
+    )
+
+    for _ in range(3):
+        session.authorize_exchange(
+            registered.request_id,
+            token=token,
+            server_origin=ORIGIN,
+            received_at=NOW,
+        )
+    again = session.register(
+        token,
+        device_name="DESKTOP-A18",
+        server_origin=ORIGIN,
+        received_at=NOW,
+    )
+
+    assert again.remaining_runs == 1
+
+
+def test_approved_session_hands_the_code_only_to_the_matching_token() -> None:
+    session, tokens = _session()
+    token = _token(tokens)
+    registered = session.register(
+        token,
+        device_name="DESKTOP-A17",
+        server_origin=ORIGIN,
+        received_at=NOW,
+    )
+    session.approve(
+        registered.request_id,
+        approving_user_id=OWNER_ID,
+        elevated_consent=True,
+        decided_at=NOW,
+        grant_code="ABCD-EFGH-JKLM-NPQR-STUV",
+    )
+
+    authorized = session.authorize_exchange(
+        registered.request_id,
+        token=token,
+        server_origin=ORIGIN,
+        received_at=NOW,
+    )
+
+    assert authorized.grant_code == "ABCD-EFGH-JKLM-NPQR-STUV"
+    assert session.poll(registered.request_id, received_at=NOW).grant_code is None

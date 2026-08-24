@@ -51,6 +51,7 @@ class ScanApprovalRecord:
     state: ScanApprovalState = ScanApprovalState.PENDING
     elevated_consent: bool = False
     decided_at: datetime | None = None
+    grant_code: str | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -67,6 +68,7 @@ class ScanApprovalView:
     state: ScanApprovalState
     elevated_consent: bool
     decided_at: datetime | None
+    grant_code: str | None = None
 
 
 def _aware(value: datetime) -> None:
@@ -83,13 +85,26 @@ def _effective_state(
     return record.state
 
 
-def _view(record: ScanApprovalRecord, state: ScanApprovalState) -> ScanApprovalView:
+def _view(
+    record: ScanApprovalRecord,
+    state: ScanApprovalState,
+    *,
+    include_grant: bool = True,
+) -> ScanApprovalView:
+    """승인된 요청에만 코드를 싣고, 브라우저용 조회에는 싣지 않습니다."""
+
+    granted = (
+        record.grant_code
+        if include_grant and state is ScanApprovalState.APPROVED
+        else None
+    )
     return ScanApprovalView(
         request_id=record.request_id,
         device_name=record.device_name,
         state=state,
         elevated_consent=record.elevated_consent,
         decided_at=record.decided_at,
+        grant_code=granted,
     )
 
 
@@ -161,6 +176,7 @@ class ScanApprovalService:
         *,
         viewer_user_id: str,
         received_at: datetime,
+        include_grant: bool = True,
     ) -> ScanApprovalView:
         """승인 화면이 대상 장비를 보여주기 전에 소유자를 확인합니다."""
 
@@ -168,7 +184,11 @@ class ScanApprovalService:
         record = self._require(request_id)
         if record.subject_user_id != viewer_user_id:
             raise ScanApprovalError(ScanApprovalErrorCode.OWNER_MISMATCH)
-        return _view(record, _effective_state(record, received_at))
+        return _view(
+            record,
+            _effective_state(record, received_at),
+            include_grant=include_grant,
+        )
 
     def poll(self, request_id: str, *, received_at: datetime) -> ScanApprovalView:
         _aware(received_at)
@@ -183,6 +203,7 @@ class ScanApprovalService:
         state: ScanApprovalState,
         elevated_consent: bool,
         decided_at: datetime,
+        grant_code: str | None = None,
     ) -> ScanApprovalView:
         _aware(decided_at)
         with self._lock:
@@ -198,6 +219,7 @@ class ScanApprovalService:
                 state=state,
                 elevated_consent=elevated_consent,
                 decided_at=decided_at,
+                grant_code=grant_code,
             )
             self._store.replace(decided)
             return _view(decided, decided.state)
@@ -209,6 +231,7 @@ class ScanApprovalService:
         approving_user_id: str,
         elevated_consent: bool,
         decided_at: datetime,
+        grant_code: str | None = None,
     ) -> ScanApprovalView:
         return self._decide(
             request_id,
@@ -216,6 +239,7 @@ class ScanApprovalService:
             state=ScanApprovalState.APPROVED,
             elevated_consent=elevated_consent,
             decided_at=decided_at,
+            grant_code=grant_code,
         )
 
     def decline(

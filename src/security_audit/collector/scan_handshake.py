@@ -18,6 +18,7 @@ DEFAULT_MAX_ATTEMPTS = 300
 
 type RegisterCall = Callable[[str, dict[str, object]], dict[str, Any]]
 type PollCall = Callable[[str], dict[str, Any]]
+type GrantCall = Callable[[str, dict[str, object]], dict[str, Any]]
 type BrowserOpener = Callable[[str], bool]
 type Sleeper = Callable[[float], None]
 
@@ -41,6 +42,7 @@ class GrantedScan:
     approve_url: str
     elevated_consent: bool
     browser_opened: bool
+    grant_code: str | None = None
 
 
 def _text(payload: dict[str, Any], key: str) -> str:
@@ -58,6 +60,7 @@ def perform_scan_handshake(
     poll: PollCall,
     open_browser: BrowserOpener,
     sleep: Sleeper,
+    grant: GrantCall | None = None,
     poll_seconds: float = DEFAULT_POLL_SECONDS,
     max_attempts: int = DEFAULT_MAX_ATTEMPTS,
 ) -> GrantedScan:
@@ -77,11 +80,19 @@ def perform_scan_handshake(
         decision = poll(poll_url)
         state = _text(decision, "state")
         if state == "APPROVED":
+            granted_code: str | None = None
+            elevated = bool(decision.get("elevated_consent"))
+            if grant is not None:
+                # 코드는 상태 응답에 실리지 않습니다. 토큰을 제시해야 받습니다.
+                issued = grant(f"{poll_url}/grant", {"token": sidecar.token})
+                granted_code = _text(issued, "grant_code")
+                elevated = bool(issued.get("elevated_consent"))
             return GrantedScan(
                 request_id=request_id,
                 approve_url=approve_url,
-                elevated_consent=bool(decision.get("elevated_consent")),
+                elevated_consent=elevated,
                 browser_opened=browser_opened,
+                grant_code=granted_code,
             )
         if state == "DECLINED":
             raise ScanHandshakeError(ScanHandshakeErrorCode.DECLINED)

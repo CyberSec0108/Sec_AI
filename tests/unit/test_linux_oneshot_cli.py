@@ -7,6 +7,7 @@ from pathlib import Path
 import pytest
 
 from security_audit.collector import linux_cli
+from security_audit.collector.scan_sidecar import ScanSidecar
 from security_audit.platforms import LinuxDistribution
 
 
@@ -26,6 +27,7 @@ def test_distribution_specific_artifact_cannot_be_switched_by_argument(
         server_url: str,
         distribution: LinuxDistribution,
         output_directory: Path,
+        sidecar: ScanSidecar | None = None,
     ) -> int:
         observed.append(distribution)
         return 0
@@ -63,8 +65,9 @@ def test_generic_artifact_does_not_accept_or_require_distribution_argument(
         server_url: str,
         distribution: LinuxDistribution | None,
         output_directory: Path,
+        sidecar: ScanSidecar | None = None,
     ) -> int:
-        del server_url, output_directory
+        del server_url, output_directory, sidecar
         observed.append(distribution)
         return 0
 

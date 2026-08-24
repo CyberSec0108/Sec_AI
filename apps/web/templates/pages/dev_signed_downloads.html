@@ -46,6 +46,7 @@
         <div class="download-actions">
           <button type="button" data-action="browser">브라우저로 다운로드</button>
           <button type="button" class="button-secondary" data-action="code">일회용 코드 만들기</button>
+          <button type="button" class="button-secondary" data-action="sidecar">이 서버로 결과 보내기</button>
         </div>
         <p data-field="message" role="status"></p>
         <div class="download-code-panel" data-field="code-panel" hidden>
@@ -61,6 +62,7 @@
         <div class="download-actions">
           <button type="button" data-action="browser">브라우저로 다운로드</button>
           <button type="button" class="button-secondary" data-action="code">터미널 코드 만들기</button>
+          <button type="button" class="button-secondary" data-action="sidecar">이 서버로 결과 보내기</button>
         </div>
         <p data-field="message" role="status"></p>
         <div class="download-code-panel" data-field="code-panel" hidden>
@@ -70,6 +72,11 @@
       </article>
 
     </section>
+    <aside class="ai-preview-notice" role="note">
+      <strong>이 서버로 결과 보내기</strong>를 누르면 서버 주소와 실행 토큰이 담긴 작은 설정 파일을 함께 받습니다.
+      받은 설정 파일을 <strong>실행 파일과 같은 폴더</strong>에 두면, 프로그램을 실행할 때 코드를 입력하지 않고
+      이 화면에서 승인만 누르면 됩니다. 토큰은 24시간 동안 최대 3회 실행에 사용할 수 있습니다.
+    </aside>
     <aside class="ai-preview-notice" role="note">
       다운로드 코드는 로그인한 사용자가 발급하며 10분 동안 한 번만 사용할 수 있습니다.
       코드·서명·파일 hash 중 하나라도 맞지 않으면 파일을 보내지 않습니다.

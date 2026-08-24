@@ -157,3 +157,60 @@ def test_unknown_request_is_refused() -> None:
     with pytest.raises(ScanApprovalError) as unknown:
         service.poll("00000000-0000-4000-8000-000000000000", received_at=NOW)
     assert unknown.value.code is ScanApprovalErrorCode.NOT_FOUND
+
+
+def test_approval_carries_the_machine_issued_code_to_the_collector() -> None:
+    """사용자는 코드를 보지 않습니다. 승인 시 서버가 만든 코드를 프로그램이 받습니다."""
+
+    service = _service()
+    pending = _request(service)
+
+    decided = service.approve(
+        pending.request_id,
+        approving_user_id=OWNER_ID,
+        elevated_consent=True,
+        decided_at=NOW + timedelta(minutes=1),
+        grant_code="ABCD-EFGH-JKLM-NPQR-STUV",
+    )
+    polled = service.poll(pending.request_id, received_at=NOW + timedelta(minutes=2))
+
+    assert decided.grant_code == "ABCD-EFGH-JKLM-NPQR-STUV"
+    assert polled.grant_code == "ABCD-EFGH-JKLM-NPQR-STUV"
+
+
+def test_pending_and_declined_requests_never_expose_a_code() -> None:
+    service = _service()
+    pending = _request(service)
+
+    waiting = service.poll(pending.request_id, received_at=NOW)
+    service.decline(
+        pending.request_id,
+        approving_user_id=OWNER_ID,
+        decided_at=NOW + timedelta(minutes=1),
+    )
+    refused = service.poll(pending.request_id, received_at=NOW + timedelta(minutes=2))
+
+    assert waiting.grant_code is None
+    assert refused.grant_code is None
+
+
+def test_owner_facing_view_hides_the_code_from_the_browser() -> None:
+    service = _service()
+    pending = _request(service)
+    service.approve(
+        pending.request_id,
+        approving_user_id=OWNER_ID,
+        elevated_consent=False,
+        decided_at=NOW,
+        grant_code="ABCD-EFGH-JKLM-NPQR-STUV",
+    )
+
+    view = service.pending_view(
+        pending.request_id,
+        viewer_user_id=OWNER_ID,
+        received_at=NOW,
+        include_grant=False,
+    )
+
+    assert view.state is ScanApprovalState.APPROVED
+    assert view.grant_code is None

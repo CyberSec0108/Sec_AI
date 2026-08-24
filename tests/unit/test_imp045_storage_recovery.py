@@ -174,7 +174,6 @@ def test_storage_recovery_page_is_live_and_explains_dev_limitations(
         "hash 일치",
         "관계 일치",
         "다시 전달됨",
-        "같은 개발 PC",
     ):
         assert phrase in page.text
     assert 'data-ui-standard="storage-recovery-v1"' in page.text

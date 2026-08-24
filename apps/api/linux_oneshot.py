@@ -400,28 +400,32 @@ def linux_self_scan_page(request: Request) -> HTMLResponse:
     )
 
 
-@router.post("/api/v1/linux/one-shot/runs", status_code=status.HTTP_201_CREATED)
-def create_linux_self_scan(
-    request: Request,
-    body: CreateLinuxOneShotBody,
-    csrf_token: str | None = Header(default=None, alias="X-CSRF-Token"),
+def provision_linux_self_scan(
+    *,
+    organization_id: UUID,
+    owner_user_id: UUID,
+    criteria_values: dict[str, object] | None,
+    now: datetime,
 ) -> dict[str, object]:
-    principal = _require_feature(request)
-    verify_browser_csrf(request, csrf_token)
+    """대기 중인 run과 일회용 코드를 만듭니다.
+
+    사용자가 화면에서 직접 만들 때와, 승인 화면에서 수집기 실행을 승인할 때
+    같은 경로를 씁니다. 후자에서는 코드를 사람이 보지 않고 수집기가 받습니다.
+    """
+
     try:
-        criteria = KisaUnixAssessmentProfile.from_values(body.criteria).public_values()
+        criteria = KisaUnixAssessmentProfile.from_values(criteria_values).public_values()
     except ValueError as exc:
         raise HTTPException(
             status.HTTP_422_UNPROCESSABLE_ENTITY,
             "Linux criteria invalid.",
         ) from exc
-    now = datetime.now(UTC)
     run_id = uuid4()
     asset_id = uuid4()
     manifests = {
         distribution: build_linux_collector_manifest(
-            organization_id=principal.organization_id,
-            subject_user_id=principal.user_id,
+            organization_id=organization_id,
+            subject_user_id=owner_user_id,
             job_id=run_id,
             asset_id=asset_id,
             manifest_id=uuid4(),
@@ -441,8 +445,8 @@ def create_linux_self_scan(
         with Session(_engine()) as session, session.begin():
             pending = find_pending_linux_oneshot_run(
                 session,
-                organization_id=principal.organization_id,
-                owner_user_id=principal.user_id,
+                organization_id=organization_id,
+                owner_user_id=owner_user_id,
                 asset_key="self-auto",
             )
             if pending is not None:
@@ -451,15 +455,15 @@ def create_linux_self_scan(
                     raise _pending_conflict_error(pending_run_id)
                 mark_linux_oneshot_deleted(
                     session,
-                    organization_id=principal.organization_id,
-                    owner_user_id=principal.user_id,
+                    organization_id=organization_id,
+                    owner_user_id=owner_user_id,
                     run_id=pending_run_id,
                 )
             create_linux_oneshot_run(
                 session,
                 run_id=run_id,
-                organization_id=principal.organization_id,
-                owner_user_id=principal.user_id,
+                organization_id=organization_id,
+                owner_user_id=owner_user_id,
                 asset_id=asset_id,
                 distribution="AUTO",
                 manifest=placeholder_manifest,
@@ -474,7 +478,7 @@ def create_linux_self_scan(
             distribution.value: (_manifest_scope(manifest), manifest)
             for distribution, manifest in manifests.items()
         },
-        subject_user_id=str(principal.user_id),
+        subject_user_id=str(owner_user_id),
         issued_at=now,
         ttl=timedelta(minutes=10),
     )
@@ -488,6 +492,22 @@ def create_linux_self_scan(
         "official_certification": False,
         "artifact": dev_signed_artifact_status(DevArtifactPlatform.LINUX_AUTO_X64),
     }
+
+
+@router.post("/api/v1/linux/one-shot/runs", status_code=status.HTTP_201_CREATED)
+def create_linux_self_scan(
+    request: Request,
+    body: CreateLinuxOneShotBody,
+    csrf_token: str | None = Header(default=None, alias="X-CSRF-Token"),
+) -> dict[str, object]:
+    principal = _require_feature(request)
+    verify_browser_csrf(request, csrf_token)
+    return provision_linux_self_scan(
+        organization_id=principal.organization_id,
+        owner_user_id=principal.user_id,
+        criteria_values=body.criteria,
+        now=datetime.now(UTC),
+    )
 
 
 @router.post("/api/v1/linux/one-shot/exchange")

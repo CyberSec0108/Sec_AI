@@ -116,3 +116,56 @@ def test_waiting_forever_is_refused_after_the_attempt_budget() -> None:
 
     assert timed_out.value.code is ScanHandshakeErrorCode.TIMED_OUT
     assert transport.polls == 5
+
+
+class _GrantTransport(_Transport):
+    def __init__(self, states: list[str]) -> None:
+        super().__init__(states)
+        self.grant_calls: list[tuple[str, dict[str, object]]] = []
+
+    def grant(self, url: str, payload: dict[str, object]) -> dict[str, object]:
+        self.grant_calls.append((url, payload))
+        return {
+            "request_id": REQUEST_ID,
+            "grant_code": "ABCD-EFGH-JKLM-NPQR-STUV",
+            "elevated_consent": True,
+        }
+
+
+def test_approved_handshake_fetches_the_machine_code_with_the_token() -> None:
+    transport = _GrantTransport(["PENDING", "APPROVED"])
+
+    granted = perform_scan_handshake(
+        SIDECAR,
+        device_name="DESKTOP-A17",
+        register=transport.register,
+        poll=transport.poll,
+        grant=transport.grant,
+        open_browser=lambda _url: True,
+        sleep=lambda _seconds: None,
+    )
+
+    assert granted.grant_code == "ABCD-EFGH-JKLM-NPQR-STUV"
+    assert transport.grant_calls == [
+        (
+            f"http://192.168.0.10:18480/api/v1/scan/approvals/{REQUEST_ID}/grant",
+            {"token": SIDECAR.token},
+        )
+    ]
+
+
+def test_declined_handshake_never_asks_for_a_code() -> None:
+    transport = _GrantTransport(["DECLINED"])
+
+    with pytest.raises(ScanHandshakeError):
+        perform_scan_handshake(
+            SIDECAR,
+            device_name="DESKTOP-A17",
+            register=transport.register,
+            poll=transport.poll,
+            grant=transport.grant,
+            open_browser=lambda _url: True,
+            sleep=lambda _seconds: None,
+        )
+
+    assert transport.grant_calls == []

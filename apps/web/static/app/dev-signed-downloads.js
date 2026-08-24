@@ -72,6 +72,36 @@
     ].join("\n");
   }
 
+  function saveBlob(blob, filename) {
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  async function downloadSidecar(card) {
+    const message = field(card, "message");
+    const artifactFilename = field(card, "filename").textContent.trim();
+    if (!artifactFilename || artifactFilename === "확인 중") {
+      throw new Error("먼저 서명 파일 정보를 불러와야 합니다.");
+    }
+    message.textContent = "서버 주소와 실행 토큰을 담은 설정 파일을 만들고 있습니다.";
+    const response = await fetch("/api/v1/scan/sidecar", {
+      method: "POST",
+      headers: {"Content-Type": "application/json", "X-CSRF-Token": csrf},
+      body: JSON.stringify({artifact_filename: artifactFilename}),
+      cache: "no-store"
+    });
+    if (!response.ok) throw new Error("설정 파일을 만들지 못했습니다.");
+    saveBlob(await response.blob(), artifactFilename + ".secai-scan.json");
+    message.textContent =
+      "설정 파일을 받았습니다. 실행 파일과 같은 폴더에 두고 프로그램을 실행하세요.";
+  }
+
   async function showCode(card, platform) {
     const issued = await issue(platform);
     const panel = field(card, "code-panel");
@@ -91,6 +121,11 @@
     });
     card.querySelector('[data-action="code"]').addEventListener("click", function () {
       showCode(card, platform).catch(function (reason) {
+        field(card, "message").textContent = reason.message;
+      });
+    });
+    card.querySelector('[data-action="sidecar"]').addEventListener("click", function () {
+      downloadSidecar(card).catch(function (reason) {
         field(card, "message").textContent = reason.message;
       });
     });

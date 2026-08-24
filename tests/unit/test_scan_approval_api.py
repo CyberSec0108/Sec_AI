@@ -89,3 +89,49 @@ def test_sidecar_filename_keeps_the_signed_artifact_untouched() -> None:
     assert _sidecar_filename("secai-linux-check-x86_64") == (
         "secai-linux-check-x86_64.secai-scan.json"
     )
+
+
+def test_router_hands_the_code_over_a_token_protected_endpoint() -> None:
+    paths = {path for path, _ in _routes()}
+
+    assert "/api/v1/scan/approvals/{request_id}/grant" in paths
+
+
+def test_poll_payload_never_carries_the_code() -> None:
+    view = ScanApprovalView(
+        request_id="46000000-0000-4000-8000-000000000010",
+        device_name="DESKTOP-A17",
+        state=ScanApprovalState.APPROVED,
+        elevated_consent=True,
+        decided_at=None,
+        grant_code="ABCD-EFGH-JKLM-NPQR-STUV",
+    )
+
+    payload = _approval_view_payload(view)
+
+    assert "grant_code" not in payload
+    assert payload["state"] == "APPROVED"
+
+
+def test_download_page_offers_the_sidecar_for_remote_servers() -> None:
+    page = (
+        PROJECT_ROOT / "apps/web/templates/pages/dev_signed_downloads.html"
+    ).read_text(encoding="utf-8")
+    script = (
+        PROJECT_ROOT / "apps/web/static/app/dev-signed-downloads.js"
+    ).read_text(encoding="utf-8")
+
+    assert 'data-action="sidecar"' in page
+    assert "이 서버로 결과 보내기" in page
+    assert '"/api/v1/scan/sidecar"' in script
+    assert "artifact_filename" in script
+    assert "secai-scan.json" in script
+
+
+def test_sidecar_button_is_only_meaningful_next_to_the_signed_file() -> None:
+    page = (
+        PROJECT_ROOT / "apps/web/templates/pages/dev_signed_downloads.html"
+    ).read_text(encoding="utf-8")
+
+    assert page.count('data-action="sidecar"') == 2
+    assert "실행 파일과 같은 폴더" in page

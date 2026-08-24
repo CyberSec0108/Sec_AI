@@ -1,5 +1,7 @@
 * text=auto eol=lf
 *.ps1 text eol=crlf
+# 아래 Probe script는 SHA-256 allowlist로 무결성을 검증하므로 LF로 고정한다.
+collectors/one_shot/probes/windows/powershell/*.ps1 text eol=lf
 *.cmd text eol=crlf
 *.bat text eol=crlf
 *.pdf binary

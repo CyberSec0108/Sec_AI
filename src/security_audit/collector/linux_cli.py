@@ -7,10 +7,14 @@ import base64
 import getpass
 import hashlib
 import os
+import re
 import shutil
 import signal
+import socket
 import sys
 import tempfile
+import time
+import webbrowser
 from collections.abc import Iterator
 from contextlib import contextmanager
 from datetime import UTC, datetime
@@ -40,10 +44,42 @@ from security_audit.collector.linux_package import (
     replace_linux_package_authentication,
     write_linux_offline_descriptor,
 )
+from security_audit.collector.scan_handshake import (
+    GrantedScan,
+    perform_scan_handshake,
+)
+from security_audit.collector.scan_sidecar import (
+    SIDECAR_SUFFIX,
+    ScanSidecar,
+    read_scan_sidecar,
+)
 from security_audit.platforms import LinuxDistribution, linux_adapter_for
 from security_audit.platforms.readonly_plan import ReadOnlyCommandPlan
 
 COLLECTOR_NOTICE = "자가 점검 DRAFT · 공식 인증 결과가 아닙니다."
+UNKNOWN_DEVICE_NAME = "UNKNOWN-DEVICE"
+_DEVICE_NAME_PATTERN = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$")
+
+
+def _device_name(hostname: str) -> str:
+    """승인 화면이 보여줄 장비 이름입니다. 규칙을 못 맞추면 표시하지 않습니다."""
+
+    trimmed = hostname.strip()[:64]
+    if _DEVICE_NAME_PATTERN.fullmatch(trimmed) is None:
+        return UNKNOWN_DEVICE_NAME
+    return trimmed
+
+
+def _default_sidecar_path(program_path: Path) -> Path:
+    return program_path.with_name(program_path.name + SIDECAR_SUFFIX)
+
+
+def _load_sidecar(path: Path) -> ScanSidecar | None:
+    """사이드카가 없으면 기존 수동 코드 경로로 되돌아갑니다."""
+
+    if not path.is_file():
+        return None
+    return read_scan_sidecar(path.read_text(encoding="utf-8"))
 
 
 def _schema_root() -> Path:
@@ -113,6 +149,7 @@ def _collect(
     *,
     cancelled: Event,
     supervisor: LocalProcessSupervisor,
+    approved_consent: bool | None = None,
 ) -> LinuxLocalCollectionBatch:
     plan = linux_adapter_for(distribution).plan
     standard_plan = ReadOnlyCommandPlan(
@@ -141,7 +178,12 @@ def _collect(
         return standard
     print("\n[2/2] 추가 권한 자료 39개는 계정 정책, SSH, 파일 권한, 서비스 상태를 읽습니다.")
     print("설정을 바꾸지 않으며 비밀번호는 Linux sudo가 직접 처리합니다.")
-    consent = input("추가 권한 점검을 계속할까요? [y/N]: ").strip().casefold() == "y"
+    if approved_consent is None:
+        consent = input("추가 권한 점검을 계속할까요? [y/N]: ").strip().casefold() == "y"
+    else:
+        # 승인 화면의 체크박스가 이미 같은 동의를 받았습니다.
+        consent = approved_consent
+        print(f"승인 화면에서 받은 동의: {'예' if consent else '아니오'}")
     elevated = collect_linux_plan_locally(
         elevated_plan,
         include_elevated=consent,
@@ -171,11 +213,48 @@ def _save_offline(
     return archive_output, descriptor_output
 
 
+def _request_approval(sidecar: ScanSidecar) -> GrantedScan:
+    """브라우저 승인을 받고 실행 코드를 받아옵니다. 사용자는 코드를 보지 않습니다."""
+
+    device_name = _device_name(socket.gethostname())
+    print(f"\n점검 대상: {device_name}")
+    print("웹 화면에서 [점검 승인]을 눌러주세요. 승인 전에는 아무것도 수집하지 않습니다.")
+    with httpx.Client(timeout=httpx.Timeout(30, read=60), follow_redirects=False) as client:
+
+        def _post(url: str, payload: dict[str, object]) -> dict[str, Any]:
+            response = client.post(url, json=payload, headers={"Accept": "application/json"})
+            response.raise_for_status()
+            return cast(dict[str, Any], response.json())
+
+        def _get(url: str) -> dict[str, Any]:
+            response = client.get(url, headers={"Accept": "application/json"})
+            response.raise_for_status()
+            return cast(dict[str, Any], response.json())
+
+        def _open(url: str) -> bool:
+            print(f"승인 주소: {url}")
+            try:
+                return bool(webbrowser.open(url))
+            except OSError:
+                return False
+
+        return perform_scan_handshake(
+            sidecar,
+            device_name=device_name,
+            register=_post,
+            poll=_get,
+            grant=_post,
+            open_browser=_open,
+            sleep=time.sleep,
+        )
+
+
 def run(
     *,
     server_url: str,
     distribution: LinuxDistribution | None,
     output_directory: Path,
+    sidecar: ScanSidecar | None = None,
 ) -> int:
     print("Sec_AI Linux 원샷 보안 점검")
     print(COLLECTOR_NOTICE)
@@ -184,7 +263,18 @@ def run(
     selected_distribution = identity.distribution
     adapter = linux_adapter_for(selected_distribution)
     print(f"자동 확인: {adapter.display_name} · x86_64")
-    code = getpass.getpass("중앙 UI에 표시된 일회용 코드: ").strip()
+    approved_consent: bool | None = None
+    if sidecar is not None:
+        granted = _request_approval(sidecar)
+        if granted.grant_code is None:
+            print("승인은 되었지만 실행 코드를 받지 못했습니다.", file=sys.stderr)
+            return 1
+        code = granted.grant_code
+        server_url = sidecar.server_origin
+        approved_consent = granted.elevated_consent
+        print("승인을 확인했습니다.")
+    else:
+        code = getpass.getpass("중앙 UI에 표시된 일회용 코드: ").strip()
     credential = ""
     supervisor = LocalProcessSupervisor()
     cancelled = Event()
@@ -224,6 +314,7 @@ def run(
                 selected_distribution,
                 cancelled=cancelled,
                 supervisor=supervisor,
+                approved_consent=approved_consent,
             )
             if batch.cancelled:
                 print("사용자 요청으로 안전하게 중단했습니다.")
@@ -304,13 +395,21 @@ def main(
         default=Path.cwd(),
         help="자동 제출 실패 시 새 오프라인 Package를 저장할 위치입니다.",
     )
+    parser.add_argument(
+        "--sidecar",
+        type=Path,
+        default=_default_sidecar_path(Path(sys.argv[0]).resolve()),
+        help="다운로드 시 함께 받은 실행 파일 옆의 사이드카 파일 위치입니다.",
+    )
     arguments = parser.parse_args(argv)
     try:
         with _single_instance_lock():
+            sidecar = _load_sidecar(arguments.sidecar)
             return run(
                 server_url=_server_url(arguments.server_url),
                 distribution=forced_distribution,
                 output_directory=arguments.output_directory,
+                sidecar=sidecar,
             )
     except (OSError, RuntimeError, ValueError, PackageValidationError, httpx.HTTPError) as exc:
         code = getattr(exc, "code", type(exc).__name__)

@@ -59,11 +59,26 @@ class IssuedScanToken:
 
 
 @dataclass(frozen=True, slots=True)
+class VerifiedScanToken:
+    organization_id: str
+    subject_user_id: str
+    server_origin: str
+    remaining_runs: int
+
+
+@dataclass(frozen=True, slots=True)
 class StartedScanRun:
     organization_id: str
     subject_user_id: str
     server_origin: str
     remaining_runs: int
+
+
+def _split(token: str) -> tuple[str, str]:
+    token_ref, separator, secret = token.partition(".")
+    if not separator or not secret or _REFERENCE_PATTERN.fullmatch(token_ref) is None:
+        raise ScanTokenError(ScanTokenErrorCode.INVALID)
+    return token_ref, secret
 
 
 def _aware(value: datetime) -> None:
@@ -88,6 +103,47 @@ class InMemoryScanTokenStore:
                 raise ValueError("점검 실행 토큰 reference가 이미 있습니다.")
             self._records[record.token_ref] = record
 
+    def verify(
+        self,
+        *,
+        token_ref: str,
+        presented_hmac: str,
+        server_origin: str,
+        received_at: datetime,
+    ) -> ScanTokenRecord:
+        with self._lock:
+            return self._checked(
+                token_ref=token_ref,
+                presented_hmac=presented_hmac,
+                server_origin=server_origin,
+                received_at=received_at,
+            )
+
+    def _checked(
+        self,
+        *,
+        token_ref: str,
+        presented_hmac: str,
+        server_origin: str,
+        received_at: datetime,
+    ) -> ScanTokenRecord:
+        record = self._records.get(token_ref)
+        if record is None or not hmac.compare_digest(
+            record.token_hmac,
+            presented_hmac,
+        ):
+            if record is not None:
+                self._records[token_ref] = replace(
+                    record,
+                    failed_attempts=record.failed_attempts + 1,
+                )
+            raise ScanTokenError(ScanTokenErrorCode.INVALID)
+        if received_at > record.expires_at:
+            raise ScanTokenError(ScanTokenErrorCode.EXPIRED)
+        if record.server_origin != server_origin:
+            raise ScanTokenError(ScanTokenErrorCode.SCOPE_MISMATCH)
+        return record
+
     def start_run(
         self,
         *,
@@ -97,21 +153,12 @@ class InMemoryScanTokenStore:
         received_at: datetime,
     ) -> ScanTokenRecord:
         with self._lock:
-            record = self._records.get(token_ref)
-            if record is None or not hmac.compare_digest(
-                record.token_hmac,
-                presented_hmac,
-            ):
-                if record is not None:
-                    self._records[token_ref] = replace(
-                        record,
-                        failed_attempts=record.failed_attempts + 1,
-                    )
-                raise ScanTokenError(ScanTokenErrorCode.INVALID)
-            if received_at > record.expires_at:
-                raise ScanTokenError(ScanTokenErrorCode.EXPIRED)
-            if record.server_origin != server_origin:
-                raise ScanTokenError(ScanTokenErrorCode.SCOPE_MISMATCH)
+            record = self._checked(
+                token_ref=token_ref,
+                presented_hmac=presented_hmac,
+                server_origin=server_origin,
+                received_at=received_at,
+            )
             if record.used_runs >= MAX_SCAN_TOKEN_RUNS:
                 raise ScanTokenError(ScanTokenErrorCode.RUNS_EXHAUSTED)
             started = replace(record, used_runs=record.used_runs + 1)
@@ -179,6 +226,30 @@ class ScanTokenService:
             max_runs=MAX_SCAN_TOKEN_RUNS,
         )
 
+    def verify(
+        self,
+        token: str,
+        *,
+        server_origin: str,
+        received_at: datetime,
+    ) -> VerifiedScanToken:
+        """실행 횟수를 쓰지 않고 토큰 소유자만 확인합니다."""
+
+        _aware(received_at)
+        token_ref, secret = _split(token)
+        record = self._store.verify(
+            token_ref=token_ref,
+            presented_hmac=self._hmac(secret),
+            server_origin=server_origin,
+            received_at=received_at,
+        )
+        return VerifiedScanToken(
+            organization_id=record.organization_id,
+            subject_user_id=record.subject_user_id,
+            server_origin=record.server_origin,
+            remaining_runs=MAX_SCAN_TOKEN_RUNS - record.used_runs,
+        )
+
     def start_run(
         self,
         token: str,
@@ -189,9 +260,7 @@ class ScanTokenService:
         """실행 1회를 소진하고 남은 횟수를 돌려줍니다."""
 
         _aware(received_at)
-        token_ref, separator, secret = token.partition(".")
-        if not separator or not secret or _REFERENCE_PATTERN.fullmatch(token_ref) is None:
-            raise ScanTokenError(ScanTokenErrorCode.INVALID)
+        token_ref, secret = _split(token)
         started = self._store.start_run(
             token_ref=token_ref,
             presented_hmac=self._hmac(secret),

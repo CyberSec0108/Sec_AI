@@ -202,3 +202,20 @@ def test_self_scan_ui_shows_the_server_message_and_offers_cancellation() -> None
     assert "pending_run_id" in script
     assert 'method: "DELETE"' in script
     assert "새 Linux 자가 점검을 만들지 못했습니다" in script
+
+
+def test_exchange_still_takes_a_single_one_time_code() -> None:
+    """승인 흐름에서도 코드는 사람이 아니라 프로그램이 전달합니다."""
+
+    typed = ExchangeLinuxOneShotBody(
+        code="ABCD-EFGH-JKLM-NPQR-STUV",
+        os_release='ID=ubuntu\nVERSION_ID="24.04"\n',
+        machine="x86_64",
+    )
+
+    assert typed.code == "ABCD-EFGH-JKLM-NPQR-STUV"
+    with pytest.raises(ValidationError):
+        ExchangeLinuxOneShotBody(
+            os_release='ID=ubuntu\nVERSION_ID="24.04"\n',
+            machine="x86_64",
+        )

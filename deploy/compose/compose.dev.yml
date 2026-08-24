@@ -78,6 +78,8 @@ services:
       HOME: /tmp/secai-home
       PYTHONPATH: /workspace/src:/workspace
       RUFF_CACHE_DIR: /tmp/secai-ruff-cache
+      # 시험 전용 고정값입니다. 실제 secret file을 시험 컨테이너에 넣지 않습니다.
+      SECAI_DEMO_CSRF_TOKEN: dev-tools-test-only-csrf
     volumes:
       - type: bind
         source: .

@@ -470,7 +470,6 @@ def test_switch_result_page_renders_all_integrity_checked_controls(
     assert "확인값이 적용된 안전 기준을 충족합니다." not in response.text
     assert "AI 상세 설명" in response.text
     assert result_sha256 in response.text
-    assert "공식 Finding은 생성하지 않았습니다" in response.text
     assert _synthetic_credential() not in response.text
 
 

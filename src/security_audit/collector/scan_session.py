@@ -7,16 +7,41 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from datetime import datetime
+from enum import StrEnum
 
 from .scan_approval import (
+    ScanApprovalError,
+    ScanApprovalErrorCode,
     ScanApprovalService,
+    ScanApprovalState,
     ScanApprovalView,
 )
 from .scan_token import IssuedScanToken, ScanTokenService
 
 APPROVAL_PATH = "/ui/scan-approve"
+
+
+class ScanSessionErrorCode(StrEnum):
+    NOT_APPROVED = "SCAN_SESSION_NOT_APPROVED"
+    OWNER_MISMATCH = "SCAN_SESSION_OWNER_MISMATCH"
+
+
+class ScanSessionError(ValueError):
+    def __init__(self, code: ScanSessionErrorCode) -> None:
+        super().__init__("점검 실행 인가를 확인할 수 없습니다.")
+        self.code = code
+
+
+@dataclass(frozen=True, slots=True)
+class AuthorizedScan:
+    request_id: str
+    organization_id: str
+    subject_user_id: str
+    device_name: str
+    elevated_consent: bool
+    grant_code: str | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -92,11 +117,13 @@ class ScanSessionService:
         *,
         viewer_user_id: str,
         received_at: datetime,
+        include_grant: bool = True,
     ) -> ScanApprovalView:
         return self._approvals.pending_view(
             request_id,
             viewer_user_id=viewer_user_id,
             received_at=received_at,
+            include_grant=include_grant,
         )
 
     def approve(
@@ -106,12 +133,14 @@ class ScanSessionService:
         approving_user_id: str,
         elevated_consent: bool,
         decided_at: datetime,
+        grant_code: str | None = None,
     ) -> ScanApprovalView:
         return self._approvals.approve(
             request_id,
             approving_user_id=approving_user_id,
             elevated_consent=elevated_consent,
             decided_at=decided_at,
+            grant_code=grant_code,
         )
 
     def decline(
@@ -127,5 +156,44 @@ class ScanSessionService:
             decided_at=decided_at,
         )
 
+    def authorize_exchange(
+        self,
+        request_id: str,
+        *,
+        token: str,
+        server_origin: str,
+        received_at: datetime,
+    ) -> AuthorizedScan:
+        """승인된 요청과 같은 소유자의 토큰인지 확인합니다. 실행 횟수는 쓰지 않습니다."""
+
+        verified = self._tokens.verify(
+            token,
+            server_origin=server_origin,
+            received_at=received_at,
+        )
+        try:
+            record = self._approvals.pending_view(
+                request_id,
+                viewer_user_id=verified.subject_user_id,
+                received_at=received_at,
+            )
+        except ScanApprovalError as exc:
+            if exc.code is ScanApprovalErrorCode.OWNER_MISMATCH:
+                raise ScanSessionError(ScanSessionErrorCode.OWNER_MISMATCH) from exc
+            raise
+        if record.state is not ScanApprovalState.APPROVED:
+            raise ScanSessionError(ScanSessionErrorCode.NOT_APPROVED)
+        return AuthorizedScan(
+            request_id=record.request_id,
+            organization_id=verified.organization_id,
+            subject_user_id=verified.subject_user_id,
+            device_name=record.device_name,
+            elevated_consent=record.elevated_consent,
+            grant_code=record.grant_code,
+        )
+
     def poll(self, request_id: str, *, received_at: datetime) -> ScanApprovalView:
-        return self._approvals.poll(request_id, received_at=received_at)
+        """상태만 알려줍니다. 코드는 토큰을 제시한 수집기에만 건넵니다."""
+
+        view = self._approvals.poll(request_id, received_at=received_at)
+        return replace(view, grant_code=None)

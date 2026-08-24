@@ -20,13 +20,17 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from apps.api.auth_support import auth_enabled, current_principal
 from apps.api.browser_csrf import browser_csrf_token, verify_browser_csrf
+from apps.api.linux_oneshot import provision_linux_self_scan
 from security_audit.collector.scan_approval import (
     InMemoryScanApprovalStore,
     ScanApprovalError,
     ScanApprovalService,
     ScanApprovalView,
 )
-from security_audit.collector.scan_session import ScanSessionService
+from security_audit.collector.scan_session import (
+    ScanSessionError,
+    ScanSessionService,
+)
 from security_audit.collector.scan_sidecar import (
     SIDECAR_SUFFIX,
     ScanSidecarError,
@@ -54,6 +58,11 @@ class RegisterScanSessionBody(BaseModel):
     model_config = ConfigDict(extra="forbid")
     token: str = Field(min_length=1, max_length=MAX_TOKEN_BYTES)
     device_name: str = Field(min_length=1, max_length=64)
+
+
+class GrantScanCodeBody(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    token: str = Field(min_length=1, max_length=MAX_TOKEN_BYTES)
 
 
 class _Runtime:
@@ -89,7 +98,9 @@ def _server_origin(request: Request) -> str:
     return str(request.base_url).rstrip("/")
 
 
-def _safe_error(error: ScanTokenError | ScanApprovalError) -> HTTPException:
+def _safe_error(
+    error: ScanTokenError | ScanApprovalError | ScanSessionError,
+) -> HTTPException:
     return HTTPException(
         status.HTTP_400_BAD_REQUEST,
         {"code": str(error.code), "message": "점검 승인 요청을 확인할 수 없습니다."},
@@ -190,6 +201,39 @@ def poll_scan_approval(request: Request, request_id: str) -> dict[str, object]:
     return _approval_view_payload(view)
 
 
+@router.post("/api/v1/scan/approvals/{request_id}/grant")
+def grant_scan_code(
+    request: Request,
+    request_id: str,
+    body: GrantScanCodeBody,
+) -> dict[str, object]:
+    """승인된 요청의 일회용 코드를 같은 소유자의 수집기에만 건넵니다."""
+
+    _feature_enabled()
+    try:
+        authorized = _runtime().sessions.authorize_exchange(
+            request_id,
+            token=body.token,
+            server_origin=_server_origin(request),
+            received_at=datetime.now(UTC),
+        )
+    except (ScanTokenError, ScanApprovalError, ScanSessionError) as exc:
+        raise _safe_error(exc) from exc
+    if authorized.grant_code is None:
+        raise HTTPException(
+            status.HTTP_409_CONFLICT,
+            {
+                "code": "SCAN_GRANT_UNAVAILABLE",
+                "message": "승인은 되었지만 실행 코드를 준비하지 못했습니다.",
+            },
+        )
+    return {
+        "request_id": authorized.request_id,
+        "grant_code": authorized.grant_code,
+        "elevated_consent": authorized.elevated_consent,
+    }
+
+
 @router.get("/ui/scan-approve", response_class=HTMLResponse)
 def scan_approval_page(request: Request, req: str) -> HTMLResponse:
     principal = _require_user(request)
@@ -198,6 +242,7 @@ def scan_approval_page(request: Request, req: str) -> HTMLResponse:
             req,
             viewer_user_id=str(principal.user_id),
             received_at=datetime.now(UTC),
+            include_grant=False,
         )
     except ScanApprovalError as exc:
         raise _safe_error(exc) from exc
@@ -228,11 +273,20 @@ def decide_scan_approval(
     decided_at = datetime.now(UTC)
     try:
         if decision == "APPROVE":
+            # 승인 순간에 run과 일회용 코드를 만듭니다. 코드는 화면에 표시하지
+            # 않고, 토큰을 제시한 수집기만 grant 요청으로 받아갑니다.
+            provisioned = provision_linux_self_scan(
+                organization_id=principal.organization_id,
+                owner_user_id=principal.user_id,
+                criteria_values=None,
+                now=decided_at,
+            )
             view = sessions.approve(
                 request_id,
                 approving_user_id=str(principal.user_id),
                 elevated_consent=elevated_consent is not None,
                 decided_at=decided_at,
+                grant_code=str(provisioned["device_code"]),
             )
         else:
             view = sessions.decline(

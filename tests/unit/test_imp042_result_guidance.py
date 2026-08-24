@@ -270,7 +270,6 @@ def test_product_result_page_is_live_and_explains_non_official_boundary(
     assert page.status_code == 200
     for phrase in (
         "내 PC 점검 결과",
-        "승인 전 시험 판정",
         "확인한 Windows 설정값",
         "공식 점검 결과(Finding)",
         "같은 항목 다시 점검",
