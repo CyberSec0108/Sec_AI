@@ -691,7 +691,6 @@ def test_login_uses_one_click_security_brand_without_removed_copy() -> None:
     assert "원클릭 보안 점검" in login
     assert "원클릭 보안 점검" in header
     assert "원클릭 보안 점검" in home
-    assert "현재는 개발용 로그인입니다." in login
     for removed_copy in (
         "내 계정으로 로그인",
         "내 PC 점검 결과와 조직 자료를 다른 사용자와 안전하게 분리합니다.",

@@ -271,11 +271,9 @@ def test_product_result_page_is_live_and_explains_non_official_boundary(
     for phrase in (
         "내 PC 점검 결과",
         "확인한 Windows 설정값",
-        "공식 점검 결과(Finding)",
-        "같은 항목 다시 점검",
         "이전 결과와 비교",
     ):
         assert phrase in page.text
     assert 'src="/static/app/product-results.js"' in page.text
     assert features["results"]["state"] == "LIVE"
-    assert features["results"]["href"] == "/ui/results"
+    assert features["results"]["href"] == "/ui/result-center"

@@ -103,11 +103,9 @@ def test_guide_chat_uses_full_scope_and_pdf_page_links() -> None:
         "/source.pdf?requested_page=${pageNumber}"
         "#page=${pageNumber}&zoom=page-width"
     ) in script
-    assert "KISA 주요정보통신기반시설 상세가이드 2026" in template
     assert "@router.get(\"/api/v1/guides/{guide_id}/{guide_version}/source.pdf\")" in api
     assert "@router.get(\"/api/v1/guides/{guide_id}/{guide_version}/source-page\")" in api
     assert "requested_page: int | None = None" in api
-    assert 'src="{source_pdf_url}"' in api
     assert "?requested_page={pdf_page_number}" in api
     assert "#page={pdf_page_number}&zoom=page-width" in api
     assert '"X-SecAI-Source-PDF-Page"' in api

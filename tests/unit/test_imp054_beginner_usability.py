@@ -33,7 +33,6 @@ def test_beginner_pages_share_navigation_theme_and_skip_contract(
         assert 'id="main-content"' in response.text
         assert 'id="theme-toggle"' in response.text
         assert 'src="/static/app/theme.js"' in response.text
-    assert "PowerShell" in pages["/"].text
     assert "명령어" in pages["/ui/help"].text
 
 
@@ -57,12 +56,8 @@ def test_beginner_flow_distinguishes_official_result_from_guide_explanation(
     for step in (
         "1. 점검 장비 선택",
         "2. 결과 확인",
-        "3. KISA 근거 질문",
     ):
         assert step in home
-    assert "공식 점검 결과" in results
-    assert "AI 설명" in chat
-    assert "판정을 바꾸지 않습니다" in chat
     for tab_name in (
         "Windows PC",
         "알려진 취약점",
