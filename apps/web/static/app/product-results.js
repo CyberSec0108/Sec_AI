@@ -1731,6 +1731,16 @@
         persistenceStatus.textContent = stored.created
           ? "현재 로그인 아이디의 점검 이력에 저장했습니다."
           : "이미 저장된 동일 점검 결과를 확인했습니다.";
+        // 저장된 결과 식별자를 알려주면 AI 설명을 항목 단위로 보관·복원할 수 있습니다.
+        if (stored.entry_id) {
+          window.dispatchEvent(new CustomEvent("secai:windows-snapshot-ready", {
+            detail: {
+              result_id: result.result_id,
+              result_version: result.sequence,
+              snapshot_id: stored.entry_id
+            }
+          }));
+        }
         return true;
       } catch (_error) {
         persistedResultKeys.delete(key);

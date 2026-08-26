@@ -2,18 +2,20 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import logging
 import os
+import re
 from collections.abc import Iterator, Mapping, Sequence
 from functools import lru_cache
 from pathlib import Path
 from typing import Any, Literal, cast
 from uuid import UUID
 
-from fastapi import APIRouter, Header, HTTPException, Request, status
+from fastapi import APIRouter, Header, HTTPException, Request, Response, status
 from fastapi.responses import StreamingResponse
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 from sqlalchemy import Engine, create_engine
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
@@ -52,11 +54,44 @@ from security_audit.llm import (
     InternalModelGatewayClient,
     ProviderRequestError,
 )
+from security_audit.persistence.database.windows_ai_repository import (
+    WindowsAIOutputError,
+    append_windows_ai_output,
+    get_windows_ai_outputs,
+)
 
 router = APIRouter()
 _LOGGER = logging.getLogger(__name__)
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 _DEV_ORGANIZATION_ID = UUID("46000000-0000-4000-8000-000000000001")
+_CONTROL_ID_PATTERN = re.compile(r"^PC-(0[1-9]|1[0-8])$")
+
+
+def encode_stored_control_card(
+    *,
+    source: str,
+    knowledge_sources: list[dict[str, Any]],
+) -> str:
+    """항목 카드를 그대로 복원할 수 있게 본문과 출처를 함께 보관합니다."""
+
+    return json.dumps(
+        {"source": source, "knowledge_sources": knowledge_sources},
+        ensure_ascii=False,
+    )
+
+
+def decode_stored_control_card(value: str) -> dict[str, Any] | None:
+    try:
+        loaded = json.loads(value)
+    except json.JSONDecodeError:
+        return None
+    if not isinstance(loaded, dict):
+        return None
+    source = loaded.get("source")
+    sources = loaded.get("knowledge_sources")
+    if not isinstance(source, str) or not isinstance(sources, list):
+        return None
+    return {"source": source, "knowledge_sources": sources}
 
 
 class ResultExplanationBody(BaseModel):
@@ -78,6 +113,21 @@ class ScanResultExplanationBody(BaseModel):
         default_factory=list,
         max_length=5,
     )
+    # 저장된 결과에 연결되면 완성된 설명을 보관해 재방문 시 재생성하지 않습니다.
+    snapshot_id: UUID | None = None
+    # 이미 복원한 항목은 다시 만들지 않습니다. 관리자 점검으로 늘어난 항목만 생성합니다.
+    restored_control_ids: list[str] = Field(
+        default_factory=list,
+        max_length=18,
+    )
+    restored_summary: bool = False
+
+    @field_validator("restored_control_ids")
+    @classmethod
+    def _known_control_ids(cls, value: list[str]) -> list[str]:
+        if any(_CONTROL_ID_PATTERN.fullmatch(item) is None for item in value):
+            raise ValueError("복원 항목 식별자가 올바르지 않습니다.")
+        return value
 
 
 class ResultFollowUpBody(BaseModel):
@@ -121,6 +171,82 @@ def _organization_id(request: Request) -> UUID:
     if auth_enabled():
         return current_principal(request).organization_id
     return _DEV_ORGANIZATION_ID
+
+
+def _owner_user_id(request: Request) -> UUID | None:
+    return current_principal(request).user_id if auth_enabled() else None
+
+
+def _store_windows_ai_output_best_effort(
+    *,
+    organization_id: UUID,
+    owner_user_id: UUID | None,
+    snapshot_id: UUID | None,
+    output_key: str,
+    content: str,
+) -> None:
+    """생성 결과를 먼저 전달하고 캐시 저장 장애는 안전하게 분리합니다."""
+
+    if snapshot_id is None or owner_user_id is None or not content.strip():
+        return
+    try:
+        with Session(_engine()) as session, session.begin():
+            append_windows_ai_output(
+                session,
+                organization_id=organization_id,
+                owner_user_id=owner_user_id,
+                snapshot_id=snapshot_id,
+                output_key=output_key,
+                content=content,
+                content_sha256=hashlib.sha256(content.encode()).hexdigest(),
+            )
+    except (SQLAlchemyError, WindowsAIOutputError) as exc:
+        _LOGGER.warning(
+            "Windows AI cache write skipped: snapshot_id=%s output_key=%s error_type=%s",
+            snapshot_id,
+            output_key,
+            type(exc).__name__,
+        )
+
+
+@router.get("/api/v1/result-explanations/snapshot/{snapshot_id}")
+def windows_ai_snapshot(
+    request: Request,
+    snapshot_id: UUID,
+    response: Response,
+) -> dict[str, object]:
+    """모델 호출 없이 저장된 Windows AI 설명만 복원합니다."""
+
+    _require_product_demo()
+    response.headers["Cache-Control"] = "no-store"
+    owner_user_id = _owner_user_id(request)
+    if owner_user_id is None:
+        return {"available": False, "reason": "AUTH_REQUIRED"}
+    try:
+        with Session(_engine()) as session, session.begin():
+            outputs = get_windows_ai_outputs(
+                session,
+                organization_id=_organization_id(request),
+                owner_user_id=owner_user_id,
+                snapshot_id=snapshot_id,
+            )
+    except SQLAlchemyError:
+        return {"available": False, "cache_read_error": True}
+    if not outputs:
+        return {"available": False}
+    controls: dict[str, object] = {}
+    for key, value in outputs.items():
+        if key == "SUMMARY":
+            continue
+        card = decode_stored_control_card(value)
+        if card is not None:
+            controls[key] = card
+    return {
+        "available": True,
+        "snapshot_id": str(snapshot_id),
+        "summary": outputs.get("SUMMARY", ""),
+        "controls": controls,
+    }
 
 
 def _retrieve_guide_evidence(
@@ -726,6 +852,7 @@ def stream_scan_result_tokens(
     _require_product_demo()
     verify_browser_csrf(request, csrf_token)
     organization_id = _organization_id(request)
+    owner_user_id = _owner_user_id(request)
 
     def event_stream() -> Iterator[str]:
         yield _event(
@@ -758,13 +885,34 @@ def stream_scan_result_tokens(
                 "SUMMARY_STARTED",
                 {"status_counts": service.status_counts(contexts)},
             )
-            for delta in service.stream_summary(
-                contexts,
-                profile=body.profile,
-            ):
-                yield _event("SUMMARY_DELTA", {"delta": delta})
+            if not body.restored_summary:
+                summary_parts: list[str] = []
+                for delta in service.stream_summary(
+                    contexts,
+                    profile=body.profile,
+                ):
+                    summary_parts.append(delta)
+                    yield _event("SUMMARY_DELTA", {"delta": delta})
+                _store_windows_ai_output_best_effort(
+                    organization_id=organization_id,
+                    owner_user_id=owner_user_id,
+                    snapshot_id=body.snapshot_id,
+                    output_key="SUMMARY",
+                    content="".join(summary_parts),
+                )
             yield _event("SUMMARY_COMPLETED")
+            restored = set(body.restored_control_ids)
             for index, context in enumerate(contexts, start=1):
+                if context.control_id in restored:
+                    yield _event(
+                        "CONTROL_RESTORED",
+                        {
+                            "control_id": context.control_id,
+                            "completed_controls": index,
+                            "total_controls": len(contexts),
+                        },
+                    )
+                    continue
                 control = service.public_control(context)
                 yield _event(
                     "CONTROL_STARTED",
@@ -787,6 +935,19 @@ def stream_scan_result_tokens(
                             "delta": delta,
                         },
                     )
+                _store_windows_ai_output_best_effort(
+                    organization_id=organization_id,
+                    owner_user_id=owner_user_id,
+                    snapshot_id=body.snapshot_id,
+                    output_key=context.control_id,
+                    content=encode_stored_control_card(
+                        source="".join(generated_parts),
+                        knowledge_sources=cast(
+                            list[dict[str, Any]],
+                            control.get("knowledge_sources", []),
+                        ),
+                    ),
+                )
                 yield _event(
                     "CONTROL_COMPLETED",
                     {

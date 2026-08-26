@@ -39,6 +39,20 @@ def _safe_text(value: str, *, label: str, maximum: int) -> str:
     return normalized
 
 
+def _safe_lines(value: str, *, label: str, maximum: int) -> str:
+    """목록형 증적은 줄 구조를 유지한 채 각 줄만 정리합니다."""
+
+    lines = [
+        " ".join(line.split())
+        for line in value.splitlines()
+        if line.strip()
+    ]
+    joined = "\n".join(lines)
+    if not joined or len(joined) > maximum or "\x00" in joined:
+        raise PlatformContractError(f"{label} 값이 올바르지 않습니다.")
+    return joined
+
+
 def _timestamp(value: datetime) -> str:
     if value.tzinfo is None or value.utcoffset() is None:
         raise PlatformContractError("증적 시각에는 시간대가 필요합니다.")
@@ -75,6 +89,22 @@ class AssetContext:
 
 @dataclass(frozen=True, slots=True)
 class EvidenceTrace:
+    """항목 하나의 확인 경로와 확인값 지문.
+
+    두 hash의 성격이 다르므로 혼동하면 안 된다.
+
+    ``normalized_sha256``
+        저장된 ``observed_summary``(그리고 보존된 ``normalized_value``)에서 다시
+        계산할 수 있으므로 **재검증이 가능한 무결성 값**이다. 저장된 값이 나중에
+        바뀌면 이 hash와 어긋난다.
+
+    ``raw_output_sha256``
+        명령 원문에서 계산하지만 원문 자체는 어디에도 보관하지 않는다. 따라서
+        **대조할 원본이 없어 무결성 증명으로 쓸 수 없고**, 같은 수집 결과인지
+        비교하는 수집 시점 지문으로만 쓴다. 원문 보관 정책이 생기기 전까지
+        이 값을 "원문이 위·변조되지 않았다는 증거"로 설명하지 않는다.
+    """
+
     probe_id: str
     probe_version: str
     method_code: str
@@ -87,6 +117,7 @@ class EvidenceTrace:
     raw_output_sha256: str
     normalized_sha256: str
     redaction_applied: bool
+    normalized_value: str | None = None
 
     @classmethod
     def build(
@@ -103,6 +134,7 @@ class EvidenceTrace:
         collection_status: CollectionStatus,
         raw_output: bytes,
         redaction_applied: bool,
+        normalized_value: str | None = None,
     ) -> EvidenceTrace:
         summary = _safe_text(
             observed_summary,
@@ -136,6 +168,15 @@ class EvidenceTrace:
             raw_output_sha256=hashlib.sha256(raw_output).hexdigest(),
             normalized_sha256=hashlib.sha256(summary.encode("utf-8")).hexdigest(),
             redaction_applied=redaction_applied,
+            normalized_value=(
+                _safe_lines(
+                    normalized_value,
+                    label="정규화 확인 목록",
+                    maximum=20_000,
+                )
+                if normalized_value
+                else None
+            ),
         )
 
     def to_json(self) -> dict[str, JsonValue]:
@@ -157,6 +198,12 @@ class EvidenceTrace:
             "normalized_sha256": self.normalized_sha256,
             "redaction_applied": self.redaction_applied,
             "raw_output_included": False,
+            "normalized_value_included": self.normalized_value is not None,
+            **(
+                {"normalized_value": self.normalized_value}
+                if self.normalized_value is not None
+                else {}
+            ),
         }
 
 

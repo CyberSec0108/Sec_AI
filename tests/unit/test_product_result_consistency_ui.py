@@ -109,7 +109,9 @@ def test_linux_and_switch_restore_server_ai_snapshot_before_starting_stream() ->
 
     assert '@router.get("/api/v1/switch/audits/{run_id}/ai/snapshot")' in switch_api
     assert "function restoreAISnapshot" in switch_results
-    assert "void restoreAISnapshot();" in switch_results
+    # Linux와 동일하게 저장분이 없으면 버튼 없이 바로 생성합니다.
+    assert "if (!restored)" in switch_results
+    assert "void startAI();" in switch_results
     assert 'startButton.textContent = "AI 설명 재생성"' in switch_results
 
 

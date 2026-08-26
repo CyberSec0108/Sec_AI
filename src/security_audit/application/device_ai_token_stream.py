@@ -7,6 +7,9 @@ from collections.abc import Iterator, Mapping, Sequence
 from typing import Any, Literal
 
 from security_audit.application.audit_history import attach_device_history_context
+from security_audit.application.untrusted_instruction import (
+    contains_untrusted_instruction,
+)
 from security_audit.common.canonical_json import canonical_sha256_without_fields
 from security_audit.llm import ChatCompletionInput, ChatMessage
 from security_audit.platforms.linux_kisa import KISA_2026_UNIX_CONTROLS
@@ -35,6 +38,12 @@ SSH, PAM, SUID, UMASK처럼 일반 사용자가 어려워할 용어가 있으면
 사실 문장의 마지막 글자나 문장부호 뒤에 공백 없이 [1] 실제 확인값, [2] KISA 근거,
 [3] AI 일반 보안지식을 붙이십시오. 문단이나 목록을 출처 번호로 시작하지 마십시오.
 AI 일반지식은 이해를 돕는 보충 설명일 뿐 공식 판정 근거가 아니라고 필요한 곳에 밝히십시오.
+판정 상태는 PASS·FAIL·ERROR·REVIEW·N/A를 입력 그대로 사용하십시오.
+ERROR는 자료 수집 오류, REVIEW는 기준 확인 필요를 뜻하며 두 상태를 서로 바꾸지 마십시오.
+ERROR를 설정이 취약하다는 뜻으로 설명하지 말고, 무엇을 다시 수집해야 하는지 안내하십시오.
+REVIEW는 양호로 추정하지 말고 사람이 무엇을 확인해야 하는지 설명하십시오.
+확인 대상 목록이 제공되면 1~5개는 모두 쓰고, 6개 이상이면 대표 5개만 쓴 뒤 `외 N개`로 요약하십시오.
+목록이 제공되지 않으면 임의로 만들지 말고 세부 목록을 추가 확인해야 한다고 안내하십시오.
 표와 raw HTML은 사용하지 마십시오.
 문장 중간이나 기술 용어 앞뒤에서 빈 줄을 넣지 마십시오.
 빈 줄은 제목과 완결된 문단 사이에서만 사용하십시오.
@@ -70,6 +79,9 @@ def validate_stored_device_result(result: Mapping[str, Any], expected_sha256: st
         raise DeviceAIContractError("LINUX_CONTROL_ORDER_INVALID")
     if result.get("status_authority") != "RULE_ENGINE":
         raise DeviceAIContractError("STATUS_AUTHORITY_INVALID")
+    # 수집한 파일명·설정값에 지시문이 섞일 수 있어 Windows와 같은 규칙으로 막습니다.
+    if contains_untrusted_instruction(controls):
+        raise DeviceAIContractError("UNTRUSTED_RESULT_INSTRUCTION_DETECTED")
 
 
 def public_linux_control(control: Mapping[str, Any]) -> dict[str, Any]:

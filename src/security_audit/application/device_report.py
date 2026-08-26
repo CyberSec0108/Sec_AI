@@ -76,10 +76,21 @@ def build_linux_report_document(
                             f"  확인 방법: {item.get('method_summary', '')}",
                             f"  확인 위치: {item.get('technical_locator', '')}",
                             f"  수집 상태: {item.get('collection_status', '')}",
-                            f"  원문 해시: {item.get('raw_output_sha256', '')}",
-                            f"  정규화 해시: {item.get('normalized_sha256', '')}",
+                            # 원문은 보관하지 않아 대조 대상이 없으므로
+                            # 무결성 증명이 아니라 수집 시점 지문으로 표기한다.
+                            "  수집 시점 지문(원문, 재검증 불가): "
+                            f"{item.get('raw_output_sha256', '')}",
+                            "  정규화 해시(재검증 가능): "
+                            f"{item.get('normalized_sha256', '')}",
                         ]
                     )
+                    retained = item.get("normalized_value")
+                    if isinstance(retained, str) and retained:
+                        # 개수만으로는 조치 대상을 특정할 수 없어 목록을 함께 싣습니다.
+                        lines.append("  확인 대상 목록:")
+                        lines.extend(
+                            f"    {entry}" for entry in retained.splitlines()
+                        )
         lines.append("")
     content_sha256 = canonical_sha256({"title": title, "lines": cast(list[JsonValue], lines)})
     return ReportDocument(
@@ -200,8 +211,12 @@ def build_switch_report_document(
                             f"  확인 출처: {item.get('source_label', '')}",
                             f"  기술 확인 위치: {item.get('technical_locator', '')}",
                             f"  수집 상태: {item.get('collection_status', '')}",
-                            f"  원문 해시: {item.get('raw_output_sha256', '')}",
-                            f"  정규화 해시: {item.get('normalized_sha256', '')}",
+                            # 원문은 보관하지 않아 대조 대상이 없으므로
+                            # 무결성 증명이 아니라 수집 시점 지문으로 표기한다.
+                            "  수집 시점 지문(원문, 재검증 불가): "
+                            f"{item.get('raw_output_sha256', '')}",
+                            "  정규화 해시(재검증 가능): "
+                            f"{item.get('normalized_sha256', '')}",
                             f"  비식별 처리: {item.get('redaction_applied', False)}",
                         ]
                     )

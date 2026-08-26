@@ -72,6 +72,69 @@
     return typeof value === "string" && value.trim() ? value.trim() : fallback;
   }
 
+  let windowsSnapshotId = "";
+  let storedControlCards = new Map();
+  let storedSummarySource = "";
+
+  let resolveSnapshotId = null;
+  const snapshotIdArrived = new Promise(function (resolve) {
+    resolveSnapshotId = resolve;
+  });
+
+  window.addEventListener("secai:windows-snapshot-ready", function (event) {
+    const detail = event.detail || {};
+    if (!detail.snapshot_id) {
+      return;
+    }
+    windowsSnapshotId = String(detail.snapshot_id);
+    if (resolveSnapshotId) {
+      resolveSnapshotId(windowsSnapshotId);
+      resolveSnapshotId = null;
+    }
+  });
+
+  // 이력 저장 응답은 화면 복원보다 늦게 도착할 수 있습니다. 짧게 기다렸다가
+  // 그래도 없으면 저장분 없이 진행합니다.
+  function waitForSnapshotId(timeoutMilliseconds) {
+    if (windowsSnapshotId) {
+      return Promise.resolve(windowsSnapshotId);
+    }
+    return Promise.race([
+      snapshotIdArrived,
+      new Promise(function (resolve) {
+        window.setTimeout(function () {
+          resolve("");
+        }, timeoutMilliseconds);
+      })
+    ]);
+  }
+
+  async function loadStoredControlCards() {
+    await waitForSnapshotId(5000);
+    if (!windowsSnapshotId) {
+      return false;
+    }
+    try {
+      const response = await window.fetch(
+        "/api/v1/result-explanations/snapshot/" +
+          encodeURIComponent(windowsSnapshotId),
+        {method: "GET", cache: "no-store"}
+      );
+      if (!response.ok) {
+        return false;
+      }
+      const payload = await response.json();
+      if (payload.available !== true) {
+        return false;
+      }
+      storedSummarySource = typeof payload.summary === "string" ? payload.summary : "";
+      storedControlCards = new Map(Object.entries(payload.controls || {}));
+      return storedControlCards.size > 0;
+    } catch (_error) {
+      return false;
+    }
+  }
+
   function buildGenerationKey(detail) {
     const administratorResults = (detail.administrator_results || []).slice().sort(
       function (left, right) {
@@ -467,6 +530,32 @@
     });
   }
 
+  function paintStoredControl(controlId) {
+    const stored = storedControlCards.get(controlId);
+    if (!stored) {
+      return;
+    }
+    const sources = Array.isArray(stored.knowledge_sources)
+      ? stored.knowledge_sources
+      : [];
+    controlMetadata.set(controlId, {
+      control_id: controlId,
+      knowledge_sources: sources
+    });
+    controlSources.set(controlId, stored.source || "");
+    prepareControl({control_id: controlId, knowledge_sources: sources});
+    const renderer = renderers.get(controlId);
+    const card = cards.get(controlId);
+    if (renderer) {
+      renderer.append(stored.source || "");
+      renderer.complete();
+    }
+    if (card) {
+      card.status.textContent = "";
+      card.status.hidden = true;
+    }
+  }
+
   function prepareControl(control) {
     const card = cards.get(control.control_id);
     if (!card) {
@@ -554,6 +643,8 @@
 
   async function restoreAvailableCompletedSnapshot(detail) {
     const expectedKey = buildGenerationKey(detail);
+    // 항목 단위 저장분을 먼저 읽어, 이어지는 생성에서 중복을 건너뛰게 합니다.
+    await loadStoredControlCards();
     const serverSnapshot = await loadServerCompletedSnapshot(detail);
     if (latest !== detail || buildGenerationKey(latest) !== expectedKey) {
       return false;
@@ -591,6 +682,11 @@
       summaryText.replaceChildren();
       summarySource = "";
       summaryRenderer = createRenderer(summaryText, "summary", []);
+      if (storedSummarySource) {
+        // 저장된 종합 설명은 다시 만들지 않고 그대로 그립니다.
+        summarySource = storedSummarySource;
+        summaryRenderer.append(storedSummarySource);
+      }
     } else if (event.stage === "SUMMARY_DELTA" && summaryRenderer) {
       const delta = event.delta || "";
       summarySource += delta;
@@ -601,6 +697,11 @@
       }
       summaryTitle.textContent = "AI 종합 설명";
       summaryStatus.textContent = "PC-01부터 항목별 설명을 순서대로 생성합니다.";
+    } else if (event.stage === "CONTROL_RESTORED") {
+      // 저장분이 있는 항목은 다시 만들지 않고 그대로 그립니다.
+      paintStoredControl(event.control_id);
+      summaryProgress.value = event.completed_controls || 0;
+      summaryProgress.textContent = (event.completed_controls || 0) + " / 18";
     } else if (event.stage === "CONTROL_STARTED") {
       controlMetadata.set(event.control.control_id, {
         control_id: event.control.control_id,
@@ -688,7 +789,10 @@
             explanation_inputs: detail.explanation_inputs,
             administrator_results: detail.administrator_results || [],
             profile: "FAST",
-            test_environment_result: true
+            test_environment_result: true,
+            snapshot_id: windowsSnapshotId || null,
+            restored_control_ids: Array.from(storedControlCards.keys()),
+            restored_summary: Boolean(storedSummarySource)
           }),
           cache: "no-store",
           signal: activeController.signal

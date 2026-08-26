@@ -7,6 +7,9 @@ from collections.abc import Iterator, Mapping, Sequence
 from typing import Any, Literal
 
 from security_audit.application.switch_audit_service import present_switch_control
+from security_audit.application.untrusted_instruction import (
+    contains_untrusted_instruction,
+)
 from security_audit.llm import ChatCompletionInput, ChatMessage
 
 
@@ -67,6 +70,9 @@ def public_switch_control(control: Mapping[str, Any]) -> dict[str, Any]:
     }
     if control_id not in allowed_ids:
         raise SwitchAIContractError("SWITCH_CONTROL_ID_INVALID")
+    # 장비 REST 응답에도 지시문이 섞일 수 있어 Windows와 같은 규칙으로 막습니다.
+    if contains_untrusted_instruction(control):
+        raise SwitchAIContractError("UNTRUSTED_RESULT_INSTRUCTION_DETECTED")
     presented = present_switch_control(control)
     evidence = control.get("evidence")
     public_evidence: list[dict[str, Any]] = []

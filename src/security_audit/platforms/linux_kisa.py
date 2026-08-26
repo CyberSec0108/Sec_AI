@@ -915,6 +915,46 @@ def _initial_assessment(
     return "REVIEW", "점검 자료를 조직 기준과 함께 확인해야 합니다."
 
 
+LIST_EVIDENCE_PROBES = frozenset(
+    {
+        "linux.ownerless",
+        "linux.suid-sgid",
+        "linux.world-writable",
+        "linux.home-hidden",
+        "linux.startup-unsafe",
+        "linux.environment-unsafe",
+        "linux.dev-regular",
+        "linux.rhosts",
+        "linux.listening-sockets",
+        "linux.sudoers-config",
+    }
+)
+_RETAINED_STATUSES = frozenset({"FAIL", "REVIEW"})
+MAX_RETAINED_EVIDENCE_CHARS = 20_000
+
+
+def _retained_value(
+    *,
+    probe_id: str,
+    status: AssessmentStatus,
+    output: bytes | None,
+) -> str | None:
+    """조치 대상을 특정해야 하는 항목만 정규화 목록을 남깁니다.
+
+    개수만으로는 점검자가 조치도 오탐 판별도 할 수 없는 목록형 항목이 대상이며,
+    단일 값 판정은 요약이 곧 원본이라 보존하지 않습니다.
+    """
+
+    if status not in _RETAINED_STATUSES or probe_id not in LIST_EVIDENCE_PROBES:
+        return None
+    if output is None:
+        return None
+    text = output.decode("utf-8", errors="replace").strip()
+    if not text:
+        return None
+    return text[:MAX_RETAINED_EVIDENCE_CHARS]
+
+
 def _evidence(
     *,
     distribution: LinuxDistribution,
@@ -922,6 +962,7 @@ def _evidence(
     output: bytes | None,
     observed: str,
     captured_at: datetime,
+    status: AssessmentStatus,
 ) -> EvidenceTrace:
     adapter = linux_adapter_for(distribution)
     spec = adapter.plan.command(probe_id)
@@ -942,6 +983,11 @@ def _evidence(
         collection_status="COLLECTED" if output is not None else "ERROR",
         raw_output=output or b"",
         redaction_applied=True,
+        normalized_value=_retained_value(
+            probe_id=probe_id,
+            status=status,
+            output=output,
+        ),
     )
 
 
@@ -988,6 +1034,7 @@ def evaluate_kisa_unix(
                 output=outputs.get(probe),
                 observed=observed,
                 captured_at=captured_at,
+                status=status,
             )
             for probe in probes
         )

@@ -172,6 +172,23 @@
     addFact(facts, "KISA 권고 기준", item.expected_summary);
     addFact(facts, "판정 이유", judgementText(item));
     resultSection.append(facts);
+
+    // 개수만으로는 조치 대상을 특정할 수 없어, 확인 필요·취약 항목은 목록을 함께 보여줍니다.
+    const retained = (item.evidence || [])
+      .map(function (entry) { return entry && entry.normalized_value; })
+      .filter(function (value) { return typeof value === "string" && value; });
+    if (retained.length) {
+      const details = element("details", "integrated-evidence-list");
+      details.append(element("summary", "", "확인 대상 목록"));
+      retained.forEach(function (value) {
+        const listing = element("ul", "evidence-target-list");
+        value.split("\n").forEach(function (line) {
+          if (line) listing.append(element("li", "", line));
+        });
+        details.append(listing);
+      });
+      resultSection.append(details);
+    }
     article.append(resultSection);
 
     const aiSection = element("section", "integrated-ai-section");

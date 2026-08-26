@@ -130,10 +130,10 @@ def test_linux_public_ai_context_and_report_do_not_expose_raw_output() -> None:
 
     assert "raw_output_sha256" not in json.dumps(public, ensure_ascii=False)
     assert "내부 판정 코드:" not in "\n".join(user_report.lines)
-    assert "원문 해시:" not in "\n".join(user_report.lines)
+    assert "수집 시점 지문(원문, 재검증 불가):" not in "\n".join(user_report.lines)
     assert user_report.report_kind.value == "USER"
     assert "내부 판정 코드:" in "\n".join(technical_report.lines)
-    assert "원문 해시:" in "\n".join(technical_report.lines)
+    assert "수집 시점 지문(원문, 재검증 불가):" in "\n".join(technical_report.lines)
     assert technical_report.report_kind.value == "TECHNICAL"
     assert "해당 없음" in "\n".join(user_report.lines)
 

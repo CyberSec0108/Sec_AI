@@ -49,8 +49,6 @@ def test_beginner_flow_distinguishes_official_result_from_guide_explanation(
 
     with TestClient(app) as client:
         home = client.get("/").text
-        results = client.get("/ui/results").text
-        chat = client.get("/ui/guide-chat").text
         help_page = client.get("/ui/help").text
 
     for step in (

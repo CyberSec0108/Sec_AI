@@ -91,9 +91,6 @@ def test_guide_chat_uses_full_scope_and_pdf_page_links() -> None:
     script = (
         PROJECT_ROOT / "apps" / "web" / "static" / "app" / "guide-chat.js"
     ).read_text(encoding="utf-8")
-    template = (
-        PROJECT_ROOT / "apps" / "web" / "templates" / "pages" / "guide_chat.html"
-    ).read_text(encoding="utf-8")
     api = (PROJECT_ROOT / "apps" / "api" / "guide_store.py").read_text(
         encoding="utf-8"
     )

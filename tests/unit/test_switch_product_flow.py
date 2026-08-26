@@ -496,11 +496,11 @@ def test_switch_reports_match_user_and_technical_information_boundaries() -> Non
     assert "조직 보완 판정" in user_text
     assert "KISA 근거:" in user_text
     assert "내부 판정 코드:" not in user_text
-    assert "원문 해시:" not in user_text
+    assert "수집 시점 지문(원문, 재검증 불가):" not in user_text
     assert "기술 확인 위치:" not in user_text
     assert "내부 판정 코드:" in technical_text
-    assert "원문 해시:" in technical_text
-    assert "정규화 해시:" in technical_text
+    assert "수집 시점 지문(원문, 재검증 불가):" in technical_text
+    assert "정규화 해시(재검증 가능):" in technical_text
     assert "기술 확인 위치:" in technical_text
     assert _synthetic_credential() not in user_text
     assert _synthetic_credential() not in technical_text

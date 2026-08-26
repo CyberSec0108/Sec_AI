@@ -425,5 +425,18 @@
 
   applyStatusFilter("ALL");
   applyView("combined");
-  void restoreAISnapshot();
+  // Linux 결과 화면과 동일하게, 저장된 설명이 없으면 버튼 없이 바로 생성합니다.
+  restoreAISnapshot()
+    .then(function (restored) {
+      if (!restored) {
+        void startAI();
+      }
+    })
+    .catch(function (reason) {
+      runState = "failed";
+      aiStatus.textContent = reason.message;
+      aiStatus.classList.add("error-text");
+      stopButton.hidden = false;
+      stopButton.textContent = "저장된 설명 다시 확인";
+    });
 }());
