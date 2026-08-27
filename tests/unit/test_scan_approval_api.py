@@ -84,7 +84,7 @@ def test_sidecar_filename_keeps_the_signed_artifact_untouched() -> None:
     from apps.api.scan_approval import _sidecar_filename
 
     assert _sidecar_filename("SecAI-Collector-Windows-x64.exe") == (
-        "SecAI-Collector-Windows-x64.exe.secai-scan.json"
+        "SecAI-Collector-Windows-x64.secai-scan.json"
     )
     assert _sidecar_filename("secai-linux-check-x86_64") == (
         "secai-linux-check-x86_64.secai-scan.json"
@@ -114,6 +114,16 @@ def test_poll_payload_never_carries_the_code() -> None:
 
 
 def test_download_page_offers_the_sidecar_for_remote_servers() -> None:
+    script = (
+        PROJECT_ROOT / "apps/web/static/app/dev-signed-downloads.js"
+    ).read_text(encoding="utf-8")
+
+    assert '"/api/v1/scan/sidecar"' in script
+    assert "artifact_filename" in script
+    assert "secai-scan.json" in script
+
+
+def test_one_button_downloads_the_program_and_its_settings_together() -> None:
     page = (
         PROJECT_ROOT / "apps/web/templates/pages/dev_signed_downloads.html"
     ).read_text(encoding="utf-8")
@@ -121,17 +131,29 @@ def test_download_page_offers_the_sidecar_for_remote_servers() -> None:
         PROJECT_ROOT / "apps/web/static/app/dev-signed-downloads.js"
     ).read_text(encoding="utf-8")
 
-    assert 'data-action="sidecar"' in page
-    assert "이 서버로 결과 보내기" in page
-    assert '"/api/v1/scan/sidecar"' in script
-    assert "artifact_filename" in script
-    assert "secai-scan.json" in script
-
-
-def test_sidecar_button_is_only_meaningful_next_to_the_signed_file() -> None:
-    page = (
-        PROJECT_ROOT / "apps/web/templates/pages/dev_signed_downloads.html"
-    ).read_text(encoding="utf-8")
-
-    assert page.count('data-action="sidecar"') == 2
+    assert 'data-action="sidecar"' not in page
+    assert page.count('data-action="browser"') == 2
+    assert "설정 파일" in page
     assert "실행 파일과 같은 폴더" in page
+    assert "downloadSidecar(card)" in script
+
+
+def test_the_server_signs_every_sidecar_it_issues() -> None:
+    source = (PROJECT_ROOT / "apps/api/scan_approval.py").read_text(encoding="utf-8")
+
+    assert "signer_from_seed" in source
+    assert "sign=" in source
+    assert "SECAI_SCAN_SIDECAR_SIGNING_KEY_FILE" in source
+
+
+def test_the_signing_secret_is_mounted_for_the_gateway() -> None:
+    compose = (PROJECT_ROOT / "deploy/compose/compose.yml").read_text(encoding="utf-8")
+
+    assert "scan_sidecar_signing_key" in compose
+    assert "/run/secrets/scan_sidecar_signing_key" in compose
+
+
+def test_the_dev_secret_bootstrap_creates_the_signing_seed() -> None:
+    script = (PROJECT_ROOT / "tools/init-dev-secrets.ps1").read_text(encoding="utf-8")
+
+    assert "scan_sidecar_signing_key" in script

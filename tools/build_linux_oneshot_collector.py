@@ -15,6 +15,7 @@ from pathlib import Path
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
 
+from security_audit.collector.scan_sidecar_keys import trusted_keys_document
 from security_audit.supply_chain.linux_collector_release import (
     ReleaseSigner,
     build_linux_release_manifest,
@@ -169,6 +170,7 @@ def _build_artifact(
     work: Path,
     entrypoint: str,
     name: str,
+    trusted_keys: Path,
 ) -> Path:
     spec_path = work / f"{name}.spec"
     spec_path.write_text(
@@ -184,6 +186,10 @@ def _build_artifact(
                 "        (",
                 f"            {str(project_root / 'database' / 'schemas')!r},",
                 "            'database/schemas',",
+                "        ),",
+                "        (",
+                f"            {str(trusted_keys)!r},",
+                "            'collectors/one_shot/contracts',",
                 "        ),",
                 "    ],",
                 "    hiddenimports=[],",
@@ -248,6 +254,24 @@ def _build_artifact(
     return artifact
 
 
+def _write_trusted_sidecar_keys(seed_path: Path, work: Path) -> Path:
+    """서명 seed에서 공개 키만 뽑아 빌드 작업 폴더에 둡니다.
+
+    빌드 컨테이너는 읽기 전용이라 원본 트리에 쓰지 않습니다.
+    """
+
+    try:
+        seed = seed_path.read_text(encoding="utf-8").strip()
+    except OSError as exc:
+        raise RuntimeError(
+            "사이드카 서명 seed를 찾을 수 없습니다. "
+            "tools/init-dev-secrets.ps1을 먼저 실행하세요."
+        ) from exc
+    target = work / "scan_sidecar_trusted_keys.json"
+    target.write_text(trusted_keys_document(seed), encoding="utf-8", newline="\n")
+    return target
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, required=True)
@@ -259,6 +283,7 @@ def main() -> int:
         default="DEV-UNSIGNED",
     )
     parser.add_argument("--signing-key-file", type=Path)
+    parser.add_argument("--sidecar-signing-key-file", type=Path, required=True)
     parser.add_argument("--signing-key-id")
     parser.add_argument("--dependency-scan", choices=["PASS", "FAIL", "PENDING"], default="PENDING")
     parser.add_argument("--os-package-scan", choices=["PASS", "FAIL", "PENDING"], default="PENDING")
@@ -287,6 +312,10 @@ def main() -> int:
     )
     with tempfile.TemporaryDirectory(prefix="secai-linux-build-") as temporary:
         work = Path(temporary)
+        trusted_keys = _write_trusted_sidecar_keys(
+            arguments.sidecar_signing_key_file,
+            work,
+        )
         artifacts = {
             distribution: _build_artifact(
                 project_root=project_root,
@@ -294,6 +323,7 @@ def main() -> int:
                 work=work,
                 entrypoint=entrypoint,
                 name=name,
+                trusted_keys=trusted_keys,
             )
             for distribution, (entrypoint, name) in ARTIFACTS.items()
         }

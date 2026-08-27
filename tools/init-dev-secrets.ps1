@@ -49,12 +49,15 @@ $RedisAclPath = Join-Path $SecretsRoot "redis_users.acl"
 $AIStorUserPath = Join-Path $SecretsRoot "aistor_root_user"
 $AIStorPasswordPath = Join-Path $SecretsRoot "aistor_root_password"
 $AIStorLicenseTarget = Join-Path $SecretsRoot "minio.license"
+$ScanSidecarSigningKeyPath = Join-Path $SecretsRoot "scan_sidecar_signing_key"
 
 Write-NewSecret -Path $PostgresPasswordPath -Value (New-RandomSecret)
 Write-NewSecret -Path $PostgresRuntimePasswordPath -Value (New-RandomSecret)
 Write-NewSecret -Path $PostgresDbAdminPasswordPath -Value (New-RandomSecret)
 Write-NewSecret -Path $PgAdminDefaultPasswordPath -Value ("Pg1!" + (New-RandomSecret))
 Write-NewSecret -Path $DemoCsrfTokenPath -Value (New-RandomSecret)
+# 사이드카 서명용 Ed25519 seed입니다. 바꾸면 배포된 실행 파일이 사이드카를 거부합니다.
+Write-NewSecret -Path $ScanSidecarSigningKeyPath -Value (New-RandomSecret)
 Write-NewSecret -Path $AuthSessionIndexKeyPath -Value (New-RandomSecret)
 Write-NewSecret -Path $AuthDevPasswordPath -Value ("Sa1!" + (New-RandomSecret))
 if (-not (Test-Path -LiteralPath $AuthDevMfaCodePath)) {

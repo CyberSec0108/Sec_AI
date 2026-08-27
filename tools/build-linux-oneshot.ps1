@@ -22,7 +22,11 @@ $Dockerfile = Join-Path $ProjectRoot "deploy\docker\linux-collector-builder.Dock
 $Timestamp = [DateTime]::UtcNow.ToString("yyyyMMddTHHmmssZ")
 $OutputRoot = Join-Path $ProjectRoot "runtime\linux-oneshot-artifacts"
 $OutputDirectory = Join-Path $OutputRoot ("build-" + $Timestamp)
+$SidecarSigningKey = Join-Path $ProjectRoot "runtime\dev-secrets\scan_sidecar_signing_key"
 New-Item -ItemType Directory -Path $OutputRoot -Force | Out-Null
+if (-not (Test-Path -LiteralPath $SidecarSigningKey -PathType Leaf)) {
+    throw "Sidecar signing seed is missing. Run tools\init-dev-secrets.ps1 first."
+}
 
 if ($ReleaseChannel -ne "DEV-UNSIGNED") {
     if (-not $SigningKeyPath -or -not $SigningKeyId) {
@@ -51,6 +55,7 @@ $RunArguments = @(
     "--cap-drop", "ALL", "--security-opt", "no-new-privileges",
     "--pids-limit", "256", "--tmpfs", "/tmp:rw,nosuid,nodev,size=2g",
     "--mount", ("type=bind,source=" + $OutputRoot + ",target=/out"),
+    "--mount", ("type=bind,source=" + $SidecarSigningKey + ",target=/run/secrets/scan-sidecar-signing-key,readonly"),
     $Image,
     "--output", ("/out/build-" + $Timestamp),
     "--source-revision", $SourceRevision,
@@ -58,7 +63,8 @@ $RunArguments = @(
     "--release-channel", $ReleaseChannel,
     "--dependency-scan", $DependencyScan,
     "--os-package-scan", $OsPackageScan,
-    "--malware-scan", $MalwareScan
+    "--malware-scan", $MalwareScan,
+    "--sidecar-signing-key-file", "/run/secrets/scan-sidecar-signing-key"
 )
 if ($ReleaseChannel -ne "DEV-UNSIGNED") {
     $RunArguments = @(
@@ -67,6 +73,7 @@ if ($ReleaseChannel -ne "DEV-UNSIGNED") {
         "--pids-limit", "256", "--tmpfs", "/tmp:rw,nosuid,nodev,size=2g",
         "--mount", ("type=bind,source=" + $OutputRoot + ",target=/out"),
         "--mount", ("type=bind,source=" + $ResolvedKey + ",target=/run/secrets/linux-release-key,readonly"),
+        "--mount", ("type=bind,source=" + $SidecarSigningKey + ",target=/run/secrets/scan-sidecar-signing-key,readonly"),
         $Image,
         "--output", ("/out/build-" + $Timestamp),
         "--source-revision", $SourceRevision,
@@ -76,7 +83,8 @@ if ($ReleaseChannel -ne "DEV-UNSIGNED") {
         "--signing-key-id", $SigningKeyId,
         "--dependency-scan", $DependencyScan,
         "--os-package-scan", $OsPackageScan,
-        "--malware-scan", $MalwareScan
+        "--malware-scan", $MalwareScan,
+        "--sidecar-signing-key-file", "/run/secrets/scan-sidecar-signing-key"
     )
 }
 docker @RunArguments

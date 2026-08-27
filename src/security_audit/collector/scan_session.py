@@ -42,6 +42,7 @@ class AuthorizedScan:
     device_name: str
     elevated_consent: bool
     grant_code: str | None = None
+    asset_id: str | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -134,6 +135,7 @@ class ScanSessionService:
         elevated_consent: bool,
         decided_at: datetime,
         grant_code: str | None = None,
+        asset_id: str | None = None,
     ) -> ScanApprovalView:
         return self._approvals.approve(
             request_id,
@@ -141,6 +143,7 @@ class ScanSessionService:
             elevated_consent=elevated_consent,
             decided_at=decided_at,
             grant_code=grant_code,
+            asset_id=asset_id,
         )
 
     def decline(
@@ -190,6 +193,7 @@ class ScanSessionService:
             device_name=record.device_name,
             elevated_consent=record.elevated_consent,
             grant_code=record.grant_code,
+            asset_id=record.asset_id,
         )
 
     def poll(self, request_id: str, *, received_at: datetime) -> ScanApprovalView:

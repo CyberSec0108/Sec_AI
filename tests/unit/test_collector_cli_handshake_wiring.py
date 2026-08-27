@@ -5,14 +5,12 @@ from pathlib import Path
 
 import pytest
 
-from security_audit.collector.linux_cli import (
-    _default_sidecar_path,
-    _device_name,
-    _load_sidecar,
-)
 from security_audit.collector.scan_sidecar import (
     ScanSidecarError,
     build_scan_sidecar,
+    default_sidecar_path,
+    device_name,
+    load_sidecar,
 )
 
 NOW = datetime(2026, 8, 23, 6, 0, tzinfo=UTC)
@@ -29,19 +27,19 @@ def _sidecar_document() -> str:
     )
 
 
-def test_hostname_is_reduced_to_a_safe_device_name() -> None:
-    assert _device_name("DESKTOP-A17") == "DESKTOP-A17"
-    assert _device_name("web01.example.com") == "web01.example.com"
-    assert _device_name("서버 01") == "UNKNOWN-DEVICE"
-    assert _device_name("") == "UNKNOWN-DEVICE"
-    assert len(_device_name("a" * 200)) <= 64
+def test_hostname_is_reduced_to_a_safedevice_name() -> None:
+    assert device_name("DESKTOP-A17") == "DESKTOP-A17"
+    assert device_name("web01.example.com") == "web01.example.com"
+    assert device_name("서버 01") == "UNKNOWN-DEVICE"
+    assert device_name("") == "UNKNOWN-DEVICE"
+    assert len(device_name("a" * 200)) <= 64
 
 
 def test_sidecar_is_read_from_the_file_next_to_the_program(tmp_path: Path) -> None:
     path = tmp_path / "secai-linux-check-x86_64.secai-scan.json"
     path.write_text(_sidecar_document(), encoding="utf-8")
 
-    sidecar = _load_sidecar(path)
+    sidecar = load_sidecar(path)
 
     assert sidecar is not None
     assert sidecar.server_origin == ORIGIN
@@ -49,7 +47,7 @@ def test_sidecar_is_read_from_the_file_next_to_the_program(tmp_path: Path) -> No
 
 
 def test_missing_sidecar_falls_back_to_the_manual_code_path(tmp_path: Path) -> None:
-    assert _load_sidecar(tmp_path / "absent.secai-scan.json") is None
+    assert load_sidecar(tmp_path / "absent.secai-scan.json") is None
 
 
 def test_broken_sidecar_is_reported_instead_of_being_ignored(tmp_path: Path) -> None:
@@ -57,12 +55,12 @@ def test_broken_sidecar_is_reported_instead_of_being_ignored(tmp_path: Path) -> 
     path.write_text("{ not json", encoding="utf-8")
 
     with pytest.raises(ScanSidecarError):
-        _load_sidecar(path)
+        load_sidecar(path)
 
 
 def test_default_sidecar_path_sits_beside_the_program() -> None:
     program = Path("/opt/secai/secai-linux-check-x86_64")
 
-    assert _default_sidecar_path(program) == Path(
+    assert default_sidecar_path(program) == Path(
         "/opt/secai/secai-linux-check-x86_64.secai-scan.json"
     )

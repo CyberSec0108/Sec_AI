@@ -60,3 +60,6 @@ AGENTS.md
 
 # Internal Documentation
 docs/
+
+# 빌드 시점에 서버 서명 키에서 생성됩니다(기계마다 다름).
+collectors/one_shot/contracts/scan_sidecar_trusted_keys.json

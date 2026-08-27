@@ -48,7 +48,8 @@
     link.click();
     link.remove();
     URL.revokeObjectURL(url);
-    message.textContent = "서명과 SHA-256이 확인된 개발용 파일을 받았습니다.";
+    // 실행 파일만 있으면 서버 주소를 알 수 없으므로 설정 파일까지 이어서 받습니다.
+    await downloadSidecar(card);
   }
 
   function commandFor(issued) {
@@ -70,6 +71,14 @@
       `chmod 0755 './${issued.filename}'`,
       `./${issued.filename} --server-url http://127.0.0.1:18480`
     ].join("\n");
+  }
+
+  function sidecarName(artifactFilename) {
+    // 실행 파일 확장자를 떼서 설정 파일이 실행 파일처럼 보이지 않게 합니다.
+    const base = artifactFilename.toLowerCase().endsWith(".exe")
+      ? artifactFilename.slice(0, -4)
+      : artifactFilename;
+    return base + ".secai-scan.json";
   }
 
   function saveBlob(blob, filename) {
@@ -97,9 +106,9 @@
       cache: "no-store"
     });
     if (!response.ok) throw new Error("설정 파일을 만들지 못했습니다.");
-    saveBlob(await response.blob(), artifactFilename + ".secai-scan.json");
+    saveBlob(await response.blob(), sidecarName(artifactFilename));
     message.textContent =
-      "설정 파일을 받았습니다. 실행 파일과 같은 폴더에 두고 프로그램을 실행하세요.";
+      "실행 파일과 설정 파일을 받았습니다. 두 파일을 같은 폴더에 두고 프로그램을 실행하세요.";
   }
 
   async function showCode(card, platform) {
@@ -121,11 +130,6 @@
     });
     card.querySelector('[data-action="code"]').addEventListener("click", function () {
       showCode(card, platform).catch(function (reason) {
-        field(card, "message").textContent = reason.message;
-      });
-    });
-    card.querySelector('[data-action="sidecar"]').addEventListener("click", function () {
-      downloadSidecar(card).catch(function (reason) {
         field(card, "message").textContent = reason.message;
       });
     });

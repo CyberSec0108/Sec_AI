@@ -11,16 +11,24 @@ import re
 import secrets
 from datetime import UTC, datetime
 from functools import lru_cache
-from typing import Annotated
+from typing import Annotated, Any
+from uuid import UUID
 
 from fastapi import APIRouter, Form, Header, HTTPException, Request, Response, status
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, ConfigDict, Field
+from sqlalchemy import Engine, create_engine
+from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.orm import Session
 
 from apps.api.auth_support import auth_enabled, current_principal
 from apps.api.browser_csrf import browser_csrf_token, verify_browser_csrf
 from apps.api.linux_oneshot import provision_linux_self_scan
+from security_audit.application.audit_history import (
+    AuditHistoryContractError,
+    validate_windows_audit_snapshot,
+)
 from security_audit.collector.scan_approval import (
     InMemoryScanApprovalStore,
     ScanApprovalError,
@@ -32,14 +40,24 @@ from security_audit.collector.scan_session import (
     ScanSessionService,
 )
 from security_audit.collector.scan_sidecar import (
-    SIDECAR_SUFFIX,
     ScanSidecarError,
+    SidecarSigner,
     build_scan_sidecar,
+    sidecar_name,
+)
+from security_audit.collector.scan_sidecar_keys import (
+    ScanSidecarKeyError,
+    signer_from_seed,
 )
 from security_audit.collector.scan_token import (
     InMemoryScanTokenStore,
     ScanTokenError,
     ScanTokenService,
+)
+from security_audit.common.secret_files import SecretFileError, read_required_secret
+from security_audit.common.service_settings import ServiceSettings
+from security_audit.persistence.database.audit_history_repository import (
+    append_windows_audit_snapshot,
 )
 from security_audit.security.auth import AuthenticatedPrincipal
 
@@ -65,6 +83,14 @@ class GrantScanCodeBody(BaseModel):
     token: str = Field(min_length=1, max_length=MAX_TOKEN_BYTES)
 
 
+class SubmitWindowsResultBody(BaseModel):
+    """원격 PC의 수집기가 결과를 제출할 때 쓰는 본문입니다."""
+
+    model_config = ConfigDict(extra="forbid")
+    token: str = Field(min_length=1, max_length=MAX_TOKEN_BYTES)
+    result: dict[str, Any]
+
+
 class _Runtime:
     def __init__(self) -> None:
         self.sessions = ScanSessionService(
@@ -82,6 +108,14 @@ def _runtime() -> _Runtime:
     return _Runtime()
 
 
+@lru_cache(maxsize=1)
+def _engine() -> Engine:
+    return create_engine(
+        ServiceSettings.from_environment().postgres_url(),
+        pool_pre_ping=True,
+    )
+
+
 def _feature_enabled() -> None:
     if os.getenv("SECAI_DEV_DEMO_ENABLED", "false").casefold() != "true":
         raise HTTPException(status.HTTP_404_NOT_FOUND, "Not found.")
@@ -92,6 +126,14 @@ def _require_user(request: Request) -> AuthenticatedPrincipal:
     if not auth_enabled():
         raise HTTPException(status.HTTP_403_FORBIDDEN, "Authentication required.")
     return current_principal(request)
+
+
+def _single_assigned_asset(principal: AuthenticatedPrincipal) -> str | None:
+    """자산이 정확히 하나일 때만 승인 기록에 담습니다."""
+
+    if len(principal.asset_ids) != 1:
+        return None
+    return str(next(iter(principal.asset_ids)))
 
 
 def _server_origin(request: Request) -> str:
@@ -117,10 +159,28 @@ def _approval_view_payload(view: ScanApprovalView) -> dict[str, object]:
     }
 
 
+@lru_cache(maxsize=1)
+def _sidecar_signer() -> SidecarSigner:
+    """사이드카는 항상 서명해서 내보냅니다. 키가 없으면 발급을 멈춥니다."""
+
+    path = os.getenv(
+        "SECAI_SCAN_SIDECAR_SIGNING_KEY_FILE",
+        "/run/secrets/scan_sidecar_signing_key",
+    )
+    try:
+        _, sign = signer_from_seed(read_required_secret(path))
+    except (SecretFileError, ScanSidecarKeyError) as exc:
+        raise HTTPException(
+            status.HTTP_500_INTERNAL_SERVER_ERROR,
+            "사이드카 서명 키를 읽을 수 없습니다.",
+        ) from exc
+    return sign
+
+
 def _sidecar_filename(artifact_filename: str) -> str:
     """서명된 실행 파일은 그대로 두고 옆에 놓일 이름만 만듭니다."""
 
-    return f"{artifact_filename}{SIDECAR_SUFFIX}"
+    return sidecar_name(artifact_filename)
 
 
 @router.post("/api/v1/scan/sidecar")
@@ -150,6 +210,7 @@ def issue_scan_sidecar(
             server_origin=issued.server_origin,
             expires_at=issued.expires_at,
             max_runs=issued.max_runs,
+            sign=_sidecar_signer(),
         )
     except ScanSidecarError as exc:
         raise HTTPException(
@@ -234,6 +295,68 @@ def grant_scan_code(
     }
 
 
+@router.post("/api/v1/windows/scan/results", status_code=status.HTTP_201_CREATED)
+def submit_windows_scan_result(
+    request: Request,
+    body: SubmitWindowsResultBody,
+) -> dict[str, object]:
+    """원격 PC의 수집기가 보낸 Windows 점검 결과를 저장합니다.
+
+    브라우저 세션 대신 승인 토큰으로 인증하며, 대상 자산은 승인 화면에서
+    로그인 사용자가 고른 값을 사용합니다.
+    """
+
+    _feature_enabled()
+    request_id = request.query_params.get("request_id", "")
+    try:
+        authorized = _runtime().sessions.authorize_exchange(
+            request_id,
+            token=body.token,
+            server_origin=_server_origin(request),
+            received_at=datetime.now(UTC),
+        )
+    except (ScanTokenError, ScanApprovalError, ScanSessionError) as exc:
+        raise _safe_error(exc) from exc
+    if authorized.asset_id is None:
+        raise HTTPException(
+            status.HTTP_409_CONFLICT,
+            {
+                "code": "SCAN_ASSET_UNAVAILABLE",
+                "message": "승인 시 대상 자산을 확인하지 못했습니다.",
+            },
+        )
+    try:
+        snapshot = validate_windows_audit_snapshot(body.result)
+        with Session(_engine()) as session, session.begin():
+            record = append_windows_audit_snapshot(
+                session,
+                organization_id=UUID(authorized.organization_id),
+                owner_user_id=UUID(authorized.subject_user_id),
+                asset_id=UUID(authorized.asset_id),
+                snapshot=snapshot,
+            )
+    except AuditHistoryContractError as exc:
+        raise HTTPException(
+            status.HTTP_409_CONFLICT,
+            {"code": str(exc), "message": "점검 결과를 안전하게 저장할 수 없습니다."},
+        ) from exc
+    except SQLAlchemyError as exc:
+        raise HTTPException(
+            status.HTTP_503_SERVICE_UNAVAILABLE,
+            {
+                "code": "WINDOWS_RESULT_STORAGE_UNAVAILABLE",
+                "message": "점검 결과 저장소를 사용할 수 없습니다.",
+            },
+        ) from exc
+    return {
+        "snapshot_id": str(record.id),
+        "created": record.created,
+        "result_sha256": record.result_sha256,
+        "result_url": "/ui/results",
+        "owner_scope": "CURRENT_LOGIN_ONLY",
+    }
+
+
 @router.get("/ui/scan-approve", response_class=HTMLResponse)
 def scan_approval_page(request: Request, req: str) -> HTMLResponse:
     principal = _require_user(request)
@@ -287,6 +410,8 @@ def decide_scan_approval(
                 elevated_consent=elevated_consent is not None,
                 decided_at=decided_at,
                 grant_code=str(provisioned["device_code"]),
+                # 대상 자산은 승인하는 로그인 사용자에게서 가져옵니다.
+                asset_id=_single_assigned_asset(principal),
             )
         else:
             view = sessions.decline(

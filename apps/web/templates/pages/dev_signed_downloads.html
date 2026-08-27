@@ -44,9 +44,8 @@
         <p>현재 Windows PC에서 내려받아 실행합니다.</p>
         <dl><dt>파일</dt><dd data-field="filename">확인 중</dd><dt>SHA-256</dt><dd><code data-field="sha256">확인 중</code></dd></dl>
         <div class="download-actions">
-          <button type="button" data-action="browser">브라우저로 다운로드</button>
+          <button type="button" data-action="browser">다운로드(실행 파일 + 설정 파일)</button>
           <button type="button" class="button-secondary" data-action="code">일회용 코드 만들기</button>
-          <button type="button" class="button-secondary" data-action="sidecar">이 서버로 결과 보내기</button>
         </div>
         <p data-field="message" role="status"></p>
         <div class="download-code-panel" data-field="code-panel" hidden>
@@ -60,9 +59,8 @@
         <p>Ubuntu·Debian·Rocky·RHEL·AlmaLinux를 직접 고르지 않습니다. 프로그램이 서버 종류와 버전을 자동으로 확인합니다.</p>
         <dl><dt>파일</dt><dd data-field="filename">확인 중</dd><dt>SHA-256</dt><dd><code data-field="sha256">확인 중</code></dd></dl>
         <div class="download-actions">
-          <button type="button" data-action="browser">브라우저로 다운로드</button>
+          <button type="button" data-action="browser">다운로드(실행 파일 + 설정 파일)</button>
           <button type="button" class="button-secondary" data-action="code">터미널 코드 만들기</button>
-          <button type="button" class="button-secondary" data-action="sidecar">이 서버로 결과 보내기</button>
         </div>
         <p data-field="message" role="status"></p>
         <div class="download-code-panel" data-field="code-panel" hidden>
@@ -73,9 +71,10 @@
 
     </section>
     <aside class="ai-preview-notice" role="note">
-      <strong>이 서버로 결과 보내기</strong>를 누르면 서버 주소와 실행 토큰이 담긴 작은 설정 파일을 함께 받습니다.
-      받은 설정 파일을 <strong>실행 파일과 같은 폴더</strong>에 두면, 프로그램을 실행할 때 코드를 입력하지 않고
-      이 화면에서 승인만 누르면 됩니다. 토큰은 24시간 동안 최대 3회 실행에 사용할 수 있습니다.
+      다운로드를 누르면 <strong>실행 파일</strong>과 서버 주소·실행 토큰이 담긴 작은 <strong>설정 파일</strong>을
+      연달아 받습니다. 두 파일을 <strong>실행 파일과 같은 폴더</strong>에 두면, 프로그램을 실행할 때 코드를 입력하지
+      않고 이 화면에서 승인만 누르면 됩니다. 토큰은 24시간 동안 최대 3회 실행에 사용할 수 있습니다.
+      설정 파일에는 서버 서명이 들어 있어, 내용을 고치면 프로그램이 실행을 멈춥니다.
     </aside>
     <aside class="ai-preview-notice" role="note">
       다운로드 코드는 로그인한 사용자가 발급하며 10분 동안 한 번만 사용할 수 있습니다.

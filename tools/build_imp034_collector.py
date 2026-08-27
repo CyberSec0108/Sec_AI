@@ -162,6 +162,35 @@ def _inspect_pe(artifact: Path) -> dict[str, object]:
     }
 
 
+def _write_trusted_sidecar_keys(project_root: Path) -> Path:
+    """서버가 쓰는 서명 seed에서 공개 키를 뽑아 실행 파일에 함께 넣습니다."""
+
+    sys.path.insert(0, str(project_root / "src"))
+    from security_audit.collector.scan_sidecar_keys import trusted_keys_document
+
+    seed_path = Path(
+        os.getenv(
+            "SECAI_SCAN_SIDECAR_SIGNING_KEY_FILE",
+            str(project_root / "runtime" / "dev-secrets" / "scan_sidecar_signing_key"),
+        )
+    )
+    try:
+        seed = seed_path.read_text(encoding="utf-8").strip()
+    except OSError as exc:
+        raise RuntimeError(
+            "사이드카 서명 seed를 찾을 수 없습니다. tools/init-dev-secrets.ps1을 먼저 실행하세요."
+        ) from exc
+    target = (
+        project_root
+        / "collectors"
+        / "one_shot"
+        / "contracts"
+        / "scan_sidecar_trusted_keys.json"
+    )
+    target.write_text(trusted_keys_document(seed), encoding="utf-8", newline="\n")
+    return target
+
+
 def main() -> int:
     if os.name != "nt" or platform.machine().upper() != "AMD64":
         raise RuntimeError("IMP-034 must run on a Windows x64 builder.")
@@ -181,6 +210,7 @@ def main() -> int:
     output_dir = runtime_root / "imp034-artifacts" / f"build-{timestamp}"
     output_dir.mkdir(parents=True, exist_ok=False)
 
+    _write_trusted_sidecar_keys(project_root)
     source_hash, source_files = _source_snapshot(project_root)
     resources = _embedded_resources(project_root)
     build_started_at = datetime.now(UTC).isoformat().replace("+00:00", "Z")

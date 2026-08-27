@@ -52,6 +52,8 @@ class ScanApprovalRecord:
     elevated_consent: bool = False
     decided_at: datetime | None = None
     grant_code: str | None = None
+    # 승인한 로그인 사용자가 고른 대상 자산입니다. 수집기 제출에 사용합니다.
+    asset_id: str | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -69,6 +71,7 @@ class ScanApprovalView:
     elevated_consent: bool
     decided_at: datetime | None
     grant_code: str | None = None
+    asset_id: str | None = None
 
 
 def _aware(value: datetime) -> None:
@@ -105,6 +108,7 @@ def _view(
         elevated_consent=record.elevated_consent,
         decided_at=record.decided_at,
         grant_code=granted,
+        asset_id=record.asset_id,
     )
 
 
@@ -204,6 +208,7 @@ class ScanApprovalService:
         elevated_consent: bool,
         decided_at: datetime,
         grant_code: str | None = None,
+        asset_id: str | None = None,
     ) -> ScanApprovalView:
         _aware(decided_at)
         with self._lock:
@@ -220,6 +225,7 @@ class ScanApprovalService:
                 elevated_consent=elevated_consent,
                 decided_at=decided_at,
                 grant_code=grant_code,
+                asset_id=asset_id,
             )
             self._store.replace(decided)
             return _view(decided, decided.state)
@@ -232,6 +238,7 @@ class ScanApprovalService:
         elevated_consent: bool,
         decided_at: datetime,
         grant_code: str | None = None,
+        asset_id: str | None = None,
     ) -> ScanApprovalView:
         return self._decide(
             request_id,
@@ -240,6 +247,7 @@ class ScanApprovalService:
             elevated_consent=elevated_consent,
             decided_at=decided_at,
             grant_code=grant_code,
+            asset_id=asset_id,
         )
 
     def decline(

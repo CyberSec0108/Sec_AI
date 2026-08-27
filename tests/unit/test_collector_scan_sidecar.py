@@ -6,6 +6,7 @@ from datetime import UTC, datetime, timedelta
 import pytest
 
 from security_audit.collector.scan_sidecar import (
+    SIDECAR_NOTICE,
     SIDECAR_SCHEMA_VERSION,
     ScanSidecarError,
     build_scan_sidecar,
@@ -31,6 +32,7 @@ def test_sidecar_carries_the_server_and_token_without_extra_secrets() -> None:
         "token": TOKEN,
         "expires_at": "2026-08-24T06:00:00Z",
         "max_runs": 3,
+        "notice": SIDECAR_NOTICE,
     }
 
 
@@ -79,3 +81,41 @@ def test_builder_refuses_an_origin_that_is_not_an_exact_http_origin() -> None:
             expires_at=NOW + timedelta(hours=24),
             max_runs=3,
         )
+
+
+def test_settings_file_name_does_not_look_like_an_executable() -> None:
+    from security_audit.collector.scan_sidecar import sidecar_name
+
+    assert sidecar_name("SecAI-Collector-Windows-x64.exe") == (
+        "SecAI-Collector-Windows-x64.secai-scan.json"
+    )
+    assert sidecar_name("SecAI-Collector-Windows-x64.EXE") == (
+        "SecAI-Collector-Windows-x64.secai-scan.json"
+    )
+    assert sidecar_name("secai-linux-check-x86_64") == (
+        "secai-linux-check-x86_64.secai-scan.json"
+    )
+
+
+def test_the_program_looks_for_the_settings_file_next_to_itself(tmp_path) -> None:
+    from security_audit.collector.scan_sidecar import existing_sidecar_path
+
+    program = tmp_path / "SecAI-Collector-Windows-x64.exe"
+    program.write_text("", encoding="utf-8")
+    expected = tmp_path / "SecAI-Collector-Windows-x64.secai-scan.json"
+
+    assert existing_sidecar_path(program) == expected
+
+    expected.write_text("{}", encoding="utf-8")
+    assert existing_sidecar_path(program) == expected
+
+
+def test_a_settings_file_downloaded_before_the_rename_still_works(tmp_path) -> None:
+    from security_audit.collector.scan_sidecar import existing_sidecar_path
+
+    program = tmp_path / "SecAI-Collector-Windows-x64.exe"
+    program.write_text("", encoding="utf-8")
+    legacy = tmp_path / "SecAI-Collector-Windows-x64.exe.secai-scan.json"
+    legacy.write_text("{}", encoding="utf-8")
+
+    assert existing_sidecar_path(program) == legacy

@@ -92,6 +92,7 @@ services:
       SECAI_GUIDE_SEARCH_MIN_LEXICAL_SCORE: ${SECAI_GUIDE_SEARCH_MIN_LEXICAL_SCORE:-0.35}
       SECAI_GUIDE_SOURCE_PDF: /run/secai-guides/kisa-2026.pdf
       SECAI_LINUX_RUNTIME_ROOT: /run/secai-vmware
+      SECAI_SCAN_SIDECAR_SIGNING_KEY_FILE: /run/secrets/scan_sidecar_signing_key
       SECAI_LINUX_ASSET_KEY_ROOT: /run/secai-linux-asset-keys
       SECAI_LINUX_ASSET_ALLOWED_CIDRS: ${SECAI_LINUX_ASSET_ALLOWED_CIDRS:-192.168.110.0/24}
       SECAI_LINUX_ASSET_ALLOWED_PORTS: ${SECAI_LINUX_ASSET_ALLOWED_PORTS:-22}
@@ -106,6 +107,7 @@ services:
       - auth_dev_mfa_code
       - redis_password
       - model_gateway_token
+      - scan_sidecar_signing_key
     depends_on:
       postgres:
         condition: service_healthy
@@ -552,3 +554,5 @@ secrets:
     file: ./runtime/dev-secrets/llm_api_key
   model_gateway_token:
     file: ./runtime/dev-secrets/model_gateway_token
+  scan_sidecar_signing_key:
+    file: ./runtime/dev-secrets/scan_sidecar_signing_key

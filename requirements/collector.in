@@ -1,4 +1,6 @@
 # Windows One-shot Collector runtime. Keep this intentionally small.
+# Verifies the Ed25519 signature on the download sidecar.
+cryptography>=50,<51
 httpx>=0.28,<1
 jsonschema>=4.25,<5
 pydantic>=2.12,<3

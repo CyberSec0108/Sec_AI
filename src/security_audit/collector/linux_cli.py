@@ -7,7 +7,6 @@ import base64
 import getpass
 import hashlib
 import os
-import re
 import shutil
 import signal
 import socket
@@ -49,44 +48,29 @@ from security_audit.collector.scan_handshake import (
     perform_scan_handshake,
 )
 from security_audit.collector.scan_sidecar import (
-    SIDECAR_SUFFIX,
     ScanSidecar,
-    read_scan_sidecar,
+    device_name,
+    existing_sidecar_path,
+)
+from security_audit.collector.scan_sidecar_keys import (
+    ScanSidecarKeyError,
+    load_verified_sidecar,
 )
 from security_audit.platforms import LinuxDistribution, linux_adapter_for
 from security_audit.platforms.readonly_plan import ReadOnlyCommandPlan
 
 COLLECTOR_NOTICE = "자가 점검 DRAFT · 공식 인증 결과가 아닙니다."
-UNKNOWN_DEVICE_NAME = "UNKNOWN-DEVICE"
-_DEVICE_NAME_PATTERN = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$")
 
 
-def _device_name(hostname: str) -> str:
-    """승인 화면이 보여줄 장비 이름입니다. 규칙을 못 맞추면 표시하지 않습니다."""
-
-    trimmed = hostname.strip()[:64]
-    if _DEVICE_NAME_PATTERN.fullmatch(trimmed) is None:
-        return UNKNOWN_DEVICE_NAME
-    return trimmed
-
-
-def _default_sidecar_path(program_path: Path) -> Path:
-    return program_path.with_name(program_path.name + SIDECAR_SUFFIX)
-
-
-def _load_sidecar(path: Path) -> ScanSidecar | None:
-    """사이드카가 없으면 기존 수동 코드 경로로 되돌아갑니다."""
-
-    if not path.is_file():
-        return None
-    return read_scan_sidecar(path.read_text(encoding="utf-8"))
+def _bundle_root() -> Path:
+    frozen_root = getattr(sys, "_MEIPASS", None)
+    if isinstance(frozen_root, str):
+        return Path(frozen_root)
+    return Path(__file__).resolve().parents[3]
 
 
 def _schema_root() -> Path:
-    frozen_root = getattr(sys, "_MEIPASS", None)
-    if isinstance(frozen_root, str):
-        return Path(frozen_root) / "database" / "schemas"
-    return Path(__file__).resolve().parents[3] / "database" / "schemas"
+    return _bundle_root() / "database" / "schemas"
 
 
 def _build_sha256() -> str:
@@ -216,7 +200,7 @@ def _save_offline(
 def _request_approval(sidecar: ScanSidecar) -> GrantedScan:
     """브라우저 승인을 받고 실행 코드를 받아옵니다. 사용자는 코드를 보지 않습니다."""
 
-    device_name = _device_name(socket.gethostname())
+    target_name = device_name(socket.gethostname())
     print(f"\n점검 대상: {device_name}")
     print("웹 화면에서 [점검 승인]을 눌러주세요. 승인 전에는 아무것도 수집하지 않습니다.")
     with httpx.Client(timeout=httpx.Timeout(30, read=60), follow_redirects=False) as client:
@@ -240,7 +224,7 @@ def _request_approval(sidecar: ScanSidecar) -> GrantedScan:
 
         return perform_scan_handshake(
             sidecar,
-            device_name=device_name,
+            device_name=target_name,
             register=_post,
             poll=_get,
             grant=_post,
@@ -398,20 +382,27 @@ def main(
     parser.add_argument(
         "--sidecar",
         type=Path,
-        default=_default_sidecar_path(Path(sys.argv[0]).resolve()),
+        default=existing_sidecar_path(Path(sys.argv[0]).resolve()),
         help="다운로드 시 함께 받은 실행 파일 옆의 사이드카 파일 위치입니다.",
     )
     arguments = parser.parse_args(argv)
     try:
         with _single_instance_lock():
-            sidecar = _load_sidecar(arguments.sidecar)
+            sidecar = load_verified_sidecar(arguments.sidecar, _bundle_root())
             return run(
                 server_url=_server_url(arguments.server_url),
                 distribution=forced_distribution,
                 output_directory=arguments.output_directory,
                 sidecar=sidecar,
             )
-    except (OSError, RuntimeError, ValueError, PackageValidationError, httpx.HTTPError) as exc:
+    except (
+        OSError,
+        RuntimeError,
+        ValueError,
+        PackageValidationError,
+        ScanSidecarKeyError,
+        httpx.HTTPError,
+    ) as exc:
         code = getattr(exc, "code", type(exc).__name__)
         print(f"점검을 시작하거나 완료하지 못했습니다. 오류 코드: {code}", file=sys.stderr)
         return 1

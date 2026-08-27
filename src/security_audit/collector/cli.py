@@ -7,26 +7,47 @@ import hashlib
 import json
 import os
 import platform
+import secrets
 import sys
+import time
 import webbrowser
 from collections.abc import Sequence
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
+
+import httpx
 
 from security_audit import __version__
 from security_audit.application.administrator_scan import CONSENT_VERSION
-from security_audit.collector.criteria_contract import (
-    CriteriaContractError,
-    decode_criteria_execution_context,
+from security_audit.application.scan_result_guidance import build_control_results
+from security_audit.application.windows_host_collection_acceptance import (
+    run_standard_host_collection,
+)
+from security_audit.application.windows_result_document import (
+    build_windows_result_document,
 )
 from security_audit.collector import __all__ as collector_exports
 from security_audit.collector.administrator_launcher import (
     run_administrator_result_bridge,
 )
+from security_audit.collector.criteria_contract import (
+    CriteriaContractError,
+    decode_criteria_execution_context,
+)
 from security_audit.collector.expanded import ADMINISTRATOR_PROBES
 from security_audit.collector.launcher import (
     LauncherPortInUseError,
     run_launcher_bridge,
+)
+from security_audit.collector.scan_handshake import perform_scan_handshake
+from security_audit.collector.scan_sidecar import (
+    ScanSidecarError,
+    device_name,
+    existing_sidecar_path,
+)
+from security_audit.collector.scan_sidecar_keys import (
+    ScanSidecarKeyError,
+    load_verified_sidecar,
 )
 
 EXPECTED_PYTHON = (3, 14, 6)
@@ -150,6 +171,16 @@ def _parser() -> argparse.ArgumentParser:
         "launch",
         help="Open the product page and connect its one-click scan button.",
     )
+    remote = subparsers.add_parser(
+        "remote-scan",
+        help="Approve on the server, scan this PC and submit the result.",
+    )
+    remote.add_argument(
+        "--sidecar",
+        type=Path,
+        default=None,
+        help="다운로드 시 함께 받은 설정 파일 위치입니다.",
+    )
     administrator = subparsers.add_parser(
         "administrator-launch",
         help=argparse.SUPPRESS,
@@ -232,6 +263,78 @@ def _administrator_launch(
     return 0
 
 
+def _remote_scan(sidecar_path: Path | None) -> int:
+    """서버 승인을 받고 이 PC를 점검한 뒤 결과를 서버로 보냅니다."""
+
+    program = Path(sys.argv[0]).resolve()
+    resolved = sidecar_path or existing_sidecar_path(program)
+    try:
+        sidecar = load_verified_sidecar(resolved, _collection_root())
+    except (ScanSidecarError, ScanSidecarKeyError) as exc:
+        # 서명이 맞지 않으면 결과가 엉뚱한 서버로 갈 수 있으므로 멈춥니다.
+        print(f"설정 파일을 신뢰할 수 없어 중단합니다. {exc}", file=sys.stderr)
+        return 1
+    if sidecar is None:
+        # 설정 파일이 없으면 서버 주소를 알 수 없으므로 기존 로컬 방식으로 넘어갑니다.
+        print("설정 파일이 없어 이 PC의 로컬 점검 화면으로 진행합니다.")
+        return _launch()
+
+    report = self_check()
+    if report["status"] != "PASS":
+        print(json.dumps(report, ensure_ascii=False, sort_keys=True))
+        return 1
+
+    target_name = device_name(platform.node())
+    print(f"점검 대상: {target_name}")
+    print("웹 화면에서 [점검 승인]을 눌러주세요. 승인 전에는 아무것도 수집하지 않습니다.")
+    with httpx.Client(timeout=httpx.Timeout(30, read=60), follow_redirects=False) as client:
+
+        def _post(url: str, payload: dict[str, object]) -> dict[str, Any]:
+            response = client.post(url, json=payload, headers={"Accept": "application/json"})
+            response.raise_for_status()
+            return cast(dict[str, Any], response.json())
+
+        def _get(url: str) -> dict[str, Any]:
+            response = client.get(url, headers={"Accept": "application/json"})
+            response.raise_for_status()
+            return cast(dict[str, Any], response.json())
+
+        def _open(url: str) -> bool:
+            print(f"승인 주소: {url}")
+            try:
+                return bool(webbrowser.open(url))
+            except OSError:
+                return False
+
+        granted = perform_scan_handshake(
+            sidecar,
+            device_name=target_name,
+            register=_post,
+            poll=_get,
+            open_browser=_open,
+            sleep=time.sleep,
+        )
+        print("승인을 확인했습니다. 점검을 시작합니다.")
+        receipt = run_standard_host_collection(_collection_root())
+        controls = build_control_results(receipt, assessments={})
+        document = build_windows_result_document(
+            _collection_root(),
+            receipt=receipt,
+            controls=controls,
+            result_id=secrets.token_hex(8),
+            sequence=1,
+            attempt=1,
+        )
+        submitted = _post(
+            f"{sidecar.server_origin}/api/v1/windows/scan/results"
+            f"?request_id={granted.request_id}",
+            {"token": sidecar.token, "result": document},
+        )
+    print("결과를 서버로 보냈습니다.")
+    print(f"결과 화면: {sidecar.server_origin}{submitted.get('result_url', '/ui/results')}")
+    return 0
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     parser = _parser()
     arguments = parser.parse_args(argv)
@@ -241,6 +344,18 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 0 if report["status"] == "PASS" else 1
     if arguments.command in {None, "launch"}:
         return _launch()
+    if arguments.command == "remote-scan":
+        try:
+            return _remote_scan(arguments.sidecar)
+        except httpx.HTTPError as exc:
+            # 토큰 만료·서버 정지 같은 흔한 상황을 사용자 언어로 알려 줍니다.
+            print(
+                "서버와 통신하지 못해 점검을 중단했습니다. "
+                "설정 파일을 다시 내려받거나 서버 상태를 확인하세요.",
+                file=sys.stderr,
+            )
+            print(f"자세한 원인: {type(exc).__name__}", file=sys.stderr)
+            return 1
     if arguments.command == "administrator-launch":
         return _administrator_launch(
             arguments.probe_id,
