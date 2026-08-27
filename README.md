@@ -1,5 +1,7 @@
 # Sec_AI (AI 자동 보안 점검 도구)
 
+[![Sec_AI 시연 영상](https://img.youtube.com/vi/1PsSlsWfYuk/maxresdefault.jpg)](https://youtu.be/1PsSlsWfYuk)
+
 Sec_AI는 인프라 및 자산에 대해 **"KISA 보안 기준을 1:1로 정밀 대조하는 확정적 판정 엔진"**을 실행하고, 복잡한 취약점 결과를 투영(Projection) 기반 비식별화를 거쳐 **AI(대형언어모델)가 안전하고 쉽게 해설해 주는 오픈소스 플랫폼**입니다.
 
 Windows, Linux, 그리고 Aruba Switch(AOS-CX) 등 다양한 플랫폼의 규정 준수 여부를 자동화된 파이프라인으로 점검할 수 있습니다. 
